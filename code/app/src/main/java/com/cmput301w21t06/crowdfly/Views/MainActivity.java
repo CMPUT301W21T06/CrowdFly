@@ -9,11 +9,10 @@ import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.ViewExperimentLogActivity;
 
 public class MainActivity extends AppCompatActivity {
+    // My name is Abdullah, I am working on CrowdFly
 
 
     //my name is Haris :p
-    // my name is Abdullah
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
