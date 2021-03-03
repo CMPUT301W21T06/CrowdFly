@@ -16,7 +16,7 @@ public class Question {
     public String getQuestion(){
         return "";
     }
-    public String getUsername(){}
+    public String getUsername(){ return "";}
 
     public ArrayList<Comment> getComments() {
         return new ArrayList<Comment>();
