@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Models.NewTrial">
+
+    <TextView
+        android:id="@+id/newTrialTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="200dp"
+        android:gravity="center_horizontal"
+        android:text="Trial"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.047" />
+
+    <EditText
+        android:id="@+id/regionEnforcedEditText"
+        android:layout_width="296dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="68dp"
+        android:width="300sp"
+        android:height="40dp"
+        android:background="@null"
+        android:hint="Region Enforced:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
+
+    <EditText
+        android:id="@+id/trialDesc"
+        android:layout_width="296dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="68dp"
+        android:width="300sp"
+        android:height="40dp"
+        android:background="@null"
+        android:hint="Description:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/regionEnforcedEditText" />
+
+    <EditText
+        android:id="@+id/regionTypeEditText"
+        android:layout_width="296dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="68dp"
+        android:width="300sp"
+        android:height="40dp"
+        android:background="@null"
+        android:hint="Region Type:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trialDesc" />
+
+
+    <EditText
+        android:id="@+id/trialTypeEditText"
+        android:layout_width="296dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="68dp"
+        android:width="300sp"
+        android:height="40dp"
+        android:background="@null"
+        android:hint="Trial Type:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/regionTypeEditText" />
+
+    <EditText
+        android:id="@+id/countSuccesses"
+        android:layout_width="111dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="44dp"
+        android:width="300sp"
+        android:height="40dp"
+        android:hint="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trialTypeEditText" />
+
+    <Button
+        android:id="@+id/successbutton"
+        android:layout_width="52dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="188dp"
+        android:text="s"
+        android:textSize="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/countSuccesses"
+        app:layout_constraintHorizontal_bias="0.659"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/countFailures"
+        android:layout_width="104dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="16dp"
+        android:width="300sp"
+        android:height="40dp"
+        android:hint="0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/trialTypeEditText" />
+
+    <Button
+        android:id="@+id/failurebutton"
+        android:layout_width="52dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="188dp"
+        android:text="f"
+        android:textSize="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/countFailures"
+        app:layout_constraintHorizontal_bias="0.941"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/newTrialAddButton"
+        android:layout_width="209dp"
+        android:layout_height="66dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginBottom="72dp"
+        android:text="Add Trial"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

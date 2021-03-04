@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="150dp"
+    android:background="@color/colorAccent">
+
+
+    <TextView
+        android:id="@+id/itemDescription"
+        android:layout_width="189dp"
+        android:layout_height="98dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
+        android:text="item description"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/itemSuccesses"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginLeft="280dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical"
+        android:text="successes"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/successmarker"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical"
+        android:text="S:"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/itemFailures"
+        android:layout_width="76dp"
+        android:layout_height="52dp"
+        android:layout_marginLeft="280dp"
+        android:layout_marginTop="70dp"
+        android:gravity="center_vertical"
+        android:text="failures"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/failuremarker"
+        android:layout_width="80dp"
+        android:layout_height="53dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="70dp"
+        android:gravity="center_vertical"
+        android:text="F: "
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16dp" />
+
+
+</RelativeLayout>
