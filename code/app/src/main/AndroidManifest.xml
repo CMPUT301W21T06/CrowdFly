@@ -15,16 +15,18 @@
 
         <activity
             android:name=".Views.ViewTrialLogActivity"
-            android:label="@string/title_activity_view_trial_log">
+            android:label="@string/title_activity_view_trial_log"
+            android:parentActivityName=".Views.MainActivity">
         </activity>
-        <activity android:name=".Views.MainActivity">
+        <activity android:name=".Views.MainActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.ViewExperimentLogActivity"></activity>
+        <activity android:name=".Views.ViewExperimentLogActivity"
+            android:parentActivityName=".Views.MainActivity"/>
     </application>
 
 </manifest>
