@@ -38,7 +38,7 @@
         app:layout_constraintTop_toBottomOf="@+id/trialListView" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/QRButton"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="76dp"
@@ -49,7 +49,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/addButton"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="72dp"
@@ -60,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/questionButton"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="40dp"
@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/subButton"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -82,7 +82,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/endButton"
         android:layout_width="130dp"
         android:layout_height="61dp"
         android:layout_marginEnd="144dp"
