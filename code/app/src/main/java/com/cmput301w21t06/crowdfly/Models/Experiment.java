@@ -18,11 +18,34 @@ public class Experiment {
     private QRManager qrCode;
     private Boolean published;
     
-    public void Experiment(String desc,String reg,String minT, ArrayList<User> subscribedU , String owner){}
+    // no users in place at the moment, just gonna comment it out for now
+    // public Experiment(String desc, String reg, int minT, ArrayList<User> subscribedU, String owner){}
+    
+    public Experiment(String desc,String reg, int minT){
+        this.description = desc;
+        this.region = reg;
+        this.minTrials = minT;
+        this.stillRunning = true;
+    }
+
+    // methods
     public void summarizeTrials(ArrayList<Trial> t){}
     public void subscribe(User user){}
     public void changeType(int type){}
     public void addTrial(Trial trial){}
     public void ignore(ArrayList<User> subscribedUsers ){}
     public void togglePublish(){}
+
+    // getters
+    public String getDescription() {return description;}
+    public String getRegion() {return region;}
+    public int getMinTrials() {return minTrials;}
+    public Boolean getStatus() {return stillRunning;}
+    public int getNumTrials() {return trials.size();}
+    public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
+    public ArrayList<Trial> getTrials() {return trials;}
+    public ArrayList<Question> getQuestions() {return questions;}
+    public User getOwner() {return owner;}
+    public QRManager getQRManager() {return qrCode;}
+    public Boolean getPublished() {return published;}
 }
