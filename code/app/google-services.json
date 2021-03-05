@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "654621835371",
+    "project_id": "crowdfly-76eb6",
+    "storage_bucket": "crowdfly-76eb6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654621835371:android:024cf25adacea064eab12e",
+        "android_client_info": {
+          "package_name": "com.cmput301w21t06.crowdfly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "654621835371-uj93f2n789psrg3cf8pm03q0k61gtmss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvc8lyP-nmGyjt8dCWLSpGeCoAxhziwks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "654621835371-uj93f2n789psrg3cf8pm03q0k61gtmss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
