@@ -17,10 +17,7 @@
         </activity>
         <activity android:name=".Views.AddExperimentActivity"
             android:label="AddExperimentActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+   
         </activity>
         <activity android:name=".Views.MainActivity" android:launchMode="singleTask">
             <intent-filter>
