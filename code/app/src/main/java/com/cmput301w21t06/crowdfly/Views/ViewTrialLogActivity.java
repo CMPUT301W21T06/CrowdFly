@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,8 +28,6 @@ public class ViewTrialLogActivity extends AppCompatActivity {
     static Integer counter = 0;
     public TrialAdapter adapter;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,7 @@ public class ViewTrialLogActivity extends AppCompatActivity {
 
         addButton = findViewById(R.id.addButton);
 
-
+        //adding trials
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +49,15 @@ public class ViewTrialLogActivity extends AppCompatActivity {
             }
         });
 
-
+        //long click delete function
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                trialArrayList.remove(position);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
 
     }
     private void setupData(){

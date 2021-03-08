@@ -1,1 +1,4 @@
 /code/build.gradle
+/code/google-services.json
+/code/app/src/main/AndroidManifest.xml
+/code/.idea/gradle.xml
