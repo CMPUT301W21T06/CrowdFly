@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
-        <activity android:name=".Models.NewTrial"></activity>
+        <activity android:name=".Views.ViewStatisticActivity" />
+        <activity android:name=".Models.NewTrial" />
         <activity
             android:name=".Views.ViewTrialLogActivity"
             android:label="@string/title_activity_view_trial_log"
@@ -19,20 +20,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".Views.AddExperimentActivity"
-            android:label="AddExperimentActivity">
-   
-        </activity>
-        <activity android:name=".Views.MainActivity" android:launchMode="singleTask">
-
-
-        </activity>
-
-
-        <activity android:name=".Views.ViewExperimentLogActivity"
-            android:parentActivityName=".Views.MainActivity"/>
+        <activity
+            android:name=".Views.AddExperimentActivity"
+            android:label="AddExperimentActivity" />
+        <activity
+            android:name=".Views.MainActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".Views.ViewExperimentLogActivity"
+            android:parentActivityName=".Views.MainActivity" />
     </application>
 
 </manifest>

@@ -20,51 +20,52 @@
 
     <ListView
         android:id="@+id/trialListView"
-        android:layout_width="match_parent"
-        android:layout_height="450sp"
+        android:layout_width="412dp"
+        android:layout_height="425dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.37" />
+        app:layout_constraintVertical_bias="0.101" />
 
     <Spinner
         android:id="@+id/dropDown"
         android:layout_width="322dp"
         android:layout_height="42dp"
-        android:layout_marginTop="8dp"
-        android:hint="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/addButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trialListView" />
+        app:layout_constraintTop_toBottomOf="@+id/trialListView"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/QRButton"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
+        android:layout_marginBottom="72dp"
         android:text="QR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintHorizontal_bias="0.948"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/addButton"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="72dp"
+        android:layout_marginBottom="68dp"
         android:text="Add Trial"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.109"
+        app:layout_constraintHorizontal_bias="0.051"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/questionButton"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="Question"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -73,8 +74,8 @@
         android:id="@+id/subButton"
         android:layout_width="100sp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="12dp"
         android:text="Subscribe"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button2"
@@ -85,8 +86,8 @@
         android:id="@+id/endButton"
         android:layout_width="130dp"
         android:layout_height="61dp"
-        android:layout_marginEnd="144dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginBottom="32dp"
         android:text="End Experiment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
