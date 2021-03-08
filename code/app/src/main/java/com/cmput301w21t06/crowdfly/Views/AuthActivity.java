@@ -1,3 +1,9 @@
+// Portions of the code for this Activity for Anonymous User Authentication
+// are Adapted from the Official Firebase Documentation
+// Author: Google
+// URL: https://firebase.google.com/docs/auth/android/anonymous-auth?authuser=1
+// Licensed under the Apache 2.0 License
+
 package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.annotation.NonNull;
