@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 
 /**
- * Data class that captures user information for logged in users retrieved from LoginRepository
+ * Model class that captures user information for logged in users retrieved from UserRepository(TODO)
  */
 
 public class User {
