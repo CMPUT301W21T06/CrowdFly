@@ -50,6 +50,15 @@ public class ViewTrialLogActivity extends AppCompatActivity {
             }
         });
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                trialArrayList.remove(position);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
 
 
     }

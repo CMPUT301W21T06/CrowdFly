@@ -19,13 +19,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".Views.AddExperimentActivity"
             android:label="AddExperimentActivity">
-
+   
         </activity>
         <activity android:name=".Views.MainActivity" android:launchMode="singleTask">
+
+
         </activity>
+
 
         <activity android:name=".Views.ViewExperimentLogActivity"
             android:parentActivityName=".Views.MainActivity"/>
