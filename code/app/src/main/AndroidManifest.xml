@@ -15,6 +15,12 @@
             android:name=".Views.ViewTrialLogActivity"
             android:label="@string/title_activity_view_trial_log"
             android:parentActivityName=".Views.MainActivity">
+        </activity>
+        <activity android:name=".Views.AddExperimentActivity"
+            android:label="AddExperimentActivity">
+   
+        </activity>
+        <activity android:name=".Views.AuthActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

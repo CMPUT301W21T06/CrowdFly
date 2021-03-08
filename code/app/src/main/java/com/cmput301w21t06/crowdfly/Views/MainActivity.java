@@ -2,11 +2,9 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.cmput301w21t06.crowdfly.R;
-import com.cmput301w21t06.crowdfly.Views.ViewExperimentLogActivity;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
