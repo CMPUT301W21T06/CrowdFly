@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Models.NewTrial;
+import com.cmput301w21t06.crowdfly.Models.Statistics;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 
@@ -40,7 +41,7 @@ public class ViewTrialLogActivity extends AppCompatActivity {
 
         addButton = findViewById(R.id.addButton);
 
-
+        //add trials
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +51,15 @@ public class ViewTrialLogActivity extends AppCompatActivity {
             }
         });
 
-
+        //delete trials
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                trialArrayList.remove(position);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
 
     }
     private void setupData(){
