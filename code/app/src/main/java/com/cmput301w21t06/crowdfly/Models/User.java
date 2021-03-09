@@ -8,9 +8,7 @@
 
 package com.cmput301w21t06.crowdfly.Models;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,24 +21,35 @@ import java.util.Map;
 
 public class User {
     private String userID;
-    private ArrayList<Experiment> subscribedExperiments;
+    private ArrayList<Experiment> subscribedExperiments = new ArrayList();
     private String phoneNumber;
     private String email;
     private String birthday;
-    public void UserProfile(String userID, String phoneNumber, String email, String birthday){
+
+    public User(String phoneNumber, String email, String birthday, @NonNull String userID){
         this.userID = userID;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.birthday = birthday;
     }
 
-    public void UserProfile(Map<String, Object> userData) {
-        this.userID = userData.get("userID").toString();
-        this.phoneNumber = userData.get("phoneNumber").toString();
-        this.email = userData.get("email").toString();
-        this.birthday = userData.get("birthday").toString();
+    public User(Map<String, Object> userData) {
+        this.userID = getOrDefault(userData.get("userID"));
+        this.phoneNumber = getOrDefault(userData.get("phoneNumber"));
+        this.email = getOrDefault(userData.get("email"));
+        this.birthday = getOrDefault(userData.get("birthday"));
     }
 
+    public User(String userID) {
+        this.userID = userID;
+    }
+
+    public String getOrDefault(Object val){
+        if(val == null){
+            return null;
+        }
+        return val.toString();
+    }
 
     public String getUserID(){
         return userID;

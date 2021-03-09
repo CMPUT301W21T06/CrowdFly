@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +43,7 @@ public class AuthActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
 
                             FirebaseUser user = authManager.getCurrentUser();
-
+                            createUser(user);
                             updateUI(user);
                         } else {
                             System.out.println(task.getException());
@@ -74,6 +76,12 @@ public class AuthActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+    }
+
+    public void createUser(FirebaseUser user){
+        String userID = user.getUid();
+        User newUser = new User(userID);
+        new CrowdFlyFirestore(userID).setUserProfile(newUser);
     }
 
 
