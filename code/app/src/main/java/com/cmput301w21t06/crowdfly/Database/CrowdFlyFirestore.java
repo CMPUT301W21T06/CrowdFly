@@ -3,6 +3,7 @@ package com.cmput301w21t06.crowdfly.Database;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -10,8 +11,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.Map;
 
@@ -39,10 +42,11 @@ public class CrowdFlyFirestore {
      */
     public void getUserProfile(@NonNull String userID, OnDoneGetUserListener onDoneGetUserListener) {
         DocumentReference userData = this.getDocumentReference(CrowdFlyFirestorePaths.userProfile(userID));
-        userData.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+
+        userData.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = new User(documentSnapshot.getData());
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                User user = new User(value.getData());
                 onDoneGetUserListener.onDoneGetUser(user);
             }
         });
