@@ -12,12 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.cmput301w21t06.crowdfly.R;
+import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
 
 public class NewTrial extends AppCompatActivity {
 
-    private EditText regionEnforced, trialDesc, regionType, trialType, successes, failures;
-    private Button addButton, buttonS, buttonF;
+    private EditText regionEnforced, trialDesc, regionType,  successes, failures;
+    private Button addButton, buttonS, buttonF, buttonBinomial, buttonMeasure, buttonCount;
     public int current_successes = 0, current_failures = 0;
 
     @Override
@@ -29,10 +30,13 @@ public class NewTrial extends AppCompatActivity {
         regionEnforced = findViewById(R.id.regionEnforcedEditText);
         trialDesc = findViewById(R.id.trialDesc);
         regionType = findViewById(R.id.regionTypeEditText);
-        trialType = findViewById(R.id.trialTypeEditText);
         successes = findViewById(R.id.countSuccesses);
         failures = findViewById(R.id.countFailures);
         addButton = findViewById(R.id.newTrialAddButton);
+        buttonBinomial = findViewById(R.id.binTrial);
+        buttonMeasure = findViewById(R.id.measureTrial);
+        buttonCount = findViewById(R.id.countTrial);
+
         buttonS = findViewById(R.id.successbutton);
         buttonF = findViewById(R.id.failurebutton);
         successes.setText("0");
@@ -51,6 +55,14 @@ public class NewTrial extends AppCompatActivity {
             public void onClick(View view) {
                 current_failures +=1;
                 failures.setText(String.valueOf(current_failures));
+            }
+        });
+
+        buttonBinomial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
+                editBinomialTrialFragment.show(getSupportFragmentManager(), "EDIT TEXT");
             }
         });
 

@@ -9,19 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
-        <activity android:name=".Views.UserProfileActivity"></activity>
+        <activity android:name=".Views.EditMeasureTrialFragment"></activity>
+        <activity android:name=".Views.EditCountTrialFragment" />
+        <activity android:name=".Views.EditBinomialTrialFragment" />
+        <activity android:name=".Views.UserProfileActivity" />
         <activity android:name=".Views.ViewStatisticActivity" />
         <activity android:name=".Models.NewTrial" />
         <activity
             android:name=".Views.ViewTrialLogActivity"
             android:label="@string/title_activity_view_trial_log"
-            android:parentActivityName=".Views.MainActivity"></activity>
-        <activity
-            android:name=".Views.AddExperimentActivity"
-            android:label="AddExperimentActivity"></activity>
-        <activity
-            android:name=".Views.AuthActivity"
-            android:launchMode="singleTask">
+            android:parentActivityName=".Views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,7 +29,7 @@
             android:name=".Views.AddExperimentActivity"
             android:label="AddExperimentActivity" />
         <activity
-            android:name=".Views.MainActivity"
+            android:name=".Views.AuthActivity"
             android:launchMode="singleTask" />
         <activity
             android:name=".Views.ViewExperimentLogActivity"

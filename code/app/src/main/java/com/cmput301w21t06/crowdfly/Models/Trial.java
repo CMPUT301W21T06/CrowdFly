@@ -18,6 +18,10 @@ public class Trial {
         this.failures = failures;
     }
 
+    public Trial(String successes, String failures) {
+        this.successes = successes;
+        this.failures = failures;
+    }
 
     //setup getters
     public String getDescription() {
