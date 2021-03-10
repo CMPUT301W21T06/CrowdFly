@@ -15,7 +15,7 @@ import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
 
-public class NewTrial extends AppCompatActivity {
+public class NewTrial extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener{
 
     private EditText regionEnforced, trialDesc, regionType,  successes, failures;
     private Button addButton, buttonS, buttonF, buttonBinomial, buttonMeasure, buttonCount;
@@ -77,6 +77,8 @@ public class NewTrial extends AppCompatActivity {
             }
         });
 
+    }
+    public void onOkPressed(Trial trial){
 
     }
 }

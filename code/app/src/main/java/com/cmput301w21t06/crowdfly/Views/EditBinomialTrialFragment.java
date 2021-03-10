@@ -35,7 +35,7 @@ public class EditBinomialTrialFragment extends DialogFragment {
         }
     }
 
-    public static EditBinomialTrialFragment newInstance(Trial new_trial){
+    /**public static EditBinomialTrialFragment newInstance(Trial new_trial){
         Bundle args = new Bundle();
         args.putString("suc", new_trial.getSuccesses());
         args.putString("fail", new_trial.getFailures());
@@ -43,7 +43,7 @@ public class EditBinomialTrialFragment extends DialogFragment {
         EditBinomialTrialFragment fragment = new EditBinomialTrialFragment();
         fragment.setArguments(args);
         return fragment;
-    }
+    }**/
 
     @Override
     @NonNull
@@ -53,10 +53,10 @@ public class EditBinomialTrialFragment extends DialogFragment {
         successes = view.findViewById(R.id.binSuccesses);
         failures = view.findViewById(R.id.binFailures);
 
-        if (getArguments() != null){
-            successes.setText(getArguments().getString("suc"));
-            failures.setText(getArguments().getString("fail"));
-        }
+        //if (getArguments() != null){
+        //    successes.setText(getArguments().getString("suc"));
+        //    failures.setText(getArguments().getString("fail"));
+        //}
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder

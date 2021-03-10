@@ -1,6 +1,6 @@
 package com.cmput301w21t06.crowdfly.Models;
 
-public class Trial {
+public class Trial{
     private String description;
     private String successes;
     private String failures;
