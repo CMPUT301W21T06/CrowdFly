@@ -27,6 +27,7 @@ public class ViewTrialLogActivity extends AppCompatActivity {
     private Button addButton;
     static Integer counter = 0;
     public TrialAdapter adapter;
+    private Button questionButton;
 
 
 
@@ -39,7 +40,17 @@ public class ViewTrialLogActivity extends AppCompatActivity {
         setupData();
         setUpList();
 
+        questionButton = findViewById(R.id.questionButton);
+        questionButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewTrialLogActivity.this, ViewQuestionLogActivity.class);
+                startActivity(intent);
+            }
+        });
+
         addButton = findViewById(R.id.addButton);
+
 
         //add trials
         addButton.setOnClickListener(new View.OnClickListener() {
