@@ -6,6 +6,7 @@ package com.cmput301w21t06.crowdfly.Models;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
     private EditText regionEnforced, trialDesc, regionType,  successes, failures;
     private Button addButton, buttonS, buttonF, buttonBinomial, buttonMeasure, buttonCount;
     public int current_successes = 0, current_failures = 0;
+    public String newTrialSuccesses, newTrialFailures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
             public void onClick(View view) {
                 EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                 editBinomialTrialFragment.show(getSupportFragmentManager(), "EDIT TEXT");
+                //buttonBinomial.setBackgroundColor(Color.BLUE);
             }
         });
 
@@ -71,14 +74,17 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
                 intent.putExtra("trialDesc", trialDesc.getText().toString());
-                intent.putExtra("success",successes.getText().toString());
-                intent.putExtra("failure",failures.getText().toString());
+                intent.putExtra("success",newTrialSuccesses);
+                intent.putExtra("failure",newTrialFailures);
                 startActivity(intent);
             }
         });
 
     }
     public void onOkPressed(Trial trial){
+        newTrialSuccesses = trial.getSuccesses();
+        newTrialFailures = trial.getFailures();
+        buttonBinomial.setBackgroundColor(Color.BLUE);
 
     }
 }
