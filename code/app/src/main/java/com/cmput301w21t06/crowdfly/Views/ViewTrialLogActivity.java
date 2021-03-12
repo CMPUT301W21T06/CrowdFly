@@ -5,6 +5,7 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -14,6 +15,9 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
+import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
+import com.cmput301w21t06.crowdfly.Models.CountTrial;
+import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.NewTrial;
 import com.cmput301w21t06.crowdfly.Models.Statistics;
 import com.cmput301w21t06.crowdfly.Models.Trial;
@@ -27,6 +31,7 @@ public class ViewTrialLogActivity extends AppCompatActivity {
     private Button addButton;
     static Integer counter = 0;
     public TrialAdapter adapter;
+    public String trialType = "binomial";
 
 
 
@@ -63,13 +68,35 @@ public class ViewTrialLogActivity extends AppCompatActivity {
 
     }
     private void setupData(){
+        // grab import bundles from the intent
         String itemDescription = getIntent().getStringExtra("trialDesc");
         String entrySuccesses = getIntent().getStringExtra("success");
         String entryFailure = getIntent().getStringExtra("failure");
+        String entryCount = getIntent().getStringExtra("count");
+        String entryMeasurement = getIntent().getStringExtra("measurement");
+
 
         if (counter >= 1) {
-            Trial trial = new Trial(itemDescription, entrySuccesses, entryFailure);
-            trialArrayList.add(trial);
+            // In the viewTrialLogActivity, there is a placeholder called trialType, when being passed
+            // an experiment, this experiment will have an attribute that specifies what trial type it
+            // allows in its array adapter, the trialType identifier can take 3 different values that
+            // represent the 3 different trial types
+
+
+            if(trialType == "binomial"){
+                Log.d("entryFailures",entryFailure);
+                Log.d("entrySuccesses", entrySuccesses);
+                Trial trial = new BinomialTrial(itemDescription, entrySuccesses, entryFailure);
+                trialArrayList.add(trial);
+            }else if (trialType == "count"){
+                Log.d("entryCount",entryCount);
+                Trial trial = new CountTrial(itemDescription, Integer.parseInt(entryCount));
+                trialArrayList.add(trial);
+            }else if (trialType == "measurement"){
+                Log.d("entryMeasurement",entryMeasurement);
+                Trial trial = new MeasurementTrial(itemDescription, Integer.parseInt(entryMeasurement));
+                trialArrayList.add(trial);
+            }
         }
 
     }

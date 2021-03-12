@@ -8,20 +8,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
+import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
+import com.cmput301w21t06.crowdfly.Views.EditMeasureTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
 
-public class NewTrial extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener{
+public class NewTrial extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
 
     private EditText regionEnforced, trialDesc, regionType,  successes, failures;
-    private Button addButton, buttonS, buttonF, buttonBinomial, buttonMeasure, buttonCount;
-    public int current_successes = 0, current_failures = 0;
-    public String newTrialSuccesses, newTrialFailures;
+    private Button addButton, buttonBinomial, buttonMeasure, buttonCount;
+    public String newTrialSuccesses, newTrialFailures, newTrialCount, newTrialMeasurement;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,48 +35,46 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
         regionEnforced = findViewById(R.id.regionEnforcedEditText);
         trialDesc = findViewById(R.id.trialDesc);
         regionType = findViewById(R.id.regionTypeEditText);
-        successes = findViewById(R.id.countSuccesses);
-        failures = findViewById(R.id.countFailures);
         addButton = findViewById(R.id.newTrialAddButton);
         buttonBinomial = findViewById(R.id.binTrial);
         buttonMeasure = findViewById(R.id.measureTrial);
         buttonCount = findViewById(R.id.countTrial);
 
-        buttonS = findViewById(R.id.successbutton);
-        buttonF = findViewById(R.id.failurebutton);
-        successes.setText("0");
-        failures.setText("0");
 
-        buttonS.setOnClickListener(new View.OnClickListener() {
+        buttonMeasure.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                current_successes +=1;
-                successes.setText(String.valueOf(current_successes));
+            public void onClick(View v) {
+                EditMeasureTrialFragment editMeasureTrialFragment  = new EditMeasureTrialFragment();
+                editMeasureTrialFragment.show(getSupportFragmentManager(),"EDIT_TEXT");
             }
         });
 
-        buttonF.setOnClickListener(new View.OnClickListener() {
+        buttonCount.setOnClickListener((new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                current_failures +=1;
-                failures.setText(String.valueOf(current_failures));
+            public void onClick(View v) {
+                EditCountTrialFragment editCountTrialFragment = new EditCountTrialFragment();
+                editCountTrialFragment.show(getSupportFragmentManager(),"EDIT TEXT");
             }
-        });
-
+        }));
         buttonBinomial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                 editBinomialTrialFragment.show(getSupportFragmentManager(), "EDIT TEXT");
-                //buttonBinomial.setBackgroundColor(Color.BLUE);
             }
         });
 
+        // Confirmation button, this will direct the user back to the viewTrialLogActivity Page
+        // with an intent bundled with information given from the extended fragment from the newTrial
+        // activity
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
                 intent.putExtra("trialDesc", trialDesc.getText().toString());
+                intent.putExtra("measurement", newTrialMeasurement);
+                intent.putExtra("count", newTrialCount);
                 intent.putExtra("success",newTrialSuccesses);
                 intent.putExtra("failure",newTrialFailures);
                 startActivity(intent);
@@ -81,10 +82,29 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
         });
 
     }
-    public void onOkPressed(Trial trial){
-        newTrialSuccesses = trial.getSuccesses();
-        newTrialFailures = trial.getFailures();
-        buttonBinomial.setBackgroundColor(Color.BLUE);
 
+    // BinomialTrial onOkPressed
+    @Override
+    public void onOkPressed(BinomialTrial trial) {
+        Log.d("NEW TRIAL", "onOkPressed BinomialTrial version");
+        newTrialSuccesses = ((BinomialTrial) trial).getSuccesses();
+        newTrialFailures = ((BinomialTrial) trial).getFailures();
+        buttonBinomial.setBackgroundColor(Color.BLUE);
+    }
+
+    // CountTrial onOkPressed
+    @Override
+    public void onOkPressed(CountTrial trial) {
+        Log.d("NEW TRIAL","onOkPressed CountTrial version");
+        newTrialCount = String.valueOf(((CountTrial) trial).getCount());
+        buttonCount.setBackgroundColor(Color.BLUE);
+    }
+
+    // Measurement onOkPressed
+    @Override
+    public void onOkPressed(MeasurementTrial trial) {
+        Log.d("NEW TRIAL","onOkPressed MeasurementTrial Version");
+        newTrialMeasurement = String.valueOf(((MeasurementTrial)trial).getMeasurement());
+        buttonMeasure.setBackgroundColor(Color.BLUE);
     }
 }

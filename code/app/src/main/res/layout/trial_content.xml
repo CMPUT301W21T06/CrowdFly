@@ -11,6 +11,7 @@
         android:id="@+id/itemDescription"
         android:layout_width="135dp"
         android:layout_height="94dp"
+        android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:gravity="center_vertical"
@@ -22,43 +23,11 @@
         android:id="@+id/itemSuccesses"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
+        android:layout_centerInParent="true"
         android:layout_marginLeft="200dp"
         android:layout_marginTop="25dp"
         android:gravity="center_vertical"
         android:text="successes"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/successmarker"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_marginLeft="180dp"
-        android:layout_marginTop="25dp"
-        android:gravity="center_vertical"
-        android:text="S:"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/itemFailures"
-        android:layout_width="76dp"
-        android:layout_height="52dp"
-        android:layout_marginLeft="200dp"
-        android:layout_marginTop="70dp"
-        android:gravity="center_vertical"
-        android:text="failures"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/failuremarker"
-        android:layout_width="80dp"
-        android:layout_height="53dp"
-        android:layout_marginLeft="180dp"
-        android:layout_marginTop="70dp"
-        android:gravity="center_vertical"
-        android:text="F: "
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp" />
 

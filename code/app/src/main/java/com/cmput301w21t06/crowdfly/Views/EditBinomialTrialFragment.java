@@ -2,7 +2,6 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.AlertDialog;
@@ -14,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 
@@ -22,7 +22,7 @@ public class EditBinomialTrialFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
-        void onOkPressed(Trial trial);
+        void onOkPressed(BinomialTrial trial);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class EditBinomialTrialFragment extends DialogFragment {
                         String successes1 = successes.getText().toString();
                         String failures1 = failures.getText().toString();
 
-                        listener.onOkPressed(new Trial(successes1,failures1));
+                        listener.onOkPressed(new BinomialTrial("", successes1,failures1));
                         //Log.e("brebs", itemDate1);
                     }
                 }).create();
