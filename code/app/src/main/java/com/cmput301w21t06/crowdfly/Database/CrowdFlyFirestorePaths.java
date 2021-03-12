@@ -13,4 +13,12 @@ public class CrowdFlyFirestorePaths {
     public static final String userProfile(String userID){
         return String.format("/users/%s", userID);
     }
+
+    /**
+     * Returns path to User ID counter
+     * @return
+     */
+    public static final String displayId(){
+        return "/users/Admin";
+    }
 }
