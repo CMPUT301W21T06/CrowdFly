@@ -9,21 +9,14 @@ public class Trial {
     private int trialID;
 
     private String description;
-    private String successes;
-    private String failures;
-
     private Boolean locRequired;
     private String location;
     private String result;
     private Statistics statistics;
     private User recordedBy;
 
-
-    //constructors
-    public Trial(String description, String successes, String failures) {
+    public Trial(String description) {
         this.description = description;
-        this.successes = successes;
-        this.failures = failures;
     }
 
     /***
@@ -39,17 +32,6 @@ public class Trial {
     public String getDescription() {
         return description;
     }
-
-    public String getSuccesses() {
-        return successes;
-    }
-
-    public String getFailures() {
-        return failures;
-    }
-
-    public int getTrialID() { return trialID; }
-
     public void specifyLocReq(Boolean locReq){}
     public void specifyLoc(String location){}
     public String getLoc(){return "";}
@@ -65,3 +47,4 @@ public class Trial {
         return trl;
     }
 }
+

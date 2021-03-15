@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="405dp"
+        android:layout_height="319dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="28dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/trialDescTitle"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Description" />
+
+            <EditText
+                android:id="@+id/binTrialDesc"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Enter some text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/regionEnforcedTitle"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Region Enforced" />
+
+            <EditText
+                android:id="@+id/binRegionEnforcedEditText"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Enter some text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/regionTitle"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Region" />
+
+            <EditText
+                android:id="@+id/binRegionEditText"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Enter some text" />
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/descDisplay"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Description" />
+
+            <EditText
+                android:id="@+id/binDescription"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Enter some text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/successDisplay"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Success" />
+
+            <EditText
+                android:id="@+id/binSuccesses"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Enter some text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/failureDisplay"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="Failure" />
+
+            <EditText
+                android:id="@+id/binFailures"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:hint="Enter some text"
+                tools:ignore="DuplicateIds" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
