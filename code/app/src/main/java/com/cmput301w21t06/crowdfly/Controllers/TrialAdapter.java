@@ -20,6 +20,7 @@ import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.ViewStatisticActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrialAdapter extends ArrayAdapter<Trial> {
@@ -59,6 +60,7 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
                 context.startActivity(intent);
             }
         });
+
 
         // checking the exact type of the trial so it can correctly set the text boxes in the content in the list view
         // specific trial types have specific methods

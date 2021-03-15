@@ -18,7 +18,7 @@ import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 
 public class EditBinomialTrialFragment extends DialogFragment {
-    private EditText successes, failures;
+    private EditText successes, failures, description;
     private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
@@ -35,32 +35,36 @@ public class EditBinomialTrialFragment extends DialogFragment {
         }
     }
 
-    /**public static EditBinomialTrialFragment newInstance(Trial new_trial){
+    public static EditBinomialTrialFragment newInstance(BinomialTrial new_trial){
         Bundle args = new Bundle();
         args.putString("suc", new_trial.getSuccesses());
         args.putString("fail", new_trial.getFailures());
+        args.putString("desc", new_trial.getDescription());
 
         EditBinomialTrialFragment fragment = new EditBinomialTrialFragment();
         fragment.setArguments(args);
         return fragment;
-    }**/
+    }
 
     @Override
     @NonNull
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState){
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.activity_edit_binomial_trial_fragment, null);
 
+        description = view.findViewById(R.id.binDescription);
         successes = view.findViewById(R.id.binSuccesses);
         failures = view.findViewById(R.id.binFailures);
 
-        //if (getArguments() != null){
-        //    successes.setText(getArguments().getString("suc"));
-        //    failures.setText(getArguments().getString("fail"));
-        //}
+        if (getArguments() != null){
+            description.setText(getArguments().getString("desc"));
+            successes.setText(getArguments().getString("suc"));
+            failures.setText(getArguments().getString("fail"));
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
+
                 .setTitle("Edit Entry")
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -68,8 +72,9 @@ public class EditBinomialTrialFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String successes1 = successes.getText().toString();
                         String failures1 = failures.getText().toString();
+                        String description1 = description.getText().toString();
 
-                        listener.onOkPressed(new BinomialTrial("", successes1,failures1));
+                        listener.onOkPressed(new BinomialTrial(description1, successes1,failures1));
                         //Log.e("brebs", itemDate1);
                     }
                 }).create();

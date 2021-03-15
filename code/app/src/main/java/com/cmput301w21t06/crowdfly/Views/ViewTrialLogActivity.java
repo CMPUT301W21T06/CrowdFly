@@ -25,11 +25,12 @@ import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
 
-public class ViewTrialLogActivity extends AppCompatActivity {
+public class ViewTrialLogActivity extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private ListView listView;
     private Button addButton;
     static Integer counter = 0;
+    static int entry_pos;
     public TrialAdapter adapter;
     public String trialType = "binomial";
 
@@ -52,7 +53,13 @@ public class ViewTrialLogActivity extends AppCompatActivity {
             public void onClick(View view) {
                 counter += 1;
                 Intent intent = new Intent(getApplicationContext(), NewTrial.class);
+                intent.putExtra("trialtype", trialType);
                 startActivity(intent);
+                //if (trialType == "binomial"){
+                //    EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
+                //   editBinomialTrialFragment.show(getSupportFragmentManager(), "EDIT TEXT");
+                //}
+
             }
         });
 
@@ -64,6 +71,30 @@ public class ViewTrialLogActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
                 return false;
             }
+        });
+
+        //edit trials
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (trialType.equals("binomial")){
+                    EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
+                    entry_pos = i;
+                    BinomialTrial btrial = (BinomialTrial) adapterView.getAdapter().getItem(i);
+                    editBinomialTrialFragment.newInstance(btrial).show(getSupportFragmentManager(), "EDIT TEXT");
+                }
+                if (trialType.equals("count")){
+                    EditCountTrialFragment editCountTrialFragment = new EditCountTrialFragment();
+                    entry_pos = i;
+                    CountTrial ctrial = (CountTrial) adapterView.getAdapter().getItem(i);
+                    editCountTrialFragment.newInstance(ctrial).show(getSupportFragmentManager(), "EDIT TEXT");
+                }
+                if (trialType.equals("measurement")){
+                    EditMeasureTrialFragment editMeasureTrialFragment = new EditMeasureTrialFragment();
+                    entry_pos = i;
+                    MeasurementTrial mtrial = (MeasurementTrial) adapterView.getAdapter().getItem(i);
+                    editMeasureTrialFragment.newInstance(mtrial).show(getSupportFragmentManager(), "EDIT TEXT");}
+                }
         });
 
     }
@@ -90,11 +121,11 @@ public class ViewTrialLogActivity extends AppCompatActivity {
                 trialArrayList.add(trial);
             }else if (trialType == "count"){
                 Log.d("entryCount",entryCount);
-                Trial trial = new CountTrial(itemDescription, Integer.parseInt(entryCount));
+                Trial trial = new CountTrial(itemDescription, entryCount);
                 trialArrayList.add(trial);
             }else if (trialType == "measurement"){
                 Log.d("entryMeasurement",entryMeasurement);
-                Trial trial = new MeasurementTrial(itemDescription, Integer.parseInt(entryMeasurement));
+                Trial trial = new MeasurementTrial(itemDescription, entryMeasurement);
                 trialArrayList.add(trial);
             }
         }
@@ -106,5 +137,23 @@ public class ViewTrialLogActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
+    @Override
+    public void onOkPressed(BinomialTrial btrial){
+        trialArrayList.set(entry_pos, btrial);
+        setUpList();
+    }
 
+
+    @Override
+    public void onOkPressed(CountTrial ctrial) {
+        trialArrayList.set(entry_pos, ctrial);
+        setUpList();
+
+    }
+
+    @Override
+    public void onOkPressed(MeasurementTrial mtrial) {
+        trialArrayList.set(entry_pos, mtrial);
+        setUpList();
+    }
 }

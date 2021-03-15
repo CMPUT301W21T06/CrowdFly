@@ -2,14 +2,14 @@ package com.cmput301w21t06.crowdfly.Models;
 
 public class CountTrial extends Trial{
 
-    private int count;
+    private String count;
 
-    public CountTrial(String description, int count) {
+    public CountTrial(String description, String count) {
         super(description);
         this.count = count;
     }
 
-    public int getCount(){return count;}
+    public String getCount(){return count;}
 
-    public void setCount(int count){this.count = count;}
+    public void setCount(String count){this.count = count;}
 }

@@ -31,7 +31,28 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp" />
 
+   <!-- <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="348dp"
+        android:layout_marginTop="98dp"
+        android:text="del"
+        android:textSize="8dp"/>
+
     <Button
+        android:id="@+id/editButton"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="98dp"
+        android:text="EDIT"
+        android:textSize="8dp"/>-->
+
+    <Button
+        android:focusable="false"
         android:id="@+id/statButton"
         android:layout_width="78dp"
         android:layout_height="68dp"

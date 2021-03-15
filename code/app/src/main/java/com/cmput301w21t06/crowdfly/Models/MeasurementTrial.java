@@ -2,14 +2,14 @@ package com.cmput301w21t06.crowdfly.Models;
 //This trial
 public class MeasurementTrial extends Trial{
 
-    private int measurement;
+    private String measurement;
 
-    public MeasurementTrial(String description, int measurement) {
+    public MeasurementTrial(String description, String measurement) {
         super(description);
         this.measurement = measurement;
     }
 
-    public int getMeasurement(){return measurement;}
+    public String getMeasurement(){return measurement;}
 
-    public void setMeasurement(int measurement){this.measurement = measurement;}
+    public void setMeasurement(String measurement){this.measurement = measurement;}
 }

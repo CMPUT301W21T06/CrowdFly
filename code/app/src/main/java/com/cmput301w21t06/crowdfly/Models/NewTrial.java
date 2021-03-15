@@ -23,7 +23,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
 
     private EditText regionEnforced, trialDesc, regionType,  successes, failures;
     private Button addButton, buttonBinomial, buttonMeasure, buttonCount;
-    public String newTrialSuccesses, newTrialFailures, newTrialCount, newTrialMeasurement;
+    public String newTrialSuccesses, newTrialFailures, newTrialCount, newTrialMeasurement, newTrialDescription;
 
 
     @Override
@@ -33,12 +33,33 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
 
         //instantiate variables
         regionEnforced = findViewById(R.id.regionEnforcedEditText);
-        trialDesc = findViewById(R.id.trialDesc);
         regionType = findViewById(R.id.regionTypeEditText);
         addButton = findViewById(R.id.newTrialAddButton);
         buttonBinomial = findViewById(R.id.binTrial);
         buttonMeasure = findViewById(R.id.measureTrial);
         buttonCount = findViewById(R.id.countTrial);
+
+
+        String trialType = getIntent().getStringExtra("trialtype");
+        //condition for trial type differentiation
+        if (trialType.equals("binomial")){
+            buttonMeasure.setBackgroundColor(Color.LTGRAY);
+            buttonMeasure.setEnabled(false);
+            buttonCount.setBackgroundColor(Color.LTGRAY);
+            buttonCount.setEnabled(false);
+        }
+        if (trialType.equals("count")){
+            buttonMeasure.setBackgroundColor(Color.LTGRAY);
+            buttonMeasure.setEnabled(false);
+            buttonBinomial.setBackgroundColor(Color.LTGRAY);
+            buttonBinomial.setEnabled(false);
+        }
+        if (trialType.equals("measurement")){
+            buttonBinomial.setBackgroundColor(Color.LTGRAY);
+            buttonBinomial.setEnabled(false);
+            buttonCount.setBackgroundColor(Color.LTGRAY);
+            buttonCount.setEnabled(false);
+        }
 
 
         buttonMeasure.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +93,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
             public void onClick(View view) {
 
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-                intent.putExtra("trialDesc", trialDesc.getText().toString());
+                intent.putExtra("trialDesc", newTrialDescription);
                 intent.putExtra("measurement", newTrialMeasurement);
                 intent.putExtra("count", newTrialCount);
                 intent.putExtra("success",newTrialSuccesses);
@@ -87,6 +108,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
     @Override
     public void onOkPressed(BinomialTrial trial) {
         Log.d("NEW TRIAL", "onOkPressed BinomialTrial version");
+        newTrialDescription = ((BinomialTrial) trial).getDescription();
         newTrialSuccesses = ((BinomialTrial) trial).getSuccesses();
         newTrialFailures = ((BinomialTrial) trial).getFailures();
         buttonBinomial.setBackgroundColor(Color.BLUE);
@@ -96,6 +118,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
     @Override
     public void onOkPressed(CountTrial trial) {
         Log.d("NEW TRIAL","onOkPressed CountTrial version");
+        newTrialDescription = ((CountTrial) trial).getDescription();
         newTrialCount = String.valueOf(((CountTrial) trial).getCount());
         buttonCount.setBackgroundColor(Color.BLUE);
     }
@@ -104,6 +127,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
     @Override
     public void onOkPressed(MeasurementTrial trial) {
         Log.d("NEW TRIAL","onOkPressed MeasurementTrial Version");
+        newTrialDescription = ((MeasurementTrial) trial).getDescription();
         newTrialMeasurement = String.valueOf(((MeasurementTrial)trial).getMeasurement());
         buttonMeasure.setBackgroundColor(Color.BLUE);
     }
