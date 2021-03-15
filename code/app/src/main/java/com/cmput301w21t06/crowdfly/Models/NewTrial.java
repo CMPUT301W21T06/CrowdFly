@@ -3,8 +3,6 @@
 
 package com.cmput301w21t06.crowdfly.Models;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,11 +11,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditMeasureTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
+/**
+ * this is an activity that adds a new activity to the Listview in the Trial log
+ */
 
 public class NewTrial extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
 
@@ -104,6 +107,12 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
 
     }
 
+    /**
+     * this method indicates that the fragment has been executed and stores information in that
+     * will be passed to view trial log
+     * @param trial
+     *     this is the trial that is being added to the view trial log
+     */
     // BinomialTrial onOkPressed
     @Override
     public void onOkPressed(BinomialTrial trial) {
@@ -114,6 +123,12 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
         buttonBinomial.setBackgroundColor(Color.BLUE);
     }
 
+    /**
+     * this method indicates that the fragment has been executed and stores information in that
+     * will be passed to view trial log
+     * @param trial
+     *     this is the trial that is being added to the view trial log
+     */
     // CountTrial onOkPressed
     @Override
     public void onOkPressed(CountTrial trial) {
@@ -123,6 +138,12 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
         buttonCount.setBackgroundColor(Color.BLUE);
     }
 
+    /**
+     * this method indicates that the fragment has been executed and stores information in that
+     * will be passed to view trial log
+     * @param trial
+     *     this is the trial that is being added to the view trial log
+     */
     // Measurement onOkPressed
     @Override
     public void onOkPressed(MeasurementTrial trial) {

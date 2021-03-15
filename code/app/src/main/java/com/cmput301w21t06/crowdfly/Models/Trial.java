@@ -5,6 +5,9 @@ import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * this is the Trial superclass that extends its functionalities to its subclasses
+ */
 public class Trial {
     private int trialID;
 
@@ -29,6 +32,11 @@ public class Trial {
 
 
     //setup getters
+    /**
+     * this returns the string description of the trial
+     * @return
+     *    return string description of the trial
+     */
     public String getDescription() {
         return description;
     }
@@ -36,12 +44,13 @@ public class Trial {
     public void specifyLoc(String location){}
     public String getLoc(){return "";}
     private void warnUsers(){}
+    public int getTrialID(){ return trialID; }
 
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
         trl.put("description", this.description);
-        trl.put("successes", this.successes);
-        trl.put("failures", this.failures);
+        //trl.put("successes", this.successes);
+        //trl.put("failures", this.failures);
         trl.put("owner", String.format("users/{}", this.recordedBy.getUserID()));
 
         return trl;
