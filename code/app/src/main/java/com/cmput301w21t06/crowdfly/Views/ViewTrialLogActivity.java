@@ -29,6 +29,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private ListView listView;
     private Button addButton;
+    private Button questionButton;
     static Integer counter = 0;
     static int entry_pos;
     public TrialAdapter adapter;
@@ -46,6 +47,14 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         setUpList();
 
         addButton = findViewById(R.id.addButton);
+        questionButton = findViewById(R.id.questionButton);
+        questionButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewTrialLogActivity.this, ViewQuestionLogActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //add trials
         addButton.setOnClickListener(new View.OnClickListener() {
