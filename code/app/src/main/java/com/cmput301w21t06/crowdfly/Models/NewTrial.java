@@ -28,6 +28,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
     private Button addButton, buttonBinomial, buttonMeasure, buttonCount;
     public String newTrialSuccesses, newTrialFailures, newTrialCount, newTrialMeasurement, newTrialDescription;
 
+    public String trialType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
         buttonCount = findViewById(R.id.countTrial);
 
 
-        String trialType = getIntent().getStringExtra("trialtype");
+        trialType = getIntent().getStringExtra("trialType");
         //condition for trial type differentiation
         if (trialType.equals("binomial")){
             buttonMeasure.setBackgroundColor(Color.LTGRAY);
@@ -101,6 +102,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
                 intent.putExtra("count", newTrialCount);
                 intent.putExtra("success",newTrialSuccesses);
                 intent.putExtra("failure",newTrialFailures);
+                intent.putExtra("trialType", trialType);
                 startActivity(intent);
             }
         });

@@ -33,14 +33,17 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
     static Integer counter = 0;
     static int entry_pos;
     public TrialAdapter adapter;
-    public String trialType = "binomial";
-
-
+    public String trialType;
+    //public String trialType = "count";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trial_log);
+
+        //if (counter == 0){
+        trialType = getIntent().getStringExtra("trialType");
+        //}
 
         //setup the data
         setupData();
@@ -72,7 +75,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
             public void onClick(View view) {
                 counter += 1;
                 Intent intent = new Intent(getApplicationContext(), NewTrial.class);
-                intent.putExtra("trialtype", trialType);
+                intent.putExtra("trialType", trialType);
                 startActivity(intent);
                 //if (trialType == "binomial"){
                 //    EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();

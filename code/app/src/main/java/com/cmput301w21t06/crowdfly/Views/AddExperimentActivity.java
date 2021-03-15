@@ -62,29 +62,33 @@ public class AddExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //hard coding variables for now will be adjusted
-                final String description = "Binomial";
+                final String description = "binomial";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
                 experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
-                startActivity(new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class));
+                Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
+                intent.putExtra("type",description);
+                startActivity(intent);
             }
         });
 
         btnMeasurement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = "Measurement";
+                final String description = "measurement";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
                 experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
-                startActivity(new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class));
+                Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
+                intent.putExtra("type",description);
+                startActivity(intent);
             }
         });
 
         btnCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = "Count";
+                final String description = "count";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
 
@@ -97,7 +101,10 @@ public class AddExperimentActivity extends AppCompatActivity {
                     Experiment expAdd = new Experiment(description, region, minNumTrials);
                     experimentLog.addExperiment(new Experiment(description, region, minNumTrials));
                     new CrowdFlyFirestore().setExperimentData(expAdd);
-                    startActivity(new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class));
+                    Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
+                    intent.putExtra("trialType",description);
+                    Log.e("type in add experiment", description);
+                    startActivity(intent);
                 }
             }
         });

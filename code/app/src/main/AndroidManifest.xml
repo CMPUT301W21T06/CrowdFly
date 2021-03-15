@@ -10,16 +10,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
-<<<<<<< HEAD
-        <activity android:name= ".Views.ViewQuestionLogActivity" ></activity>
-        <activity android:name=".Views.UserProfileActivity"></activity>
-=======
+
+
         <activity android:name=".Views.ViewQuestionLogActivity"></activity>
         <activity android:name=".Views.EditMeasureTrialFragment" />
         <activity android:name=".Views.EditCountTrialFragment" />
         <activity android:name=".Views.EditBinomialTrialFragment" />
         <activity android:name=".Views.UserProfileActivity" />
->>>>>>> 7b1d12c26e3024e8a7d345ea3a17e6e04232accc
         <activity android:name=".Views.ViewStatisticActivity" />
         <activity android:name=".Models.NewTrial" />
         <activity
@@ -27,34 +24,32 @@
             android:focusable="false"
             android:label="@string/title_activity_view_trial_log"
             android:parentActivityName=".Views.MainActivity">
+
         </activity>
         <activity
             android:name=".Views.AddExperimentActivity"
             android:label="AddExperimentActivity" />
         <activity
             android:name=".Views.AuthActivity"
-<<<<<<< HEAD
+
             android:launchMode="singleTask">
         </activity>
 
         <activity
-            android:name=".Views.ViewExperimentLogActivity"
-            android:parentActivityName=".Views.MainActivity" />
-
-        <activity
             android:name=".Views.MainActivity"
-            android:launchMode="singleTask">
-=======
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".Views.ViewExperimentLogActivity"
-            android:parentActivityName=".Views.MainActivity">
->>>>>>> 7b1d12c26e3024e8a7d345ea3a17e6e04232accc
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".Views.ViewExperimentLogActivity"
+            android:parentActivityName=".Views.MainActivity">
+
+
         </activity>
     </application>
 </manifest>
