@@ -9,6 +9,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 
@@ -41,7 +42,9 @@ public class AddExperimentActivity extends AppCompatActivity {
                 final String minNumTrials = etMinNumTrials.getText().toString();
                 final String region = etRegion.getText().toString();
 
-                experimentLog.addExperiment(new Experiment(description, region, Integer.parseInt(minNumTrials)));
+                Experiment expAdd = new Experiment(description, region, Integer.parseInt(minNumTrials));
+                experimentLog.addExperiment(expAdd);
+                new CrowdFlyFirestore().setExperimentData(expAdd);
 
                 startActivity(new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class));
             }
