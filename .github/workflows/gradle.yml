@@ -36,6 +36,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - run: cd code
+    - run: gradle wrapper --gradle-version 6.5
     - name: Unit Test with Gradle
-      run: cd code
       run: ./gradlew app:test
