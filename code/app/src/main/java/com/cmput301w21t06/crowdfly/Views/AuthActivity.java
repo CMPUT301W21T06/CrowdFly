@@ -100,7 +100,7 @@ public class AuthActivity extends AppCompatActivity {
     public void createUser(FirebaseUser user) {
         String userID = user.getUid();
         User newUser = new User(userID);
-        new CrowdFlyFirestore(userID).createUserProfile(newUser);
+        new CrowdFlyFirestore().setUserProfile(newUser);
     }
 
 

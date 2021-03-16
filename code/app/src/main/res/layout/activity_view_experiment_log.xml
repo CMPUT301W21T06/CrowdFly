@@ -20,12 +20,14 @@
 
     <ListView
         android:id="@+id/experiment_list"
-        android:layout_width="match_parent"
-        android:layout_height="450sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="365dp"
+        android:layout_height="416dp"
+        app:layout_constraintBottom_toTopOf="@+id/experiment_search"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.37" />
+        app:layout_constraintVertical_bias="0.836" />
 
     <Button
         android:id="@+id/experiment_search"
@@ -55,7 +57,6 @@
         android:layout_marginBottom="52dp"
         android:text="Add experiment"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
         app:layout_constraintHorizontal_bias="0.148"
         app:layout_constraintStart_toStartOf="parent" />
 
