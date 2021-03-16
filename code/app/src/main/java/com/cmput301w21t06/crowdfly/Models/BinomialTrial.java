@@ -49,8 +49,7 @@ public class BinomialTrial extends Trial{
     public String getSuccesses() {
         return successes;
     }
-
-
+    
     /**
      * this returns the string display of the number of failures that occur in a binomial trial
      * @return
@@ -58,6 +57,10 @@ public class BinomialTrial extends Trial{
      */
     public String getFailures() {
         return failures;
+    }
+
+    public int getTrialID() {
+        return trialID;
     }
 
 

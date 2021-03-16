@@ -46,8 +46,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         //only update the trialtype once per experiment
         if (counter < 1) {
             trialType =  getIntent().getStringExtra("trialType");
-            expID = Integer.parseInt(getIntent().getStringExtra("expID"));
         }
+        expID = Integer.parseInt(getIntent().getStringExtra("expID"));
         trialLog = TrialLog.getTrialLog();
 
         //setup the data
