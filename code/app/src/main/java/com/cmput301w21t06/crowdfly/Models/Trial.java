@@ -1,6 +1,7 @@
 package com.cmput301w21t06.crowdfly.Models;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
+import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +19,10 @@ public class Trial {
     private Statistics statistics;
     private User recordedBy;
 
+
     public Trial(String description) {
         this.description = description;
+
     }
 
     /***

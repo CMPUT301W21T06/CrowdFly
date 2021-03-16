@@ -13,6 +13,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
+import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
@@ -29,11 +32,14 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
     public String newTrialSuccesses, newTrialFailures, newTrialCount, newTrialMeasurement, newTrialDescription;
 
     public String trialType;
+    public String expID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trial);
+
+        TrialLog trialLog = TrialLog.getTrialLog();
 
         //instantiate variables
         regionEnforced = findViewById(R.id.regionEnforcedEditText);
@@ -45,6 +51,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
 
 
         trialType = getIntent().getStringExtra("trialType");
+        expID = getIntent().getStringExtra("expID");
         //condition for trial type differentiation
         if (trialType.equals("binomial")){
             buttonMeasure.setBackgroundColor(Color.LTGRAY);
@@ -96,14 +103,33 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
             @Override
             public void onClick(View view) {
 
+
+
+                if(trialType.equals("binomial")){
+                    BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures);
+                    trialLog.addTrial(new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures));
+                    new CrowdFlyFirestore().setBinomialTrialData(trialAdd, Integer.parseInt(expID));
+                }
+                if(trialType.equals("count")){
+                    CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount);
+                    trialLog.addTrial(new CountTrial(newTrialDescription, newTrialCount));
+                    new CrowdFlyFirestore().setCountTrialData(trialAdd, Integer.parseInt(expID));
+                }
+                if(trialType.equals("measurement")){
+                    MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement);
+                    trialLog.addTrial(new MeasurementTrial(newTrialDescription, newTrialMeasurement));
+                    new CrowdFlyFirestore().setMeasurementTrialData(trialAdd, Integer.parseInt(expID));
+                }
+
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-                intent.putExtra("trialDesc", newTrialDescription);
-                intent.putExtra("measurement", newTrialMeasurement);
-                intent.putExtra("count", newTrialCount);
-                intent.putExtra("success",newTrialSuccesses);
-                intent.putExtra("failure",newTrialFailures);
-                intent.putExtra("trialType", trialType);
+//                intent.putExtra("trialDesc", newTrialDescription);
+//                intent.putExtra("measurement", newTrialMeasurement);
+//                intent.putExtra("count", newTrialCount);
+//                intent.putExtra("success",newTrialSuccesses);
+//                intent.putExtra("failure",newTrialFailures);
+
                 startActivity(intent);
+
             }
         });
 

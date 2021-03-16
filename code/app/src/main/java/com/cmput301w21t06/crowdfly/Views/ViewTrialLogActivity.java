@@ -15,17 +15,18 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
+import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.NewTrial;
-import com.cmput301w21t06.crowdfly.Models.Statistics;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
 
-public class ViewTrialLogActivity extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
+public class ViewTrialLogActivity extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener, CrowdFlyFirestore.OnDoneGetTrialsListener {
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private ListView listView;
     private Button addButton;
@@ -33,17 +34,21 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
     static Integer counter = 0;
     static int entry_pos;
     public TrialAdapter adapter;
-    public String trialType;
-    //public String trialType = "count";
+    static public String trialType;
+    static public int expID;
+    private TrialLog trialLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trial_log);
 
-        //if (counter == 0){
-        trialType = getIntent().getStringExtra("trialType");
-        //}
+        //only update the trialtype once per experiment
+        if (counter < 1) {
+            trialType =  getIntent().getStringExtra("trialType");
+            expID = Integer.parseInt(getIntent().getStringExtra("expID"));
+        }
+        trialLog = TrialLog.getTrialLog();
 
         //setup the data
         setupData();
@@ -76,6 +81,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
                 counter += 1;
                 Intent intent = new Intent(getApplicationContext(), NewTrial.class);
                 intent.putExtra("trialType", trialType);
+                intent.putExtra("expID", String.valueOf(expID));
                 startActivity(intent);
                 //if (trialType == "binomial"){
                 //    EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
@@ -122,40 +128,47 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
     }
     private void setupData(){
         // grab import bundles from the intent
-        String itemDescription = getIntent().getStringExtra("trialDesc");
-        String entrySuccesses = getIntent().getStringExtra("success");
-        String entryFailure = getIntent().getStringExtra("failure");
-        String entryCount = getIntent().getStringExtra("count");
-        String entryMeasurement = getIntent().getStringExtra("measurement");
+//        String itemDescription = getIntent().getStringExtra("trialDesc");
+//        String entrySuccesses = getIntent().getStringExtra("success");
+//        String entryFailure = getIntent().getStringExtra("failure");
+//        String entryCount = getIntent().getStringExtra("count");
+//        String entryMeasurement = getIntent().getStringExtra("measurement");
 
 
-        if (counter >= 1) {
-            // In the viewTrialLogActivity, there is a placeholder called trialType, when being passed
-            // an experiment, this experiment will have an attribute that specifies what trial type it
-            // allows in its array adapter, the trialType identifier can take 3 different values that
-            // represent the 3 different trial types
+
+        // get all experiment data from firestore
+        new CrowdFlyFirestore().getTrialData(expID, this);
 
 
-            if(trialType == "binomial"){
-                Log.d("entryFailures",entryFailure);
-                Log.d("entrySuccesses", entrySuccesses);
-                Trial trial = new BinomialTrial(itemDescription, entrySuccesses, entryFailure);
-                trialArrayList.add(trial);
-            }else if (trialType == "count"){
-                Log.d("entryCount",entryCount);
-                Trial trial = new CountTrial(itemDescription, entryCount);
-                trialArrayList.add(trial);
-            }else if (trialType == "measurement"){
-                Log.d("entryMeasurement",entryMeasurement);
-                Trial trial = new MeasurementTrial(itemDescription, entryMeasurement);
-                trialArrayList.add(trial);
-            }
-        }
+//        if (counter >= 1) {
+//            // In the viewTrialLogActivity, there is a placeholder called trialType, when being passed
+//            // an experiment, this experiment will have an attribute that specifies what trial type it
+//            // allows in its array adapter, the trialType identifier can take 3 different values that
+//            // represent the 3 different trial types
+//
+//            Log.e("running?", "yes");
+//            if(trialType.equals("binomial")){
+//                Log.d("entryFailures",entryFailure);
+//                Log.d("entrySuccesses", entrySuccesses);
+//                Trial trial = new BinomialTrial(itemDescription, entrySuccesses, entryFailure);
+//                trialArrayList.add(trial);
+//            }else if (trialType.equals("count")){
+//                Log.d("entryCount",entryCount);
+//                Trial trial = new CountTrial(itemDescription, entryCount);
+//                trialArrayList.add(trial);
+//            }else if (trialType.equals("measurement")){
+//                Log.d("entryMeasurement",entryMeasurement);
+//                Trial trial = new MeasurementTrial(itemDescription, entryMeasurement);
+//                trialArrayList.add(trial);
+//            }
+//        }
 
     }
     private void setUpList(){
         listView = findViewById(R.id.trialListView);
-        adapter = new TrialAdapter(getApplicationContext(), 0, trialArrayList);
+        //adapter = new TrialAdapter(getApplicationContext(), 0, trialArrayList);
+        adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials());
+        Log.e("triallog", String.valueOf(trialLog.getTrials()));
         listView.setAdapter(adapter);
     }
 
@@ -177,5 +190,12 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
     public void onOkPressed(MeasurementTrial mtrial) {
         trialArrayList.set(entry_pos, mtrial);
         setUpList();
+    }
+
+
+    @Override
+    public void onDoneGetTrials(TrialLog trialLog) {
+        this.trialLog = trialLog;
+        adapter.notifyDataSetChanged();
     }
 }

@@ -29,7 +29,7 @@ public class CrowdFlyFirestorePaths {
      * @return
      */
     public static final String trials(int experimentID) {
-        return String.format("/Trials/{}/Trials", experimentID);
+        return String.format("/Trials/%d/Trials", experimentID);
     }
 
     /***
@@ -39,7 +39,7 @@ public class CrowdFlyFirestorePaths {
      * @return
      */
     public static final String trial(int trialID, int experimentID) {
-        return String.format("/Trials/{}/Trials/{}", experimentID, trialID);
+        return String.format("/Trials/%d/Trials/%d", experimentID, trialID);
     }
 
     /***

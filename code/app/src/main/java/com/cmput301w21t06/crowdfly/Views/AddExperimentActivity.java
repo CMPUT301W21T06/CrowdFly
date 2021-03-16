@@ -65,7 +65,9 @@ public class AddExperimentActivity extends AppCompatActivity {
                 final String description = "binomial";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
+                Experiment expAdd = new Experiment(description, region, minNumTrials);
                 experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
+                new CrowdFlyFirestore().setExperimentData(expAdd);
                 Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
                 intent.putExtra("type",description);
                 startActivity(intent);
@@ -78,7 +80,9 @@ public class AddExperimentActivity extends AppCompatActivity {
                 final String description = "measurement";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
+                Experiment expAdd = new Experiment(description, region, minNumTrials);
                 experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
+                new CrowdFlyFirestore().setExperimentData(expAdd);
                 Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
                 intent.putExtra("type",description);
                 startActivity(intent);
@@ -102,8 +106,8 @@ public class AddExperimentActivity extends AppCompatActivity {
                     experimentLog.addExperiment(new Experiment(description, region, minNumTrials));
                     new CrowdFlyFirestore().setExperimentData(expAdd);
                     Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
-                    intent.putExtra("trialType",description);
-                    Log.e("type in add experiment", description);
+                    //intent.putExtra("trialType",description);
+                    //Log.e("type in add experiment", description);
                     startActivity(intent);
                 }
             }

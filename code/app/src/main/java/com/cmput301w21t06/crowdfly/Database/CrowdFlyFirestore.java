@@ -6,7 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
+import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
+import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
+import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,9 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -106,9 +107,25 @@ public class CrowdFlyFirestore {
      * @param trial
      * @param experimentID
      */
-   public void setTrialData(Trial trial, int experimentID) {
+   public void setBinomialTrialData(BinomialTrial trial, int experimentID) {
        this.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
    }
+    /***
+     * Set a single trial data
+     * @param trial
+     * @param experimentID
+     */
+    public void setCountTrialData(CountTrial trial, int experimentID) {
+        this.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
+    }
+    /***
+     * Set a single trial data
+     * @param trial
+     * @param experimentID
+     */
+    public void setMeasurementTrialData(MeasurementTrial trial, int experimentID) {
+        this.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
+    }
 
     /***
      * Get a whole collection of Trials
@@ -116,7 +133,8 @@ public class CrowdFlyFirestore {
      */
    public void getTrialData(int experimentID, OnDoneGetTrialsListener onDoneGetTrialsListener) {
        CollectionReference trialData = this.getCollectionReference(CrowdFlyFirestorePaths.trials(experimentID));
-       ArrayList<Trial> trialList = new ArrayList<>();
+       TrialLog trialLog = TrialLog.getTrialLog();
+       trialLog.resetTrialLog();
 
        trialData
                .get()
@@ -126,9 +144,9 @@ public class CrowdFlyFirestore {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map data = document.getData();
-                                trialList.add(new Trial(data));
+                                trialLog.addTrial(new Trial(data));
                             }
-                            onDoneGetTrialsListener.onDoneGetTrials(trialList);
+                            onDoneGetTrialsListener.onDoneGetTrials(trialLog);
                         } else {
                             Log.d("", "Error getting documents: ", task.getException());
                         }
@@ -193,6 +211,6 @@ public class CrowdFlyFirestore {
      *
      */
     public interface OnDoneGetTrialsListener {
-        public void onDoneGetTrials(ArrayList<Trial> trialList);
+        public void onDoneGetTrials(TrialLog trialList);
     }
 }

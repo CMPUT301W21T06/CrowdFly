@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentContent;
@@ -44,6 +45,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         btnSearch = findViewById(R.id.experiment_search);
 
         expAdapter = new ExperimentContent(this, experimentLog.getExperiments());
+        //Log.e("experimentLog", String.valueOf(experimentLog.getExperiments()));
         experimentListView.setAdapter(expAdapter);
 
         btnAddExperiment.setOnClickListener(new View.OnClickListener() {
@@ -58,9 +60,13 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String trialType = getIntent().getStringExtra("trialType");
+                //String trialType = getIntent().getStringExtra("trialType");
+                Experiment experiment = (Experiment) adapterView.getAdapter().getItem(i);
+                String trialType = experiment.getDescription();
+                int expID = experiment.getExperimentId();
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
                 intent.putExtra("trialType", trialType);
+                intent.putExtra("expID", String.valueOf(expID));
                 Log.e("type in experiment log", trialType);
                 startActivity(intent);
 
