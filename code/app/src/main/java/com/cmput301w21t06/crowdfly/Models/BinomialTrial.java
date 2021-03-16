@@ -41,6 +41,8 @@ public class BinomialTrial extends Trial{
         this.trialID = (int) (long) data.get("trialID");
     }
 
+    public int getTrialID(){ return trialID; }
+
     /**
      * this returns the string display of the number of successes that occur in a binomial trial
      * @return

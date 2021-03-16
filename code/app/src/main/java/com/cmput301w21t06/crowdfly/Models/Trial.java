@@ -10,7 +10,6 @@ import java.util.Map;
  * this is the Trial superclass that extends its functionalities to its subclasses
  */
 public class Trial {
-    private int trialID;
 
     private String description;
     private Boolean locRequired;
@@ -47,7 +46,7 @@ public class Trial {
     public void specifyLoc(String location){}
     public String getLoc(){return "";}
     private void warnUsers(){}
-    public int getTrialID(){ return trialID; }
+
 
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
