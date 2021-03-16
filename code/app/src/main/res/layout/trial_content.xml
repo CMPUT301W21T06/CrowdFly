@@ -12,7 +12,7 @@
         android:layout_width="135dp"
         android:layout_height="94dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="200dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:gravity="center_vertical"
         android:text="item description"
@@ -29,8 +29,7 @@
         android:gravity="center_vertical"
         android:text="successes"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp"
-        android:visibility="invisible"/>
+        android:textSize="16dp"/>
 
    <!-- <Button
         android:id="@+id/deleteButton"
@@ -60,8 +59,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="300dp"
         android:layout_marginTop="38dp"
-        android:text="Stat"
-        android:visibility="invisible"/>
+        android:text="Stat"/>
 
 
 </RelativeLayout>
