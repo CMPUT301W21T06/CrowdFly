@@ -22,7 +22,6 @@ public class CountTrial extends Trial{
         trialID = TrialLog.getTrialLog().getTrials().size() + 1;
     }
 
-    public int getTrialID(){ return trialID; }
     /***
      *
      * @param data

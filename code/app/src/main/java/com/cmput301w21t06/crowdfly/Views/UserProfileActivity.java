@@ -19,7 +19,6 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         crowdFlyFirestore = new CrowdFlyFirestore();
-        Log.e("userid", userID);
         crowdFlyFirestore.getUserProfile(userID, this);
     }
 

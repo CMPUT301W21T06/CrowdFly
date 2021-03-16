@@ -13,9 +13,7 @@
 
 
         <activity android:name=".Views.ViewQuestionLogActivity"></activity>
-        <activity android:name=".Views.EditMeasureTrialFragment" />
-        <activity android:name=".Views.EditCountTrialFragment" />
-        <activity android:name=".Views.EditBinomialTrialFragment" />
+     
         <activity android:name=".Views.UserProfileActivity" />
         <activity android:name=".Views.ViewStatisticActivity" />
         <activity android:name=".Models.NewTrial" />
