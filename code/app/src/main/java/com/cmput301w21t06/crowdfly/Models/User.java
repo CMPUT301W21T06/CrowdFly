@@ -21,9 +21,6 @@ import java.util.Map;
 
 public class User {
     private String userID;
-
-    // Might remove subscribed experiments and keep on experiment side
-    private ArrayList<Experiment> subscribedExperiments = new ArrayList();
     private String phoneNumber;
     private String email;
     private String birthday;
@@ -74,14 +71,6 @@ public class User {
         this.userID = userID;
     }
 
-    public ArrayList<Experiment> getSubscribedExperiments() {
-        return subscribedExperiments;
-    }
-
-    public void setSubscribedExperiments(ArrayList<Experiment> subscribedExperiments) {
-        this.subscribedExperiments = subscribedExperiments;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -113,16 +102,6 @@ public class User {
         user.put("email", this.email);
         user.put("birthday", this.birthday);
         user.put("displayID", this.displayID);
-
-        ArrayList subscribedExperimentsJson = new ArrayList();
-
-        for (int i = 0; i < this.subscribedExperiments.size(); i++) {
-            subscribedExperimentsJson.add(this.subscribedExperiments.get(i).getExperimentId());
-        }
-
-        user.put("subscribedExperiments", subscribedExperimentsJson);
-
-
         return user;
 
     }
