@@ -19,7 +19,7 @@ public class ExperimentLog {
         return singleton;
     }
 
-    private ArrayList<Experiment> experiments;
+    private final ArrayList<Experiment> experiments;
 
     /** Initialize the ExperimentManager singleton.
      */
@@ -55,9 +55,4 @@ public class ExperimentLog {
     public void addExperiment(Experiment experiment) {
         this.experiments.add(experiment);
     }
-
-    /***
-     * Resets the values of experiment list
-     */
-    public void resetExperimentLog() { experiments = new ArrayList<>(); }
 }
