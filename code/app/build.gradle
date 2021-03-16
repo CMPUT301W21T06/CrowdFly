@@ -40,5 +40,4 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-auth'
-    androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.3.1'
 }

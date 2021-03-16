@@ -49,7 +49,7 @@ public class CrowdFlyFirestorePaths {
      * @return
      */
     public static final String statistic(int statisticID, int experimentID) {
-        return String.format("/Trials/{}/Statistics/{}", experimentID, statisticID);
+        return String.format("/Trials/%d/Statistics/%d", experimentID, statisticID);
     }
 
     /***
@@ -58,7 +58,7 @@ public class CrowdFlyFirestorePaths {
      * @return
      */
     public static final String questions(int questionID) {
-        return String.format("/Questions/{}", questionID);
+        return String.format("/Questions/%d", questionID);
     }
 
     // comments will be a subcollection of questions, but will figure this out later on.

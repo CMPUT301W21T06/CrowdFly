@@ -2,7 +2,6 @@ package com.cmput301w21t06.crowdfly.Controllers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
-import com.cmput301w21t06.crowdfly.Models.CountTrial;
-import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.ViewStatisticActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrialAdapter extends ArrayAdapter<Trial> {
@@ -47,8 +42,8 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
         }
 
         //set variables to particular views
-
-        TextView trialInfo = (TextView) convertView.findViewById(R.id.itemSuccesses);
+        TextView failures = convertView.findViewById(R.id.itemFailures);
+        TextView successes = (TextView) convertView.findViewById(R.id.itemSuccesses);
         TextView desc = convertView.findViewById(R.id.itemDescription);
         Button statbtn = convertView.findViewById(R.id.statButton);
 
@@ -61,24 +56,8 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
             }
         });
 
-
-        // checking the exact type of the trial so it can correctly set the text boxes in the content in the list view
-        // specific trial types have specific methods
-        if (trial instanceof BinomialTrial){
-            Log.d("Trial Adapter:","if statement selects this as a binomial trial");
-            String successDisplay = "S:";
-            String failureDisplay = " F:";
-            String failures = ((BinomialTrial)trial).getFailures();
-            trialInfo.setText(successDisplay+((BinomialTrial)trial).getSuccesses()+failureDisplay+failures);
-        } else if (trial instanceof CountTrial){
-            Log.d("Trial Adapter:","if statement selects this as a count trial");
-            String countDisplay = "Count: ";
-            trialInfo.setText(countDisplay+((CountTrial)trial).getCount());
-        } else if (trial instanceof MeasurementTrial){
-            String measurementDisplay = "Measurement: ";
-            trialInfo.setText(measurementDisplay+((MeasurementTrial)trial).getMeasurement());
-        }
-
+        failures.setText(trial.getFailures());
+        successes.setText(trial.getSuccesses());
         desc.setText(trial.getDescription());
 
         return convertView;
