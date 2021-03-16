@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -49,6 +50,36 @@ public class CrowdFlyFirestore {
      */
     public void setUserProfile(@NonNull User user) {
         this.setDocumentData(CrowdFlyFirestorePaths.userProfile(user.getUserID()), user.toHashMap());
+    }
+
+    /**
+     * Create new user by getting the global user counter and incrementing it once its assigned.
+     *
+     * This method should only be used once when creating the user. Use set profile to update.
+     * @param user
+     */
+    public void createUserProfile(@NonNull User user) {
+
+        this.getDocumentReference(CrowdFlyFirestorePaths.displayId()).get().addOnSuccessListener(
+                new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                try {
+                    String displayID = documentSnapshot.getData().get("place").toString();
+                    user.setDisplayID(displayID);
+                    CrowdFlyFirestore.this.setUserProfile(user);
+
+                    // Increment display ID counter here
+                    Map<String, Object> counter = new HashMap<>();
+                    counter.put("place", FieldValue.increment(1));
+                    CrowdFlyFirestore.this.updateDocumentData(CrowdFlyFirestorePaths.displayId(),
+                            counter);
+                }
+                catch (Exception e){
+                    Log.e("CREATE USER PROFILE", e.getMessage());
+                }
+            }
+        });
     }
 
     /**
@@ -163,6 +194,27 @@ public class CrowdFlyFirestore {
         data.put("lastUpdatedAt", FieldValue.serverTimestamp()); // Adds a server timestamp for all updates
 
         firestoreInstance.document(path).set(data).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("FIRESTORE", e.getMessage());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i("FIRESTORE", "Data set successfully");
+            }
+        });
+    }
+
+    /**
+     * Updates document at given path
+     * @param path
+     * @param data
+     */
+    private void updateDocumentData(String path, Map<String, Object> data) {
+        data.put("lastUpdatedAt", FieldValue.serverTimestamp()); // Adds a server timestamp for all updates
+
+        firestoreInstance.document(path).update(data).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e("FIRESTORE", e.getMessage());

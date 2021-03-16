@@ -21,16 +21,17 @@ import java.util.Map;
 
 public class User {
     private String userID;
-    private ArrayList<Experiment> subscribedExperiments = new ArrayList();
     private String phoneNumber;
     private String email;
     private String birthday;
+    private String displayID;
 
-    public User(String phoneNumber, String email, String birthday, @NonNull String userID){
+    public User(String phoneNumber, String email, String birthday, @NonNull String userID, String displayID) {
         this.userID = userID;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.birthday = birthday;
+        this.displayID = displayID;
     }
 
     public User(Map<String, Object> userData) {
@@ -38,34 +39,36 @@ public class User {
         this.phoneNumber = getOrDefault(userData.get("phoneNumber"));
         this.email = getOrDefault(userData.get("email"));
         this.birthday = getOrDefault(userData.get("birthday"));
+        this.displayID = getOrDefault(userData.get("displayId"));
     }
 
     public User(String userID) {
         this.userID = userID;
     }
 
-    public String getOrDefault(Object val){
-        if(val == null){
+    public String getOrDefault(Object val) {
+        if (val == null) {
             return null;
         }
         return val.toString();
     }
 
-    public String getUserID(){
+
+    public void setDisplayID(String displayID) {
+        this.displayID = displayID;
+    }
+
+    public String getDisplayID() {
+        return displayID;
+    }
+
+    public String getUserID() {
         return userID;
     }
 
 
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    public ArrayList<Experiment> getSubscribedExperiments() {
-        return subscribedExperiments;
-    }
-
-    public void setSubscribedExperiments(ArrayList<Experiment> subscribedExperiments) {
-        this.subscribedExperiments = subscribedExperiments;
     }
 
     public String getPhoneNumber() {
@@ -98,16 +101,7 @@ public class User {
         user.put("phoneNumber", this.phoneNumber);
         user.put("email", this.email);
         user.put("birthday", this.birthday);
-
-        ArrayList subscribedExperimentsJson = new ArrayList();
-
-        for(int i = 0; i < this.subscribedExperiments.size(); i++) {
-            subscribedExperimentsJson.add(this.subscribedExperiments.get(i).getExperimentId());
-        }
-
-        user.put("subscribedExperiments", subscribedExperimentsJson);
-
-
+        user.put("displayID", this.displayID);
         return user;
 
     }

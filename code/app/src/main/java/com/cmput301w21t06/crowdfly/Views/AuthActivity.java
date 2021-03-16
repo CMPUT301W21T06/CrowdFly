@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
@@ -26,35 +27,20 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class AuthActivity extends AppCompatActivity {
     private FirebaseAuth authManager;
-
+    private Button authButton;
+    private TextView subtitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         authManager = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_auth);
 
-        Button loginButton = (Button) findViewById(R.id.authButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        authButton = (Button) findViewById(R.id.authButton);
+        subtitle = (TextView) findViewById(R.id.authButtonSubtitle);
+        authButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authManager.signInAnonymously().addOnCompleteListener(AuthActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-
-                            FirebaseUser user = authManager.getCurrentUser();
-                            createUser(user);
-                            updateUI(user);
-                        } else {
-                            System.out.println(task.getException());
-                            Toast.makeText(AuthActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-
-
-                    }
-                });
+                loadingAuth();
             }
         });
     }
@@ -63,27 +49,59 @@ public class AuthActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = authManager.getCurrentUser();
-        updateUI(currentUser);
 
-    }
-
-
-
-    public void updateUI(FirebaseUser user){
-        if(user !=null){
-            System.out.println(user.getUid());
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+        if( currentUser != null){
+            updateUI(currentUser);
+        }
+        else {
+            loadingAuth();
         }
 
     }
 
-    public void createUser(FirebaseUser user){
-        String userID = user.getUid();
-        User newUser = new User(userID);
-        new CrowdFlyFirestore(userID).setUserProfile(newUser);
+    public void loadingAuth() {
+        authButton.setText(R.string.authButtonLoading);
+        authButton.setClickable(false);
+        subtitle.setText(R.string.authButtonSubtitleLoading);
+        authManager.signInAnonymously().addOnCompleteListener(AuthActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+
+                    FirebaseUser user = authManager.getCurrentUser();
+                    createUser(user);
+                    updateUI(user);
+                } else {
+                    System.out.println(task.getException());
+                    Toast.makeText(AuthActivity.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                    updateUI(null);
+                }
+
+
+            }
+        });
     }
 
+    public void updateUI(FirebaseUser user) {
+        if (user != null) {
+            System.out.println(user.getUid());
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        } else {
+            authButton.setClickable(true);
+            authButton.setText(R.string.authButton);
+            subtitle.setText(R.string.authButtonSubtitle);
+        }
+
+
+    }
+
+    public void createUser(FirebaseUser user) {
+        String userID = user.getUid();
+        User newUser = new User(userID);
+        new CrowdFlyFirestore(userID).createUserProfile(newUser);
+    }
 
 
 }
