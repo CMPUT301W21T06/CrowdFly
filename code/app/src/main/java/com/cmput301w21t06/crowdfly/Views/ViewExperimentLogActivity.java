@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -53,6 +54,20 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 startActivity(new Intent(ViewExperimentLogActivity.this, AddExperimentActivity.class));
             }
         });
+
+
+        experimentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String trialType = getIntent().getStringExtra("trialType");
+                Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
+                intent.putExtra("trialType", trialType);
+                Log.e("type in experiment log", trialType);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override
