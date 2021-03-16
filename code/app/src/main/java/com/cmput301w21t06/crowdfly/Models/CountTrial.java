@@ -44,6 +44,10 @@ public class CountTrial extends Trial{
      */
     public String getCount(){return count;}
 
+    public int getTrialID() {
+        return trialID;
+    }
+
 
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();

@@ -9,6 +9,8 @@
     <string name="signup_prompt">New user? Click me!</string>
     <string name="login">Setup</string>
     <string name="ID">ID</string>
+    <string name="authButtonLoading">Generating...</string>
+    <string name="authButtonSubtitleLoading">Please wait while we generate a new anonymous ID</string>
     <string name="authButton">Generate</string>
     <string name="authButtonSubtitle">Generate a new anonymous ID</string>
 </resources>

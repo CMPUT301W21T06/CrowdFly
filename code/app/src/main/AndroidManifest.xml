@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.cmput301w21t06.crowdfly">
 
     <application
@@ -10,46 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
-
-
-        <activity android:name=".Views.ViewQuestionLogActivity"></activity>
-        <activity android:name=".Views.EditMeasureTrialFragment" />
-        <activity android:name=".Views.EditCountTrialFragment" />
-        <activity android:name=".Views.EditBinomialTrialFragment" />
-        <activity android:name=".Views.UserProfileActivity" />
+        <activity android:name= ".Views.ViewQuestionLogActivity" ></activity>
+        <activity android:name=".Views.UserProfileActivity"></activity>
         <activity android:name=".Views.ViewStatisticActivity" />
         <activity android:name=".Models.NewTrial" />
         <activity
             android:name=".Views.ViewTrialLogActivity"
-            android:focusable="false"
             android:label="@string/title_activity_view_trial_log"
             android:parentActivityName=".Views.MainActivity">
 
         </activity>
         <activity
             android:name=".Views.AddExperimentActivity"
-            android:label="AddExperimentActivity" />
+            android:label="AddExperimentActivity"></activity>
         <activity
             android:name=".Views.AuthActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
         <activity
-            android:name=".Views.MainActivity"
-            android:launchMode="singleTask" >
-
-        </activity>
-
+        android:name=".Views.MainActivity"
+        android:launchMode="singleTask" />
         <activity
             android:name=".Views.ViewExperimentLogActivity"
-            android:parentActivityName=".Views.MainActivity">
-
-
-        </activity>
+            android:parentActivityName=".Views.MainActivity" />
     </application>
+
 </manifest>

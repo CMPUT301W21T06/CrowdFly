@@ -13,14 +13,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetUserListener{
     private CrowdFlyFirestore crowdFlyFirestore;
-    private String userID = FirebaseAuth.getInstance().getUid();
+    private String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private User userProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
-        crowdFlyFirestore = new CrowdFlyFirestore();
-        Log.e("userid", userID);
+        crowdFlyFirestore = new CrowdFlyFirestore(userID);
         crowdFlyFirestore.getUserProfile(userID, this);
     }
 

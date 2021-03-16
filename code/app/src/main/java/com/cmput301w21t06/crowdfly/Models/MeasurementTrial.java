@@ -46,6 +46,10 @@ public class MeasurementTrial extends Trial{
 
     public void setMeasurement(String measurement){this.measurement = measurement;}
 
+    public int getTrialID() {
+        return trialID;
+    }
+
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
         trl.put("trialID", this.trialID);

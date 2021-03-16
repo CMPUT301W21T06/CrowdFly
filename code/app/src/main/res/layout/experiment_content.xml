@@ -1,61 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout7"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
     android:layout_gravity="center_horizontal">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/exp_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="8dp"
+        android:text="Description"
+        app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/exp_ownerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_marginStart="100dp"
+        android:text="Owner Name"
+        app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
+        app:layout_constraintTop_toBottomOf="@+id/exp_description" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/exp_description"
-            android:text="Description"/>
+    <TextView
+        android:id="@+id/exp_status"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="1dp"
+        android:text="Status"
+        app:layout_constraintEnd_toEndOf="@+id/exp_ownerName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/exp_region"
+        app:layout_constraintTop_toBottomOf="@+id/exp_region" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/exp_ownerName"
-            android:text="Owner Name"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/exp_status"
-            android:text="Status"/>
-    </LinearLayout>
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/exp_numTrials"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="numTrials"
+        app:layout_constraintEnd_toStartOf="@+id/button_subscribe"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/exp_numTrials"
-            android:text="numTrials"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/exp_region"
-            android:text="Region:"/>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/exp_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Region:"
+        app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
+        app:layout_constraintTop_toBottomOf="@+id/exp_numTrials" />
 
     <Button
-        android:focusable="false"
+        android:id="@+id/button_subscribe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button_subscribe"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:focusable="false"
+        android:padding="10dp"
         android:text="Subscribe"
-        android:padding="10dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

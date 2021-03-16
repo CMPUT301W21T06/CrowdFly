@@ -4,27 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentContent;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
 
-public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetExpListener {
+public class ViewExperimentLogActivity extends AppCompatActivity {
     private ListView experimentListView;
     private ArrayAdapter<Experiment> expAdapter;
     private ExperimentContent experimentContent;
-    private ExperimentLog experimentLog;
 
     Button btnAddExperiment;
     Button btnMap;
@@ -34,10 +29,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_experiment_log);
-        experimentLog = ExperimentLog.getExperimentLog();
-
-        // get all experiment data from firestore
-        new CrowdFlyFirestore().getExperimentData(this);
+        ExperimentLog experimentLog = ExperimentLog.getExperimentLog();
 
         experimentListView = findViewById(R.id.experiment_list);
         btnAddExperiment = findViewById(R.id.experiment_add);
@@ -45,7 +37,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         btnSearch = findViewById(R.id.experiment_search);
 
         expAdapter = new ExperimentContent(this, experimentLog.getExperiments());
-        //Log.e("experimentLog", String.valueOf(experimentLog.getExperiments()));
         experimentListView.setAdapter(expAdapter);
 
         btnAddExperiment.setOnClickListener(new View.OnClickListener() {
@@ -56,28 +47,5 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 startActivity(new Intent(ViewExperimentLogActivity.this, AddExperimentActivity.class));
             }
         });
-
-        experimentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //String trialType = getIntent().getStringExtra("trialType");
-                Experiment experiment = (Experiment) adapterView.getAdapter().getItem(i);
-                String trialType = experiment.getDescription();
-                int expID = experiment.getExperimentId();
-                Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-                intent.putExtra("trialType", trialType);
-                intent.putExtra("expID", String.valueOf(expID));
-                Log.e("type in experiment log", trialType);
-                startActivity(intent);
-
-            }
-        });
-    }
-
-    @Override
-    public void onDoneGetExperiments(ExperimentLog expLog) {
-        this.experimentLog = expLog;
-        expAdapter.notifyDataSetChanged();
-//        Log.d("abc", experimentLog.getExperiment(expLog));
     }
 }

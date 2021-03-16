@@ -3,179 +3,85 @@
 
 package com.cmput301w21t06.crowdfly.Models;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.R;
-import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
-import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
-import com.cmput301w21t06.crowdfly.Views.EditMeasureTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
-/**
- * this is an activity that adds a new activity to the Listview in the Trial log
- */
 
-public class NewTrial extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
+public class NewTrial extends AppCompatActivity {
 
-    private EditText regionEnforced, trialDesc, regionType,  successes, failures;
-    private Button addButton, buttonBinomial, buttonMeasure, buttonCount;
-    public String newTrialSuccesses, newTrialFailures, newTrialCount, newTrialMeasurement, newTrialDescription;
-
-    public String trialType;
-    public String expID;
+    private EditText regionEnforced, trialDesc, regionType, trialType, successes, failures;
+    private Button addButton, buttonS, buttonF;
+    public int current_successes = 0, current_failures = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trial);
 
-        TrialLog trialLog = TrialLog.getTrialLog();
-
         //instantiate variables
         regionEnforced = findViewById(R.id.regionEnforcedEditText);
+        trialDesc = findViewById(R.id.trialDesc);
         regionType = findViewById(R.id.regionTypeEditText);
+        trialType = findViewById(R.id.trialTypeEditText);
+        successes = findViewById(R.id.countSuccesses);
+        failures = findViewById(R.id.countFailures);
         addButton = findViewById(R.id.newTrialAddButton);
-        buttonBinomial = findViewById(R.id.binTrial);
-        buttonMeasure = findViewById(R.id.measureTrial);
-        buttonCount = findViewById(R.id.countTrial);
+        buttonS = findViewById(R.id.successbutton);
+        buttonF = findViewById(R.id.failurebutton);
+        successes.setText("0");
+        failures.setText("0");
 
-
-        trialType = getIntent().getStringExtra("trialType");
-        expID = getIntent().getStringExtra("expID");
-        //condition for trial type differentiation
-        if (trialType.equals("binomial")){
-            buttonMeasure.setBackgroundColor(Color.LTGRAY);
-            buttonMeasure.setEnabled(false);
-            buttonCount.setBackgroundColor(Color.LTGRAY);
-            buttonCount.setEnabled(false);
-        }
-        if (trialType.equals("count")){
-            buttonMeasure.setBackgroundColor(Color.LTGRAY);
-            buttonMeasure.setEnabled(false);
-            buttonBinomial.setBackgroundColor(Color.LTGRAY);
-            buttonBinomial.setEnabled(false);
-        }
-        if (trialType.equals("measurement")){
-            buttonBinomial.setBackgroundColor(Color.LTGRAY);
-            buttonBinomial.setEnabled(false);
-            buttonCount.setBackgroundColor(Color.LTGRAY);
-            buttonCount.setEnabled(false);
-        }
-
-
-        buttonMeasure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditMeasureTrialFragment editMeasureTrialFragment  = new EditMeasureTrialFragment();
-                editMeasureTrialFragment.show(getSupportFragmentManager(),"EDIT_TEXT");
-            }
-        });
-
-        buttonCount.setOnClickListener((new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditCountTrialFragment editCountTrialFragment = new EditCountTrialFragment();
-                editCountTrialFragment.show(getSupportFragmentManager(),"EDIT TEXT");
-            }
-        }));
-        buttonBinomial.setOnClickListener(new View.OnClickListener() {
+        buttonS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
-                editBinomialTrialFragment.show(getSupportFragmentManager(), "EDIT TEXT");
+                current_successes +=1;
+                successes.setText(String.valueOf(current_successes));
             }
         });
 
-        // Confirmation button, this will direct the user back to the viewTrialLogActivity Page
-        // with an intent bundled with information given from the extended fragment from the newTrial
-        // activity
+        buttonF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                current_failures +=1;
+                failures.setText(String.valueOf(current_failures));
+            }
+        });
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if(trialType.equals("binomial")){
                     BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures);
-                    trialLog.addTrial(new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures));
+                    trialLog.addTrial(trialAdd);
                     new CrowdFlyFirestore().setBinomialTrialData(trialAdd, Integer.parseInt(expID));
                 }
                 if(trialType.equals("count")){
                     CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount);
-                    trialLog.addTrial(new CountTrial(newTrialDescription, newTrialCount));
+                    trialLog.addTrial(trialAdd);
                     new CrowdFlyFirestore().setCountTrialData(trialAdd, Integer.parseInt(expID));
                 }
                 if(trialType.equals("measurement")){
                     MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement);
-                    trialLog.addTrial(new MeasurementTrial(newTrialDescription, newTrialMeasurement));
+                    trialLog.addTrial(trialAdd);
                     new CrowdFlyFirestore().setMeasurementTrialData(trialAdd, Integer.parseInt(expID));
                 }
 
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-//                intent.putExtra("trialDesc", newTrialDescription);
-//                intent.putExtra("measurement", newTrialMeasurement);
-//                intent.putExtra("count", newTrialCount);
-//                intent.putExtra("success",newTrialSuccesses);
-//                intent.putExtra("failure",newTrialFailures);
-
+                // intent.putExtra("trialDesc", trialDesc.getText().toString());
+                // intent.putExtra("success",successes.getText().toString());
+                // intent.putExtra("failure",failures.getText().toString());
                 startActivity(intent);
-
             }
         });
 
-    }
 
-    /**
-     * this method indicates that the fragment has been executed and stores information in that
-     * will be passed to view trial log
-     * @param trial
-     *     this is the trial that is being added to the view trial log
-     */
-    // BinomialTrial onOkPressed
-    @Override
-    public void onOkPressed(BinomialTrial trial) {
-        Log.d("NEW TRIAL", "onOkPressed BinomialTrial version");
-        newTrialDescription = ((BinomialTrial) trial).getDescription();
-        newTrialSuccesses = ((BinomialTrial) trial).getSuccesses();
-        newTrialFailures = ((BinomialTrial) trial).getFailures();
-        buttonBinomial.setBackgroundColor(Color.BLUE);
-    }
-
-    /**
-     * this method indicates that the fragment has been executed and stores information in that
-     * will be passed to view trial log
-     * @param trial
-     *     this is the trial that is being added to the view trial log
-     */
-    // CountTrial onOkPressed
-    @Override
-    public void onOkPressed(CountTrial trial) {
-        Log.d("NEW TRIAL","onOkPressed CountTrial version");
-        newTrialDescription = ((CountTrial) trial).getDescription();
-        newTrialCount = String.valueOf(((CountTrial) trial).getCount());
-        buttonCount.setBackgroundColor(Color.BLUE);
-    }
-
-    /**
-     * this method indicates that the fragment has been executed and stores information in that
-     * will be passed to view trial log
-     * @param trial
-     *     this is the trial that is being added to the view trial log
-     */
-    // Measurement onOkPressed
-    @Override
-    public void onOkPressed(MeasurementTrial trial) {
-        Log.d("NEW TRIAL","onOkPressed MeasurementTrial Version");
-        newTrialDescription = ((MeasurementTrial) trial).getDescription();
-        newTrialMeasurement = String.valueOf(((MeasurementTrial)trial).getMeasurement());
-        buttonMeasure.setBackgroundColor(Color.BLUE);
     }
 }
