@@ -17,7 +17,7 @@ public class Experiment {
     private User owner;
     private QRManager qrCode;
     private Boolean published;
-    private String experimentId;
+    private int experimentId;
     
     // no users in place at the moment, just gonna comment it out for now
     // public Experiment(String desc, String reg, int minT, ArrayList<User> subscribedU, String owner){}
@@ -50,7 +50,7 @@ public class Experiment {
     public QRManager getQRManager() {return qrCode;}
     public Boolean getPublished() {return published;}
 
-    public String getExperimentId() {
+    public int getExperimentId() {
         return experimentId;
     }
 }
