@@ -5,6 +5,7 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -37,10 +38,11 @@ public class ViewTrialLogActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_trial_log);
 
         //only update the trialtype once per experiment
-        if (counter < 1) {
+
+        if(counter < 1){
             trialType =  getIntent().getStringExtra("trialType");
         }
-        expID = Integer.parseInt(getIntent().getStringExtra("expID"));
+
         trialLog = TrialLog.getTrialLog();
 
         //setup the data

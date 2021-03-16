@@ -1,6 +1,13 @@
 package com.cmput301w21t06.crowdfly.Models;
 
+import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
+import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Trial {
+
     private String description;
     private String successes;
     private String failures;
@@ -36,4 +43,15 @@ public class Trial {
     public void specifyLoc(String location){}
     public String getLoc(){return "";}
     private void warnUsers(){}
+
+
+    public Map<String, Object> toHashMap() {
+        Map<String, Object> trl = new HashMap<>();
+        trl.put("description", this.description);
+        //trl.put("successes", this.successes);
+        //trl.put("failures", this.failures);
+        trl.put("owner", String.format("users/{}", this.recordedBy.getUserID()));
+
+        return trl;
+    }
 }

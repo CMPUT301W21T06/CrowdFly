@@ -58,8 +58,6 @@ public class NewTrial extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
                 if(trialType.equals("binomial")){
                     BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures);
                     trialLog.addTrial(trialAdd);
