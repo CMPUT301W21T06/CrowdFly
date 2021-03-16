@@ -57,10 +57,29 @@ public class NewTrial extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
+                if(trialType.equals("binomial")){
+                    BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures);
+                    trialLog.addTrial(trialAdd);
+                    new CrowdFlyFirestore().setBinomialTrialData(trialAdd, Integer.parseInt(expID));
+                }
+                if(trialType.equals("count")){
+                    CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount);
+                    trialLog.addTrial(trialAdd);
+                    new CrowdFlyFirestore().setCountTrialData(trialAdd, Integer.parseInt(expID));
+                }
+                if(trialType.equals("measurement")){
+                    MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement);
+                    trialLog.addTrial(trialAdd);
+                    new CrowdFlyFirestore().setMeasurementTrialData(trialAdd, Integer.parseInt(expID));
+                }
+
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-                intent.putExtra("trialDesc", trialDesc.getText().toString());
-                intent.putExtra("success",successes.getText().toString());
-                intent.putExtra("failure",failures.getText().toString());
+                // intent.putExtra("trialDesc", trialDesc.getText().toString());
+                // intent.putExtra("success",successes.getText().toString());
+                // intent.putExtra("failure",failures.getText().toString());
                 startActivity(intent);
             }
         });
