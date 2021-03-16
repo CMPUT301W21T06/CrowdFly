@@ -13,10 +13,9 @@ on:
 
 jobs:
   run_project:
-
     runs-on: ubuntu-latest
-
     steps:
+    - uses: actions/checkout@v2
     - name: Run Android Emulator
     - uses: ReactiveCircus/android-emulator-runner@v2.15.0
       with:
@@ -24,9 +23,7 @@ jobs:
         emulator-build: ./code
 
   run_tests:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -37,4 +34,3 @@ jobs:
       run: chmod +x gradlew
     - name: Unit Test with Gradle
       run: ./gradlew test
-      
