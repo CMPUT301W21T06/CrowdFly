@@ -10,14 +10,13 @@ on:
     branches: [ staging, main ]
   pull_request:
     branches: [ staging, main ]
-
 jobs:
   run_project:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Run Android Emulator
-    - uses: ReactiveCircus/android-emulator-runner@v2.15.0
+      uses: ReactiveCircus/android-emulator-runner@v2.15.0
       with:
         api-level: 23
         emulator-build: ./code
