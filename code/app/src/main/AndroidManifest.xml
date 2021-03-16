@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.cmput301w21t06.crowdfly">
 
     <application
@@ -9,8 +10,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
-        <activity android:name= ".Views.ViewQuestionLogActivity" ></activity>
-        <activity android:name=".Views.UserProfileActivity"></activity>
+
+
+        <activity android:name=".Views.ViewQuestionLogActivity"></activity>
+        <activity android:name=".Views.EditMeasureTrialFragment" />
+        <activity android:name=".Views.EditCountTrialFragment" />
+        <activity android:name=".Views.EditBinomialTrialFragment" />
+        <activity android:name=".Views.UserProfileActivity" />
         <activity android:name=".Views.ViewStatisticActivity" />
         <activity android:name=".Models.NewTrial" />
         <activity
