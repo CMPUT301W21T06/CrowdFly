@@ -40,17 +40,25 @@ public class BinomialTrial extends Trial{
         return successes;
     }
 
+    /**
+     * sets the string display of the number of successes that occur in a binomial trial
+     * @param successes
+     */
     public void setSuccesses(String successes) {
         this.successes = successes;
     }
 
+    /**
+     * sets the string display of the number of failures that occur in a binomial trial
+     * @param failures
+     */
     public void setFailures(String failures) {
         this.failures = failures;
     }
 
     /**
      * this returns the string display of the number of failures that occur in a binomial trial
-     * @return
+     * @return failures
      *    return number of failures
      */
     public String getFailures() {
