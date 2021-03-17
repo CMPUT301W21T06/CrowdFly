@@ -10,19 +10,44 @@ import java.util.Map;
  * this is the Trial superclass that extends its functionalities to its subclasses
  */
 public class Trial {
-    private int trialID;
-
-    private String description;
+    public User experimenter;
+    public int trialID;
+    public String description;
     private Boolean locRequired;
     private String location;
     private String result;
     private Statistics statistics;
-    private User recordedBy;
 
-
+    //This constructor needs to include the experimenter who created the trial eventually
     public Trial(String description) {
+        this.trialID = TrialLog.getTrialLog().getTrials().size()+ 1;
         this.description = description;
+//        this.experimenter = experimenter;
+    }
 
+    /***
+     * this returns the experimenter that created the trial
+     * @return experimenter
+     */
+    public User getExperimenter() {
+        return experimenter;
+    }
+
+
+    /***
+     * this returns the trial ID number
+     * @return int
+     */
+    public int getTrialID() {
+        return trialID;
+    }
+
+    /***
+     * this sets the description of the trial
+     * @param description
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /***
@@ -31,6 +56,7 @@ public class Trial {
      */
     public Trial(Map<String, Object> data) {
         this.description = (String) data.get("description");
+        this.trialID = (int) (long) data.get("trialID");
     }
 
 
@@ -43,18 +69,23 @@ public class Trial {
     public String getDescription() {
         return description;
     }
+
+
+
     public void specifyLocReq(Boolean locReq){}
     public void specifyLoc(String location){}
     public String getLoc(){return "";}
     private void warnUsers(){}
 
-
+    /***
+     * this transforms the Trial to a HashMap that is fed into the database
+     * @return Map
+     */
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
         trl.put("description", this.description);
-        //trl.put("successes", this.successes);
-        //trl.put("failures", this.failures);
-        trl.put("owner", String.format("users/{}", this.recordedBy.getUserID()));
+        trl.put("trialID",this.trialID);
+        trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
 
         return trl;
     }

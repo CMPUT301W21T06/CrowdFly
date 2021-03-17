@@ -1,5 +1,7 @@
 package com.cmput301w21t06.crowdfly.Models;
 
+import android.service.autofill.AutofillService;
+
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 
 import java.util.HashMap;
@@ -10,22 +12,13 @@ import java.util.Map;
  */
 
 public class BinomialTrial extends Trial{
-    private int trialID;
     private String successes;
     private String failures;
-    private String description;
-    private int owner;
-
-
 
     public BinomialTrial(String description, String successes, String failures) {
-        super(description);
-        this.description = description;
+        super(description); //This needs to match the Trial constructor with the user experimenter
         this.successes = successes;
         this.failures = failures;
-
-        // set id to maxID + 1
-        trialID = TrialLog.getTrialLog().getTrials().size() + 1;
     }
 
     /***
@@ -34,11 +27,8 @@ public class BinomialTrial extends Trial{
      */
     public BinomialTrial(Map<String, Object> data) {
         super(data);
-        this.description = (String) data.get("description");
         this.successes = (String) data.get("successes");
         this.failures = (String) data.get("failures");
-        //this.owner = (int) data.get("owner");
-        this.trialID = (int) (long) data.get("trialID");
     }
 
     /**
@@ -49,28 +39,44 @@ public class BinomialTrial extends Trial{
     public String getSuccesses() {
         return successes;
     }
-    
+
+    /**
+     * sets the string display of the number of successes that occur in a binomial trial
+     * @param successes
+     */
+    public void setSuccesses(String successes) {
+        this.successes = successes;
+    }
+
+    /**
+     * sets the string display of the number of failures that occur in a binomial trial
+     * @param failures
+     */
+    public void setFailures(String failures) {
+        this.failures = failures;
+    }
+
     /**
      * this returns the string display of the number of failures that occur in a binomial trial
-     * @return
+     * @return failures
      *    return number of failures
      */
     public String getFailures() {
         return failures;
     }
 
-    public int getTrialID() {
-        return trialID;
-    }
 
-
+    /***
+     * this transforms the Binomial Trial to a HashMap that is fed into the database
+     * @return Map
+     */
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
         trl.put("trialID", this.trialID);
         trl.put("description", this.description);
         trl.put("successes", this.successes);
         trl.put("failures", this.failures);
-        //trl.put("owner", String.format("users/{}", this.recordedBy.getUserID()));
+        trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
 
         return trl;
     }
