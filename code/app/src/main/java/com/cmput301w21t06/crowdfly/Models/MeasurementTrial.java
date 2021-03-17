@@ -14,7 +14,6 @@ public class MeasurementTrial extends Trial{
 
     public MeasurementTrial(String description, String measurement) {
         super(description);
-        this.description = description;
         this.measurement = measurement;
 
     }
