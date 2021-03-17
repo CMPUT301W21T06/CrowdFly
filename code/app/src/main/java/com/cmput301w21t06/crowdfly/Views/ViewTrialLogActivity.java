@@ -105,6 +105,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.e("onItemClick Item", String.valueOf(adapterView.getAdapter().getItem(i)));
                 if (trialType.equals("binomial")){
                     EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                     entry_pos = i;
@@ -120,7 +121,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
                 if (trialType.equals("measurement")){
                     EditMeasureTrialFragment editMeasureTrialFragment = new EditMeasureTrialFragment();
                     entry_pos = i;
+                    Object mtrial_check = adapterView.getAdapter().getItem(i);
+                    Log.e("mtrial_check",String.valueOf(mtrial_check));
                     MeasurementTrial mtrial = (MeasurementTrial) adapterView.getAdapter().getItem(i);
+                    Log.e("mtrial",String.valueOf(mtrial));
                     editMeasureTrialFragment.newInstance(mtrial).show(getSupportFragmentManager(), "EDIT TEXT");}
                 }
         });

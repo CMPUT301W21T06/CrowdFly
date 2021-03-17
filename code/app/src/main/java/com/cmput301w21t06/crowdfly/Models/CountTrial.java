@@ -10,16 +10,11 @@ import java.util.Map;
  */
 
 public class CountTrial extends Trial{
-    private int trialID;
-    private String description;
     private String count;
 
     public CountTrial(String description, String count) {
         super(description);
-        this.description = description;
         this.count = count;
-
-        trialID = TrialLog.getTrialLog().getTrials().size() + 1;
     }
 
     /***
@@ -28,12 +23,8 @@ public class CountTrial extends Trial{
      */
     public CountTrial(Map<String, Object> data) {
         super(data);
-        this.description = (String) data.get("description");
         this.count = (String) data.get("count");
-        //this.owner = (int) data.get("owner");
-        // set id to maxID + 1
 
-        trialID = (int) (long) data.get("trialID");
     }
 
     /**
@@ -48,12 +39,16 @@ public class CountTrial extends Trial{
     }
 
 
+    /***
+     * this transforms the Count Trial to a HashMap that is fed into the database
+     * @return Map
+     */
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
         trl.put("trialID", this.trialID);
         trl.put("description", this.description);
         trl.put("count", this.count);
-        //trl.put("owner", String.format("users/{}", this.recordedBy.getUserID()));
+        trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
 
         return trl;
     }

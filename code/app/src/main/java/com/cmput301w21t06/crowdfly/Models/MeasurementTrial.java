@@ -10,16 +10,16 @@ import java.util.Map;
  * this is the Measurement Trial subclass that specifies Measurement Trial getters and setters
  */
 public class MeasurementTrial extends Trial{
-    private int trialID;
+//    private int trialID;
     private String measurement;
-    private String description;
+//    private String description;
 
     public MeasurementTrial(String description, String measurement) {
         super(description);
         this.description = description;
         this.measurement = measurement;
 
-        trialID = TrialLog.getTrialLog().getTrials().size() + 1;
+//        trialID = TrialLog.getTrialLog().getTrials().size() + 1;
     }
 
     /***
@@ -28,11 +28,12 @@ public class MeasurementTrial extends Trial{
      */
     public MeasurementTrial(Map<String, Object> data) {
         super(data);
-        this.description = (String) data.get("description");
+//        this.description = (String) data.get("description");
+        // this should be passed to the parent
         this.measurement = (String) data.get("measurement");
         //this.owner = (int) data.get("owner");
         // set id to maxID + 1
-        this.trialID = (int) (long) data.get("trialID");
+//        this.trialID = (int) (long) data.get("trialID");
 
     }
 
@@ -49,6 +50,10 @@ public class MeasurementTrial extends Trial{
         return trialID;
     }
 
+    /***
+     * this transforms the Measurement Trial to a HashMap that is fed into the database
+     * @return Map
+     */
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
         trl.put("trialID", this.trialID);
