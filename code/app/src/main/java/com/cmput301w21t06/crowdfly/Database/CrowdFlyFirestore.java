@@ -1,10 +1,15 @@
 package com.cmput301w21t06.crowdfly.Database;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Registry;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.module.AppGlideModule;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
@@ -13,6 +18,7 @@ import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +32,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +44,7 @@ import java.util.Map;
  */
 public class CrowdFlyFirestore {
     private final FirebaseFirestore firestoreInstance = FirebaseFirestore.getInstance();
+    private final FirebaseStorage storage = FirebaseStorage.getInstance();
 
     // not too sure why we need userID?
     //    private String userID;
@@ -184,7 +194,10 @@ public class CrowdFlyFirestore {
                    }
                });
    }
-
+    public void getProfilePic(OnDoneGetProfilePicListener onDoneGetProfilePicListener) {
+        StorageReference imgRef = storage.getReferenceFromUrl("gs://crowdfly-76eb6.appspot.com/smiley.png");
+        onDoneGetProfilePicListener.onDoneGetProfilePic(imgRef);
+    }
     /**
      * Sets document at given path
      * @param path
@@ -265,4 +278,10 @@ public class CrowdFlyFirestore {
     public interface OnDoneGetTrialsListener {
         public void onDoneGetTrials(TrialLog trialList);
     }
+
+    public interface OnDoneGetProfilePicListener {
+        public void onDoneGetProfilePic(StorageReference pic);
+    }
+
+
 }
