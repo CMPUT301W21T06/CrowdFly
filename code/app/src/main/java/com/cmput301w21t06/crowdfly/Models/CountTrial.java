@@ -11,9 +11,11 @@ import java.util.Map;
 
 public class CountTrial extends Trial{
     private String count;
+    private String description;
 
     public CountTrial(String description, String count) {
         super(description);
+        this.description = description;
         this.count = count;
     }
 
@@ -49,7 +51,9 @@ public class CountTrial extends Trial{
         trl.put("trialID", this.trialID);
         trl.put("description", this.description);
         trl.put("count", this.count);
-//        trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
+
+        //trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
+
 
         return trl;
     }
