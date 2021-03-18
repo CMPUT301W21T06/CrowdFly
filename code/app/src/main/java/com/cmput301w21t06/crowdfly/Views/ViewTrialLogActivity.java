@@ -54,6 +54,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         setupData();
         setUpList();
 
+        trialArrayList = trialLog.getTrials();
+        Log.e("VTLA - expID", String.valueOf(expID));
+        Log.e("trialArrayListsize", String.valueOf(trialArrayList.size()));
+
         questionButton = findViewById(R.id.questionButton);
         questionButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -105,26 +109,30 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Trial x = trialLog.getTrial(i);
+                Log.e("VTLA-TrialID", String.valueOf(x.getTrialID()));
+//                for(int k =  0; k < trialArrayList.size(); k++){A
+//                    Log.e("trial ", String.valueOf(trialArrayList.get(k).getTrialID()));
+//                }
                 Log.e("onItemClick Item", String.valueOf(adapterView.getAdapter().getItem(i)));
                 if (trialType.equals("binomial")){
                     EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                     entry_pos = i;
-                    BinomialTrial btrial = (BinomialTrial) adapterView.getAdapter().getItem(i);
-                    editBinomialTrialFragment.newInstance(btrial).show(getSupportFragmentManager(), "EDIT TEXT");
+                    Log.e("Item # selected", String.valueOf(i));
+//                    trialLog.getTrial()
+//                    BinomialTrial btrial = (BinomialTrial) adapterView.getAdapter().getItem(i);
+//                    editBinomialTrialFragment.newInstance(btrial).show(getSupportFragmentManager(), "EDIT TEXT");
                 }
                 if (trialType.equals("count")){
                     EditCountTrialFragment editCountTrialFragment = new EditCountTrialFragment();
                     entry_pos = i;
-                    CountTrial ctrial = (CountTrial) adapterView.getAdapter().getItem(i);
-                    editCountTrialFragment.newInstance(ctrial).show(getSupportFragmentManager(), "EDIT TEXT");
+//                    CountTrial ctrial = (CountTrial) adapterView.getAdapter().getItem(i);
+//                    editCountTrialFragment.newInstance(ctrial).show(getSupportFragmentManager(), "EDIT TEXT");
                 }
                 if (trialType.equals("measurement")){
                     EditMeasureTrialFragment editMeasureTrialFragment = new EditMeasureTrialFragment();
                     entry_pos = i;
-                    Object mtrial_check = adapterView.getAdapter().getItem(i);
-                    Log.e("mtrial_check",String.valueOf(mtrial_check));
                     MeasurementTrial mtrial = (MeasurementTrial) adapterView.getAdapter().getItem(i);
-                    Log.e("mtrial",String.valueOf(mtrial));
                     editMeasureTrialFragment.newInstance(mtrial).show(getSupportFragmentManager(), "EDIT TEXT");}
                 }
         });
@@ -142,6 +150,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
 
         // get all experiment data from firestore
         new CrowdFlyFirestore().getTrialData(expID, this);
+        trialArrayList = trialLog.getTrials();
+        for(int k =  0; k < trialArrayList.size(); k++){
+            Log.e("trial ", String.valueOf(trialArrayList.get(k).getTrialID()));
+        }
 
 
 //        if (counter >= 1) {
@@ -172,7 +184,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         listView = findViewById(R.id.trialListView);
         //adapter = new TrialAdapter(getApplicationContext(), 0, trialArrayList);
         adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials());
-        Log.e("triallog", String.valueOf(trialLog.getTrials()));
         listView.setAdapter(adapter);
     }
 

@@ -13,12 +13,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestorePaths;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.ViewStatisticActivity;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ import java.util.List;
 public class TrialAdapter extends ArrayAdapter<Trial> {
 
     private Context context;
+
     public TrialAdapter(@NonNull Context context, int resource, @NonNull List<Trial> trialList) {
         super(context, resource, trialList);
         this.context = context;
@@ -38,6 +42,7 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         Trial trial = getItem(position);
+        Log.e("trialAdapter-trialID", String.valueOf(trial.getTrialID()));
 
         //learned from Bertram Gilfoyle: https://stackoverflow.com/users/7594961/bertram-gilfoyle
         //from stackoverflow
@@ -64,6 +69,8 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
 
         // checking the exact type of the trial so it can correctly set the text boxes in the content in the list view
         // specific trial types have specific methods
+
+
         if (trial instanceof BinomialTrial){
             Log.d("Trial Adapter:","if statement selects this as a binomial trial");
             String successDisplay = "S:";

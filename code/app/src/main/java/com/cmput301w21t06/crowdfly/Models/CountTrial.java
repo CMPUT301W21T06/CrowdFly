@@ -21,6 +21,7 @@ public class CountTrial extends Trial{
      *
      * @param data
      */
+
     public CountTrial(Map<String, Object> data) {
         super(data);
         this.count = (String) data.get("count");
@@ -48,7 +49,7 @@ public class CountTrial extends Trial{
         trl.put("trialID", this.trialID);
         trl.put("description", this.description);
         trl.put("count", this.count);
-        trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
+//        trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
 
         return trl;
     }
