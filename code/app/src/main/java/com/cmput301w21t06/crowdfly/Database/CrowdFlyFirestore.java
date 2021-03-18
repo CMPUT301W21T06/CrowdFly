@@ -440,7 +440,7 @@ public class CrowdFlyFirestore {
      * @param experimentId
      */
 
-    public void deleteExperiment(int experimentId) {
+    public void deleteExperiment(String experimentId) {
 
         CollectionReference expData = this.getCollectionReference("Experiments");
         expData.document(String.valueOf(experimentId)).delete();
