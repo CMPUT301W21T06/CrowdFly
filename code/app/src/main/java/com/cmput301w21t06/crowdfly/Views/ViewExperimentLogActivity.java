@@ -72,7 +72,18 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
 
             }
         });
+        //delete experiment on long click
+        experimentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                new CrowdFlyFirestore().deleteExperiment(expAdapter.getItem(i).getExperimentId());
+                experimentLog.removeExperiment(i);
+                expAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
     }
+
 
     @Override
     public void onDoneGetExperiments(ExperimentLog expLog) {
