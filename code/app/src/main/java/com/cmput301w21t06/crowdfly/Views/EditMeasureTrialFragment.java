@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -37,6 +38,7 @@ public class EditMeasureTrialFragment extends DialogFragment {
     }
     public static EditMeasureTrialFragment newInstance(MeasurementTrial new_trial){
         Bundle args = new Bundle();
+//        Log.e("mTRIAL measure",new_trial.getMeasurement());
         args.putString("measure", new_trial.getMeasurement());
         args.putString("desc", new_trial.getDescription());
 

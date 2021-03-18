@@ -77,7 +77,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
         trialArrayList = trialLog.getTrials();
         Log.e("VTLA - expID", String.valueOf(expID));
-        Log.e("trialArrayListsize", String.valueOf(trialArrayList.size()));
 
         questionButton = findViewById(R.id.questionButton);
         questionButton.setOnClickListener(new View.OnClickListener(){
@@ -165,14 +164,15 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
                     Trial x = trialLog.getTrial(i);
                     Log.e("VTLA-TrialID", String.valueOf(x.getTrialID()));
-
-                    Log.e("onItemClick Item", String.valueOf(adapterView.getAdapter().getItem(i)));
+//                    Log.e("onItemClick Item", String.valueOf(adapterView.getAdapter().getItem(i)));
                     if (trialType.equals("binomial")) {
                         EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                         entry_pos = i;
                         Trial btrial = (Trial) adapterView.getAdapter().getItem(i);
                         String trialIDAtPos = btrial.getTrialID();
+                        Log.e("trialIDatPOS",trialIDAtPos);
                         BinomialTrial trial = new CrowdFlyFirestore().getBTrial(expID, trialIDAtPos);
+//                        Log.e("VTLA-bin-desc",trial.getDescription());
                         editBinomialTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
@@ -183,6 +183,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         Trial ctrial = (Trial) adapterView.getAdapter().getItem(i);
                         String trialIDAtPos = ctrial.getTrialID();
                         CountTrial trial = new CrowdFlyFirestore().getCTrial(expID, trialIDAtPos);
+//                        Log.e("VTLA-count-desc",trial.getDescription());
                         editCountTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
@@ -219,10 +220,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
         // get all experiment data from firestore
         new CrowdFlyFirestore().getTrialData(expID, this);
-        trialArrayList = trialLog.getTrials();
-        for(int k =  0; k < trialArrayList.size(); k++){
-            Log.e("trial ", String.valueOf(trialArrayList.get(k).getTrialID()));
-        }
 
 
 //        if (counter >= 1) {
@@ -252,7 +249,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private void setUpList(){
         listView = findViewById(R.id.trialListView);
         //adapter = new TrialAdapter(getApplicationContext(), 0, trialArrayList);
-        adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials());
+        adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials(),trialType,expID);
         listView.setAdapter(adapter);
     }
 
