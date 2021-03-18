@@ -19,7 +19,7 @@ public class MeasurementTrial extends Trial{
     }
 
     /***
-     *
+     * this is the hashmap constructor for measurement trial
      * @param data
      */
     public MeasurementTrial(Map<String, Object> data) {

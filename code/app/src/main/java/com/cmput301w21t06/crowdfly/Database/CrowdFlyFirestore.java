@@ -60,7 +60,6 @@ public class CrowdFlyFirestore {
 
     /**
      * Create new user by getting the global user counter and incrementing it once its assigned.
-     *
      * This method should only be used once when creating the user. Use set profile to update.
      * @param user
      */
@@ -131,7 +130,6 @@ public class CrowdFlyFirestore {
 
     /**
      * Sets a subscribed user
-     *
      * @param experiment
      * @param user
      */
@@ -175,6 +173,7 @@ public class CrowdFlyFirestore {
 
     /***
      * Gets collection of experiments - ie. gets the full list of experiments from FireStore.
+     * @param onDoneGetExpLogListener
      */
     public void getExperimentLogData(OnDoneGetExpLogListener onDoneGetExpLogListener) {
         CollectionReference expData = this.getCollectionReference("Experiments");
@@ -202,7 +201,6 @@ public class CrowdFlyFirestore {
 
     /**
      * Gets a single experiment
-     *
      * @param experimentId
      * @param onDoneGetExperiment
      */
@@ -281,11 +279,16 @@ public class CrowdFlyFirestore {
                    }
                });
    }
-    public void getProfilePic(OnDoneGetProfilePicListener onDoneGetProfilePicListener) {
+    /**
+     * this gets a default profile pic for each user
+     * @param onDoneGetProfilePicListener
+     * */
+   public void getProfilePic(OnDoneGetProfilePicListener onDoneGetProfilePicListener) {
         StorageReference imgRef = storage.getReferenceFromUrl("gs://crowdfly-76eb6.appspot.com/smiley.png");
         onDoneGetProfilePicListener.onDoneGetProfilePic(imgRef);
     }
     /**
+     * this takes in an experiment ID and trial ID and references to the DB to create a trial
      * @return
      *      measurement trial
      * @param expID
@@ -307,8 +310,9 @@ public class CrowdFlyFirestore {
    }
 
     /**
+     * this takes in an experiment ID and trial ID and references to the DB to create a trial
      * @return
-     *      measurement trial
+     *      count trial
      * @param expID
      * @param trialID
      */
@@ -328,8 +332,9 @@ public class CrowdFlyFirestore {
     }
 
     /**
+     * this takes in an experiment ID and trial ID and references to the DB to create a trial
      * @return
-     *      measurement trial
+     *      binomial trial
      * @param expID
      * @param trialID
      */
@@ -353,6 +358,12 @@ public class CrowdFlyFirestore {
         BinomialTrial newBTrial = new BinomialTrial(bDescription[0], bSuccesses[0], bFailures[0]);
         return newBTrial;
     }
+
+    /**
+     * this removes trial data according to the experiment ID And trial ID
+     * @param expID
+     * @param trialID
+     */
     public void removeTrialData(String expID, String trialID){
         CollectionReference trialRef = this.getCollectionReference(CrowdFlyFirestorePaths.trials(expID));
 
@@ -398,8 +409,6 @@ public class CrowdFlyFirestore {
             }
         });
     }
-
-
 
     /**
      * Updates document at given path
@@ -478,7 +487,9 @@ public class CrowdFlyFirestore {
         public void onDoneGetTrials(TrialLog trialList);
     }
 
-
+    /***
+     * Interface for retrieving the profile picture
+     */
     public interface OnDoneGetProfilePicListener {
         public void onDoneGetProfilePic(StorageReference pic);
     }
