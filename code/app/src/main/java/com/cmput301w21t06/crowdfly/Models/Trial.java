@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Trial {
     public User experimenter;
-    public int trialID;
+    public String trialID;
     public String description;
     private Boolean locRequired;
     private String location;
@@ -20,7 +20,6 @@ public class Trial {
 
     //This constructor needs to include the experimenter who created the trial eventually
     public Trial(String description) {
-        this.trialID = TrialLog.getTrialLog().getTrials().size()+ 1;
         this.description = description;
 //        this.experimenter = experimenter;
     }
@@ -36,10 +35,14 @@ public class Trial {
 
     /***
      * this returns the trial ID number
-     * @return int
+     * @return String
      */
-    public int getTrialID() {
+    public String getTrialID() {
         return trialID;
+    }
+
+    public void setTrialID(String trialID) {
+        this.trialID = trialID;
     }
 
     /***
@@ -56,7 +59,7 @@ public class Trial {
      */
     public Trial(Map<String, Object> data) {
         this.description = (String) data.get("description");
-        this.trialID = (int) (long) data.get("trialID");
+        this.trialID = (String) data.get("trialID");
     }
 
 
