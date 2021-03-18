@@ -14,17 +14,33 @@ import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
 
+/**
+ * this is the experiment adapter that adapts a view in a specific position
+ */
 public class ExperimentContent extends ArrayAdapter<Experiment> {
 
     private ArrayList<Experiment> experiments;
     private Context context;
 
+    /**
+     * this is the constructor of the experiment adapter
+     * @param context
+     * @param experiments
+     */
     public ExperimentContent(Context context, ArrayList<Experiment> experiments) {
         super(context, 0, experiments);
         this.experiments = experiments;
         this.context = context;
     }
 
+    /**
+     * this is responsible for creating the views for a particular position
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     *      a view at a particular position
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 

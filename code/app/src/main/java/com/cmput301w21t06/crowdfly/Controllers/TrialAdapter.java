@@ -26,10 +26,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this is the trial adapter that adapts a view in a specific position
+ */
+
 public class TrialAdapter extends ArrayAdapter<Trial> {
 
     private Context context;
-
+    /**
+     * this is the constructor of trial adapter
+     * @param context
+     * @param resource
+     * @param trialList
+     */
     public TrialAdapter(@NonNull Context context, int resource, @NonNull List<Trial> trialList) {
         super(context, resource, trialList);
         this.context = context;
@@ -37,6 +46,15 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
     //learned about getView ArrayAdapter method from vipul mittal: https://stackoverflow.com/users/1423227/vipul-mittal
     //from stackoverflow
     //from: https://stackoverflow.com/questions/6442054/how-does-arrayadapter-getview-method-works
+
+    /**
+     * this is responsible for creating the views for a particular position
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     *      a view at a particular position
+     */
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
@@ -52,7 +70,6 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
         }
 
         //set variables to particular views
-
         TextView trialInfo = (TextView) convertView.findViewById(R.id.itemSuccesses);
         TextView desc = convertView.findViewById(R.id.itemDescription);
         Button statbtn = convertView.findViewById(R.id.statButton);

@@ -5,6 +5,9 @@ import com.cmput301w21t06.crowdfly.Models.Trial;
 
 import java.util.ArrayList;
 
+/**
+ * this is the trial log that updates/keeps track of a singleton experiment arraylist
+ */
 public class TrialLog {
 
     private static final TrialLog singleton = new TrialLog();
@@ -58,6 +61,11 @@ public class TrialLog {
      */
     public void resetTrialLog() { trials = new ArrayList<>(); }
 
+    /**
+     * sets a trial in a particular position
+     * @param position
+     * @param trial
+     */
     public void set(int position, Trial trial){
         this.trials.set(position,trial);
     }
