@@ -1,5 +1,6 @@
 package com.cmput301w21t06.crowdfly.Models;
 
+import com.cmput301w21t06.crowdfly.Controllers.SubscriptionManager;
 import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
@@ -20,13 +21,10 @@ public class Experiment {
     private ArrayList<User> subscribedUsers;
     private ArrayList<Trial> trials;
     private ArrayList<Question> questions;
-    private User owner;
+    private String ownerID;
     private QRManager qrCode;
     private Boolean published;
-    private int experimentId;
-    
-    // no users in place at the moment, just gonna comment it out for now
-    // public Experiment(String desc, String reg, int minT, ArrayList<User> subscribedU, String owner){}
+    private String experimentId;
 
     /***
      * General constructor for Experiment class
@@ -45,8 +43,6 @@ public class Experiment {
         trials = new ArrayList<>();
         questions = new ArrayList<>();
 
-        // set id to maxID + 1
-        experimentId = ExperimentLog.getExperimentLog().getExperiments().size() + 1;
     }
 
     /***
@@ -59,14 +55,22 @@ public class Experiment {
         this.region = (String) data.get("region");
         this.minTrials = (int) (long) data.get("minTrials");
         this.stillRunning = (boolean) data.get("stillRunning");
-        // this.owner = owner;
-        this.experimentId = (int) (long) data.get("experimentID");
+        this.ownerID = (String) data.get("ownerID");
+        this.experimentId = (String) data.get("experimentID");
         this.published = (boolean) data.get("published");
     }
 
     // methods
     public void summarizeTrials(ArrayList<Trial> t){}
-    public void subscribe(User user){}
+    public void subscribe(User user){
+        new SubscriptionManager().subscribe(user, this);
+    }
+    public void unsubscribe(User user){
+        new SubscriptionManager().unsubscribe(user, this);
+    }
+    public void isSubscribed(User user, SubscriptionManager.OnDoneGetSubscribedListener onDoneGetSubscribedListener){
+        new SubscriptionManager().isSubscribed(this, user, onDoneGetSubscribedListener);
+    }
     public void changeType(int type){}
     public void addTrial(Trial trial){}
     public void ignore(ArrayList<User> subscribedUsers ){}
@@ -81,11 +85,19 @@ public class Experiment {
     public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
     public ArrayList<Trial> getTrials() {return trials;}
     public ArrayList<Question> getQuestions() {return questions;}
-    public User getOwner() {return owner;}
+    public String getOwnerID() {return ownerID;}
     public QRManager getQRManager() {return qrCode;}
     public Boolean getPublished() {return published;}
 
-    public int getExperimentId() {
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    public void setExperimentId(String experimentId) {
+        this.experimentId = experimentId;
+    }
+
+    public String getExperimentId() {
         return experimentId;
     }
 
@@ -94,7 +106,7 @@ public class Experiment {
         exp.put("description", this.description);
         exp.put("experimentID", this.experimentId);
         exp.put("minTrials", this.minTrials);
-        // exp.put("owner", String.format("/users/{}", this.owner.getUserID()));
+        exp.put("ownerID", this.ownerID);
         exp.put("published", this.published);
         exp.put("region", this.region);
         exp.put("stillRunning", this.stillRunning);
