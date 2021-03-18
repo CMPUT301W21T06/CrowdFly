@@ -9,8 +9,9 @@ import com.cmput301w21t06.crowdfly.Models.Experiment;
 import java.util.ArrayList;
 
 
-
-
+/**
+ * this is the experiment log that updates/keeps track of a singleton experiment arraylist
+ */
 public class ExperimentLog {
 
 

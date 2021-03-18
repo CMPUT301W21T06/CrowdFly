@@ -54,7 +54,7 @@ public class Trial {
     }
 
     /***
-     *
+     * this is the hash map constructor for trial
      * @param data
      */
     public Trial(Map<String, Object> data) {
@@ -72,8 +72,6 @@ public class Trial {
     public String getDescription() {
         return description;
     }
-
-
 
     public void specifyLocReq(Boolean locReq){}
     public void specifyLoc(String location){}

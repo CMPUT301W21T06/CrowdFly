@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * this is the experiment model class involving model functions
+ */
+
 public class Experiment {
     // Eventually this class will import and export JSON objects to firebase, so these attributes
     //methods are subject to change
@@ -60,14 +64,29 @@ public class Experiment {
         this.published = (boolean) data.get("published");
     }
 
-    // methods
+
     public void summarizeTrials(ArrayList<Trial> t){}
+
+    /**
+     * this allows a user to subscribe to an experiment
+     * @param user
+     */
     public void subscribe(User user){
         new SubscriptionManager().subscribe(user, this);
     }
+
+    /**
+     * this allows a user to unsubscribe to an experiment
+     * @param user
+     */
     public void unsubscribe(User user){
         new SubscriptionManager().unsubscribe(user, this);
     }
+
+    /**
+     * this determines if or if not the user is subscribed to the following experiment
+     * @param user
+     */
     public void isSubscribed(User user, SubscriptionManager.OnDoneGetSubscribedListener onDoneGetSubscribedListener){
         new SubscriptionManager().isSubscribed(this, user, onDoneGetSubscribedListener);
     }
@@ -89,18 +108,14 @@ public class Experiment {
     public QRManager getQRManager() {return qrCode;}
     public Boolean getPublished() {return published;}
 
-    public void setOwnerID(String ownerID) {
-        this.ownerID = ownerID;
-    }
+    public void setOwnerID(String ownerID) { this.ownerID = ownerID; }
+    public void setExperimentId(String experimentId) { this.experimentId = experimentId; }
+    public String getExperimentId() { return experimentId; }
 
-    public void setExperimentId(String experimentId) {
-        this.experimentId = experimentId;
-    }
-
-    public String getExperimentId() {
-        return experimentId;
-    }
-
+    /***
+     * this transforms the Experiment to a HashMap that is fed into the database
+     * @return Map
+     */
     public Map<String, Object> toHashMap() {
         Map<String, Object> exp = new HashMap<>();
         exp.put("description", this.description);

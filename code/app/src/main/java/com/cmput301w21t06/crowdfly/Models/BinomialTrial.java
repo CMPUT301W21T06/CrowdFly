@@ -10,19 +10,24 @@ import java.util.Map;
 /**
  * this is the Binomial Trial subclass that specifies Binomial Trial getters and setters
  */
-
 public class BinomialTrial extends Trial{
     private String successes;
     private String failures;
 
+    /**
+     * this is the main constructor for purposes of instantiating a valid binomial trial
+     * @param description
+     * @param successes
+     * @param failures
+     */
     public BinomialTrial(String description, String successes, String failures) {
         super(description); //This needs to match the Trial constructor with the user experimenter
         this.successes = successes;
         this.failures = failures;
     }
 
-    /***
-     *
+    /**
+     * this is a hashmap constructor for the purposes of getting data from the DB
      * @param data
      */
     public BinomialTrial(Map<String, Object> data) {
@@ -77,9 +82,7 @@ public class BinomialTrial extends Trial{
         trl.put("successes", this.successes);
         trl.put("failures", this.failures);
         //trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
-
-
-
+        
         return trl;
     }
 }
