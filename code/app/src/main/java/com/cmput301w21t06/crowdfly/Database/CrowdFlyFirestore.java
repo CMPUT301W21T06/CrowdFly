@@ -43,7 +43,7 @@ import java.util.concurrent.Executor;
 /**
  * Main class to contain all methods of interacting with Firestore
  */
-public class CrowdFlyFirestore {
+public class  CrowdFlyFirestore {
     private final FirebaseFirestore firestoreInstance = FirebaseFirestore.getInstance();
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
 
