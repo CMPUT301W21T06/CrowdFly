@@ -23,12 +23,30 @@ public class CrowdFlyFirestorePaths {
     }
 
     /***
-     * Path for expriemnts collection
+     * Path for an experiment
      * @param experimentID
      * @return
      */
-    public static final String experiments(int experimentID) {
+    public static final String experiment(String experimentID) {
         return String.format("/Experiments/%s", experimentID);
+    }
+
+    /***
+     * Path for the experiments collection
+     * @return
+     */
+    public static final String experimentsCollection() {
+        return "/Experiments";
+    }
+
+    /***
+     * Path for subscriptions sub collection for experiment
+     * @param experimentID
+     * @param userID
+     * @return
+     */
+    public static final String subscriptions(String experimentID, String userID) {
+        return String.format("/Experiments/%s/Subscribers/%s", experimentID, userID);
     }
 
     /***
@@ -36,8 +54,8 @@ public class CrowdFlyFirestorePaths {
      * @param experimentID
      * @return
      */
-    public static final String trials(int experimentID) {
-        return String.format("/Trials/%d/Trials", experimentID);
+    public static final String trials(String experimentID) {
+        return String.format("/Trials/%s/Trials", experimentID);
     }
 
     /***
@@ -46,8 +64,8 @@ public class CrowdFlyFirestorePaths {
      * @param experimentID
      * @return
      */
-    public static final String trial(int trialID, int experimentID) {
-        return String.format("/Trials/%d/Trials/%d", experimentID, trialID);
+    public static final String trial(String trialID, String experimentID) {
+        return String.format("/Trials/%s/Trials/%s", experimentID, trialID);
     }
 
     /***
@@ -56,7 +74,7 @@ public class CrowdFlyFirestorePaths {
      * @param experimentID
      * @return
      */
-    public static final String statistic(int statisticID, int experimentID) {
+    public static final String statistic(int statisticID, String experimentID) {
         return String.format("/Trials/{}/Statistics/{}", experimentID, statisticID);
     }
 
