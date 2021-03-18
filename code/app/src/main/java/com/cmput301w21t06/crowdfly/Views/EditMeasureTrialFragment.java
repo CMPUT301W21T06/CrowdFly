@@ -38,7 +38,6 @@ public class EditMeasureTrialFragment extends DialogFragment {
     }
     public static EditMeasureTrialFragment newInstance(MeasurementTrial new_trial){
         Bundle args = new Bundle();
-//        Log.e("mTRIAL measure",new_trial.getMeasurement());
         args.putString("measure", new_trial.getMeasurement());
         args.putString("desc", new_trial.getDescription());
 
@@ -71,7 +70,6 @@ public class EditMeasureTrialFragment extends DialogFragment {
                         String measurement1 = measurement.getText().toString();
                         String description1 = description.getText().toString();
                         listener.onOkPressed(new MeasurementTrial(description1, measurement1));
-                        //Log.e("brebs", itemDate1);
                     }
                 }).create();
     }

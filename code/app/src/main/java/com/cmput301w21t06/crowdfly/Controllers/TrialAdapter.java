@@ -62,7 +62,6 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         Trial trial = getItem(position);
-        Log.e("TA-trialID", String.valueOf(trial.getTrialID()));
 
         //learned from Bertram Gilfoyle: https://stackoverflow.com/users/7594961/bertram-gilfoyle
         //from stackoverflow

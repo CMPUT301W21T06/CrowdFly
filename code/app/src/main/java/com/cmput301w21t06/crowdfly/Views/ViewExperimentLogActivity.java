@@ -64,7 +64,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
                 intent.putExtra("trialType", trialType);
                 intent.putExtra("expID", String.valueOf(expID));
-                Log.e("type in experiment log", trialType);
                 startActivity(intent);
 
             }
