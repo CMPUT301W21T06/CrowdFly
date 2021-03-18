@@ -1,66 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:orientation="horizontal"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
     android:layout_height="150dp"
-    android:background="@color/colorAccent">
+    android:background="@color/colorAccent"
+    android:orientation="horizontal">
 
+    <!-- <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="348dp"
+        android:layout_marginTop="98dp"
+        android:text="del"
+        android:textSize="8dp"/>
+
+    <Button
+        android:id="@+id/editButton"
+        android:layout_width="55dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="98dp"
+        android:text="EDIT"
+        android:textSize="8dp"/>-->
 
     <TextView
         android:id="@+id/itemDescription"
-        android:layout_width="189dp"
-        android:layout_height="98dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="139dp"
+        android:layout_height="96dp"
+        android:layout_marginStart="40dp"
         android:gravity="center_vertical"
         android:text="item description"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/itemSuccesses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemSuccesses" />
 
     <TextView
         android:id="@+id/itemSuccesses"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="25dp"
+        android:layout_width="113dp"
+        android:layout_height="32dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
         android:gravity="center_vertical"
         android:text="successes"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/itemDescription"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/successmarker"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_marginLeft="250dp"
-        android:layout_marginTop="25dp"
-        android:gravity="center_vertical"
-        android:text="S:"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/itemFailures"
-        android:layout_width="76dp"
-        android:layout_height="52dp"
-        android:layout_marginLeft="280dp"
-        android:layout_marginTop="70dp"
-        android:gravity="center_vertical"
-        android:text="failures"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/failuremarker"
-        android:layout_width="80dp"
-        android:layout_height="53dp"
-        android:layout_marginLeft="250dp"
-        android:layout_marginTop="70dp"
-        android:gravity="center_vertical"
-        android:text="F: "
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="16dp" />
+    <Button
+        android:id="@+id/statButton"
+        android:layout_width="102dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="16dp"
+        android:focusable="false"
+        android:text="STATS"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
