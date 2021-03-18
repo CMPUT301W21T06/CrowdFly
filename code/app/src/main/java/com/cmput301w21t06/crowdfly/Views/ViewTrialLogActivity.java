@@ -44,10 +44,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         setContentView(R.layout.activity_view_trial_log);
 
         //only update the trialtype once per experiment
-
-        trialType =  getIntent().getStringExtra("trialType");
-        expID = Integer.parseInt(getIntent().getStringExtra("expID"));
-
+        if (counter < 1){
+            trialType =  getIntent().getStringExtra("trialType");
+            expID = Integer.parseInt(getIntent().getStringExtra("expID"));
+        }
         trialLog = TrialLog.getTrialLog();
 
         //setup the data
@@ -118,14 +118,17 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
                     CountTrial ctrial = (CountTrial) adapterView.getAdapter().getItem(i);
                     editCountTrialFragment.newInstance(ctrial).show(getSupportFragmentManager(), "EDIT TEXT");
                 }
-                if (trialType.equals("measurement")){
+                if (trialType.equals("measurement")) {
                     EditMeasureTrialFragment editMeasureTrialFragment = new EditMeasureTrialFragment();
                     entry_pos = i;
-                    Object mtrial_check = adapterView.getAdapter().getItem(i);
-                    Log.e("mtrial_check",String.valueOf(mtrial_check));
-                    MeasurementTrial mtrial = (MeasurementTrial) adapterView.getAdapter().getItem(i);
-                    Log.e("mtrial",String.valueOf(mtrial));
-                    editMeasureTrialFragment.newInstance(mtrial).show(getSupportFragmentManager(), "EDIT TEXT");}
+                    Trial mtrial = (Trial) adapterView.getAdapter().getItem(i);
+                    int trialIDAtPos = mtrial.getTrialID();
+                    //Log.e("mtrial_id", String.valueOf(trialIDAtPos));
+                   //MeasurementTrial trial = (MeasurementTrial) new CrowdFlyFirestore().getMTrial(expID, trialIDAtPos);
+                    MeasurementTrial trial = new CrowdFlyFirestore().getMTrial(expID, trialIDAtPos);
+                    editMeasureTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
+
+                }
                 }
         });
 
@@ -172,7 +175,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         listView = findViewById(R.id.trialListView);
         //adapter = new TrialAdapter(getApplicationContext(), 0, trialArrayList);
         adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials());
-        Log.e("triallog", String.valueOf(trialLog.getTrials()));
+        //Log.e("triallog", String.valueOf(trialLog.getTrials()));
         listView.setAdapter(adapter);
     }
 
@@ -192,7 +195,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
 
     @Override
     public void onOkPressed(MeasurementTrial mtrial) {
-        trialArrayList.set(entry_pos, mtrial);
+        this.trialLog.set(entry_pos, mtrial);
         setUpList();
     }
 

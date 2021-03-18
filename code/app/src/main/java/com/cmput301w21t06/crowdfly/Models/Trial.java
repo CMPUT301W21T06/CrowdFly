@@ -85,7 +85,7 @@ public class Trial {
         Map<String, Object> trl = new HashMap<>();
         trl.put("description", this.description);
         trl.put("trialID",this.trialID);
-        trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
+        //trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
 
         return trl;
     }

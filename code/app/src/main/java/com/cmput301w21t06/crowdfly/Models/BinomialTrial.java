@@ -76,7 +76,7 @@ public class BinomialTrial extends Trial{
         trl.put("description", this.description);
         trl.put("successes", this.successes);
         trl.put("failures", this.failures);
-        trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
+        //trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
 
         return trl;
     }
