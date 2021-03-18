@@ -44,7 +44,7 @@ public class ExperimentContent extends ArrayAdapter<Experiment> {
 
         // set content description
         description.setText(experiment.getDescription());
-        ownerName.setText("wonbin");
+        ownerName.setText(experiment.getOwnerID());
         status.setText(experiment.getStatus() ? "Active" : "Not Active" );
         numTrials.setText(String.valueOf(experiment.getMinTrials()));
         region.setText(experiment.getRegion());

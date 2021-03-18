@@ -108,17 +108,17 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
                 if(trialType.equals("binomial")){
                     BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures);
                     trialLog.addTrial(new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures));
-                    new CrowdFlyFirestore().setBinomialTrialData(trialAdd, Integer.parseInt(expID));
+                    new CrowdFlyFirestore().addTrialData(trialAdd, expID);
                 }
                 if(trialType.equals("count")){
                     CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount);
                     trialLog.addTrial(new CountTrial(newTrialDescription, newTrialCount));
-                    new CrowdFlyFirestore().setCountTrialData(trialAdd, Integer.parseInt(expID));
+                    new CrowdFlyFirestore().addTrialData(trialAdd, expID);
                 }
                 if(trialType.equals("measurement")){
                     MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement);
                     trialLog.addTrial(new MeasurementTrial(newTrialDescription, newTrialMeasurement));
-                    new CrowdFlyFirestore().setMeasurementTrialData(trialAdd, Integer.parseInt(expID));
+                    new CrowdFlyFirestore().addTrialData(trialAdd, expID);
                 }
 
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
