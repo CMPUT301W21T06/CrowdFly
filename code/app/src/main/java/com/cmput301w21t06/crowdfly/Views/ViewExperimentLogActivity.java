@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentContent;
@@ -18,9 +17,7 @@ import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 
-import java.util.ArrayList;
-
-public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetExpListener {
+public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetExpLogListener {
     private ListView experimentListView;
     private ArrayAdapter<Experiment> expAdapter;
     private ExperimentContent experimentContent;
@@ -37,7 +34,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentLog = ExperimentLog.getExperimentLog();
 
         // get all experiment data from firestore
-        new CrowdFlyFirestore().getExperimentData(this);
+        new CrowdFlyFirestore().getExperimentLogData(this);
 
         experimentListView = findViewById(R.id.experiment_list);
         btnAddExperiment = findViewById(R.id.experiment_add);
@@ -63,7 +60,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 //String trialType = getIntent().getStringExtra("trialType");
                 Experiment experiment = (Experiment) adapterView.getAdapter().getItem(i);
                 String trialType = experiment.getDescription();
-                int expID = experiment.getExperimentId();
+                String expID = experiment.getExperimentId();
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
                 intent.putExtra("trialType", trialType);
                 intent.putExtra("expID", String.valueOf(expID));
