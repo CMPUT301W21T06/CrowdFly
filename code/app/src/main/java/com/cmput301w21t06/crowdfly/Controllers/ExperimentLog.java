@@ -1,3 +1,7 @@
+// ExperimentLog Singleton code adapted from Professor Abram Hindle
+// https://eclass.srv.ualberta.ca/mod/forum/discuss.php?d=1611626
+// Date Posted: Monday, 18 January 2021, 12:10 PM
+
 package com.cmput301w21t06.crowdfly.Controllers;
 
 import com.cmput301w21t06.crowdfly.Models.Experiment;
