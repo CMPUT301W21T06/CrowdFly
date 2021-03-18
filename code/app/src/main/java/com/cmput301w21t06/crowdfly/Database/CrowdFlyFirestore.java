@@ -322,6 +322,16 @@ public class CrowdFlyFirestore {
     private CollectionReference getCollectionReference(String path) {
         return firestoreInstance.collection(path);
     }
+    /**
+     *  Deletes an experiment
+     * @param experimentId
+     */
+
+    public void deleteExperiment(int experimentId) {
+
+        CollectionReference expData = this.getCollectionReference("Experiments");
+        expData.document(String.valueOf(experimentId)).delete();
+    }
 
     /**
      * Interface for listeners for when User is successfully retrieved
@@ -343,4 +353,6 @@ public class CrowdFlyFirestore {
     public interface OnDoneGetTrialsListener {
         public void onDoneGetTrials(TrialLog trialList);
     }
+
+
 }
