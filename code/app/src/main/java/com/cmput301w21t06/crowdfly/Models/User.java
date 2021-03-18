@@ -21,24 +21,18 @@ import java.util.Map;
 
 public class User {
     private String userID;
-    private String phoneNumber;
-    private String email;
-    private String birthday;
+    private String contactInfo;
     private String displayID;
 
     public User(String phoneNumber, String email, String birthday, @NonNull String userID, String displayID) {
         this.userID = userID;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.birthday = birthday;
+        this.contactInfo = contactInfo;
         this.displayID = displayID;
     }
 
     public User(Map<String, Object> userData) {
         this.userID = getOrDefault(userData.get("userID"));
-        this.phoneNumber = getOrDefault(userData.get("phoneNumber"));
-        this.email = getOrDefault(userData.get("email"));
-        this.birthday = getOrDefault(userData.get("birthday"));
+        this.contactInfo = getOrDefault(userData.get("contactInfo"));
         this.displayID = getOrDefault(userData.get("displayId"));
     }
 
@@ -71,36 +65,18 @@ public class User {
         this.userID = userID;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getContactInfo() {
+        return contactInfo;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
     }
 
     public Map<String, Object> toHashMap() {
         Map<String, Object> user = new HashMap<>();
         user.put("userID", this.userID);
-        user.put("phoneNumber", this.phoneNumber);
-        user.put("email", this.email);
-        user.put("birthday", this.birthday);
+        user.put("contactInfo", this.contactInfo);
         user.put("displayID", this.displayID);
         return user;
 
