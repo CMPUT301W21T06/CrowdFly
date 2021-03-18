@@ -95,7 +95,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                trialArrayList.remove(position);
+                Trial btrial = (Trial) parent.getAdapter().getItem(position);
+                int trialIDAtPos = btrial.getTrialID();
+                new CrowdFlyFirestore().removeTrialData(expID, trialIDAtPos);
+                trialLog.removeTrial(position);
                 adapter.notifyDataSetChanged();
                 return false;
             }
@@ -109,14 +112,18 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
                 if (trialType.equals("binomial")){
                     EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                     entry_pos = i;
-                    BinomialTrial btrial = (BinomialTrial) adapterView.getAdapter().getItem(i);
-                    editBinomialTrialFragment.newInstance(btrial).show(getSupportFragmentManager(), "EDIT TEXT");
+                    Trial btrial = (Trial) adapterView.getAdapter().getItem(i);
+                    int trialIDAtPos = btrial.getTrialID();
+                    BinomialTrial trial = new CrowdFlyFirestore().getBTrial(expID, trialIDAtPos);
+                    editBinomialTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
                 }
                 if (trialType.equals("count")){
                     EditCountTrialFragment editCountTrialFragment = new EditCountTrialFragment();
                     entry_pos = i;
-                    CountTrial ctrial = (CountTrial) adapterView.getAdapter().getItem(i);
-                    editCountTrialFragment.newInstance(ctrial).show(getSupportFragmentManager(), "EDIT TEXT");
+                    Trial ctrial = (Trial) adapterView.getAdapter().getItem(i);
+                    int trialIDAtPos = ctrial.getTrialID();
+                    CountTrial trial = new CrowdFlyFirestore().getCTrial(expID, trialIDAtPos);
+                    editCountTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
                 }
                 if (trialType.equals("measurement")) {
                     EditMeasureTrialFragment editMeasureTrialFragment = new EditMeasureTrialFragment();
@@ -181,14 +188,14 @@ public class ViewTrialLogActivity extends AppCompatActivity implements EditBinom
 
     @Override
     public void onOkPressed(BinomialTrial btrial){
-        trialArrayList.set(entry_pos, btrial);
+        this.trialLog.set(entry_pos, btrial);
         setUpList();
     }
 
 
     @Override
     public void onOkPressed(CountTrial ctrial) {
-        trialArrayList.set(entry_pos, ctrial);
+        this.trialLog.set(entry_pos, ctrial);
         setUpList();
 
     }

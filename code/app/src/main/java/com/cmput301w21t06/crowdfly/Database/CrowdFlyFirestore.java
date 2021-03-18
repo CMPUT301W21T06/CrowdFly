@@ -186,15 +186,16 @@ public class CrowdFlyFirestore {
                });
    }
     /**
-     * Sets document at given path
+     * @return
+     *      measurement trial
      * @param expID
      * @param trialID
      */
    public MeasurementTrial getMTrial(int expID, int trialID){
        DocumentReference trialRef = this.getDocumentReference(CrowdFlyFirestorePaths.trial(trialID, expID));
-       Log.e("expID", String.valueOf(expID));
-       Log.e("trialID", String.valueOf(trialID));
-       Log.e("trial ref", String.valueOf(trialRef));
+//       Log.e("expID", String.valueOf(expID));
+//       Log.e("trialID", String.valueOf(trialID));
+//       Log.e("trial ref", String.valueOf(trialRef));
        final String[] mDescription = new String[1];
        final String[] mMeasurement = new String[1];
        trialRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
@@ -203,15 +204,64 @@ public class CrowdFlyFirestore {
                //Map data = value.getData();
                //MeasurementTrial mtrial = new MeasurementTrial(data);
                //Log.e("REf_data", mtrial.getDescription());
-               Log.e("REf_data", String.valueOf(value.getString("measurement")));
+               //Log.e("REf_data", String.valueOf(value.getString("measurement")));
                mMeasurement[0] = value.getString("measurement");
                mDescription[0] = value.getString("description");
            }
        });
        MeasurementTrial newMTrial = new MeasurementTrial(mDescription[0], mMeasurement[0]);
        return newMTrial;
-
    }
+
+    /**
+     * @return
+     *      measurement trial
+     * @param expID
+     * @param trialID
+     */
+    public CountTrial getCTrial(int expID, int trialID){
+        DocumentReference trialRef = this.getDocumentReference(CrowdFlyFirestorePaths.trial(trialID, expID));
+        final String[] cDescription = new String[1];
+        final String[] cCount = new String[1];
+        trialRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                cCount[0] = value.getString("count");
+                cDescription[0] = value.getString("description");
+            }
+        });
+        CountTrial newCTrial = new CountTrial(cDescription[0], cCount[0]);
+        return newCTrial;
+    }
+
+    /**
+     * @return
+     *      measurement trial
+     * @param expID
+     * @param trialID
+     */
+    public BinomialTrial getBTrial(int expID, int trialID){
+        DocumentReference trialRef = this.getDocumentReference(CrowdFlyFirestorePaths.trial(trialID, expID));
+        final String[] bDescription = new String[1];
+        final String[] bFailures = new String[1];
+        final String[] bSuccesses = new String[1];
+        trialRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                bFailures[0] = value.getString("failures");
+                bSuccesses[0] = value.getString("successes");
+                bDescription[0] = value.getString("description");
+            }
+        });
+        BinomialTrial newBTrial = new BinomialTrial(bDescription[0], bSuccesses[0], bFailures[0]);
+        return newBTrial;
+    }
+    public void removeTrialData(int expID, int trialID){
+        CollectionReference trialRef = this.getCollectionReference(CrowdFlyFirestorePaths.trials(expID));
+
+        trialRef.document(String.valueOf(trialID)).delete();
+    }
+
 
     /**
      * Sets document at given path
