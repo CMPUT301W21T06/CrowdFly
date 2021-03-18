@@ -11,6 +11,7 @@ import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
+import com.cmput301w21t06.crowdfly.Controllers.SubscriptionManager;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
@@ -38,7 +39,6 @@ import com.google.firebase.storage.StorageReference;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
 
 /**
  * Main class to contain all methods of interacting with Firestore
@@ -46,12 +46,6 @@ import java.util.concurrent.Executor;
 public class  CrowdFlyFirestore {
     private final FirebaseFirestore firestoreInstance = FirebaseFirestore.getInstance();
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
-
-    // not too sure why we need userID?
-    //    private String userID;
-//    public CrowdFlyFirestore(String userID){
-//        this.userID = userID;
-//    }
 
     public CrowdFlyFirestore() {}
 
@@ -113,14 +107,75 @@ public class  CrowdFlyFirestore {
      * Set or Add data for a single experiment
      * @param experiment
      */
+    public void addExperimentData(Experiment experiment) {
+
+        this.getCollectionReference(CrowdFlyFirestorePaths.experimentsCollection()).add(experiment.toHashMap()).addOnCompleteListener(
+                new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if(task.isSuccessful()){
+                            String newId = task.getResult().getId();
+                            experiment.setExperimentId(newId);
+                            CrowdFlyFirestore.this.setExperimentData(experiment);
+                        }
+                    }
+                }
+        );
+    }
+
+
     public void setExperimentData(Experiment experiment) {
-        this.setDocumentData(CrowdFlyFirestorePaths.experiments(experiment.getExperimentId()), experiment.toHashMap());
+        this.setDocumentData(CrowdFlyFirestorePaths.experiment(experiment.getExperimentId()), experiment.toHashMap());
+    }
+
+    /**
+     * Sets a subscribed user
+     *
+     * @param experiment
+     * @param user
+     */
+    public void setSubscribedUser(Experiment experiment, User user) {
+        Map<String,Object> data = new HashMap<String,Object>();
+        data.put("subscribed", true);
+        this.setDocumentData(CrowdFlyFirestorePaths.subscriptions(experiment.getExperimentId(), user.getUserID()),data);
+    }
+
+    /**
+     * Removes a subscribed user
+     * @param experiment
+     * @param user
+     */
+    public void removeSubscribedUser(Experiment experiment, User user) {
+        this.deleteDocumentData(CrowdFlyFirestorePaths.subscriptions(experiment.getExperimentId(),
+                user.getUserID()));
+    }
+
+    /**
+     * Checks if given user is subscribed to experiment
+     * @param experiment
+     * @param user
+     */
+    public void isSubscribed(Experiment experiment, User user, SubscriptionManager.OnDoneGetSubscribedListener OnDoneGetSubscribedListener) {
+        DocumentReference doc = new CrowdFlyFirestore().getDocumentReference(CrowdFlyFirestorePaths.subscriptions(experiment.getExperimentId(),
+                user.getUserID()));
+        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot doc = task.getResult();
+                    OnDoneGetSubscribedListener.onDoneGetIsSubscribed(doc.exists());
+                }
+                else {
+                    OnDoneGetSubscribedListener.onDoneGetIsSubscribed(false);
+                }
+            }
+        });
     }
 
     /***
      * Gets collection of experiments - ie. gets the full list of experiments from FireStore.
      */
-    public void getExperimentData(OnDoneGetExpListener onDoneGetExpListener) {
+    public void getExperimentLogData(OnDoneGetExpLogListener onDoneGetExpLogListener) {
         CollectionReference expData = this.getCollectionReference("Experiments");
         ExperimentLog expLog = ExperimentLog.getExperimentLog();
         expLog.resetExperimentLog();
@@ -136,7 +191,7 @@ public class  CrowdFlyFirestore {
                         Map data = document.getData();
                         expLog.addExperiment(new Experiment(data));
                     }
-                    onDoneGetExpListener.onDoneGetExperiments(expLog);
+                    onDoneGetExpLogListener.onDoneGetExperiments(expLog);
                 } else {
                     Log.d("", "Error getting documents: ", task.getException());
                 }
@@ -144,36 +199,59 @@ public class  CrowdFlyFirestore {
         });
     }
 
+    /**
+     * Gets a single experiment
+     *
+     * @param experimentId
+     * @param onDoneGetExperiment
+     */
+    public void getExperimentData(String experimentId, OnDoneGetExpListener onDoneGetExperiment) {
+        DocumentReference expData = this.getDocumentReference(CrowdFlyFirestorePaths.experiment(experimentId));
+
+        expData.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                Experiment experiment = new Experiment(value.getData());
+                onDoneGetExperiment.onDoneGetExperiment(experiment);
+            }
+        });
+
+    }
+
+    /***
+     * Adds a single new trial
+     * @param trial
+     * @param experimentID
+     */
+    public void addTrialData(Trial trial, String experimentID) {
+        this.getCollectionReference(CrowdFlyFirestorePaths.trials(experimentID)).add(trial.toHashMap()).addOnCompleteListener(
+                new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if(task.isSuccessful()){
+                            String newId = task.getResult().getId();
+                            trial.setTrialID(newId);
+                            CrowdFlyFirestore.this.setTrialData(trial, experimentID);
+                        }
+                    }
+                }
+        );
+    }
+
     /***
      * Set a single trial data
      * @param trial
      * @param experimentID
      */
-   public void setBinomialTrialData(BinomialTrial trial, int experimentID) {
+   public void setTrialData(Trial trial, String experimentID) {
        this.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
    }
-    /***
-     * Set a single trial data
-     * @param trial
-     * @param experimentID
-     */
-    public void setCountTrialData(CountTrial trial, int experimentID) {
-        this.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
-    }
-    /***
-     * Set a single trial data
-     * @param trial
-     * @param experimentID
-     */
-    public void setMeasurementTrialData(MeasurementTrial trial, int experimentID) {
-        this.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
-    }
 
     /***
      * Get a whole collection of Trials
      * @param experimentID
      */
-   public void getTrialData(int experimentID, OnDoneGetTrialsListener onDoneGetTrialsListener) {
+   public void getTrialData(String experimentID, OnDoneGetTrialsListener onDoneGetTrialsListener) {
        CollectionReference trialData = this.getCollectionReference(CrowdFlyFirestorePaths.trials(experimentID));
        TrialLog trialLog = TrialLog.getTrialLog();
        trialLog.resetTrialLog();
@@ -205,7 +283,7 @@ public class  CrowdFlyFirestore {
      * @param expID
      * @param trialID
      */
-   public MeasurementTrial getMTrial(int expID, int trialID){
+   public MeasurementTrial getMTrial(String expID, String trialID){
        DocumentReference trialRef = this.getDocumentReference(CrowdFlyFirestorePaths.trial(trialID, expID));
 //       Log.e("expID", String.valueOf(expID));
 //       Log.e("trialID", String.valueOf(trialID));
@@ -233,7 +311,7 @@ public class  CrowdFlyFirestore {
      * @param expID
      * @param trialID
      */
-    public CountTrial getCTrial(int expID, int trialID){
+    public CountTrial getCTrial(String expID, String trialID){
         DocumentReference trialRef = this.getDocumentReference(CrowdFlyFirestorePaths.trial(trialID, expID));
         final String[] cDescription = new String[1];
         final String[] cCount = new String[1];
@@ -254,7 +332,7 @@ public class  CrowdFlyFirestore {
      * @param expID
      * @param trialID
      */
-    public BinomialTrial getBTrial(int expID, int trialID){
+    public BinomialTrial getBTrial(String expID, String trialID){
         DocumentReference trialRef = this.getDocumentReference(CrowdFlyFirestorePaths.trial(trialID, expID));
         final String[] bDescription = new String[1];
         final String[] bFailures = new String[1];
@@ -270,7 +348,7 @@ public class  CrowdFlyFirestore {
         BinomialTrial newBTrial = new BinomialTrial(bDescription[0], bSuccesses[0], bFailures[0]);
         return newBTrial;
     }
-    public void removeTrialData(int expID, int trialID){
+    public void removeTrialData(String expID, String trialID){
         CollectionReference trialRef = this.getCollectionReference(CrowdFlyFirestorePaths.trials(expID));
 
         trialRef.document(String.valueOf(trialID)).delete();
@@ -299,6 +377,27 @@ public class  CrowdFlyFirestore {
     }
 
     /**
+     * Deletes document at given path
+     * @param path
+     */
+    private void deleteDocumentData(String path) {
+
+        firestoreInstance.document(path).delete().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("FIRESTORE", e.getMessage());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i("FIRESTORE", "Doc deleted successfully");
+            }
+        });
+    }
+
+
+
+    /**
      * Updates document at given path
      * @param path
      * @param data
@@ -324,7 +423,7 @@ public class  CrowdFlyFirestore {
      * @param path
      * @return
      */
-    private DocumentReference getDocumentReference(String path) {
+    public DocumentReference getDocumentReference(String path) {
         return firestoreInstance.document(path);
     }
 
@@ -341,7 +440,7 @@ public class  CrowdFlyFirestore {
      * @param experimentId
      */
 
-    public void deleteExperiment(int experimentId) {
+    public void deleteExperiment(String experimentId) {
 
         CollectionReference expData = this.getCollectionReference("Experiments");
         expData.document(String.valueOf(experimentId)).delete();
@@ -355,14 +454,21 @@ public class  CrowdFlyFirestore {
     }
 
     /***
-     *
+     * Interface for retrieving the experiment log data
      */
-    public interface OnDoneGetExpListener {
+    public interface OnDoneGetExpLogListener {
         public void onDoneGetExperiments(ExperimentLog expLog);
     }
 
     /***
-     *
+     * Interface for retrieving a single experiment
+     */
+    public interface OnDoneGetExpListener {
+        public void onDoneGetExperiment(Experiment experiment);
+    }
+
+    /***
+     * Interface for retrieving the trial log data
      */
     public interface OnDoneGetTrialsListener {
         public void onDoneGetTrials(TrialLog trialList);

@@ -14,6 +14,7 @@ import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AddExperimentActivity extends AppCompatActivity {
 
@@ -26,6 +27,7 @@ public class AddExperimentActivity extends AppCompatActivity {
     Button btnMeasurement;
     Button btnBinomial;
     Button btnCount;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +44,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnMeasurement = findViewById(R.id.m_btn);
         btnBinomial = findViewById(R.id.binomial_btn);
         btnCount = findViewById(R.id.count_btn);
-
-//        btnAddExperiment.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // need to add owner name later when we have users
-//
-//                final String description = etDescription.getText().toString();
-//                final String minNumTrials = etMinNumTrials.getText().toString();
-//                final String region = etRegion.getText().toString();
-//
-//                experimentLog.addExperiment(new Experiment(description, region, Integer.parseInt(minNumTrials)));
-//
-//                startActivity(new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class));
-//            }
-//        });
+        userID = FirebaseAuth.getInstance().getUid();
 
         btnBinomial.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,8 +54,9 @@ public class AddExperimentActivity extends AppCompatActivity {
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
                 Experiment expAdd = new Experiment(description, region, minNumTrials);
+                expAdd.setOwnerID(userID);
                 experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
-                new CrowdFlyFirestore().setExperimentData(expAdd);
+                new CrowdFlyFirestore().addExperimentData(expAdd);
                 Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
                 intent.putExtra("type",description);
                 startActivity(intent);
@@ -81,8 +70,9 @@ public class AddExperimentActivity extends AppCompatActivity {
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
                 Experiment expAdd = new Experiment(description, region, minNumTrials);
+                expAdd.setOwnerID(userID);
                 experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
-                new CrowdFlyFirestore().setExperimentData(expAdd);
+                new CrowdFlyFirestore().addExperimentData(expAdd);
                 Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
                 intent.putExtra("type",description);
                 startActivity(intent);
@@ -103,11 +93,10 @@ public class AddExperimentActivity extends AppCompatActivity {
                 }
                 else {
                     Experiment expAdd = new Experiment(description, region, minNumTrials);
+                    expAdd.setOwnerID(userID);
                     experimentLog.addExperiment(new Experiment(description, region, minNumTrials));
-                    new CrowdFlyFirestore().setExperimentData(expAdd);
+                    new CrowdFlyFirestore().addExperimentData(expAdd);
                     Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
-                    //intent.putExtra("trialType",description);
-                    //Log.e("type in add experiment", description);
                     startActivity(intent);
                 }
             }

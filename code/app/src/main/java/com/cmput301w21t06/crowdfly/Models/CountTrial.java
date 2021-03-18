@@ -1,7 +1,5 @@
 package com.cmput301w21t06.crowdfly.Models;
 
-import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +35,7 @@ public class CountTrial extends Trial{
      */
     public String getCount(){return count;}
 
-    public int getTrialID() {
+    public String getTrialID() {
         return trialID;
     }
 
