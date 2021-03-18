@@ -57,4 +57,8 @@ public class TrialLog {
      * Resets the values of trial list
      */
     public void resetTrialLog() { trials = new ArrayList<>(); }
+
+    public void set(int position, Trial trial){
+        this.trials.set(position,trial);
+    }
 }
