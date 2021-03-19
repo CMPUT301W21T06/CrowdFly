@@ -23,7 +23,6 @@ public class AddExperimentActivity extends AppCompatActivity {
     EditText etDescription;
     EditText etMinNumTrials;
     EditText etRegion;
-    Button btnDone;
     Button btnMeasurement;
     Button btnBinomial;
     Button btnCount;
@@ -37,7 +36,6 @@ public class AddExperimentActivity extends AppCompatActivity {
 
         //btnAddExperiment = findViewById(R.id.add_experiment);
         btnCancel = findViewById(R.id.cancelBtn);
-        btnDone = findViewById(R.id.cancelBtn);
         //etDescription = findViewById(R.id.trial_listview);
         etMinNumTrials = findViewById(R.id.min_trial_edit_text);
         etRegion = findViewById(R.id.region_edit_text);
