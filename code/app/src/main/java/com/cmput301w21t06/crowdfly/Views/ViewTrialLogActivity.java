@@ -274,6 +274,9 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     public void onDoneGetTrials(TrialLog trialLog) {
         this.trialLog = trialLog;
+        trialArrayList = trialLog.getTrials();
+        adapter.clear();
+        adapter.addAll(trialArrayList);
         adapter.notifyDataSetChanged();
     }
 
@@ -292,6 +295,12 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     public void onDoneGetUser(User user) {
         this.currentUser = user;
         this.currentExperiment.isSubscribed(user, this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupData();
     }
 
     @Override

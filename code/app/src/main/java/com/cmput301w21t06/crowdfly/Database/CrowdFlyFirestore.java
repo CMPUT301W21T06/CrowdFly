@@ -278,29 +278,27 @@ public class  CrowdFlyFirestore {
        TrialLog trialLog = TrialLog.getTrialLog();
        trialLog.resetTrialLog();
 
-       trialData
-               .get()
-               .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                   @Override
-                   public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map data = document.getData();
-                                if(data.get("successes") != null ){
-                                    trialLog.addTrial(new BinomialTrial(data));
-                                }else if(data.get("measurement") != null ){
-                                    trialLog.addTrial(new MeasurementTrial(data));
-                                }else if(data.get("count") != null ){
-                                    trialLog.addTrial(new CountTrial(data));
-                                }
-                                //trialLog.addTrial(new Trial(data));
-                            }
-                            onDoneGetTrialsListener.onDoneGetTrials(trialLog);
-                        } else {
-                            Log.d("", "Error getting documents: ", task.getException());
-                        }
+       trialData.addSnapshotListener(new EventListener<QuerySnapshot>() {
+           @Override
+           public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+               if (error == null) {
+                   trialLog.resetTrialLog();
+                   for (DocumentSnapshot document : value.getDocuments()) {
+                       Map data = document.getData();
+                       if(data.get("successes") != null ){
+                           trialLog.addTrial(new BinomialTrial(data));
+                       }else if(data.get("measurement") != null ){
+                           trialLog.addTrial(new MeasurementTrial(data));
+                       }else if(data.get("count") != null ){
+                           trialLog.addTrial(new CountTrial(data));
+                       }
                    }
-               });
+                   onDoneGetTrialsListener.onDoneGetTrials(trialLog);
+               } else {
+                   Log.d("", "Error getting documents: ", error);
+               }
+           }
+       });
    }
     /**
      * this gets a default profile pic for each user

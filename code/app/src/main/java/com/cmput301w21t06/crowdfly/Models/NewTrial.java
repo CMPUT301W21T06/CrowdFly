@@ -21,6 +21,8 @@ import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditMeasureTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
+import com.google.firebase.auth.FirebaseAuth;
+
 /**
  * this is an activity that adds a new activity to the Listview in the Trial log
  */
@@ -33,6 +35,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
 
     public String trialType;
     public String expID;
+    private String userID = FirebaseAuth.getInstance().getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,16 +116,19 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
 
                 if(trialType.equals("binomial")){
                     BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures);
+                    trialAdd.setExperimenterID(userID);
                     trialLog.addTrial(new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures));
                     new CrowdFlyFirestore().addTrialData(trialAdd, expID);
                 }
                 if(trialType.equals("count")){
                     CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount);
+                    trialAdd.setExperimenterID(userID);
                     trialLog.addTrial(new CountTrial(newTrialDescription, newTrialCount));
                     new CrowdFlyFirestore().addTrialData(trialAdd, expID);
                 }
                 if(trialType.equals("measurement")){
                     MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement);
+                    trialAdd.setExperimenterID(userID);
                     trialLog.addTrial(new MeasurementTrial(newTrialDescription, newTrialMeasurement));
                     new CrowdFlyFirestore().addTrialData(trialAdd, expID);
                 }
