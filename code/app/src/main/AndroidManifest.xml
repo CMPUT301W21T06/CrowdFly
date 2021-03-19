@@ -27,8 +27,9 @@
         <activity android:name=".Models.NewTrial" />
         <activity
             android:name=".Views.ViewTrialLogActivity"
-            android:label="@string/title_activity_view_trial_log"
-            android:parentActivityName=".Views.MainActivity" />
+            android:label="@string/title_activity_view_trial_log">
+
+        </activity>
         <activity
             android:name=".Views.AddExperimentActivity"
             android:label="AddExperimentActivity" />

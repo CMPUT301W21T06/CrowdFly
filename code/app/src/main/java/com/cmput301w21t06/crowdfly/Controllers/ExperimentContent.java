@@ -56,12 +56,12 @@ public class ExperimentContent extends ArrayAdapter<Experiment> {
         TextView status = view.findViewById(R.id.exp_status);
         TextView numTrials = view.findViewById(R.id.exp_numTrials);
         TextView region = view.findViewById(R.id.exp_region);
-        Button btnSubscribe = view.findViewById(R.id.button_subscribe);
+
 
         // set content description
         description.setText(experiment.getDescription());
         ownerName.setText(experiment.getOwnerID());
-        status.setText(experiment.getStatus() ? "Active" : "Not Active" );
+        status.setText(experiment.getStillRunning() ? "Active" : "Not Active" );
         numTrials.setText(String.valueOf(experiment.getMinTrials()));
         region.setText(experiment.getRegion());
 
