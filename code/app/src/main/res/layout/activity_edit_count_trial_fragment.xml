@@ -43,16 +43,19 @@
 
             <TextView
                 android:id="@+id/countDisplay"
-                android:layout_width="100dp"
+                android:layout_width="108dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Count" />
 
             <EditText
                 android:id="@+id/countInput"
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter some text" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
+
         </LinearLayout>
 
     </LinearLayout>
