@@ -18,8 +18,8 @@ public class Trial {
     private String result;
     private Statistics statistics;
 
-    //This constructor needs to include the experimenter who created the trial eventually
     public Trial(String description) {
+
         this.description = description;
 //        this.experimenter = experimenter;
     }

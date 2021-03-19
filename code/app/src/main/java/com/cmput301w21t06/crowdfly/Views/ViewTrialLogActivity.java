@@ -76,8 +76,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         setUpList();
 
         trialArrayList = trialLog.getTrials();
-        Log.e("VTLA - expID", String.valueOf(expID));
-        Log.e("trialArrayListsize", String.valueOf(trialArrayList.size()));
 
         questionButton = findViewById(R.id.questionButton);
         questionButton.setOnClickListener(new View.OnClickListener(){
@@ -164,9 +162,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 if(subscribed || isOwner) {
 
                     Trial x = trialLog.getTrial(i);
-                    Log.e("VTLA-TrialID", String.valueOf(x.getTrialID()));
-
-                    Log.e("onItemClick Item", String.valueOf(adapterView.getAdapter().getItem(i)));
                     if (trialType.equals("binomial")) {
                         EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                         entry_pos = i;
@@ -191,8 +186,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         entry_pos = i;
                         Trial mtrial = (Trial) adapterView.getAdapter().getItem(i);
                         String trialIDAtPos = mtrial.getTrialID();
-                        //Log.e("mtrial_id", String.valueOf(trialIDAtPos));
-                        //MeasurementTrial trial = (MeasurementTrial) new CrowdFlyFirestore().getMTrial(expID, trialIDAtPos);
                         MeasurementTrial trial = new CrowdFlyFirestore().getMTrial(expID, trialIDAtPos);
                         editMeasureTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
 
@@ -219,10 +212,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
         // get all experiment data from firestore
         new CrowdFlyFirestore().getTrialData(expID, this);
-        trialArrayList = trialLog.getTrials();
-        for(int k =  0; k < trialArrayList.size(); k++){
-            Log.e("trial ", String.valueOf(trialArrayList.get(k).getTrialID()));
-        }
 
 
 //        if (counter >= 1) {
@@ -251,8 +240,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     }
     private void setUpList(){
         listView = findViewById(R.id.trialListView);
-        //adapter = new TrialAdapter(getApplicationContext(), 0, trialArrayList);
-        adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials());
+        adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials(),trialType,expID);
         listView.setAdapter(adapter);
     }
 

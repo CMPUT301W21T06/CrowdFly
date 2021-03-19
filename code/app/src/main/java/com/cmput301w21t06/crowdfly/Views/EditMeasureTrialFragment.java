@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -69,7 +70,6 @@ public class EditMeasureTrialFragment extends DialogFragment {
                         String measurement1 = measurement.getText().toString();
                         String description1 = description.getText().toString();
                         listener.onOkPressed(new MeasurementTrial(description1, measurement1));
-                        //Log.e("brebs", itemDate1);
                     }
                 }).create();
     }

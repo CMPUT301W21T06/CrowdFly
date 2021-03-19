@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+//import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -262,7 +263,14 @@ public class CrowdFlyFirestore {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Map data = document.getData();
-                                trialLog.addTrial(new Trial(data));
+                                if(data.get("successes") != null ){
+                                    trialLog.addTrial(new BinomialTrial(data));
+                                }else if(data.get("measurement") != null ){
+                                    trialLog.addTrial(new MeasurementTrial(data));
+                                }else if(data.get("count") != null ){
+                                    trialLog.addTrial(new CountTrial(data));
+                                }
+                                //trialLog.addTrial(new Trial(data));
                             }
                             onDoneGetTrialsListener.onDoneGetTrials(trialLog);
                         } else {
@@ -288,18 +296,11 @@ public class CrowdFlyFirestore {
      */
    public MeasurementTrial getMTrial(String expID, String trialID){
        DocumentReference trialRef = this.getDocumentReference(CrowdFlyFirestorePaths.trial(trialID, expID));
-//       Log.e("expID", String.valueOf(expID));
-//       Log.e("trialID", String.valueOf(trialID));
-//       Log.e("trial ref", String.valueOf(trialRef));
        final String[] mDescription = new String[1];
        final String[] mMeasurement = new String[1];
        trialRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
            @Override
            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-               //Map data = value.getData();
-               //MeasurementTrial mtrial = new MeasurementTrial(data);
-               //Log.e("REf_data", mtrial.getDescription());
-               //Log.e("REf_data", String.valueOf(value.getString("measurement")));
                mMeasurement[0] = value.getString("measurement");
                mDescription[0] = value.getString("description");
            }
@@ -342,14 +343,18 @@ public class CrowdFlyFirestore {
         final String[] bDescription = new String[1];
         final String[] bFailures = new String[1];
         final String[] bSuccesses = new String[1];
+
+
         trialRef.addSnapshotListener( new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 bFailures[0] = value.getString("failures");
                 bSuccesses[0] = value.getString("successes");
                 bDescription[0] = value.getString("description");
+
             }
         });
+
         BinomialTrial newBTrial = new BinomialTrial(bDescription[0], bSuccesses[0], bFailures[0]);
         return newBTrial;
     }
@@ -392,7 +397,6 @@ public class CrowdFlyFirestore {
      * @param path
      */
     private void deleteDocumentData(String path) {
-
         firestoreInstance.document(path).delete().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
