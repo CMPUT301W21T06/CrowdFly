@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cmput301w21t06.crowdfly">
 
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,22 +12,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
+        <activity
+            android:name=".Views.searchUserActivity"
+            android:parentActivityName=".Views.MainActivity"
+            android:label="@string/title_activity_search_user">
+
+        </activity>
 
 
-        <activity android:name=".Views.ViewQuestionLogActivity"></activity>
-     
+
+        <activity android:name=".Views.ViewQuestionLogActivity" />
         <activity android:name=".Views.UserProfileActivity" />
         <activity android:name=".Views.ViewStatisticActivity" />
         <activity android:name=".Models.NewTrial" />
         <activity
             android:name=".Views.ViewTrialLogActivity"
             android:label="@string/title_activity_view_trial_log"
-            android:parentActivityName=".Views.MainActivity">
-
-        </activity>
+            android:parentActivityName=".Views.MainActivity" />
         <activity
             android:name=".Views.AddExperimentActivity"
-            android:label="AddExperimentActivity"></activity>
+            android:label="AddExperimentActivity" />
         <activity
             android:name=".Views.AuthActivity"
             android:launchMode="singleTask">
@@ -36,8 +42,8 @@
             </intent-filter>
         </activity>
         <activity
-        android:name=".Views.MainActivity"
-        android:launchMode="singleTask" />
+            android:name=".Views.MainActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".Views.ViewExperimentLogActivity"
             android:parentActivityName=".Views.MainActivity" />
