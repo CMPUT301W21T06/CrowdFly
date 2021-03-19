@@ -39,6 +39,10 @@ public class ExperimentLog {
         return experiments;
     }
 
+    public int getSize(){
+        return experiments.size();
+    }
+
     /** Removes and experiment at the position
      * @param position The index of the experiment to remove
      * */
