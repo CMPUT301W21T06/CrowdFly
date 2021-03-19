@@ -26,7 +26,7 @@ public class TrialLogTest {
     public void testAddTrial() {
         Trial trialAdd = new Trial("test_description");
         trialLog.addTrial(trialAdd);
-        assertEquals(true, trialAdd.equals(trialLog.getTrial(0)));
+        assertEquals(true, trialAdd.equals(trialLog.getTrial(1)));
     }
 
     @Test
