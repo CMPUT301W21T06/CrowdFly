@@ -25,6 +25,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Processes anonymous authentication
+ */
 public class AuthActivity extends AppCompatActivity {
     private FirebaseAuth authManager;
     private Button authButton;
@@ -46,7 +49,7 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = authManager.getCurrentUser();
 
@@ -59,7 +62,10 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
-    public void loadingAuth() {
+    /**
+     * Handles authentication for new users
+     */
+    private void loadingAuth() {
         authButton.setText(R.string.authButtonLoading);
         authButton.setClickable(false);
         subtitle.setText(R.string.authButtonSubtitleLoading);
@@ -83,7 +89,13 @@ public class AuthActivity extends AppCompatActivity {
         });
     }
 
-    public void updateUI(FirebaseUser user) {
+    /**
+     * Handles UI updates based on authentication
+     * Either lets them into the app or asks them to press generate since the automatic id generation process failed
+     * @param user
+     * A firebase authenticated user
+     */
+    private void updateUI(FirebaseUser user) {
         if (user != null) {
             System.out.println(user.getUid());
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -97,7 +109,12 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
-    public void createUser(FirebaseUser user) {
+    /**
+     * Creates the User locally and on Firestore
+     * @param user
+     * The firestore authenticated user
+     */
+    private void createUser(FirebaseUser user) {
         String userID = user.getUid();
         User newUser = new User(userID);
         new CrowdFlyFirestore().setUserProfile(newUser);

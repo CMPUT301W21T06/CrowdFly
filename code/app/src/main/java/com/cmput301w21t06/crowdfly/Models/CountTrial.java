@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * this is the Count Trial subclass that specifies Count Trial getters and setters
+ * Location relation issues still need to be implemented for this
  */
 public class CountTrial extends Trial{
     private String count;

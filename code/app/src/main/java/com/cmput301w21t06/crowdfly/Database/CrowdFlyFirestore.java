@@ -124,6 +124,11 @@ public class  CrowdFlyFirestore {
         );
     }
 
+    /**
+     * This gets all the users' ids from the database
+     * @param onDoneGetIdsListener
+     *
+     */
     public void getUsers(OnDoneGetIdsListener onDoneGetIdsListener){
         CollectionReference users = this.getCollectionReference("users");
 

@@ -11,6 +11,9 @@ import android.widget.Button;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * This activity bridges various activites together and provides the starting screen for the user
+ */
 public class MainActivity extends AppCompatActivity {
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
     private final String userID = FirebaseAuth.getInstance().getUid();

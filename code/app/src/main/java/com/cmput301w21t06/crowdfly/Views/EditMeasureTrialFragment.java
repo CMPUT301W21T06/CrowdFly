@@ -19,6 +19,9 @@ import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.R;
 
+/**
+ * Fragment to allow controlled edits to a created measurment trial
+ */
 public class EditMeasureTrialFragment extends DialogFragment {
 
     private EditText measurement, description;

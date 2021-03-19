@@ -6,6 +6,9 @@ import android.os.Bundle;
 
 import com.cmput301w21t06.crowdfly.R;
 
+/**
+ * This will be used to show the statistics screen, but has not been implemented as of yet
+ */
 public class ViewStatisticActivity extends AppCompatActivity {
 
     @Override

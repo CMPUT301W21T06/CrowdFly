@@ -5,6 +5,10 @@ import com.cmput301w21t06.crowdfly.Models.QRCode;
 
 import java.util.ArrayList;
 
+/**
+ * This will manage operations related to a QR code
+ * Nothing related to QR codes has been implemented
+ */
 public class QRManager {
     private Experiment exp;
     private QRCode code;

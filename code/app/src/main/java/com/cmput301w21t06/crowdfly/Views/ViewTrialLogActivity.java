@@ -32,6 +32,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+/**
+ * This shows all the trials related to the particular experiment
+ */
 public class ViewTrialLogActivity extends AppCompatActivity implements
         EditBinomialTrialFragment.OnFragmentInteractionListener,
         EditCountTrialFragment.OnFragmentInteractionListener,

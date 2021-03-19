@@ -9,6 +9,7 @@ import java.util.Map;
 
 /**
  * this is the Binomial Trial subclass that specifies Binomial Trial getters and setters
+ * Still need to handle things related to location
  */
 public class BinomialTrial extends Trial{
     private String successes;

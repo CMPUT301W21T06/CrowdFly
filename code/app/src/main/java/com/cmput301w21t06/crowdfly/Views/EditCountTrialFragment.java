@@ -19,6 +19,9 @@ import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 
+/**
+ * Fragment to allow controlled edits to a created count trial
+ */
 public class EditCountTrialFragment extends DialogFragment {
 
     private EditText count, description;

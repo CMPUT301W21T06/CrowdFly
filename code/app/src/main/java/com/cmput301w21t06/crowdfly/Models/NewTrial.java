@@ -24,7 +24,7 @@ import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
- * this is an activity that adds a new activity to the Listview in the Trial log
+ * this is an activity that adds a new trial to the Listview in the Trial log
  */
 
 public class NewTrial extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
