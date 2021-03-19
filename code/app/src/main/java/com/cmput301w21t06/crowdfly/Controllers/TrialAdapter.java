@@ -11,38 +11,57 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestorePaths;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.ViewStatisticActivity;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * this is the trial adapter that adapts a view in a specific position
+ */
 
 public class TrialAdapter extends ArrayAdapter<Trial> {
 
+    private String experimentID;
+    private String trialType;
     private Context context;
 
-    public TrialAdapter(@NonNull Context context, int resource, @NonNull List<Trial> trialList) {
+    /**
+     * this is the constructor of trial adapter
+     * @param context
+     * @param resource
+     * @param trialList
+     */
+    public TrialAdapter(@NonNull Context context, int resource, @NonNull List<Trial> trialList, String trialType, String expID) {
+
         super(context, resource, trialList);
         this.context = context;
+        this.trialType = trialType;
+        this.experimentID = expID;
     }
     //learned about getView ArrayAdapter method from vipul mittal: https://stackoverflow.com/users/1423227/vipul-mittal
     //from stackoverflow
     //from: https://stackoverflow.com/questions/6442054/how-does-arrayadapter-getview-method-works
+
+    /**
+     * this is responsible for creating the views for a particular position
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     *      a view at a particular position
+     */
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
         Trial trial = getItem(position);
-        Log.e("trialAdapter-trialID", String.valueOf(trial.getTrialID()));
 
         //learned from Bertram Gilfoyle: https://stackoverflow.com/users/7594961/bertram-gilfoyle
         //from stackoverflow
@@ -52,7 +71,6 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
         }
 
         //set variables to particular views
-
         TextView trialInfo = (TextView) convertView.findViewById(R.id.itemSuccesses);
         TextView desc = convertView.findViewById(R.id.itemDescription);
         Button statbtn = convertView.findViewById(R.id.statButton);
@@ -69,21 +87,19 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
 
         // checking the exact type of the trial so it can correctly set the text boxes in the content in the list view
         // specific trial types have specific methods
-
-
-        if (trial instanceof BinomialTrial){
-            Log.d("Trial Adapter:","if statement selects this as a binomial trial");
+        if (trialType.equals("binomial")){
+            BinomialTrial bTrial = (BinomialTrial)trial;
             String successDisplay = "S:";
             String failureDisplay = " F:";
-            String failures = ((BinomialTrial)trial).getFailures();
-            trialInfo.setText(successDisplay+((BinomialTrial)trial).getSuccesses()+failureDisplay+failures);
-        } else if (trial instanceof CountTrial){
-            Log.d("Trial Adapter:","if statement selects this as a count trial");
+            trialInfo.setText(successDisplay+bTrial.getSuccesses()+failureDisplay+bTrial.getFailures());
+        } else if (trialType.equals("count")){
             String countDisplay = "Count: ";
-            trialInfo.setText(countDisplay+((CountTrial)trial).getCount());
-        } else if (trial instanceof MeasurementTrial){
+            CountTrial cTrial = (CountTrial)trial;
+            trialInfo.setText(countDisplay+cTrial.getCount());
+        } else if (trialType.equals("measurement")){
             String measurementDisplay = "Measurement: ";
-            trialInfo.setText(measurementDisplay+((MeasurementTrial)trial).getMeasurement());
+            MeasurementTrial mTrial = (MeasurementTrial)trial;
+            trialInfo.setText(measurementDisplay+mTrial.getMeasurement());
         }
 
         desc.setText(trial.getDescription());

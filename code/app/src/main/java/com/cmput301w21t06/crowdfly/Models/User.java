@@ -24,22 +24,43 @@ public class User {
     private String contactInfo;
     private String displayID;
 
+
+    /**
+     * this is the general constructor of user
+     * @param phoneNumber
+     * @param email
+     * @param birthday
+     * @param userID
+     * @param displayID
+     */
     public User(String phoneNumber, String email, String birthday, @NonNull String userID, String displayID) {
         this.userID = userID;
         this.contactInfo = contactInfo;
         this.displayID = displayID;
     }
 
+    /***
+     * this is the hash map constructor for trial
+     * @param userData
+     */
     public User(Map<String, Object> userData) {
         this.userID = getOrDefault(userData.get("userID"));
         this.contactInfo = getOrDefault(userData.get("contactInfo"));
         this.displayID = getOrDefault(userData.get("displayId"));
     }
 
+    /**
+     * this is another general user constructor
+     * @param userID
+     */
     public User(String userID) {
         this.userID = userID;
     }
 
+    /**
+     * this prevents null values going in
+     * @param val
+     */
     public String getOrDefault(Object val) {
         if (val == null) {
             return null;
@@ -48,31 +69,23 @@ public class User {
     }
 
 
-    public void setDisplayID(String displayID) {
-        this.displayID = displayID;
-    }
+    public void setDisplayID(String displayID) { this.displayID = displayID; }
 
-    public String getDisplayID() {
-        return displayID;
-    }
+    public String getDisplayID() { return displayID; }
 
-    public String getUserID() {
-        return userID;
-    }
+    public String getUserID() { return userID; }
+
+    public void setUserID(String userID) { this.userID = userID; }
+
+    public String getContactInfo() { return contactInfo; }
+
+    public void setContactInfo(String contactInfo) { this.contactInfo = contactInfo; }
 
 
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public String getContactInfo() {
-        return contactInfo;
-    }
-
-    public void setContactInfo(String contactInfo) {
-        this.contactInfo = contactInfo;
-    }
-
+    /**
+     * this transforms the User to a HashMap that is fed into the database
+     * @return Map
+     */
     public Map<String, Object> toHashMap() {
         Map<String, Object> user = new HashMap<>();
         user.put("userID", this.userID);

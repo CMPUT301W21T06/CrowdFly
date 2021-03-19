@@ -11,6 +11,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
 
+/**
+ * this class's sole purpose is to register an image and specific components
+ */
 @GlideModule
 public class CrowdFlyAppGlideModule extends AppGlideModule {
         @Override

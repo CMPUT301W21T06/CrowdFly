@@ -6,7 +6,6 @@ import java.util.Map;
 /**
  * this is the Count Trial subclass that specifies Count Trial getters and setters
  */
-
 public class CountTrial extends Trial{
     private String count;
     private String description;
@@ -18,10 +17,9 @@ public class CountTrial extends Trial{
     }
 
     /***
-     *
+     * this is the hash map constructor
      * @param data
      */
-
     public CountTrial(Map<String, Object> data) {
         super(data);
         this.count = (String) data.get("count");
@@ -29,12 +27,18 @@ public class CountTrial extends Trial{
     }
 
     /**
-     * this returns the string display of the number of counts that occurs in a measurement trial
+     * this returns the string display of the number of counts that occurs in a count trial
      * @return
      *    return number of counts
      */
     public String getCount(){return count;}
 
+
+    /**
+     * this returns the string ID of trial
+     * @return
+     *      the trial id
+     */
     public String getTrialID() {
         return trialID;
     }
@@ -49,10 +53,7 @@ public class CountTrial extends Trial{
         trl.put("trialID", this.trialID);
         trl.put("description", this.description);
         trl.put("count", this.count);
-
         //trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
-
-
         return trl;
     }
 }
