@@ -2,6 +2,8 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +46,53 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnBinomial = findViewById(R.id.binomial_btn);
         btnCount = findViewById(R.id.count_btn);
         userID = FirebaseAuth.getInstance().getUid();
+        //set clickers to false until user enters input
+        btnCount.setEnabled(false);
+        btnBinomial.setEnabled(false);
+        btnMeasurement.setEnabled(false);
+
+
+        etRegion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                btnCount.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
+                        && etRegion.getText().toString().trim().length() > 0 );
+                btnMeasurement.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
+                        && etRegion.getText().toString().trim().length() > 0 );
+                btnBinomial.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
+                        && etRegion.getText().toString().trim().length() > 0 );
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+
+        etMinNumTrials.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                btnCount.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
+                        && etRegion.getText().toString().trim().length() > 0 );
+                btnMeasurement.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
+                        && etRegion.getText().toString().trim().length() > 0 );
+                btnBinomial.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
+                        && etRegion.getText().toString().trim().length() > 0 );
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
         btnBinomial.setOnClickListener(new View.OnClickListener() {
             @Override

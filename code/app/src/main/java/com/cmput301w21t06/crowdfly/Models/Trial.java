@@ -18,7 +18,8 @@ public class Trial {
     private String location;
     private String result;
     private Statistics statistics;
-    private final String userID = FirebaseAuth.getInstance().getUid();
+    //private final String userID = FirebaseAuth.getInstance().getUid();
+    private String userID;
 
     public Trial(String description) {
 
@@ -26,6 +27,13 @@ public class Trial {
 //        this.experimenter = experimenter;
     }
 
+    /**
+     * */
+    public void setExperimenterID(String userID){ this.userID = userID;}
+
+
+    /***/
+    public String getExperimenterID(){return userID;}
     /***
      * this returns the experimenter that created the trial
      * @return experimenter
