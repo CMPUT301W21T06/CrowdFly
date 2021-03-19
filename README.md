@@ -2,7 +2,7 @@
 CMPUT301 Android App
 A full application which allows collaborative experimentation. Allows individuals to create and share experiments. And allow experiment owners/creators and other experimenters to subcribe and contribute trial information for each experiment. This app also has features that also involves QR codes, location tracking, and realtime questions and discussion section under each experiment.
 
-Wiki can be found here
+Wiki can be found [here](https://github.com/CMPUT301W21T06/CrowdFly/wiki)
 
 How to use CrowdFly:
 
