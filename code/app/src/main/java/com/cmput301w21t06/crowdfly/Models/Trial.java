@@ -2,6 +2,7 @@ package com.cmput301w21t06.crowdfly.Models;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class Trial {
     private String location;
     private String result;
     private Statistics statistics;
+    private final String userID = FirebaseAuth.getInstance().getUid();
 
     public Trial(String description) {
 
@@ -86,7 +88,7 @@ public class Trial {
         Map<String, Object> trl = new HashMap<>();
         trl.put("description", this.description);
         trl.put("trialID",this.trialID);
-
+        trl.put("experimenter",userID);
         //trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
 
 
