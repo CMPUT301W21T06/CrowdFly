@@ -28,12 +28,18 @@ public class Trial {
     }
 
     /**
-     * */
+     * this sets the user ID to a specific trial class
+     * @param userID
+     */
     public void setExperimenterID(String userID){ this.userID = userID;}
 
 
-    /***/
+    /**
+     * this returns user id that is connected with a specific trial
+     * @return userID
+     */
     public String getExperimenterID(){return userID;}
+
     /***
      * this returns the experimenter that created the trial
      * @return experimenter

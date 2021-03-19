@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExperimentActivityTest {
+public class  ExperimentActivityTest {
     private Solo solo;
 
     @Rule
