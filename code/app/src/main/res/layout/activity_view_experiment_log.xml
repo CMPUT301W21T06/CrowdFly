@@ -12,12 +12,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Experiment Log"
-<<<<<<< HEAD
+
         android:textColor="#040303"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
-=======
->>>>>>> b49b424c4b1a4e686e667afb29220fec7cc7aca8
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
