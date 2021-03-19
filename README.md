@@ -4,6 +4,8 @@ A full application which allows collaborative experimentation. Allows individual
 
 Wiki can be found [here](https://github.com/CMPUT301W21T06/CrowdFly/wiki)
 
+Access to the Java Doc can be found in the wiki, files are located in wiki/JavaDoc
+
 How to use CrowdFly:
 
 Logging in:
