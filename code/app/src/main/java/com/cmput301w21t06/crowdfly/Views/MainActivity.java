@@ -9,21 +9,27 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cmput301w21t06.crowdfly.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
-
+    private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
+    private final String userID = FirebaseAuth.getInstance().getUid();
+    private Button userProfileButton;
+    private Button viewExperimentLogButton;
+    private Button userSearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button userProfileButton = (Button) findViewById(R.id.userProfileBtn);
-        Button viewExperimentLogButton = (Button) findViewById(R.id.viewExperimentLogBtn);
-
+        userProfileButton = (Button) findViewById(R.id.userProfileBtn);
+        viewExperimentLogButton = (Button) findViewById(R.id.viewExperimentLogBtn);
+        userSearch = findViewById(R.id.userSearchButton);
 
         userProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
+                intent.putExtra(TAG,userID);
                 startActivity(intent);
             }
         });
@@ -35,5 +41,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        userSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, searchUserActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

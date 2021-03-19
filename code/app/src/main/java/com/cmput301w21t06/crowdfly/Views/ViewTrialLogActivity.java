@@ -41,11 +41,13 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         CrowdFlyFirestore.OnDoneGetExpListener,
         CrowdFlyFirestore.OnDoneGetUserListener
 {
+    public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private ListView listView;
     private Button addButton;
     private Button questionButton;
     private Button subButton;
+    private Button endButton;
     static Integer counter = 0;
     static int entry_pos;
     public TrialAdapter adapter;
@@ -61,7 +63,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trial_log);
-
+        endButton = findViewById(R.id.endButton);
         //only update the trialtype once per experiment
         if (counter < 1){
             trialType =  getIntent().getStringExtra("trialType");
@@ -76,8 +78,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         setUpList();
 
         trialArrayList = trialLog.getTrials();
-        Log.e("VTLA - expID", String.valueOf(expID));
-        Log.e("trialArrayListsize", String.valueOf(trialArrayList.size()));
 
         questionButton = findViewById(R.id.questionButton);
         questionButton.setOnClickListener(new View.OnClickListener(){
@@ -91,7 +91,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         addButton = findViewById(R.id.addButton);
         questionButton = findViewById(R.id.questionButton);
         subButton = findViewById(R.id.subButton);
-
         subButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +102,25 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     else {
                         currentExperiment.unsubscribe(currentUser);
                         currentExperiment.isSubscribed(currentUser, ViewTrialLogActivity.this);
+                    }
+                }
+            }
+        });
+        endButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(currentExperiment!=null && currentUser != null){
+                    if(isOwner){
+                        if(!currentExperiment.getStillRunning()){
+                            currentExperiment.setStillRunning(true);
+                        }
+                        else {
+                            currentExperiment.setStillRunning(false);
+                        }
+                        new CrowdFlyFirestore().setExperimentData(currentExperiment);
+                    }
+                    else {
+                        makeToast("You must be the owner to end or start this experiment!");
                     }
                 }
             }
@@ -120,6 +138,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!currentExperiment.getStillRunning()){
+                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    return;
+                }
                 if(subscribed || isOwner){
 
                     counter += 1;
@@ -129,12 +151,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     startActivity(intent);
                 }
                 else {
-                    Toast.makeText(ViewTrialLogActivity.this, "Please subscribe to the experiment to add trials",Toast.LENGTH_LONG).show();
+                    makeToast("Please subscribe to the experiment to add trials");
                 }
-                //if (trialType == "binomial"){
-                //    EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
-                //   editBinomialTrialFragment.show(getSupportFragmentManager(), "EDIT TEXT");
-                //}
 
             }
         });
@@ -143,6 +161,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(!currentExperiment.getStillRunning()){
+                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    return false;
+                }
                 if(subscribed || isOwner) {
                     Trial btrial = (Trial) parent.getAdapter().getItem(position);
                     String trialIDAtPos = btrial.getTrialID();
@@ -151,7 +173,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     adapter.notifyDataSetChanged();
                 }
                 else {
-                    Toast.makeText(ViewTrialLogActivity.this, "Please subscribe to the experiment to remove trials",Toast.LENGTH_LONG).show();
+                    makeToast("Please subscribe to the experiment to remove trials");
                 }
                 return false;
             }
@@ -161,12 +183,13 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if(!currentExperiment.getStillRunning()){
+                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    return;
+                }
                 if(subscribed || isOwner) {
 
                     Trial x = trialLog.getTrial(i);
-                    Log.e("VTLA-TrialID", String.valueOf(x.getTrialID()));
-
-                    Log.e("onItemClick Item", String.valueOf(adapterView.getAdapter().getItem(i)));
                     if (trialType.equals("binomial")) {
                         EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                         entry_pos = i;
@@ -191,68 +214,36 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         entry_pos = i;
                         Trial mtrial = (Trial) adapterView.getAdapter().getItem(i);
                         String trialIDAtPos = mtrial.getTrialID();
-                        //Log.e("mtrial_id", String.valueOf(trialIDAtPos));
-                        //MeasurementTrial trial = (MeasurementTrial) new CrowdFlyFirestore().getMTrial(expID, trialIDAtPos);
                         MeasurementTrial trial = new CrowdFlyFirestore().getMTrial(expID, trialIDAtPos);
                         editMeasureTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
                 }
                 else {
-                    Toast.makeText(ViewTrialLogActivity.this, "Please subscribe to the experiment to edit trials",Toast.LENGTH_LONG).show();
-                    }
+                    makeToast("Please subscribe to the experiment to edit trials");
+                }
                 }
 
 
         });
 
     }
-    private void setupData(){
-        // grab import bundles from the intent
-//        String itemDescription = getIntent().getStringExtra("trialDesc");
-//        String entrySuccesses = getIntent().getStringExtra("success");
-//        String entryFailure = getIntent().getStringExtra("failure");
-//        String entryCount = getIntent().getStringExtra("count");
-//        String entryMeasurement = getIntent().getStringExtra("measurement");
 
+    private void makeToast(String s) {
+        Toast.makeText(ViewTrialLogActivity.this, s, Toast.LENGTH_LONG).show();
+    }
+
+    private void setupData(){
 
 
         // get all experiment data from firestore
         new CrowdFlyFirestore().getTrialData(expID, this);
-        trialArrayList = trialLog.getTrials();
-        for(int k =  0; k < trialArrayList.size(); k++){
-            Log.e("trial ", String.valueOf(trialArrayList.get(k).getTrialID()));
-        }
 
-
-//        if (counter >= 1) {
-//            // In the viewTrialLogActivity, there is a placeholder called trialType, when being passed
-//            // an experiment, this experiment will have an attribute that specifies what trial type it
-//            // allows in its array adapter, the trialType identifier can take 3 different values that
-//            // represent the 3 different trial types
-//
-//            Log.e("running?", "yes");
-//            if(trialType.equals("binomial")){
-//                Log.d("entryFailures",entryFailure);
-//                Log.d("entrySuccesses", entrySuccesses);
-//                Trial trial = new BinomialTrial(itemDescription, entrySuccesses, entryFailure);
-//                trialArrayList.add(trial);
-//            }else if (trialType.equals("count")){
-//                Log.d("entryCount",entryCount);
-//                Trial trial = new CountTrial(itemDescription, entryCount);
-//                trialArrayList.add(trial);
-//            }else if (trialType.equals("measurement")){
-//                Log.d("entryMeasurement",entryMeasurement);
-//                Trial trial = new MeasurementTrial(itemDescription, entryMeasurement);
-//                trialArrayList.add(trial);
-//            }
-//        }
 
     }
     private void setUpList(){
         listView = findViewById(R.id.trialListView);
-        //adapter = new TrialAdapter(getApplicationContext(), 0, trialArrayList);
-        adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials());
+        adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials(),trialType,expID);
         listView.setAdapter(adapter);
     }
 
@@ -304,6 +295,12 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     public void onDoneGetExperiment(Experiment experiment) {
         this.currentExperiment = experiment;
         this.isOwner = this.currentExperiment.getOwnerID().equals(FirebaseAuth.getInstance().getUid());
+        if(currentExperiment.getStillRunning()){
 
+            endButton.setText("End");
+        }
+        else{
+            endButton.setText("Start");
+        }
     }
 }

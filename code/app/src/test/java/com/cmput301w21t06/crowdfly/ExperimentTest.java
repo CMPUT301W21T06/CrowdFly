@@ -43,10 +43,10 @@ public class ExperimentTest {
     }
 
     @Test
-    public void testGetStatus() {
-        assertEquals(true, exp.getStatus());
-        exp.finishExperiment();
-        assertEquals(false, exp.getStatus());
+    public void testGetStillRunning() {
+        assertEquals(true, exp.getStillRunning());
+        exp.setStillRunning(false);
+        assertEquals(false, exp.getStillRunning());
     }
 
     @Test

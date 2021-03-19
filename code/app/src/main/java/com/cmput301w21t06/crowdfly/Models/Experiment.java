@@ -99,19 +99,19 @@ public class Experiment {
     public String getDescription() {return description;}
     public String getRegion() {return region;}
     public int getMinTrials() {return minTrials;}
-    public Boolean getStatus() {return stillRunning;}
     public int getNumTrials() {return trials.size();}
     public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
     public ArrayList<Trial> getTrials() {return trials;}
     public ArrayList<Question> getQuestions() {return questions;}
     public String getOwnerID() {return ownerID;}
     public QRManager getQRManager() {return qrCode;}
+    public Boolean getStillRunning() { return stillRunning;}
     public String getExperimentId() { return experimentId; }
 
     // SETTERS
+    public void setStillRunning(Boolean stillRunning) { this.stillRunning = stillRunning; }
     public void setOwnerID(String ownerID) { this.ownerID = ownerID; }
     public void setExperimentId(String experimentId) { this.experimentId = experimentId; }
-    public void finishExperiment() {stillRunning = false;}
 
     /***
      * this transforms the Experiment to a HashMap that is fed into the database

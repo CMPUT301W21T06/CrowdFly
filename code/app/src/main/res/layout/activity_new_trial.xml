@@ -1,103 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Models.NewTrial">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/newTrialTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="196dp"
-        android:gravity="center_horizontal"
-        android:text="Trial"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Models.NewTrial">
 
-    <EditText
-        android:id="@+id/regionEnforcedEditText"
-        android:layout_width="296dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="68dp"
-        android:width="300sp"
-        android:height="40dp"
-        android:background="@null"
-        android:hint="Region Enforced:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
+        <TextView
+            android:id="@+id/newTrialTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="196dp"
+            android:gravity="center_horizontal"
+            android:text="Trial"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.022" />
 
-
-
-    <EditText
-        android:id="@+id/regionTypeEditText"
-        android:layout_width="296dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="68dp"
-        android:width="300sp"
-        android:height="40dp"
-        android:background="@null"
-        android:hint="Region Type:"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/regionEnforcedEditText" />
+        <EditText
+            android:id="@+id/regionEnforcedEditText"
+            android:layout_width="296dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="68dp"
+            android:width="300sp"
+            android:height="40dp"
+            android:background="@null"
+            android:hint="Region Enforced:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
 
 
-    <Button
-        android:id="@+id/newTrialAddButton"
-        android:layout_width="209dp"
-        android:layout_height="66dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="104dp"
-        android:text="Add Trial"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/binTrial"
-        android:layout_width="105dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="44dp"
-        android:text="Bin Trial"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/countTrial"
-        android:layout_width="105dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="152dp"
-        android:layout_marginBottom="44dp"
-        android:text="Count Trial"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <Button
-        android:id="@+id/measureTrial"
-        android:layout_width="105dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="288dp"
-        android:layout_marginBottom="44dp"
-        android:text="Measure Trial"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        <EditText
+            android:id="@+id/regionTypeEditText"
+            android:layout_width="296dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="68dp"
+            android:width="300sp"
+            android:height="40dp"
+            android:background="@null"
+            android:hint="Region Type:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regionEnforcedEditText" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/newTrialAddButton"
+            android:layout_width="209dp"
+            android:layout_height="66dp"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="104dp"
+            android:text="Add Trial"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints"
+            />
+
+        <Button
+            android:id="@+id/binTrial"
+            android:layout_width="105dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="44dp"
+            android:layout_marginTop="50dp"
+            android:text="Bin Trial"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/regionTypeEditText"
+            app:layout_constraintVertical_bias="1.0"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/countTrial"
+            android:layout_width="105dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="152dp"
+            android:layout_marginBottom="44dp"
+            android:text="Count Trial"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/measureTrial"
+            android:layout_width="105dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="288dp"
+            android:layout_marginBottom="44dp"
+            android:text="Measure Trial"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</ScrollView>
