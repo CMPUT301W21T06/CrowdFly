@@ -30,9 +30,12 @@
 
             <EditText
                 android:id="@+id/measurementInput"
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter some text" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="numberDecimal" />
+
         </LinearLayout>
 
         <LinearLayout

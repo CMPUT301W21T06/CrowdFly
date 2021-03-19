@@ -101,16 +101,19 @@
 
             <TextView
                 android:id="@+id/successDisplay"
-                android:layout_width="100dp"
+                android:layout_width="115dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Success" />
 
             <EditText
                 android:id="@+id/binSuccesses"
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter some text" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -120,17 +123,18 @@
 
             <TextView
                 android:id="@+id/failureDisplay"
-                android:layout_width="100dp"
+                android:layout_width="123dp"
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:text="Failure" />
 
             <EditText
                 android:id="@+id/binFailures"
-                android:layout_width="250dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Enter some text"
-                tools:ignore="DuplicateIds" />
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number" />
 
         </LinearLayout>
     </LinearLayout>
