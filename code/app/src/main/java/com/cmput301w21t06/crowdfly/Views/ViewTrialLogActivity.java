@@ -46,6 +46,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private ListView listView;
     private Button addButton;
     private Button questionButton;
+    private Button qrButton;
     private Button subButton;
     private Button endButton;
     static Integer counter = 0;
@@ -87,7 +88,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
-
+        qrButton = findViewById(R.id.QRButton);
         addButton = findViewById(R.id.addButton);
         questionButton = findViewById(R.id.questionButton);
         subButton = findViewById(R.id.subButton);
@@ -156,6 +157,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
             }
         });
+
+
 
         //delete trials
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

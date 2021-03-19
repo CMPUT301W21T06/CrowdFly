@@ -21,13 +21,16 @@
 
 
 
-        <activity android:name=".Views.ViewQuestionLogActivity" />
+        <activity android:name=".Views.ViewQuestionLogActivity"
+            android:parentActivityName=".Views.ViewTrialLogActivity"/>
         <activity android:name=".Views.UserProfileActivity" />
-        <activity android:name=".Views.ViewStatisticActivity" />
+        <activity android:name=".Views.ViewStatisticActivity" android:parentActivityName=".Views.ViewTrialLogActivity"/>
         <activity android:name=".Models.NewTrial" />
         <activity
             android:name=".Views.ViewTrialLogActivity"
-            android:label="@string/title_activity_view_trial_log">
+            android:parentActivityName=".Views.ViewExperimentLogActivity"
+            android:label="@string/title_activity_view_trial_log"
+            android:launchMode="singleTask">
 
         </activity>
         <activity
