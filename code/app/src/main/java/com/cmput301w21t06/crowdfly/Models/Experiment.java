@@ -1,8 +1,6 @@
 package com.cmput301w21t06.crowdfly.Models;
 
 import com.cmput301w21t06.crowdfly.Controllers.SubscriptionManager;
-
-//import android.telephony.SubscriptionManager;
 import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
@@ -101,7 +99,6 @@ public class Experiment {
     public String getDescription() {return description;}
     public String getRegion() {return region;}
     public int getMinTrials() {return minTrials;}
-    public Boolean getStatus() {return stillRunning;}
     public int getNumTrials() {return trials.size();}
     public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
     public ArrayList<Trial> getTrials() {return trials;}
@@ -110,9 +107,25 @@ public class Experiment {
     public QRManager getQRManager() {return qrCode;}
     public Boolean getPublished() {return published;}
 
-    public void setOwnerID(String ownerID) { this.ownerID = ownerID; }
-    public void setExperimentId(String experimentId) { this.experimentId = experimentId; }
-    public String getExperimentId() { return experimentId; }
+    public void setStillRunning(Boolean stillRunning) {
+        this.stillRunning = stillRunning;
+    }
+
+    public Boolean getStillRunning() {
+        return stillRunning;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    public void setExperimentId(String experimentId) {
+        this.experimentId = experimentId;
+    }
+
+    public String getExperimentId() {
+        return experimentId;
+    }
 
     /***
      * this transforms the Experiment to a HashMap that is fed into the database

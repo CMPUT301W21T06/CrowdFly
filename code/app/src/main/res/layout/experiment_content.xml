@@ -48,7 +48,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="numTrials"
+<<<<<<< HEAD
         android:textColor="#0B0A0A"
+=======
+>>>>>>> b49b424c4b1a4e686e667afb29220fec7cc7aca8
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

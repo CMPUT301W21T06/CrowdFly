@@ -202,22 +202,21 @@ public class  CrowdFlyFirestore {
     public void getExperimentLogData(OnDoneGetExpLogListener onDoneGetExpLogListener) {
         CollectionReference expData = this.getCollectionReference("Experiments");
         ExperimentLog expLog = ExperimentLog.getExperimentLog();
+        
         expLog.resetExperimentLog();
-
-        expData
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        expData.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error == null) {
+                    expLog.resetExperimentLog();
+                    for (DocumentSnapshot document : value.getDocuments()) {
                         // get all data from each of the experiment documents
                         Map data = document.getData();
                         expLog.addExperiment(new Experiment(data));
                     }
-                    onDoneGetExpLogListener.onDoneGetExperiments(expLog);
+                    onDoneGetExpLogListener.onDoneGetExperiments();
                 } else {
-                    Log.d("", "Error getting documents: ", task.getException());
+                    Log.d("EXPERIMENTS", "Error getting documents: ", error);
                 }
             }
         });
@@ -494,7 +493,7 @@ public class  CrowdFlyFirestore {
      * Interface for retrieving the experiment log data
      */
     public interface OnDoneGetExpLogListener {
-        public void onDoneGetExperiments(ExperimentLog expLog);
+        public void onDoneGetExperiments();
     }
 
     /***
