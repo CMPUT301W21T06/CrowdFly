@@ -21,12 +21,12 @@
         app:layout_constraintVertical_bias="0.275" />
 
     <Button
-        android:id="@+id/cancel_btn"
+        android:id="@+id/cancelBtn"
         android:layout_width="157dp"
         android:layout_height="64dp"
-        android:layout_marginStart="224dp"
+        android:layout_marginStart="236dp"
         android:layout_marginBottom="10dp"
-        android:text="cancel"
+        android:text="@android:string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

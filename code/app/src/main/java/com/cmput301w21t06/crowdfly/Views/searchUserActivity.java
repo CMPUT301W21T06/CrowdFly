@@ -38,7 +38,7 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyFir
         changedArray = new ArrayList<String>();
         searchBar.addTextChangedListener(searchWatcher);
         crowdFlyFirestore.getUsers(this);
-        idDisplay.setOnItemLongClickListener(itemClickListener);
+        idDisplay.setOnItemClickListener(itemClickListener);
     }
 
     @Override
@@ -66,13 +66,12 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyFir
         @Override
         public void afterTextChanged(Editable editable) {}
     };
-    AdapterView.OnItemLongClickListener itemClickListener = new AdapterView.OnItemLongClickListener() {
+    AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
-        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
             intent.putExtra(TAG,changedArray.get(i));
             startActivity(intent);
-            return false;
         }
     };
 }
