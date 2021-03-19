@@ -17,6 +17,9 @@ import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 
+/**
+ * Fragment to allow controlled edits to a created binomial trial
+ */
 public class EditBinomialTrialFragment extends DialogFragment {
     private EditText successes, failures, description;
     private OnFragmentInteractionListener listener;

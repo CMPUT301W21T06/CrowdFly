@@ -18,6 +18,10 @@ import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Handles adding an experiment
+ * Yet to handle location data
+ */
 public class AddExperimentActivity extends AppCompatActivity {
 
     Button btnAddExperiment;
@@ -136,14 +140,26 @@ public class AddExperimentActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Get the region from the input box
+     * @return
+     * Returns the region
+     */
     public String getRegion(){
         return etRegion.getText().toString();
     }
+
+    /**
+     * Gets the number of trials from the input box
+     * @return
+     * Returns the number of trials
+     */
     public Integer getMinNumTrials(){
         String minNumTrials = etMinNumTrials.getText().toString();
         return Integer.parseInt(minNumTrials);
     }
-    public void makeToast(String toast, int n) {
+
+    private void makeToast(String toast, int n) {
         //0 for short toast, 1 for long toast
         if (n == 0) {
             Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();

@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * this is the Measurement Trial subclass that specifies Measurement Trial getters and setters
+ * Things related to region have yet to be implemented
  */
 public class MeasurementTrial extends Trial{
     private String measurement;

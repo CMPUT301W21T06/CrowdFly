@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * this is the experiment model class involving model functions
+ * Things related to region have yet to be implemented
  */
 
 public class Experiment {

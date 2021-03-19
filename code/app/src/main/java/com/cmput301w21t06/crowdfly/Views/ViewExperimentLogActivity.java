@@ -19,6 +19,10 @@ import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
 
+/**
+ * Shows all the experiments in a list view
+ * Map and search buttons not implemented
+ */
 public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetExpLogListener {
     private ListView experimentListView;
     private ExperimentContent expAdapter;
@@ -84,6 +88,9 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     }
 
 
+    /**
+     * Handles projecting data to list view once data retrieved from database
+     */
     @Override
     public void onDoneGetExperiments() {
         experimentsList = experimentLog.getExperiments();

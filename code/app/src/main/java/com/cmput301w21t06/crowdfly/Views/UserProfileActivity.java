@@ -17,6 +17,9 @@ import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.StorageReference;
 
+/**
+ * This activity allows the user to see and edit their profile
+ */
 public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetUserListener, CrowdFlyFirestore.OnDoneGetProfilePicListener {
     private CrowdFlyFirestore crowdFlyFirestore;
     final private String userID = FirebaseAuth.getInstance().getUid();
@@ -51,6 +54,11 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
 
     }
 
+    /**
+     * This handles setting textboxes after user info has been pulled from the database
+     * @param userProfile
+     * The instatiated user with information from the database
+     */
     @Override
     public void onDoneGetUser(User userProfile) {
         user = userProfile;
@@ -58,6 +66,11 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
         userInfo.setText(user.getContactInfo());
     }
 
+    /**
+     * This handles setting up the profile picture of the user after pulling it from the database
+     * @param pic
+     * This is the profile picture
+     */
     @Override
     public void onDoneGetProfilePic(StorageReference pic) {
         Glide.with(this)
@@ -67,15 +80,27 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
 
     }
 
+    /**
+     * This stores the information into firestore and goes back to the past activity once the user presses the done button
+     */
     private void handleDone(){
         user.setContactInfo(String.valueOf(userInfo.getText()));
         crowdFlyFirestore.setUserProfile(user);
         goBack();
     }
+
+    /**
+     * This handles going back to the past activity
+     */
     private void goBack(){
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        finish();
     }
+
+    /**
+     * This checks if the user profile should be opened in edit or view mode
+     * @return
+     * This returns a boolean indicating if it is editable
+     */
     private boolean canEdit(){
         Intent intent = getIntent();
         requestedID = intent.getStringExtra(TAG);

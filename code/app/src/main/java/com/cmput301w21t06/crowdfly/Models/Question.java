@@ -2,6 +2,10 @@ package com.cmput301w21t06.crowdfly.Models;
 
 import java.util.ArrayList;
 
+/**
+ * This is the question class, each question is a forum entry with comments
+ * Nothing has been implemented for this yet
+ */
 public class Question {
     private Integer questionID;
     private String question;

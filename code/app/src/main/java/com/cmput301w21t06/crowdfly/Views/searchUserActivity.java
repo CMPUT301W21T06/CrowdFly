@@ -19,6 +19,9 @@ import java.util.ArrayList;
 
 import static com.cmput301w21t06.crowdfly.Models.LiveTextUpdater.handleChange;
 
+/**
+ * This class provides a view to allow users to look at the user profile of other users
+ */
 public class searchUserActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetIdsListener {
     private ListView idDisplay;
     private EditText searchBar;
@@ -27,6 +30,8 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyFir
     private ArrayList<String> defaultArray;
     private ArrayList<String> changedArray;
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,11 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyFir
         idDisplay.setOnItemClickListener(itemClickListener);
     }
 
+    /**
+     * This handles the set up once all ids have been pulled from the database
+     * @param ids
+     * This is the list of all ids currently registered
+     */
     @Override
     public void onDoneGetIds(ArrayList<String> ids) {
         this.defaultArray = ids;
@@ -50,6 +60,7 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyFir
         idAdapter.notifyDataSetChanged();
     }
 
+    //Listeners not given javadoc
     TextWatcher searchWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
