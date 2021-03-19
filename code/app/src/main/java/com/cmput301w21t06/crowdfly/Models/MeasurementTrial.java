@@ -24,6 +24,7 @@ public class MeasurementTrial extends Trial{
      */
     public MeasurementTrial(Map<String, Object> data) {
         super(data);
+        this.description = (String) data.get("description");
         this.measurement = (String) data.get("measurement");
 
     }
