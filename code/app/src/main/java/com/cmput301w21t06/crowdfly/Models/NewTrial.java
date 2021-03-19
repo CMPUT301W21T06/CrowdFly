@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class NewTrial extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
 
     private EditText regionEnforced, trialDesc, regionType,  successes, failures;
-    private Button addButton, buttonBinomial, buttonMeasure, buttonCount;
+    private Button addButton, buttonBinomial, buttonMeasure, buttonCount, buttonCancel;
     public String newTrialSuccesses, newTrialFailures, newTrialCount, newTrialMeasurement, newTrialDescription;
 
     public String trialType;
@@ -45,6 +45,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
         TrialLog trialLog = TrialLog.getTrialLog();
 
         //instantiate variables
+        buttonCancel = findViewById(R.id.cancelButton);
         regionEnforced = findViewById(R.id.regionEnforcedEditText);
         regionType = findViewById(R.id.regionTypeEditText);
         addButton = findViewById(R.id.newTrialAddButton);
@@ -74,7 +75,12 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
             buttonCount.setBackgroundColor(Color.LTGRAY);
             buttonCount.setEnabled(false);
         }
-
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         buttonMeasure.setOnClickListener(new View.OnClickListener() {
             @Override

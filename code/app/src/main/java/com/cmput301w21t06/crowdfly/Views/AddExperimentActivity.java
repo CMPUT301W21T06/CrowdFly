@@ -52,26 +52,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnMeasurement.setEnabled(false);
 
 
-        etRegion.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                btnCount.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
-                        && etRegion.getText().toString().trim().length() > 0 );
-                btnMeasurement.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
-                        && etRegion.getText().toString().trim().length() > 0 );
-                btnBinomial.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
-                        && etRegion.getText().toString().trim().length() > 0 );
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-            }
-        });
 
         etMinNumTrials.addTextChangedListener(new TextWatcher() {
             @Override
@@ -81,12 +62,9 @@ public class AddExperimentActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                btnCount.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
-                        && etRegion.getText().toString().trim().length() > 0 );
-                btnMeasurement.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
-                        && etRegion.getText().toString().trim().length() > 0 );
-                btnBinomial.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0
-                        && etRegion.getText().toString().trim().length() > 0 );
+                btnCount.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
+                btnMeasurement.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
+                btnBinomial.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
 
             }
             @Override
