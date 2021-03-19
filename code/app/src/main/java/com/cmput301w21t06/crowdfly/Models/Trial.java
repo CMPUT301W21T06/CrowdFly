@@ -11,9 +11,9 @@ import java.util.Map;
  * this is the Trial superclass that extends its functionalities to its subclasses
  */
 public class Trial {
-    public User experimenter;
-    public String trialID;
-    public String description;
+    protected User experimenter;
+    protected String trialID;
+    protected String description;
     private Boolean locRequired;
     private String location;
     private String result;
