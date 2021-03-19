@@ -25,14 +25,14 @@
 
     <ListView
         android:id="@+id/experiment_list"
-        android:layout_width="333dp"
-        android:layout_height="514dp"
+        android:layout_width="345dp"
+        android:layout_height="486dp"
         app:layout_constraintBottom_toTopOf="@+id/experiment_search"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.509"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/experiment_log_text"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.836" />
 
     <Button
         android:id="@+id/experiment_search"
