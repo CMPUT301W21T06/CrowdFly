@@ -14,18 +14,20 @@ import com.bumptech.glide.Glide;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.StorageReference;
 
 public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetUserListener, CrowdFlyFirestore.OnDoneGetProfilePicListener {
     private CrowdFlyFirestore crowdFlyFirestore;
-    private String userID = FirebaseAuth.getInstance().getUid();
+    final private String userID = FirebaseAuth.getInstance().getUid();
     private User user;
-    TextView userIDText;
-    EditText userInfo;
-    Button doneButton;
-    ImageView profilePicView;
+    private TextView userIDText;
+    private EditText userInfo;
+    private Button doneButton;
+    private ImageView profilePicView;
+    String requestedID;
+    private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
+
     private View.OnClickListener doneListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -41,9 +43,12 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
         userInfo = findViewById(R.id.userInfo);
         profilePicView = findViewById(R.id.profilePic);
         doneButton.setOnClickListener(doneListener);
+        userInfo.setEnabled(canEdit());
         crowdFlyFirestore = new CrowdFlyFirestore();
-        crowdFlyFirestore.getUserProfile(userID, this);
+        crowdFlyFirestore.getUserProfile(requestedID, this);
         crowdFlyFirestore.getProfilePic(this);
+
+
     }
 
     @Override
@@ -55,7 +60,6 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
 
     @Override
     public void onDoneGetProfilePic(StorageReference pic) {
-        Log.e("TAG",String.valueOf(pic == null));
         Glide.with(this)
                 .load(pic)
                 .fitCenter()
@@ -72,6 +76,11 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
-
+    private boolean canEdit(){
+        Intent intent = getIntent();
+        requestedID = intent.getStringExtra(TAG);
+        boolean condition =  (userID.matches(requestedID));
+        return condition;
+    }
 
 }

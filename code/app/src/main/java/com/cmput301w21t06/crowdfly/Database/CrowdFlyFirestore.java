@@ -38,13 +38,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Main class to contain all methods of interacting with Firestore
  */
-public class CrowdFlyFirestore {
+public class  CrowdFlyFirestore {
     private final FirebaseFirestore firestoreInstance = FirebaseFirestore.getInstance();
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
 
@@ -123,7 +124,30 @@ public class CrowdFlyFirestore {
         );
     }
 
+    public void getUsers(OnDoneGetIdsListener onDoneGetIdsListener){
+        CollectionReference users = this.getCollectionReference("users");
 
+        users.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ArrayList<String> userIds = new ArrayList<String>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // get all data from each of the experiment documents
+                                String id = document.getId().toString();
+                                if (!id.matches("Admin")) {
+                                    userIds.add(id);
+                                }
+
+                            }
+                            onDoneGetIdsListener.onDoneGetIds(userIds);
+                        } else {
+                            Log.e("", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+    }
     public void setExperimentData(Experiment experiment) {
         this.setDocumentData(CrowdFlyFirestorePaths.experiment(experiment.getExperimentId()), experiment.toHashMap());
     }
@@ -492,6 +516,10 @@ public class CrowdFlyFirestore {
      */
     public interface OnDoneGetProfilePicListener {
         public void onDoneGetProfilePic(StorageReference pic);
+    }
+
+    public interface OnDoneGetIdsListener {
+        public void onDoneGetIds(ArrayList<String> ids);
     }
 
 
