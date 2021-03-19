@@ -27,8 +27,9 @@ public class Experiment {
     private ArrayList<Question> questions;
     private String ownerID;
     private QRManager qrCode;
-    private Boolean published;
     private String experimentId;
+
+    // CONSTRUCTORS
 
     /***
      * General constructor for Experiment class
@@ -41,7 +42,6 @@ public class Experiment {
         this.region = reg;
         this.minTrials = minT;
         this.stillRunning = true;
-        this.published = true;
 
         subscribedUsers = new ArrayList<>();
         trials = new ArrayList<>();
@@ -61,9 +61,9 @@ public class Experiment {
         this.stillRunning = (boolean) data.get("stillRunning");
         this.ownerID = (String) data.get("ownerID");
         this.experimentId = (String) data.get("experimentID");
-        this.published = (boolean) data.get("published");
     }
 
+    // METHODS
 
     public void summarizeTrials(ArrayList<Trial> t){}
 
@@ -92,25 +92,26 @@ public class Experiment {
     }
     public void changeType(int type){}
     public void addTrial(Trial trial){}
-    public void ignore(ArrayList<User> subscribedUsers ){}
+    public void ignore(ArrayList<User> subscribedUsers){}
     public void togglePublish(){}
 
-    // getters
+    // GETTERS
     public String getDescription() {return description;}
     public String getRegion() {return region;}
     public int getMinTrials() {return minTrials;}
-    public Boolean getStatus() {return stillRunning;}
     public int getNumTrials() {return trials.size();}
     public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
     public ArrayList<Trial> getTrials() {return trials;}
     public ArrayList<Question> getQuestions() {return questions;}
     public String getOwnerID() {return ownerID;}
     public QRManager getQRManager() {return qrCode;}
-    public Boolean getPublished() {return published;}
+    public Boolean getStillRunning() { return stillRunning;}
+    public String getExperimentId() { return experimentId; }
 
+    // SETTERS
+    public void setStillRunning(Boolean stillRunning) { this.stillRunning = stillRunning; }
     public void setOwnerID(String ownerID) { this.ownerID = ownerID; }
     public void setExperimentId(String experimentId) { this.experimentId = experimentId; }
-    public String getExperimentId() { return experimentId; }
 
     /***
      * this transforms the Experiment to a HashMap that is fed into the database
@@ -119,12 +120,11 @@ public class Experiment {
     public Map<String, Object> toHashMap() {
         Map<String, Object> exp = new HashMap<>();
         exp.put("description", this.description);
-        exp.put("experimentID", this.experimentId);
-        exp.put("minTrials", this.minTrials);
-        exp.put("ownerID", this.ownerID);
-        exp.put("published", this.published);
         exp.put("region", this.region);
+        exp.put("minTrials", (long) this.minTrials);
         exp.put("stillRunning", this.stillRunning);
+        exp.put("ownerID", this.ownerID);
+        exp.put("experimentID", this.experimentId);
 
         return exp;
     }

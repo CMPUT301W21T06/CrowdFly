@@ -16,5 +16,7 @@
     <string name="authButton">Generate</string>
     <string name="authButtonSubtitle">Generate a new anonymous ID</string>
     <string name="subscribe">Subscribe</string>
+    <string name="UserSearch">User Search</string>
     <string name="unsubscribe">Unsubscribe</string>
+    <string name="title_activity_search_user">searchUserActivity</string>
 </resources>

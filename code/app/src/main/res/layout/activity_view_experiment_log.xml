@@ -10,18 +10,23 @@
         android:id="@+id/experiment_log_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Experiment Log"
+
+        android:textColor="#040303"
+        android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.098" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ListView
         android:id="@+id/experiment_list"
-        android:layout_width="365dp"
-        android:layout_height="416dp"
+        android:layout_width="345dp"
+        android:layout_height="486dp"
         app:layout_constraintBottom_toTopOf="@+id/experiment_search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
@@ -33,7 +38,7 @@
         android:id="@+id/experiment_search"
         android:layout_width="300sp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
+        android:layout_marginBottom="100dp"
         android:text="Search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,21 +48,24 @@
         android:id="@+id/experiment_map"
         android:layout_width="140sp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="52dp"
         android:layout_marginBottom="52dp"
         android:text="Map"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/experiment_search" />
 
     <Button
         android:id="@+id/experiment_add"
         android:layout_width="140sp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="52dp"
         android:text="Add experiment"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.148"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/experiment_search" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

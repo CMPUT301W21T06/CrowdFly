@@ -22,6 +22,7 @@ public class CountTrial extends Trial{
      */
     public CountTrial(Map<String, Object> data) {
         super(data);
+        this.description = (String) data.get("description");
         this.count = (String) data.get("count");
 
     }

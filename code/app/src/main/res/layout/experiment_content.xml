@@ -15,6 +15,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="8dp"
         android:text="Description"
+        android:textColor="#0B0A0A"
         app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:text="Owner Name"
+        android:textColor="#131313"
         app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
         app:layout_constraintTop_toBottomOf="@+id/exp_description" />
 
@@ -33,6 +35,7 @@
         android:layout_height="19dp"
         android:layout_marginTop="1dp"
         android:text="Status"
+        android:textColor="#0E0E0E"
         app:layout_constraintEnd_toEndOf="@+id/exp_ownerName"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/exp_region"
@@ -45,8 +48,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="numTrials"
-        app:layout_constraintEnd_toStartOf="@+id/button_subscribe"
-        app:layout_constraintHorizontal_bias="0.084"
+
+        android:textColor="#0B0A0A"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,19 +59,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Region:"
+        android:textColor="#090909"
         app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
         app:layout_constraintTop_toBottomOf="@+id/exp_numTrials" />
-
-    <Button
-        android:id="@+id/button_subscribe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:focusable="false"
-        android:padding="10dp"
-        android:text="Subscribe"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
