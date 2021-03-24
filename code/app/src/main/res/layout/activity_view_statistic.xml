@@ -1,20 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Views.ViewStatisticActivity">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="164dp"
-        android:text="Statistics"
-        android:textColor="#0B0A0A"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="152dp"
+            android:text="Statistics"
+            android:textColor="#0B0A0A"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/titleQuartiles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="16dp"
+            android:text="Quartiles:"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/sQuartiles"
+            android:layout_width="153dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="_______________"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/titleQuartiles"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/titleMedian"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:text="Median:"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleQuartiles" />
+
+        <TextView
+            android:id="@+id/sMedian"
+            android:layout_width="153dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="27.8dp"
+            android:layout_marginTop="8dp"
+            android:text="_______________"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/titleMedian"
+            app:layout_constraintTop_toBottomOf="@+id/sQuartiles" />
+
+        <TextView
+            android:id="@+id/titleMean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:text="Mean:"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleMedian" />
+
+        <TextView
+            android:id="@+id/sMean"
+            android:layout_width="153dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="12dp"
+            android:text="_______________"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/titleMean"
+            app:layout_constraintTop_toBottomOf="@+id/sMedian" />
+
+        <TextView
+            android:id="@+id/titleStdDev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:text="Std Dev:"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleMean" />
+
+        <TextView
+            android:id="@+id/sStdDev"
+            android:layout_width="153dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="8dp"
+            android:text="_______________"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/titleStdDev"
+            app:layout_constraintTop_toBottomOf="@+id/sMean" />
+
+        <ImageView
+            android:id="@+id/histogram"
+            android:layout_width="402dp"
+            android:layout_height="270dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="44dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sStdDev"
+            tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />
+
+        <ImageView
+            android:id="@+id/forecastedData"
+            android:layout_width="402dp"
+            android:layout_height="270dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/histogram"
+            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</ScrollView>
