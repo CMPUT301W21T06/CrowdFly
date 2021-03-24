@@ -9,6 +9,7 @@
     <string name="signup_prompt">New user? Click me!</string>
     <string name="login">Setup</string>
     <string name="ID">ID</string>
+    <string name="accessReplies"><u>View all replies</u></string>
     <string name="Contact">Contact Information:</string>
     <string name="Done">DONE</string>
     <string name="authButtonLoading">Generating...</string>
