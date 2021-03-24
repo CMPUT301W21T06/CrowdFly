@@ -51,4 +51,5 @@ obj/
 .externalNativeBuild
 .cxx
 local.properties
-code/app/google-services.json.DS_Store
+code/app/google-services.json
+.DS_Store
