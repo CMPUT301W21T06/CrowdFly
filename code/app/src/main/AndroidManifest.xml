@@ -10,20 +10,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
-        <activity android:name=".AskQuestionActivity"></activity>
-        <activity android:name=".Views.QuestionThreadActivity" >
-
-        </activity>
+        <activity android:name=".Views.LocationActivity"></activity>
+        <activity android:name=".Views.AskQuestionActivity" />
+        <activity android:name=".Views.QuestionThreadActivity"></activity>
         <activity
             android:name=".Views.searchUserActivity"
             android:label="@string/title_activity_search_user"
             android:parentActivityName=".Views.MainActivity" />
         <activity
             android:name=".Views.ViewQuestionLogActivity"
-            android:parentActivityName=".Views.ViewTrialLogActivity">
-
-        </activity>
-
+            android:parentActivityName=".Views.ViewTrialLogActivity"></activity>
         <activity android:name=".Views.UserProfileActivity" />
         <activity
             android:name=".Views.ViewStatisticActivity"

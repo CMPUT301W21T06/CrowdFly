@@ -1,8 +1,10 @@
-package com.cmput301w21t06.crowdfly;
+package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.cmput301w21t06.crowdfly.R;
 
 public class AskQuestionActivity extends AppCompatActivity {
 
