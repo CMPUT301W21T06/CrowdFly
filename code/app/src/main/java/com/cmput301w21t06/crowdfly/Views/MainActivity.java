@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.cmput301w21t06.crowdfly.Database.GodController;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        GodController.allmightySetup();
         userProfileButton = (Button) findViewById(R.id.userProfileBtn);
         viewExperimentLogButton = (Button) findViewById(R.id.viewExperimentLogBtn);
         userSearch = findViewById(R.id.userSearchButton);

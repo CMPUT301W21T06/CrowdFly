@@ -20,6 +20,8 @@ import com.cmput301w21t06.crowdfly.Controllers.SubscriptionManager;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
@@ -42,7 +44,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         CrowdFlyFirestore.OnDoneGetTrialsListener,
         SubscriptionManager.OnDoneGetSubscribedListener,
         CrowdFlyFirestore.OnDoneGetExpListener,
-        CrowdFlyFirestore.OnDoneGetUserListener
+        CrowdFlyListeners.OnDoneGetUserListener
 {
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
@@ -76,7 +78,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
         trialLog = TrialLog.getTrialLog();
         new CrowdFlyFirestore().getExperimentData(expID, this);
-        new CrowdFlyFirestore().getUserProfile(FirebaseAuth.getInstance().getUid(), this);
+        UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);
         //setup the data
         setupData();
         setUpList();

@@ -8,18 +8,12 @@ public class CrowdFlyFirestorePaths {
     /**
      * Returns path to data associated with user ID
      * @param userID
+     * This is the user id that will be used to construct the path
      * @return
+     * This returns the completed path
      */
     public static final String userProfile(String userID){
         return String.format("/users/%s", userID);
-    }
-
-    /**
-     * Returns path to User ID counter
-     * @return
-     */
-    public static final String displayId(){
-        return "/users/Admin";
     }
 
     /***
@@ -87,10 +81,7 @@ public class CrowdFlyFirestorePaths {
         return String.format("/Questions/{}", questionID);
     }
 
-    // comments will be a subcollection of questions, but will figure this out later on.
-//    public static final String comments(int questionID, int commentID) {
-//        return String.format("Questions/{}/{}", questionID, commentID);
-//    }
+
 
 
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -116,8 +117,8 @@ public class AuthActivity extends AppCompatActivity {
      */
     private void createUser(FirebaseUser user) {
         String userID = user.getUid();
-        User newUser = new User(userID);
-        new CrowdFlyFirestore().setUserProfile(newUser);
+        User newUser = new User("", "", "", userID);
+        UserController.setUserProfile(newUser);
     }
 
 

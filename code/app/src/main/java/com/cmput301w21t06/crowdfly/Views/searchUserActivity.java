@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import static com.cmput301w21t06.crowdfly.Models.LiveTextUpdater.handleChange;
 /**
  * This class provides a view to allow users to look at the user profile of other users
  */
-public class searchUserActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetIdsListener {
+public class searchUserActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetIdsListener {
     private ListView idDisplay;
     private EditText searchBar;
     private CrowdFlyFirestore crowdFlyFirestore;
@@ -42,7 +44,7 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyFir
         defaultArray = new ArrayList<String>();
         changedArray = new ArrayList<String>();
         searchBar.addTextChangedListener(searchWatcher);
-        crowdFlyFirestore.getUsers(this);
+        UserController.getUsers(this);
         idDisplay.setOnItemClickListener(itemClickListener);
     }
 
