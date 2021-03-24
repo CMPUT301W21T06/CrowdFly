@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        GodController.allmightySetup();
         userProfileButton = (Button) findViewById(R.id.userProfileBtn);
         viewExperimentLogButton = (Button) findViewById(R.id.viewExperimentLogBtn);
         userSearch = findViewById(R.id.userSearchButton);

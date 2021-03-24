@@ -21,6 +21,7 @@ import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
@@ -43,7 +44,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         EditMeasureTrialFragment.OnFragmentInteractionListener,
         CrowdFlyFirestore.OnDoneGetTrialsListener,
         SubscriptionManager.OnDoneGetSubscribedListener,
-        CrowdFlyFirestore.OnDoneGetExpListener,
+        CrowdFlyListeners.OnDoneGetExpListener,
         CrowdFlyListeners.OnDoneGetUserListener
 {
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
@@ -77,7 +78,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         }
 
         trialLog = TrialLog.getTrialLog();
-        new CrowdFlyFirestore().getExperimentData(expID, this);
+        ExperimentController.getExperimentData(expID, this);
         UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);
         //setup the data
         setupData();
@@ -123,7 +124,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         else {
                             currentExperiment.setStillRunning(false);
                         }
-                        new CrowdFlyFirestore().setExperimentData(currentExperiment);
+                        ExperimentController.setExperimentData(currentExperiment);
                     }
                     else {
                         makeToast("You must be the owner to end or start this experiment!");

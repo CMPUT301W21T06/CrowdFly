@@ -25,13 +25,6 @@ public class CrowdFlyFirestorePaths {
         return String.format("/Experiments/%s", experimentID);
     }
 
-    /***
-     * Path for the experiments collection
-     * @return
-     */
-    public static final String experimentsCollection() {
-        return "/Experiments";
-    }
 
     /***
      * Path for subscriptions sub collection for experiment

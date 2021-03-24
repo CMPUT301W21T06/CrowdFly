@@ -4,8 +4,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -19,6 +21,7 @@ public class GodController {
     }
 
     public static void allmightySetup(){
+        ExperimentController.setUp();
         UserController.setUp();
     }
 
@@ -49,6 +52,22 @@ public class GodController {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.i("FIRESTORE", "Doc deleted successfully");
+            }
+        });
+    }
+
+    private void updateDocumentData(String path, Map<String, Object> data) {
+        data.put("lastUpdatedAt", FieldValue.serverTimestamp()); // Adds a server timestamp for all updates
+
+        db.document(path).update(data).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("FIRESTORE", e.getMessage());
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.i("FIRESTORE", "Data set successfully");
             }
         });
     }
