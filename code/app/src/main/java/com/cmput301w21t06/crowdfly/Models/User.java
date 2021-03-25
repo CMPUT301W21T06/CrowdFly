@@ -76,6 +76,7 @@ public class User {
     public String getDisplayID() { return displayID; }
 
     public String getUserID() { return userID; }
+    public void setUserID(String uid) { userID = uid; }
 
     public String getContactInfo() { return contactInfo; }
 
