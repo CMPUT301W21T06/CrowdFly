@@ -22,10 +22,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class TrialController {
     private CollectionReference trialsCollection;
-    private ArrayList<Trial> trials;
+    private ArrayList<Trial> trials = new ArrayList<Trial>();
     public TrialController(String eid) {
         trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(eid));
         setUp();
@@ -38,9 +40,11 @@ public class TrialController {
                 for (QueryDocumentSnapshot doc : response){
                     String type = doc.getString("type");
                     Trial trial = null;
+                    Log.e("dbshit",doc.getString("trialID"));
                     switch (type) {
                         case "binomial":
                             trial = new BinomialTrial(doc.getData());
+                            Log.e("shitdipper",trial.getTrialID());
                             break;
                         case "count":
                             trial = new CountTrial(doc.getData());
@@ -61,6 +65,7 @@ public class TrialController {
     }
 
     public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener){
+        Collections.sort(trials);
         TrialLog trialLog = TrialLog.getTrialLog();
         trialLog.resetTrialLog();
 
@@ -70,20 +75,22 @@ public class TrialController {
 
         onDoneGetTrialsListener.onDoneGetTrials(trialLog);
     }
-
+    public ArrayList<Trial> getTrials(){
+        return trials;
+    }
     public void getTrial(String trialID, CrowdFlyListeners.OnDoneGetTrialListener onDoneGetTrialListener){
-        Trial loop_trial = null;
+        Trial loopTrial = null;
         boolean loop = true;
         int i = 0;
         while (loop && i < trials.size()){
-            loop_trial = trials.get(i);
-            if (loop_trial.getTrialID().matches(trialID)){
+            loopTrial = trials.get(i);
+            if (loopTrial.getTrialID().matches(trialID)){
                 loop = false;
             }
             i++;
         }
-        if (loop_trial != null) {
-            onDoneGetTrialListener.onDoneGetTrial(loop_trial);
+        if (loopTrial != null) {
+            onDoneGetTrialListener.onDoneGetTrial(loopTrial);
         }
         else{
             Log.e("TrialController","Trial not found on find!");
@@ -112,26 +119,37 @@ public class TrialController {
         GodController.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
     }
 
-    public void removeTrialData(String expID, String trialID){
-        Trial loop_trial = null;
+    public void removeTrialData(String trialID){
+        Trial loopTrial = null;
         boolean loop = true;
         int i = 0;
         while (loop && i < trials.size()){
-            loop_trial = trials.get(i);
-            if (loop_trial.getTrialID().matches(trialID)){
+            loopTrial = trials.get(i);
+            if (loopTrial.getTrialID().matches(trialID)){
                 loop = false;
             }
 
             i++;
         }
-        if (loop_trial != null) {
-            trials.remove(loop_trial);
+        if (loopTrial != null) {
+            trials.remove(loopTrial);
         }
         else{
             Log.e("TrialController","Trial not found on delete!");
         }
 
-        trialsCollection.document(String.valueOf(trialID)).delete();
+        DocumentReference doc = trialsCollection.document(String.valueOf(trialID));
+        Log.e("dd", doc.getId());
+        doc.delete();
     }
+
+    public void removeTrials(){
+        for (Trial trial : trials){
+            Log.e("deletion",trial.getTrialID());
+            DocumentReference doc = trialsCollection.document(String.valueOf(trial.getTrialID()));
+            doc.delete();
+        }
+    }
+
 
 }

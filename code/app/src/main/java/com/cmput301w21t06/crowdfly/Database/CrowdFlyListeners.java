@@ -47,6 +47,7 @@ public class CrowdFlyListeners {
     public interface  OnDoneGetTrialListener {
         public void onDoneGetTrial(Trial trial);
     }
+
 }
 
 

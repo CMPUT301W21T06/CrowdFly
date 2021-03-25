@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
+import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,6 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +42,7 @@ public class ExperimentController {
             @Override
             public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 experiments.clear();
-                Log.e("FF","FUCK25");
+                Log.e("FF","FUCK37");
                 for (QueryDocumentSnapshot doc : response){
                     Experiment exp = new Experiment(doc.getData());
                     experiments.add(exp);
@@ -57,6 +59,7 @@ public class ExperimentController {
      * The class that implemeents the method to handle the result of this function
      */
     public static void getExperimentLogData(CrowdFlyListeners.OnDoneGetExpLogListener onDoneGetExpLogListener) {
+        Collections.sort(experiments);
         ExperimentLog expLog = ExperimentLog.getExperimentLog();
         expLog.resetExperimentLog();
         for (Experiment exp : experiments){
@@ -131,24 +134,27 @@ public class ExperimentController {
      * The experiment object
      */
     public static void deleteExperiment(String experimentId, Experiment exp) {
-        Experiment loop_exp = null;
+        Experiment loopExp = null;
         boolean loop = true;
         int i = 0;
         while (loop && i < experiments.size()){
-            loop_exp = experiments.get(i);
-            if (loop_exp.getExperimentId().matches(experimentId)){
+            loopExp = experiments.get(i);
+            if (loopExp.getExperimentId().matches(experimentId)){
                 loop = false;
             }
             i++;
         }
-        if (loop_exp != null) {
-            experiments.remove(loop_exp);
+        if (loopExp != null) {
+            experiments.remove(loopExp);
         }
         else{
             Log.e("ExpController","Exp not found!");
         }
         Log.e("Item GOne",String.valueOf(experiments));
+        loopExp.getTrialController().removeTrials();
         GodController.deleteDocumentData(CrowdFlyFirestorePaths.experiment(experimentId));
     }
+
+
 
 }

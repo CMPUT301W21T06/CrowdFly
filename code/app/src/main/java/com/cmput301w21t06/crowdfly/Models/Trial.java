@@ -1,16 +1,19 @@
 package com.cmput301w21t06.crowdfly.Models;
 
+import android.util.Log;
+
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * this is the Trial superclass that extends its functionalities to its subclasses
  */
-public class Trial {
+public class Trial implements Comparable<Trial> {
     protected String trialID;
     protected String description;
 //    private Boolean locRequired;
@@ -37,6 +40,7 @@ public class Trial {
 
     public void setTrialID(String trialID) {
         this.trialID = trialID;
+        Log.e("Trial ID",trialID);
     }
 
     public void setDescription(String description) {
@@ -59,5 +63,12 @@ public class Trial {
         trl.put("experimenter",creatorID);
         return trl;
     }
+
+    @Override
+    public int compareTo(Trial trial) {
+        return this.getTrialID().compareTo(trial.getTrialID());
+    }
+
+
 }
 

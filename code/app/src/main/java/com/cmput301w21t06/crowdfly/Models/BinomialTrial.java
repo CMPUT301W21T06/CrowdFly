@@ -21,9 +21,9 @@ public class BinomialTrial extends Trial{
 
 
     public BinomialTrial(Map<String, Object> data) {
-        super((String) data.get("description"),(String) data.get("trialID"),(String) data.get("experimenter"));
-        successes = (int) data.get("successes");
-        failures =  (int) data.get("failures");
+        super((String) data.get("description"),(String) data.get("experimenter"), (String) data.get("trialID"));
+        successes = ((Long) data.get("successes")).intValue();
+        failures =  ((Long) data.get("failures")).intValue();
     }
 
 
