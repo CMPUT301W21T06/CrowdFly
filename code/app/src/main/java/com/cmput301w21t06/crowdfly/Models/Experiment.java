@@ -1,12 +1,11 @@
 package com.cmput301w21t06.crowdfly.Models;
 
-import com.cmput301w21t06.crowdfly.Controllers.SubscriptionManager;
 import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.QRManager;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class Experiment implements Comparable<Experiment> {
     private QRManager qrCode;
     private String experimentId;
     private TrialController trialController;
+    private SubscriptionController subController;
     // CONSTRUCTORS
 
     /**
@@ -78,7 +78,7 @@ public class Experiment implements Comparable<Experiment> {
      * The user who wishes to subscribe
      */
     public void subscribe(User user){
-        new SubscriptionManager().subscribe(user, this);
+        subController.setSubscribedUser(this,user);
     }
 
     /**
@@ -87,7 +87,7 @@ public class Experiment implements Comparable<Experiment> {
      * The user who wishes to unsubscribe
      */
     public void unsubscribe(User user){
-        new SubscriptionManager().unsubscribe(user, this);
+        subController.removeSubscribedUser(this,user);
     }
 
     /**
@@ -95,8 +95,8 @@ public class Experiment implements Comparable<Experiment> {
      * @param user
      * The user who is unsubscribing
      */
-    public void isSubscribed(User user, SubscriptionManager.OnDoneGetSubscribedListener onDoneGetSubscribedListener){
-        new SubscriptionManager().isSubscribed(this, user, onDoneGetSubscribedListener);
+    public void isSubscribed(User user, CrowdFlyListeners.OnDoneGetSubscribedListener onDoneGetSubscribedListener){
+        subController.isSubscribed(user, onDoneGetSubscribedListener);
     }
 
 
@@ -210,13 +210,16 @@ public class Experiment implements Comparable<Experiment> {
     public void setUpFullExperiment(String experimentId){
         setExperimentId(experimentId);
         trialController = new TrialController(experimentId);
-
+        subController = new SubscriptionController(experimentId);
     }
 
     public TrialController getTrialController() {
         return trialController;
     }
 
+    public SubscriptionController getSubController() {
+        return subController;
+    }
 
 
     /***

@@ -17,10 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Controllers.SubscriptionManager;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Database.UserController;
@@ -44,7 +42,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         EditCountTrialFragment.OnFragmentInteractionListener,
         EditMeasureTrialFragment.OnFragmentInteractionListener,
         CrowdFlyListeners.OnDoneGetTrialsListener,
-        SubscriptionManager.OnDoneGetSubscribedListener,
+        CrowdFlyListeners.OnDoneGetSubscribedListener,
         CrowdFlyListeners.OnDoneGetExpListener,
         CrowdFlyListeners.OnDoneGetUserListener,
         CrowdFlyListeners.OnDoneGetTrialListener
@@ -299,7 +297,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     public void onDoneGetUser(User user) {
         this.currentUser = user;
-        this.currentExperiment.isSubscribed(user, this);
+        this.currentExperiment.getSubController().isSubscribed(user, this);
     }
 
     @Override

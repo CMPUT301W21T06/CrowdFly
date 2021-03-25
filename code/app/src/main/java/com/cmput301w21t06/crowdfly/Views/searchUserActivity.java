@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.R;
@@ -27,7 +26,6 @@ import static com.cmput301w21t06.crowdfly.Models.LiveTextUpdater.handleChange;
 public class searchUserActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetIdsListener {
     private ListView idDisplay;
     private EditText searchBar;
-    private CrowdFlyFirestore crowdFlyFirestore;
     private ArrayAdapter<String> idAdapter;
     private ArrayList<String> defaultArray;
     private ArrayList<String> changedArray;
@@ -40,7 +38,6 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyLis
         setContentView(R.layout.activity_search_user);
         idDisplay = findViewById(R.id.idView);
         searchBar = findViewById(R.id.searchBar);
-        crowdFlyFirestore = new CrowdFlyFirestore();
         defaultArray = new ArrayList<String>();
         changedArray = new ArrayList<String>();
         searchBar.addTextChangedListener(searchWatcher);
