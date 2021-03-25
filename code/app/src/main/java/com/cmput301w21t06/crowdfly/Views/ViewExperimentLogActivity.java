@@ -87,6 +87,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 Experiment exp = experimentsList.get(i);
                 ExperimentController.deleteExperiment(exp.getExperimentId(), exp);
                 experimentLog.removeExperiment(i);
+                ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
                 expAdapter.notifyDataSetChanged();
 
                 return true;
