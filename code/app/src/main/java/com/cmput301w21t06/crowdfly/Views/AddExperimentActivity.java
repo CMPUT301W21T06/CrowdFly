@@ -82,7 +82,7 @@ public class AddExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //hard coding variables for now will be adjusted
-                final String description = "binomial";
+                String description = "binomial";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
                 Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
@@ -94,7 +94,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnMeasurement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = "measurement";
+                String description = "measurement";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
                 Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
@@ -106,7 +106,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = "count";
+                String description = "count";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
 

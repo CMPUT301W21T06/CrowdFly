@@ -74,9 +74,13 @@ public class EditCountTrialFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int count1 = Integer.parseInt(String.valueOf(count.getText()));
+                        String count1 = String.valueOf(count.getText());
                         String description1 = description.getText().toString();
-                        listener.onOkPressed(new CountTrial(description1, count1, "", userID));
+                        int count2 = 0;
+                        if (count1.length() != 0){
+                            count2 = Integer.parseInt(count1);
+                        }
+                        listener.onOkPressed(new CountTrial(description1, count2, "", userID));
                     }
                 }).create();
     }

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.QRManager;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
 
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Map;
  * Issues related to region have yet to be implemented
  */
 
-public class Experiment {
+public class Experiment implements Comparable<Experiment> {
     // Eventually this class will import and export JSON objects to firebase, so these attributes
     //methods are subject to change
     private String description;
@@ -25,7 +26,6 @@ public class Experiment {
     private int minTrials;
     private Boolean stillRunning;
     private ArrayList<User> subscribedUsers;
-    private ArrayList<Trial> trials;
     private ArrayList<Question> questions;
     private String ownerID;
     private QRManager qrCode;
@@ -48,9 +48,8 @@ public class Experiment {
         this.region = reg;
         this.minTrials = minT;
         this.stillRunning = true;
-
+        this.ownerID = userID;
         subscribedUsers = new ArrayList<>();
-        trials = new ArrayList<>();
         questions = new ArrayList<>();
 
     }
@@ -63,7 +62,7 @@ public class Experiment {
     public Experiment(Map<String, Object> data) {
         this.description = (String) data.get("description");
         this.region = (String) data.get("region");
-        this.minTrials = (int) (long) data.get("minTrials");
+        this.minTrials = ((Long) data.get("minTrials")).intValue();
         this.stillRunning = (boolean) data.get("stillRunning");
         this.ownerID = (String) data.get("ownerID");
         setUpFullExperiment((String) data.get("experimentID"));
@@ -134,13 +133,7 @@ public class Experiment {
 
     public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
 
-    /**
-     * This returns the experiment's trials
-     * @return
-     * This is the experiment's trials
-     */
 
-    public ArrayList<Trial> getTrials() {return trials;}
 
     /**
      * This returns questions about an experiment
@@ -180,7 +173,9 @@ public class Experiment {
      * This is the number of trials in the experiment
      */
 
-    public int getNumTrials() {return trials.size();}
+    public int getNumTrials() {
+        return trialController.getTrials().size();
+    }
 
 
     // SETTERS
@@ -222,6 +217,8 @@ public class Experiment {
         return trialController;
     }
 
+
+
     /***
      * This transforms the experiment to a hash map that is fed into the database
      * @return
@@ -238,5 +235,10 @@ public class Experiment {
         exp.put("experimentID", this.experimentId);
 
         return exp;
+    }
+
+    @Override
+    public int compareTo(Experiment experiment) {
+        return this.getExperimentId().compareTo(experiment.getExperimentId());
     }
 }

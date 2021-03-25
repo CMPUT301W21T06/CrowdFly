@@ -57,7 +57,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Button qrButton;
     private Button subButton;
     private Button endButton;
-    static Integer counter = 0;
     static int entry_pos;
     public TrialAdapter adapter;
     static public String trialType;
@@ -75,17 +74,16 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_view_trial_log);
         endButton = findViewById(R.id.endButton);
         //only update the trialtype once per experiment
-        if (counter < 1){
-            trialType =  getIntent().getStringExtra("trialType");
-            expID = getIntent().getStringExtra("expID");
-        }
-
+        trialType =  getIntent().getStringExtra("trialType");
+        expID = getIntent().getStringExtra("expID");
+        Log.e("View",expID);
         ExperimentController.getExperimentData(expID, this);
         trialLog = TrialLog.getTrialLog();
+        Log.e("ff","ff" + String.valueOf(trialLog));
+        setUpList();
         UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);
         //setup the data
         setupData();
-        setUpList();
 
         trialArrayList = trialLog.getTrials();
 
@@ -154,7 +152,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 }
                 if(subscribed || isOwner){
 
-                    counter += 1;
                     Intent intent = new Intent(getApplicationContext(), NewTrial.class);
                     intent.putExtra("trialType", trialType);
                     intent.putExtra("expID", String.valueOf(expID));
@@ -180,7 +177,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 if(subscribed || isOwner) {
                     Trial deleteTrial = (Trial) parent.getAdapter().getItem(position);
                     String trialIDAtPos = deleteTrial.getTrialID();
-                    currentExperiment.getTrialController().removeTrialData(expID, trialIDAtPos);
+                    currentExperiment.getTrialController().removeTrialData(trialIDAtPos);
                     currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this);
                 }
                 else {

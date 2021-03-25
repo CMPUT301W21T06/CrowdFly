@@ -74,11 +74,19 @@ public class EditBinomialTrialFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int successes1 = Integer.parseInt(String.valueOf(successes.getText()));
-                        int failures1 = Integer.parseInt(String.valueOf(failures.getText()));
+                        String successes1 = String.valueOf(successes.getText());
+                        String failures1 = String.valueOf(failures.getText());
+                        int successes2 = 0;
+                        int failures2 = 0;
+                        if (successes1.length() != 0){
+                            successes2 = Integer.parseInt(successes1);
+                        }
+                        if (failures1.length() != 0){
+                            failures2 = Integer.parseInt(failures1);
+                        }
                         String description1 = description.getText().toString();
 
-                        listener.onOkPressed(new BinomialTrial(description1, successes1,failures1, "",userID));
+                        listener.onOkPressed(new BinomialTrial(description1, successes2,failures2, "",userID));
                         //Log.e("brebs", itemDate1);
                     }
                 }).create();

@@ -71,9 +71,13 @@ public class EditMeasureTrialFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Double measurement1 = Double.parseDouble(String.valueOf(measurement.getText()));
+                        String measurement1 = String.valueOf(measurement.getText());
                         String description1 = description.getText().toString();
-                        listener.onOkPressed(new MeasurementTrial(description1, measurement1, "", userID));
+                        Double measurement2 = 0.;
+                        if (measurement1.length() != 0){
+                            measurement2 = Double.parseDouble(measurement1);
+                        }
+                        listener.onOkPressed(new MeasurementTrial(description1, measurement2, "", userID));
                     }
                 }).create();
     }

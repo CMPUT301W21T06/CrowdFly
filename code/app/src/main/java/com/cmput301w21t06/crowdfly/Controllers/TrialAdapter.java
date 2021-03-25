@@ -98,7 +98,7 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
             trialInfo.setText(countDisplay+cTrial.getCount());
         } else if (trialType.equals("measurement")){
             String measurementDisplay = "Measurement: ";
-            MeasurementTrial mTrial = (MeasurementTrial)trial;
+            MeasurementTrial mTrial = (MeasurementTrial) trial;
             trialInfo.setText(measurementDisplay+mTrial.getMeasurement());
         }
 
