@@ -119,7 +119,7 @@ public class AuthActivity extends AppCompatActivity {
      */
     private void createUser(FirebaseUser user) {
         String userID = user.getUid();
-        User newUser = new User("", "", "", userID);
+        User newUser = new User(userID);
         UserController.setUserProfile(newUser);
     }
 
