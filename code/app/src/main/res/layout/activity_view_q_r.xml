@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Views.ViewQRActivity">
+
+    <Button
+        android:id="@+id/generateQRButton"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="112dp"
+        android:text="Generate QR Code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/scanQRButton"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="52dp"
+        android:text="Scan QR Code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/generateQRButton" />
+
+    <Button
+        android:id="@+id/registerBarcodeButton"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="52dp"
+        android:text="Register Barcode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanQRButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
