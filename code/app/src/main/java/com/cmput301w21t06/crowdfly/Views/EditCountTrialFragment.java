@@ -18,11 +18,13 @@ import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Fragment to allow controlled edits to a created count trial
  */
 public class EditCountTrialFragment extends DialogFragment {
+    String userID = FirebaseAuth.getInstance().getUid();
 
     private EditText count, description;
     private EditCountTrialFragment.OnFragmentInteractionListener listener;
@@ -43,7 +45,7 @@ public class EditCountTrialFragment extends DialogFragment {
 
     public static EditCountTrialFragment newInstance(CountTrial new_trial){
         Bundle args = new Bundle();
-        args.putString("count", new_trial.getCount());
+        args.putInt("count", new_trial.getCount());
         args.putString("desc", new_trial.getDescription());
 
         EditCountTrialFragment fragment = new EditCountTrialFragment();
@@ -61,7 +63,7 @@ public class EditCountTrialFragment extends DialogFragment {
 
         if (getArguments() != null){
             description.setText(getArguments().getString("desc"));
-            count.setText(getArguments().getString("count"));
+            count.setText(String.valueOf(getArguments().getInt("count")));
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -72,10 +74,9 @@ public class EditCountTrialFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String count1 = count.getText().toString();
+                        int count1 = Integer.parseInt(String.valueOf(count.getText()));
                         String description1 = description.getText().toString();
-                        listener.onOkPressed(new CountTrial(description1, count1));
-                        //Log.e("brebs", itemDate1);
+                        listener.onOkPressed(new CountTrial(description1, count1, "", userID));
                     }
                 }).create();
     }

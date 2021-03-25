@@ -19,7 +19,9 @@ public class CountTrial extends Trial{
 
     }
 
-
+    public CountTrial getData(){
+        return new CountTrial(description,count,trialID,creatorID);
+    }
     public int getCount(){return count;}
 
     public Map<String, Object> toHashMap() {

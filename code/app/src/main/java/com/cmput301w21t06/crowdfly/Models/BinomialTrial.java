@@ -45,6 +45,9 @@ public class BinomialTrial extends Trial{
         return failures;
     }
 
+    public BinomialTrial getData(){
+        return new BinomialTrial(description,successes,failures,trialID,creatorID);
+    }
 
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = super.toHashMap();

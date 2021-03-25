@@ -2,6 +2,7 @@ package com.cmput301w21t06.crowdfly.Database;
 
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
+import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.google.firebase.storage.StorageReference;
 
@@ -41,6 +42,10 @@ public class CrowdFlyListeners {
 
     public interface OnDoneGetTrialsListener {
         public void onDoneGetTrials(TrialLog trialList);
+    }
+
+    public interface  OnDoneGetTrialListener {
+        public void onDoneGetTrial(Trial trial);
     }
 }
 
