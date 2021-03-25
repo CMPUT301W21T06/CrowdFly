@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Fragment to allow controlled edits to a created binomial trial
@@ -23,7 +24,7 @@ import com.cmput301w21t06.crowdfly.R;
 public class EditBinomialTrialFragment extends DialogFragment {
     private EditText successes, failures, description;
     private OnFragmentInteractionListener listener;
-
+    String userID = FirebaseAuth.getInstance().getUid();
     public interface OnFragmentInteractionListener {
         void onOkPressed(BinomialTrial trial);
     }
@@ -40,8 +41,8 @@ public class EditBinomialTrialFragment extends DialogFragment {
 
     public static EditBinomialTrialFragment newInstance(BinomialTrial new_trial){
         Bundle args = new Bundle();
-        args.putString("suc", new_trial.getSuccesses());
-        args.putString("fail", new_trial.getFailures());
+        args.putInt("suc", new_trial.getSuccesses());
+        args.putInt("fail", new_trial.getFailures());
         args.putString("desc", new_trial.getDescription());
 
         EditBinomialTrialFragment fragment = new EditBinomialTrialFragment();
@@ -60,8 +61,8 @@ public class EditBinomialTrialFragment extends DialogFragment {
 
         if (getArguments() != null){
             description.setText(getArguments().getString("desc"));
-            successes.setText(getArguments().getString("suc"));
-            failures.setText(getArguments().getString("fail"));
+            successes.setText(String.valueOf(getArguments().getInt("suc")));
+            failures.setText(String.valueOf(getArguments().getInt("fail")));
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -73,11 +74,11 @@ public class EditBinomialTrialFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String successes1 = successes.getText().toString();
-                        String failures1 = failures.getText().toString();
+                        int successes1 = Integer.parseInt(String.valueOf(successes.getText()));
+                        int failures1 = Integer.parseInt(String.valueOf(failures.getText()));
                         String description1 = description.getText().toString();
 
-                        listener.onOkPressed(new BinomialTrial(description1, successes1,failures1));
+                        listener.onOkPressed(new BinomialTrial(description1, successes1,failures1, "",userID));
                         //Log.e("brebs", itemDate1);
                     }
                 }).create();

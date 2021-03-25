@@ -11,20 +11,24 @@ import java.util.Map;
  * this is the Trial superclass that extends its functionalities to its subclasses
  */
 public class Trial {
-    private String trialID;
-    private String description;
+    protected String trialID;
+    protected String description;
 //    private Boolean locRequired;
 //    private String location;
 //    private String result;
 //    private Statistics statistics;
-    private String creatorID;
+    protected String creatorID;
 
     public Trial(String description, String creatorID, String trialID) {
         this.description = description;
         this.creatorID = creatorID;
         this.trialID = trialID;
     }
-
+    public Trial(Map<String, Object> data) {
+        this.description = (String) data.get("description");
+        this.trialID = (String) data.get("trialID");
+        this.creatorID = (String) data.get("experimenter");
+    }
     public String getExperimenterID(){return creatorID;}
 
     public String getTrialID() {
@@ -38,15 +42,14 @@ public class Trial {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    public void setExperimenterID(String userID){ this.creatorID = userID;}
     public String getDescription() {
         return description;
     }
 
-//    public void specifyLocReq(Boolean locReq){}
-//    public void specifyLoc(String location){}
-//    public String getLoc(){return "";}
-//    private void warnUsers(){}
+    public Trial getData(){
+        return new Trial(description, creatorID, trialID);
+    }
 
 
     public Map<String, Object> toHashMap() {

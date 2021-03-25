@@ -27,6 +27,10 @@ public class MeasurementTrial extends Trial{
         this.measurement = measurement;
     }
 
+    public MeasurementTrial getData(){
+        return new MeasurementTrial(description, measurement, trialID,creatorID);
+    }
+
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = super.toHashMap();
         trl.put("type","measurement");

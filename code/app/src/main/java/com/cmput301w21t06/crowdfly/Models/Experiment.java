@@ -42,7 +42,7 @@ public class Experiment {
      * @param minT
      * The minimum number of trials entered by the user
      */
-    public Experiment(String desc,String reg, int minT){
+    public Experiment(String desc,String reg, int minT, String userID){
 
         this.description = desc;
         this.region = reg;
@@ -173,6 +173,15 @@ public class Experiment {
      */
 
     public String getExperimentId() { return experimentId; }
+
+    /**
+     * This returns the number of trials in the experiment
+     * @return
+     * This is the number of trials in the experiment
+     */
+
+    public int getNumTrials() {return trials.size();}
+
 
     // SETTERS
 

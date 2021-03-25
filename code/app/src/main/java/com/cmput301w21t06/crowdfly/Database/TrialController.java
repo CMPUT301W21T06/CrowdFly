@@ -71,6 +71,26 @@ public class TrialController {
         onDoneGetTrialsListener.onDoneGetTrials(trialLog);
     }
 
+    public void getTrial(String trialID, CrowdFlyListeners.OnDoneGetTrialListener onDoneGetTrialListener){
+        Trial loop_trial = null;
+        boolean loop = true;
+        int i = 0;
+        while (loop && i < trials.size()){
+            loop_trial = trials.get(i);
+            if (loop_trial.getTrialID().matches(trialID)){
+                loop = false;
+            }
+            i++;
+        }
+        if (loop_trial != null) {
+            onDoneGetTrialListener.onDoneGetTrial(loop_trial);
+        }
+        else{
+            Log.e("TrialController","Trial not found on find!");
+        }
+
+    }
+
     public void addTrialData(Trial trial, String experimentID) {
         trials.add(trial);
         trialsCollection.add(trial.toHashMap()).addOnCompleteListener(
@@ -108,7 +128,7 @@ public class TrialController {
             trials.remove(loop_trial);
         }
         else{
-            Log.e("ExpController","Exp not found!");
+            Log.e("TrialController","Trial not found on delete!");
         }
 
         trialsCollection.document(String.valueOf(trialID)).delete();
