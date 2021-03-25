@@ -89,9 +89,7 @@ public class AddExperimentActivity extends AppCompatActivity {
                 expAdd.setOwnerID(userID);
                 experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
                 ExperimentController.addExperimentData(expAdd);
-                Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
-                intent.putExtra("type",description);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -105,15 +103,7 @@ public class AddExperimentActivity extends AppCompatActivity {
                 expAdd.setOwnerID(userID);
                 experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
                 ExperimentController.addExperimentData(expAdd);
-//                Handler handler = new Handler();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                    }
-//                },200);
-                Intent intent = new Intent(getApplicationContext(), ViewExperimentLogActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -131,30 +121,14 @@ public class AddExperimentActivity extends AppCompatActivity {
                 expAdd.setOwnerID(userID);
                 experimentLog.addExperiment(new Experiment(description, region, minNumTrials));
                 ExperimentController.addExperimentData(expAdd);
-//                    Handler handler = new Handler();
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Intent intent = new Intent(getApplicationContext(), ViewExperimentLogActivity.class);
-//                            startActivity(intent);
-//                        }
-//                    },100);
-                Intent intent = new Intent(getApplicationContext(), ViewExperimentLogActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(getApplicationContext(), ViewExperimentLogActivity.class);
-                        startActivity(intent);
-                    }
-                },100);
+               finish();
             }
         });
     }
