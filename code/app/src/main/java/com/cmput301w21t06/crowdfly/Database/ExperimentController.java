@@ -25,16 +25,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class controls all operations related to experiments
+ */
 public class ExperimentController {
     private static CollectionReference experimentCollection = GodController.getDb().collection("Experiments");
     private static ArrayList<Experiment> experiments = new ArrayList<Experiment>();
 
+    /**
+     * This sets up the snapshot listener for experiments
+     */
     public static void setUp(){
         experimentCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 experiments.clear();
-                Log.e("FF","FUCK20");
+                Log.e("FF","FUCK21");
                 for (QueryDocumentSnapshot doc : response){
                     Experiment exp = new Experiment(doc.getData());
                     experiments.add(exp);
@@ -45,6 +51,11 @@ public class ExperimentController {
     }
 
 
+    /**
+     * This feeds all the experimeents into a new experiment log
+     * @param onDoneGetExpLogListener
+     * The class that implemeents the method to handle the result of this function
+     */
     public static void getExperimentLogData(CrowdFlyListeners.OnDoneGetExpLogListener onDoneGetExpLogListener) {
         ExperimentLog expLog = ExperimentLog.getExperimentLog();
         expLog.resetExperimentLog();
@@ -54,6 +65,13 @@ public class ExperimentController {
         onDoneGetExpLogListener.onDoneGetExperiments();
     }
 
+    /**
+     * This gets a specific experiment
+     * @param experimentId
+     * The experiment id to look for
+     * @param onDoneGetExperimentListener
+     * The class that implements a handler for the result of this method
+     */
     public static void getExperimentData(String experimentId, CrowdFlyListeners.OnDoneGetExpListener onDoneGetExperimentListener) {
         Experiment exp = null;
         boolean loop = true;
@@ -71,8 +89,13 @@ public class ExperimentController {
         else{
             Log.e("ExpController","Exp not found!");
         }
-
     }
+
+    /**
+     * This creates a new document in the database for the experiment with the necessary data
+     * @param experiment
+     * The experiment to store
+     */
     public static void addExperimentData(Experiment experiment) {
         experiments.add(experiment);
         experimentCollection.add(experiment.toHashMap()).addOnCompleteListener(
@@ -89,15 +112,27 @@ public class ExperimentController {
         );
     }
 
+    /**
+     * This proceeds to store the experiment id and timestamp with the new experiment
+     * Can/should be used to update data of an existing experiment
+     * @param experiment
+     * This is the manipulated experiment
+     */
     public static void setExperimentData(Experiment experiment) {
         GodController.setDocumentData(CrowdFlyFirestorePaths.experiment(experiment.getExperimentId()), experiment.toHashMap());
     }
 
+    /**
+     * This deletes an experiment
+     * @param experimentId
+     * The experiment ID string
+     * @param exp
+     * The experiment object
+     */
     public static void deleteExperiment(String experimentId, Experiment exp) {
         experiments.remove(exp);
 
-        DocumentReference doc = experimentCollection.document(String.valueOf(experimentId));
-        doc.delete();
+        GodController.deleteDocumentData(CrowdFlyFirestorePaths.experiment(experimentId));
     }
 
 }

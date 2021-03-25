@@ -2,6 +2,9 @@ package com.cmput301w21t06.crowdfly.Models;
 
 import java.util.ArrayList;
 
+/**
+ * This class handles live text updates and parsing
+ */
 public class LiveTextUpdater {
     /**
      * This handles updating an array if what the user is searching for has yet to be entered

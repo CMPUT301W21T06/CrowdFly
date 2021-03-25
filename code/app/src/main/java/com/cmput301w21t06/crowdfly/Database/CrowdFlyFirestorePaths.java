@@ -17,9 +17,11 @@ public class CrowdFlyFirestorePaths {
     }
 
     /***
-     * Path for an experiment
+     * Path to a particular experiment
      * @param experimentID
+     * The experiment that is being accessed
      * @return
+     * The path to that experiment in the database
      */
     public static final String experiment(String experimentID) {
         return String.format("/Experiments/%s", experimentID);
