@@ -23,7 +23,7 @@ public class CountTrial extends Trial{
     public int getCount(){return count;}
 
     public Map<String, Object> toHashMap() {
-        Map<String, Object> trl = this.toHashMapTrial();
+        Map<String, Object> trl = super.toHashMap();
         trl.put("type","count");
         trl.put("count", this.count);
         return trl;
