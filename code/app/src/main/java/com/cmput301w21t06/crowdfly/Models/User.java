@@ -15,7 +15,7 @@ import java.util.Map;
 
 
 /**
- * Model class that captures user information for logged in users retrieved from Firestore
+ * This class represents a model for a user
  */
 
 public class User {
@@ -24,22 +24,9 @@ public class User {
     private String displayID;
 
 
-    /**
-     * this is the general constructor of user
-     * @param phoneNumber
-     * @param email
-     * @param birthday
-     * @param userID
-     * @param displayID
-     */
-    public User(String phoneNumber, String email, String birthday, @NonNull String userID, String displayID) {
-        this.userID = userID;
-        this.contactInfo = contactInfo;
-        this.displayID = displayID;
-    }
 
-    /***
-     * this is the hash map constructor for trial
+    /**
+     * This is the constructor used to create a user from firestore
      * @param userData
      */
     public User(Map<String, Object> userData) {
@@ -49,43 +36,68 @@ public class User {
     }
 
     /**
-     * this is another general user constructor
-     * @param s2
-     * @param s1
-     * @param s
+     * This is the constructor used to create a user in the app
      * @param userID
+     * The user id to set
      */
-    public User(String s2, String s1, String s, String userID) {
+    public User(String userID) {
         this.userID = userID;
     }
 
-    /**
-     * this prevents null values going in
-     * @param val
-     */
-    public String getOrDefault(Object val) {
+
+    private String getOrDefault(Object val) {
         if (val == null) {
             return null;
         }
         return val.toString();
     }
 
-
+    /**
+     * This allows a display ID to be set - testing purposes
+     * @param displayID
+     * The display ID to set
+     */
     public void setDisplayID(String displayID) { this.displayID = displayID; }
 
+    /**
+     * This returns the display ID
+     * @return
+     * The display ID that is returned
+     */
     public String getDisplayID() { return displayID; }
 
+    /**
+     * This returns the actual firestore ID for the user
+     * @return
+     * This is the actual firestore ID for the user
+     */
     public String getUserID() { return userID; }
+
+    /**
+     * This allows the firestore user ID to be set - testing purposes
+     * @param uid
+     */
     public void setUserID(String uid) { userID = uid; }
 
+    /**
+     * This returns the user's contact information
+     * @return
+     * This is the user's contact information
+     */
     public String getContactInfo() { return contactInfo; }
 
+    /**
+     * This allows the contact information to be changed for the user
+     * @param contactInfo
+     * The contact information to use for the update
+     */
     public void setContactInfo(String contactInfo) { this.contactInfo = contactInfo; }
 
 
     /**
-     * this transforms the User to a HashMap that is fed into the database
+     * This transforms the User to a HashMap that is fed into the database
      * @return Map
+     * The hashmap to be fed into the database
      */
     public Map<String, Object> toHashMap() {
         Map<String, Object> user = new HashMap<>();
