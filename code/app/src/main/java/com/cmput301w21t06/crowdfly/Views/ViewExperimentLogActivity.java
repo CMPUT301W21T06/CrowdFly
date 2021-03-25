@@ -85,12 +85,10 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.e("R","LONG CLICK");
                 Experiment exp = experimentsList.get(i);
                 ExperimentController.deleteExperiment(exp.getExperimentId(), exp);
-                experimentLog.removeExperiment(i);
                 ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
-                expAdapter.notifyDataSetChanged();
-
                 return true;
             }
         });
@@ -109,6 +107,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     @Override
     public void onDoneGetExperiments() {
         experimentsList = experimentLog.getExperiments();
+        Log.e("GOTTEN",String.valueOf(experimentsList));
         expAdapter.clear();
         expAdapter.addAll(experimentsList);
         expAdapter.notifyDataSetChanged();

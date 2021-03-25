@@ -40,7 +40,7 @@ public class ExperimentController {
             @Override
             public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 experiments.clear();
-                Log.e("FF","FUCK21");
+                Log.e("FF","FUCK25");
                 for (QueryDocumentSnapshot doc : response){
                     Experiment exp = new Experiment(doc.getData());
                     experiments.add(exp);
@@ -60,6 +60,7 @@ public class ExperimentController {
         ExperimentLog expLog = ExperimentLog.getExperimentLog();
         expLog.resetExperimentLog();
         for (Experiment exp : experiments){
+            Log.e("Getting",String.valueOf(exp));
             expLog.addExperiment(exp);
         }
         onDoneGetExpLogListener.onDoneGetExperiments();
@@ -130,8 +131,23 @@ public class ExperimentController {
      * The experiment object
      */
     public static void deleteExperiment(String experimentId, Experiment exp) {
-        experiments.remove(exp);
-
+        Experiment loop_exp = null;
+        boolean loop = true;
+        int i = 0;
+        while (loop){
+            loop_exp = experiments.get(i);
+            if (loop_exp.getExperimentId().matches(experimentId)){
+                loop = false;
+            }
+            i++;
+        }
+        if (exp != null) {
+            experiments.remove(loop_exp);
+        }
+        else{
+            Log.e("ExpController","Exp not found!");
+        }
+        Log.e("Item GOne",String.valueOf(experiments));
         GodController.deleteDocumentData(CrowdFlyFirestorePaths.experiment(experimentId));
     }
 
