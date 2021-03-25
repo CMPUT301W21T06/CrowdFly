@@ -8,36 +8,25 @@ public class CrowdFlyFirestorePaths {
     /**
      * Returns path to data associated with user ID
      * @param userID
+     * This is the user id that will be used to construct the path
      * @return
+     * This returns the completed path
      */
     public static final String userProfile(String userID){
         return String.format("/users/%s", userID);
     }
 
-    /**
-     * Returns path to User ID counter
-     * @return
-     */
-    public static final String displayId(){
-        return "/users/Admin";
-    }
-
     /***
-     * Path for an experiment
+     * Path to a particular experiment
      * @param experimentID
+     * The experiment that is being accessed
      * @return
+     * The path to that experiment in the database
      */
     public static final String experiment(String experimentID) {
         return String.format("/Experiments/%s", experimentID);
     }
 
-    /***
-     * Path for the experiments collection
-     * @return
-     */
-    public static final String experimentsCollection() {
-        return "/Experiments";
-    }
 
     /***
      * Path for subscriptions sub collection for experiment
@@ -55,7 +44,7 @@ public class CrowdFlyFirestorePaths {
      * @return
      */
     public static final String trials(String experimentID) {
-        return String.format("/Trials/%s/Trials", experimentID);
+        return String.format("/Experiments/%s/Trials", experimentID);
     }
 
     /***
@@ -65,7 +54,7 @@ public class CrowdFlyFirestorePaths {
      * @return
      */
     public static final String trial(String trialID, String experimentID) {
-        return String.format("/Trials/%s/Trials/%s", experimentID, trialID);
+        return String.format("/Experiments/%s/Trials/%s", experimentID, trialID);
     }
 
     /***
@@ -87,10 +76,7 @@ public class CrowdFlyFirestorePaths {
         return String.format("/Questions/{}", questionID);
     }
 
-    // comments will be a subcollection of questions, but will figure this out later on.
-//    public static final String comments(int questionID, int commentID) {
-//        return String.format("Questions/{}/{}", questionID, commentID);
-//    }
+
 
 
 }

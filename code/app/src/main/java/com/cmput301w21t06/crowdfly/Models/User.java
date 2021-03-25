@@ -10,7 +10,6 @@ package com.cmput301w21t06.crowdfly.Models;
 
 import androidx.annotation.NonNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,9 +50,12 @@ public class User {
 
     /**
      * this is another general user constructor
+     * @param s2
+     * @param s1
+     * @param s
      * @param userID
      */
-    public User(String userID) {
+    public User(String s2, String s1, String s, String userID) {
         this.userID = userID;
     }
 
@@ -74,8 +76,7 @@ public class User {
     public String getDisplayID() { return displayID; }
 
     public String getUserID() { return userID; }
-
-    public void setUserID(String userID) { this.userID = userID; }
+    public void setUserID(String uid) { userID = uid; }
 
     public String getContactInfo() { return contactInfo; }
 

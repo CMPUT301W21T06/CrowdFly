@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,6 +16,8 @@ import android.widget.ListView;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentContent;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 
@@ -23,7 +27,7 @@ import java.util.ArrayList;
  * Shows all the experiments in a list view
  * Map and search buttons not implemented
  */
-public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetExpLogListener {
+public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpLogListener {
     private ListView experimentListView;
     private ExperimentContent expAdapter;
     private ExperimentLog experimentLog;
@@ -46,7 +50,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         expAdapter = new ExperimentContent(this, experimentsList);
         experimentListView.setAdapter(expAdapter);
         // get all experiment data from firestore
-        new CrowdFlyFirestore().getExperimentLogData(this);
+        ExperimentController.getExperimentLogData(this);
 
 
 
@@ -57,7 +61,9 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             // should lead to a new activity, but just manually adding experiments for now
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ViewExperimentLogActivity.this, AddExperimentActivity.class));
+                startActivityForResult(new Intent(ViewExperimentLogActivity.this, AddExperimentActivity.class), 0);
+                Log.e("TT","RETURNED");
+                expAdapter.notifyDataSetChanged();
             }
         });
 
@@ -79,12 +85,19 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                new CrowdFlyFirestore().deleteExperiment(expAdapter.getItem(i).getExperimentId());
-                experimentLog.removeExperiment(i);
-                expAdapter.notifyDataSetChanged();
+                Log.e("R","LONG CLICK");
+                Experiment exp = experimentsList.get(i);
+                ExperimentController.deleteExperiment(exp.getExperimentId(), exp);
+                ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
     }
 
 
@@ -94,9 +107,11 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     @Override
     public void onDoneGetExperiments() {
         experimentsList = experimentLog.getExperiments();
+        Log.e("GOTTEN",String.valueOf(experimentsList));
         expAdapter.clear();
         expAdapter.addAll(experimentsList);
         expAdapter.notifyDataSetChanged();
     }
 
+    //added
 }

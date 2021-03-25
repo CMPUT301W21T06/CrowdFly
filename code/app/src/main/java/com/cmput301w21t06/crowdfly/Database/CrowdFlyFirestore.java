@@ -47,115 +47,6 @@ import java.util.Map;
  */
 public class  CrowdFlyFirestore {
     private final FirebaseFirestore firestoreInstance = FirebaseFirestore.getInstance();
-    private final FirebaseStorage storage = FirebaseStorage.getInstance();
-
-    public CrowdFlyFirestore() {}
-
-    /**
-     * Sets user profile to HashMap representation of instance of User class
-     * @param user
-     */
-    public void setUserProfile(@NonNull User user) {
-        this.setDocumentData(CrowdFlyFirestorePaths.userProfile(user.getUserID()), user.toHashMap());
-    }
-
-    /**
-     * Create new user by getting the global user counter and incrementing it once its assigned.
-     * This method should only be used once when creating the user. Use set profile to update.
-     * @param user
-     */
-    public void createUserProfile(@NonNull User user) {
-
-        this.getDocumentReference(CrowdFlyFirestorePaths.displayId()).get().addOnSuccessListener(
-                new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                try {
-                    String displayID = documentSnapshot.getData().get("place").toString();
-                    user.setDisplayID(displayID);
-                    CrowdFlyFirestore.this.setUserProfile(user);
-
-                    // Increment display ID counter here
-                    Map<String, Object> counter = new HashMap<>();
-                    counter.put("place", FieldValue.increment(1));
-                    CrowdFlyFirestore.this.updateDocumentData(CrowdFlyFirestorePaths.displayId(),
-                            counter);
-                }
-                catch (Exception e){
-                    Log.e("CREATE USER PROFILE", e.getMessage());
-                }
-            }
-        });
-    }
-
-    /**
-     * Get User object for provided userID and invokes the OnDoneListener
-     * @param userID
-     */
-    public void getUserProfile(@NonNull String userID, OnDoneGetUserListener onDoneGetUserListener) {
-        DocumentReference userData = this.getDocumentReference(CrowdFlyFirestorePaths.userProfile(userID));
-
-        userData.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                User user = new User(value.getData());
-                onDoneGetUserListener.onDoneGetUser(user);
-            }
-        });
-    }
-
-    /***
-     * Set or Add data for a single experiment
-     * @param experiment
-     */
-    public void addExperimentData(Experiment experiment) {
-
-        this.getCollectionReference(CrowdFlyFirestorePaths.experimentsCollection()).add(experiment.toHashMap()).addOnCompleteListener(
-                new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if(task.isSuccessful()){
-                            String newId = task.getResult().getId();
-                            experiment.setExperimentId(newId);
-                            CrowdFlyFirestore.this.setExperimentData(experiment);
-                        }
-                    }
-                }
-        );
-    }
-
-    /**
-     * This gets all the users' ids from the database
-     * @param onDoneGetIdsListener
-     *
-     */
-    public void getUsers(OnDoneGetIdsListener onDoneGetIdsListener){
-        CollectionReference users = this.getCollectionReference("users");
-
-        users.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            ArrayList<String> userIds = new ArrayList<String>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // get all data from each of the experiment documents
-                                String id = document.getId().toString();
-                                if (!id.matches("Admin")) {
-                                    userIds.add(id);
-                                }
-
-                            }
-                            onDoneGetIdsListener.onDoneGetIds(userIds);
-                        } else {
-                            Log.e("", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-    }
-    public void setExperimentData(Experiment experiment) {
-        this.setDocumentData(CrowdFlyFirestorePaths.experiment(experiment.getExperimentId()), experiment.toHashMap());
-    }
 
     /**
      * Sets a subscribed user
@@ -165,7 +56,7 @@ public class  CrowdFlyFirestore {
     public void setSubscribedUser(Experiment experiment, User user) {
         Map<String,Object> data = new HashMap<String,Object>();
         data.put("subscribed", true);
-        this.setDocumentData(CrowdFlyFirestorePaths.subscriptions(experiment.getExperimentId(), user.getUserID()),data);
+        GodController.setDocumentData(CrowdFlyFirestorePaths.subscriptions(experiment.getExperimentId(), user.getUserID()),data);
     }
 
     /**
@@ -174,7 +65,7 @@ public class  CrowdFlyFirestore {
      * @param user
      */
     public void removeSubscribedUser(Experiment experiment, User user) {
-        this.deleteDocumentData(CrowdFlyFirestorePaths.subscriptions(experiment.getExperimentId(),
+        GodController.deleteDocumentData(CrowdFlyFirestorePaths.subscriptions(experiment.getExperimentId(),
                 user.getUserID()));
     }
 
@@ -198,51 +89,6 @@ public class  CrowdFlyFirestore {
                 }
             }
         });
-    }
-
-    /***
-     * Gets collection of experiments - ie. gets the full list of experiments from FireStore.
-     * @param onDoneGetExpLogListener
-     */
-    public void getExperimentLogData(OnDoneGetExpLogListener onDoneGetExpLogListener) {
-        CollectionReference expData = this.getCollectionReference("Experiments");
-        ExperimentLog expLog = ExperimentLog.getExperimentLog();
-        
-        expLog.resetExperimentLog();
-        expData.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error == null) {
-                    expLog.resetExperimentLog();
-                    for (DocumentSnapshot document : value.getDocuments()) {
-                        // get all data from each of the experiment documents
-                        Map data = document.getData();
-                        expLog.addExperiment(new Experiment(data));
-                    }
-                    onDoneGetExpLogListener.onDoneGetExperiments();
-                } else {
-                    Log.d("EXPERIMENTS", "Error getting documents: ", error);
-                }
-            }
-        });
-    }
-
-    /**
-     * Gets a single experiment
-     * @param experimentId
-     * @param onDoneGetExperiment
-     */
-    public void getExperimentData(String experimentId, OnDoneGetExpListener onDoneGetExperiment) {
-        DocumentReference expData = this.getDocumentReference(CrowdFlyFirestorePaths.experiment(experimentId));
-
-        expData.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                Experiment experiment = new Experiment(value.getData());
-                onDoneGetExperiment.onDoneGetExperiment(experiment);
-            }
-        });
-
     }
 
     /***
@@ -271,7 +117,7 @@ public class  CrowdFlyFirestore {
      * @param experimentID
      */
    public void setTrialData(Trial trial, String experimentID) {
-       this.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
+       GodController.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
    }
 
     /***
@@ -305,14 +151,7 @@ public class  CrowdFlyFirestore {
            }
        });
    }
-    /**
-     * this gets a default profile pic for each user
-     * @param onDoneGetProfilePicListener
-     * */
-   public void getProfilePic(OnDoneGetProfilePicListener onDoneGetProfilePicListener) {
-        StorageReference imgRef = storage.getReferenceFromUrl("gs://crowdfly-76eb6.appspot.com/smiley.png");
-        onDoneGetProfilePicListener.onDoneGetProfilePic(imgRef);
-    }
+
     /**
      * this takes in an experiment ID and trial ID and references to the DB to create a trial
      * @return
@@ -398,64 +237,11 @@ public class  CrowdFlyFirestore {
 
 
     /**
-     * Sets document at given path
-     * @param path
-     * @param data
-     */
-    private void setDocumentData(String path, Map<String, Object> data) {
-        data.put("lastUpdatedAt", FieldValue.serverTimestamp()); // Adds a server timestamp for all updates
-
-        firestoreInstance.document(path).set(data).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("FIRESTORE", e.getMessage());
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.i("FIRESTORE", "Data set successfully");
-            }
-        });
-    }
-
-    /**
-     * Deletes document at given path
-     * @param path
-     */
-    private void deleteDocumentData(String path) {
-        firestoreInstance.document(path).delete().addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("FIRESTORE", e.getMessage());
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.i("FIRESTORE", "Doc deleted successfully");
-            }
-        });
-    }
-
-    /**
      * Updates document at given path
      * @param path
      * @param data
      */
-    private void updateDocumentData(String path, Map<String, Object> data) {
-        data.put("lastUpdatedAt", FieldValue.serverTimestamp()); // Adds a server timestamp for all updates
 
-        firestoreInstance.document(path).update(data).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("FIRESTORE", e.getMessage());
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.i("FIRESTORE", "Data set successfully");
-            }
-        });
-    }
 
     /**
      * Gets a reference to document at given path
@@ -474,37 +260,6 @@ public class  CrowdFlyFirestore {
     private CollectionReference getCollectionReference(String path) {
         return firestoreInstance.collection(path);
     }
-    /**
-     *  Deletes an experiment
-     * @param experimentId
-     */
-
-    public void deleteExperiment(String experimentId) {
-
-        CollectionReference expData = this.getCollectionReference("Experiments");
-        expData.document(String.valueOf(experimentId)).delete();
-    }
-
-    /**
-     * Interface for listeners for when User is successfully retrieved
-     */
-    public interface OnDoneGetUserListener {
-        public void onDoneGetUser(User user);
-    }
-
-    /***
-     * Interface for retrieving the experiment log data
-     */
-    public interface OnDoneGetExpLogListener {
-        public void onDoneGetExperiments();
-    }
-
-    /***
-     * Interface for retrieving a single experiment
-     */
-    public interface OnDoneGetExpListener {
-        public void onDoneGetExperiment(Experiment experiment);
-    }
 
     /***
      * Interface for retrieving the trial log data
@@ -512,17 +267,5 @@ public class  CrowdFlyFirestore {
     public interface OnDoneGetTrialsListener {
         public void onDoneGetTrials(TrialLog trialList);
     }
-
-    /***
-     * Interface for retrieving the profile picture
-     */
-    public interface OnDoneGetProfilePicListener {
-        public void onDoneGetProfilePic(StorageReference pic);
-    }
-
-    public interface OnDoneGetIdsListener {
-        public void onDoneGetIds(ArrayList<String> ids);
-    }
-
 
 }

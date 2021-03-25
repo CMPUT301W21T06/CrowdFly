@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.PictureHandler;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,7 +23,7 @@ import com.google.firebase.storage.StorageReference;
 /**
  * This activity allows the user to see and edit their profile
  */
-public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFirestore.OnDoneGetUserListener, CrowdFlyFirestore.OnDoneGetProfilePicListener {
+public class UserProfileActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetUserListener {
     private CrowdFlyFirestore crowdFlyFirestore;
     final private String userID = FirebaseAuth.getInstance().getUid();
     private User user;
@@ -48,8 +51,8 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
         doneButton.setOnClickListener(doneListener);
         userInfo.setEnabled(canEdit());
         crowdFlyFirestore = new CrowdFlyFirestore();
-        crowdFlyFirestore.getUserProfile(requestedID, this);
-        crowdFlyFirestore.getProfilePic(this);
+        UserController.getUserProfile(requestedID, this);
+        PictureHandler.updatePic("gs://crowdfly-76eb6.appspot.com/smiley.png", profilePicView, getApplicationContext());
 
 
     }
@@ -67,25 +70,11 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyFi
     }
 
     /**
-     * This handles setting up the profile picture of the user after pulling it from the database
-     * @param pic
-     * This is the profile picture
-     */
-    @Override
-    public void onDoneGetProfilePic(StorageReference pic) {
-        Glide.with(this)
-                .load(pic)
-                .fitCenter()
-                .into(profilePicView);
-
-    }
-
-    /**
      * This stores the information into firestore and goes back to the past activity once the user presses the done button
      */
     private void handleDone(){
         user.setContactInfo(String.valueOf(userInfo.getText()));
-        crowdFlyFirestore.setUserProfile(user);
+        UserController.setUserProfile(user);
         goBack();
     }
 

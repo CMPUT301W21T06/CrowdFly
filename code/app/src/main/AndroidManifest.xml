@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cmput301w21t06.crowdfly">
 
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,27 +10,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
+        <activity android:name=".Views.QuestionThreadActivity"></activity>
+        <activity android:name=".Views.AskQuestionActivity" />
+        <activity android:name=".Views.ViewQRActivity" />
+        <activity android:name=".Views.ViewLocationActivity" />
         <activity
             android:name=".Views.searchUserActivity"
-            android:parentActivityName=".Views.MainActivity"
-            android:label="@string/title_activity_search_user">
-
-        </activity>
-
-
-
-        <activity android:name=".Views.ViewQuestionLogActivity"
-            android:parentActivityName=".Views.ViewTrialLogActivity"/>
+            android:label="@string/title_activity_search_user"
+            android:parentActivityName=".Views.MainActivity" />
+        <activity
+            android:name=".Views.ViewQuestionLogActivity"
+            android:parentActivityName=".Views.ViewTrialLogActivity" />
         <activity android:name=".Views.UserProfileActivity" />
-        <activity android:name=".Views.ViewStatisticActivity" android:parentActivityName=".Views.ViewTrialLogActivity"/>
+        <activity
+            android:name=".Views.ViewStatisticActivity"
+            android:parentActivityName=".Views.ViewTrialLogActivity" />
         <activity android:name=".Models.NewTrial" />
         <activity
             android:name=".Views.ViewTrialLogActivity"
-            android:parentActivityName=".Views.ViewExperimentLogActivity"
             android:label="@string/title_activity_view_trial_log"
-            android:launchMode="singleTask">
-
-        </activity>
+            android:launchMode="singleTask"
+            android:parentActivityName=".Views.ViewExperimentLogActivity" />
         <activity
             android:name=".Views.AddExperimentActivity"
             android:label="AddExperimentActivity" />
