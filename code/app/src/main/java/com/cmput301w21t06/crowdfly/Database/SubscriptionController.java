@@ -39,7 +39,8 @@ public class SubscriptionController {
             public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 subs.clear();
                 for (QueryDocumentSnapshot doc : response){
-                    User user = new User(doc.getData());
+                    Log.e("ddd",String.valueOf(doc.getData()));
+                    User user = new User(doc.getId());
                     subs.put(user.getUserID(),user);
                 }
             }

@@ -42,7 +42,7 @@ public class ExperimentController {
             @Override
             public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 experiments.clear();
-                Log.e("FF","FUCK38");
+                Log.e("FF","FUCK41");
                 for (QueryDocumentSnapshot doc : response){
                     Experiment exp = new Experiment(doc.getData());
                     experiments.add(exp);
