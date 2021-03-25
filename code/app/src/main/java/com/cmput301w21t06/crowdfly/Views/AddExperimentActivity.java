@@ -87,7 +87,6 @@ public class AddExperimentActivity extends AppCompatActivity {
                 int minNumTrials = getMinNumTrials();
                 Experiment expAdd = new Experiment(description, region, minNumTrials);
                 expAdd.setOwnerID(userID);
-                experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -101,7 +100,6 @@ public class AddExperimentActivity extends AppCompatActivity {
                 int minNumTrials = getMinNumTrials();
                 Experiment expAdd = new Experiment(description, region, minNumTrials);
                 expAdd.setOwnerID(userID);
-                experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -119,7 +117,6 @@ public class AddExperimentActivity extends AppCompatActivity {
 
                 Experiment expAdd = new Experiment(description, region, minNumTrials);
                 expAdd.setOwnerID(userID);
-                experimentLog.addExperiment(new Experiment(description, region, minNumTrials));
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }

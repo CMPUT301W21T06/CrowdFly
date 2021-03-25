@@ -13,18 +13,36 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
+/**
+ * This sets up all controllers and provides access to data needed by all controllers to function
+ */
 public class GodController {
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    /**
+     * This provides access to the database instance
+     * @return
+     * The database instance
+     */
     public static FirebaseFirestore getDb(){
         return db;
     }
 
+    /**
+     * This sets up all other controllers
+     */
     public static void allmightySetup(){
         ExperimentController.setUp();
         UserController.setUp();
     }
 
+    /**
+     * This adds a timestamp to the stored database item
+     * @param path
+     * Path to item
+     * @param data
+     * Item to be stored, timestamp added to item and then it is stored
+     */
     public static void setDocumentData(String path, Map<String, Object> data) {
         data.put("lastUpdatedAt", FieldValue.serverTimestamp()); // Adds a server timestamp for all updates
 
@@ -41,7 +59,11 @@ public class GodController {
         });
     }
 
-
+    /**
+     * This deletes a document at a given path, but provides a completion listener
+     * @param path
+     * Path to document
+     */
     public static void deleteDocumentData(String path) {
         db.document(path).delete().addOnFailureListener(new OnFailureListener() {
             @Override
@@ -56,19 +78,4 @@ public class GodController {
         });
     }
 
-    private void updateDocumentData(String path, Map<String, Object> data) {
-        data.put("lastUpdatedAt", FieldValue.serverTimestamp()); // Adds a server timestamp for all updates
-
-        db.document(path).update(data).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("FIRESTORE", e.getMessage());
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.i("FIRESTORE", "Data set successfully");
-            }
-        });
-    }
 }
