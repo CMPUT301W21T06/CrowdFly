@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ExperimentController {
@@ -33,9 +34,10 @@ public class ExperimentController {
             @Override
             public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 experiments.clear();
-                Log.e("FF","FUCK14");
+                Log.e("FF","FUCK20");
                 for (QueryDocumentSnapshot doc : response){
-                    experiments.add(new Experiment(doc.getData()));
+                    Experiment exp = new Experiment(doc.getData());
+                    experiments.add(exp);
                 }
                 Log.e("FF",String.valueOf(experiments));
             }
@@ -92,9 +94,7 @@ public class ExperimentController {
     }
 
     public static void deleteExperiment(String experimentId, Experiment exp) {
-        Log.d("FF",String.valueOf(experiments));
         experiments.remove(exp);
-        Log.d("FF",String.valueOf(experiments));
 
         DocumentReference doc = experimentCollection.document(String.valueOf(experimentId));
         doc.delete();

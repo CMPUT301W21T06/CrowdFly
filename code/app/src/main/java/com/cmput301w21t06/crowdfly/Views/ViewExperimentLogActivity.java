@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,7 +61,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             // should lead to a new activity, but just manually adding experiments for now
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ViewExperimentLogActivity.this, AddExperimentActivity.class));
+                startActivityForResult(new Intent(ViewExperimentLogActivity.this, AddExperimentActivity.class), 0);
                 Log.e("TT","RETURNED");
                 expAdapter.notifyDataSetChanged();
             }
@@ -95,6 +96,12 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
+    }
+
 
     /**
      * Handles projecting data to list view once data retrieved from database
@@ -107,4 +114,5 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         expAdapter.notifyDataSetChanged();
     }
 
+    //added
 }
