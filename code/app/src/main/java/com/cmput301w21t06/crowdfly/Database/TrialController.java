@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class TrialController {
     private CollectionReference trialsCollection;
     private ArrayList<Trial> trials;
-    public void TrialController(String eid){
+    public TrialController(String eid) {
         trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(eid));
         setUp();
     }

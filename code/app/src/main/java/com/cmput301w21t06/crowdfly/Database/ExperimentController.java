@@ -105,7 +105,7 @@ public class ExperimentController {
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if(task.isSuccessful()){
                             String newId = task.getResult().getId();
-                            experiment.setExperimentId(newId);
+                            experiment.setUpFullExperiment(newId);
                             setExperimentData(experiment);
                         }
                     }

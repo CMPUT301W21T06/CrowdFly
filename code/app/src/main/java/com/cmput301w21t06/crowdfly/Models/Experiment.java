@@ -6,6 +6,7 @@ import android.util.Log;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.QRManager;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.TrialController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class Experiment {
     private String ownerID;
     private QRManager qrCode;
     private String experimentId;
-
+    private TrialController trialController;
     // CONSTRUCTORS
 
     /**
@@ -42,6 +43,7 @@ public class Experiment {
      * The minimum number of trials entered by the user
      */
     public Experiment(String desc,String reg, int minT){
+
         this.description = desc;
         this.region = reg;
         this.minTrials = minT;
@@ -64,7 +66,7 @@ public class Experiment {
         this.minTrials = (int) (long) data.get("minTrials");
         this.stillRunning = (boolean) data.get("stillRunning");
         this.ownerID = (String) data.get("ownerID");
-        this.experimentId = (String) data.get("experimentID");
+        setUpFullExperiment((String) data.get("experimentID"));
     }
 
     // METHODS
@@ -196,7 +198,20 @@ public class Experiment {
      * This is the experiment ID to be associated with this experiment
      */
 
-    public void setExperimentId(String experimentId) { this.experimentId = experimentId; }
+    public void setExperimentId(String experimentId) {
+        this.experimentId = experimentId;
+
+    }
+
+    public void setUpFullExperiment(String experimentId){
+        setExperimentId(experimentId);
+        trialController = new TrialController(experimentId);
+
+    }
+
+    public TrialController getTrialController() {
+        return trialController;
+    }
 
     /***
      * This transforms the experiment to a hash map that is fed into the database
