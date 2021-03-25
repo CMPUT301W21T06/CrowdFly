@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This handles almost all operations for users - does not include subscription aspect of users
+ * This handles almost all operations for users - does not include the subscription aspect of users
  */
 //db setters should process shit in the class too
 public class UserController {

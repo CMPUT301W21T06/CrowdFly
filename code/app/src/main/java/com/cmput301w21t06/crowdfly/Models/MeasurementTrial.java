@@ -28,7 +28,7 @@ public class MeasurementTrial extends Trial{
     }
 
     public Map<String, Object> toHashMap() {
-        Map<String, Object> trl = this.toHashMapTrial();
+        Map<String, Object> trl = super.toHashMap();
         trl.put("type","measurement");
         trl.put("measurement", this.measurement);
         return trl;

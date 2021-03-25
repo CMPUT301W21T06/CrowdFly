@@ -39,10 +39,11 @@ public class GodController {
     /**
      * This adds a timestamp to the stored database item
      * @param path
-     * Path to item
+     * This is the path to the document that will be modified
      * @param data
      * Item to be stored, timestamp added to item and then it is stored
      */
+
     public static void setDocumentData(String path, Map<String, Object> data) {
         data.put("lastUpdatedAt", FieldValue.serverTimestamp()); // Adds a server timestamp for all updates
 

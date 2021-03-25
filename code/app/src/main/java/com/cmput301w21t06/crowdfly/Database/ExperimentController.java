@@ -77,7 +77,7 @@ public class ExperimentController {
         Experiment exp = null;
         boolean loop = true;
         int i = 0;
-        while (loop){
+        while (loop && i < experiments.size()){
             exp = experiments.get(i);
             if (exp.getExperimentId().matches(experimentId)){
                 loop = false;
@@ -134,14 +134,14 @@ public class ExperimentController {
         Experiment loop_exp = null;
         boolean loop = true;
         int i = 0;
-        while (loop){
+        while (loop && i < experiments.size()){
             loop_exp = experiments.get(i);
             if (loop_exp.getExperimentId().matches(experimentId)){
                 loop = false;
             }
             i++;
         }
-        if (exp != null) {
+        if (loop_exp != null) {
             experiments.remove(loop_exp);
         }
         else{

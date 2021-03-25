@@ -49,7 +49,7 @@ public class Trial {
 //    private void warnUsers(){}
 
 
-    protected Map<String, Object> toHashMapTrial() {
+    public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
         trl.put("description", this.description);
         trl.put("trialID",this.trialID);

@@ -47,7 +47,7 @@ public class BinomialTrial extends Trial{
 
 
     public Map<String, Object> toHashMap() {
-        Map<String, Object> trl = this.toHashMapTrial();
+        Map<String, Object> trl = super.toHashMap();
         trl.put("type","binomial");
         trl.put("successes", this.successes);
         trl.put("failures", this.failures);
