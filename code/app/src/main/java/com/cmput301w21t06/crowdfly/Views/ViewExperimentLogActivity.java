@@ -15,7 +15,6 @@ import android.widget.ListView;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentContent;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;

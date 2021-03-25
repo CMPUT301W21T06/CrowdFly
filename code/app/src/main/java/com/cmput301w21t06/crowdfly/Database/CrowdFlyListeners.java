@@ -48,6 +48,9 @@ public class CrowdFlyListeners {
         public void onDoneGetTrial(Trial trial);
     }
 
+    public interface OnDoneGetSubscribedListener {
+        public void onDoneGetIsSubscribed(Boolean result);
+    }
 }
 
 
