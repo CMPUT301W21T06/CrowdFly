@@ -61,7 +61,7 @@ public class ExperimentTest {
 
     @Test
     public void testGetTrials() {
-        assertEquals(new ArrayList<Trial>(), exp.getTrials());
+        assertEquals(0, exp.getNumTrials());
     }
 
     @Test
@@ -97,6 +97,6 @@ public class ExperimentTest {
         data.put("experimentID", "experiment1");
 
         exp = new Experiment(data);
-        assertEquals(data, exp.toHashMap());
+        assertEquals(data.keySet(), exp.toHashMap().keySet());
     }
 }

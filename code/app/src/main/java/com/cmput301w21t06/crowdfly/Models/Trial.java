@@ -40,7 +40,6 @@ public class Trial implements Comparable<Trial> {
 
     public void setTrialID(String trialID) {
         this.trialID = trialID;
-        Log.e("Trial ID",trialID);
     }
 
     public void setDescription(String description) {
