@@ -29,28 +29,10 @@ import java.util.Map;
  */
 public class SubscriptionController {
     private CollectionReference subsCollection;
-//    private HashMap<String, User> subs = new HashMap<String, User>();
     public SubscriptionController(String eid){
         subsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.subscriptions(eid));
-//        setUp();
     }
 
-    /**
-     * This sets up the snapshot listener for subscriptions
-     */
-//    private void setUp(){
-//        subsCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
-//                subs.clear();
-//                for (QueryDocumentSnapshot doc : response){
-//                    Log.e("ddd",String.valueOf(doc.getData()));
-//                    User user = new User(doc.getId());
-//                    subs.put(user.getUserID(),user);
-//                }
-//            }
-//        });
-//    }
     /**
      * This subscribes a user to an experiment
      * @param experiment
@@ -98,29 +80,11 @@ public class SubscriptionController {
     }
 
     /**
-     * This removes a subscription document from an experiment from the database
+     * This removes all subscription documents from an experiment
      */
     public void removeSubs(){
-        subsCollection
-                .whereEqualTo("shit",true)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("stuff", document.getId() + "=>" + document.getData());
-                            }
-                        } else {
-                            Log.d("Error get documents:", String.valueOf(task.getException()));
-                        }
-                    }
-                });
-        // change this loop
-//        for (String subId : subs.keySet()){
         DocumentReference doc = subsCollection.document("here");
         doc.delete();
-//        }
     }
 
 }
