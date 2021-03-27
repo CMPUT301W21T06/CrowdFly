@@ -14,15 +14,15 @@ public class MeasurementTrialTest {
 
     private MeasurementTrial mockMeasurementTrial(){
         String description = "mock count";
-        String measurement = "3";
-        MeasurementTrial mockMTrial = new MeasurementTrial(description, measurement);
+        int measurement = 3;
+        MeasurementTrial mockMTrial = new MeasurementTrial(description, measurement, "", "");
         return mockMTrial;
     }
 
     @Test
     public void testGetMeasurement() {
         MeasurementTrial measurementTrial = mockMeasurementTrial();
-        assertEquals(0, "3".compareTo(measurementTrial.getMeasurement()));
+        assertEquals(3, measurementTrial.getMeasurement(),  0);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class MeasurementTrialTest {
         MeasurementTrial mtrial = mockMeasurementTrial();
         mtrial.setTrialID(trialID);
 
-        assertEquals(0, trialID.compareTo(mtrial.getTrialID()));
+        assertEquals(0, trialID.compareTo(mtrial.getTrialID()), 0);
     }
 
     @Test
@@ -39,9 +39,11 @@ public class MeasurementTrialTest {
         Map<String, Object> data = new HashMap<>();
         data.put("trialID", "testID");
         data.put("description", "testDescription");
-        data.put("measurement", "0");
+        data.put("experimenter", "ownerID");
+        data.put("type", "Measurement");
+        data.put("measurement", (double) 0);
 
         MeasurementTrial mtrial = new MeasurementTrial(data);
-        assertEquals(data, mtrial.toHashMap());
+        assertEquals(data.keySet(), mtrial.toHashMap().keySet());
     }
 }
