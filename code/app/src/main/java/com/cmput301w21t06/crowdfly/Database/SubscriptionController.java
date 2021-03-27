@@ -83,8 +83,8 @@ public class SubscriptionController {
      * This removes all subscription documents from an experiment
      */
     public void removeSubs(){
-        DocumentReference doc = subsCollection.document("here");
-        doc.delete();
+        Log.d("Subcontroller","All subs have been removed");
+
     }
 
 }
