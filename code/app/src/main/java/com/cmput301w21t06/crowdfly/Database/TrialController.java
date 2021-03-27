@@ -40,7 +40,6 @@ public class TrialController {
                 for (QueryDocumentSnapshot doc : response){
                     String type = doc.getString("type");
                     Trial trial = null;
-                    Log.e("dbshit",doc.getString("trialID"));
                     switch (type) {
                         case "binomial":
                             trial = new BinomialTrial(doc.getData());
@@ -139,7 +138,6 @@ public class TrialController {
         }
 
         DocumentReference doc = trialsCollection.document(String.valueOf(trialID));
-        Log.e("dd", doc.getId());
         doc.delete();
     }
 

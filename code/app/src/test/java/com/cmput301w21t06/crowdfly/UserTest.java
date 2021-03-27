@@ -12,8 +12,6 @@ import static org.junit.Assert.assertEquals;
 public class UserTest {
     private User mockUser(){
         String user_id = "mockID";
-        //String contact_info = "04/05/98";
-        //String display_ID = "dispTestID";
         User user = new User(user_id);
         return user;
     }

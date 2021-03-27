@@ -20,15 +20,15 @@ public class ExperimentLogTest {
 
     @Test
     public void testAddExperiment() {
-        Experiment expAdd = new Experiment("test", "USA", 20);
+        Experiment expAdd = new Experiment("test", "USA", 20, "");
         expLog.addExperiment(expAdd);
         assertEquals(true, expAdd.equals(expLog.getExperiment(0)));
     }
 
     @Test
     public void testRemoveExperiment() {
-        Experiment expAdd = new Experiment("test", "USA", 20);
-        Experiment expAdd2 = new Experiment("test2", "USA2", 220);
+        Experiment expAdd = new Experiment("test", "USA", 20, "");
+        Experiment expAdd2 = new Experiment("test2", "USA2", 220, "");
         ArrayList<Experiment> expList = new ArrayList<>();
         expList.add(expAdd);
 
@@ -41,7 +41,7 @@ public class ExperimentLogTest {
 
     @Test
     public void testResetExperimentLog() {
-        Experiment expAdd = new Experiment("test", "USA", 20);
+        Experiment expAdd = new Experiment("test", "USA", 20, "");
         expLog.addExperiment(expAdd);
         expLog.resetExperimentLog();
 
