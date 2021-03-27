@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">CrowdFly</string>
+    <string name="title_activity_view_trial_log">ViewTrialLogActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="signup_prompt">New user? Click me!</string>
+    <string name="login">Setup</string>
+    <string name="ID">ID</string>
+    <string name="Contact">Contact Information:</string>
+    <string name="Done">DONE</string>
+    <string name="authButtonLoading">Generating...</string>
+    <string name="authButtonSubtitleLoading">Please wait while we generate a new anonymous ID</string>
+    <string name="authButton">Generate</string>
+    <string name="authButtonSubtitle">Generate a new anonymous ID</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="UserSearch">User Search</string>
+    <string name="unsubscribe">Unsubscribe</string>
+    <string name="title_activity_search_user">searchUserActivity</string>
 </resources>

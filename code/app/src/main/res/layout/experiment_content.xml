@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout7"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal">
+
+
+    <TextView
+        android:id="@+id/exp_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="8dp"
+        android:text="Description"
+        android:textColor="#0B0A0A"
+        app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/exp_ownerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:text="Owner Name"
+        android:textColor="#131313"
+        app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
+        app:layout_constraintTop_toBottomOf="@+id/exp_description" />
+
+    <TextView
+        android:id="@+id/exp_status"
+        android:layout_width="0dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="1dp"
+        android:text="Status"
+        android:textColor="#0E0E0E"
+        app:layout_constraintEnd_toEndOf="@+id/exp_ownerName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/exp_region"
+        app:layout_constraintTop_toBottomOf="@+id/exp_region" />
+
+    <TextView
+        android:id="@+id/exp_numTrials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="numTrials"
+
+        android:textColor="#0B0A0A"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/exp_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Region:"
+        android:textColor="#090909"
+        app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
+        app:layout_constraintTop_toBottomOf="@+id/exp_numTrials" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
