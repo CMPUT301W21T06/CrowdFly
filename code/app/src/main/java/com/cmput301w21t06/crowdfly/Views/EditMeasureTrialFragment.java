@@ -18,12 +18,13 @@ import android.widget.EditText;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Fragment to allow controlled edits to a created measurment trial
  */
 public class EditMeasureTrialFragment extends DialogFragment {
-
+    String userID = FirebaseAuth.getInstance().getUid();
     private EditText measurement, description;
     private EditMeasureTrialFragment.OnFragmentInteractionListener listener;
 
@@ -41,7 +42,7 @@ public class EditMeasureTrialFragment extends DialogFragment {
     }
     public static EditMeasureTrialFragment newInstance(MeasurementTrial new_trial){
         Bundle args = new Bundle();
-        args.putString("measure", new_trial.getMeasurement());
+        args.putDouble("measure", new_trial.getMeasurement());
         args.putString("desc", new_trial.getDescription());
 
         EditMeasureTrialFragment fragment = new EditMeasureTrialFragment();
@@ -59,7 +60,7 @@ public class EditMeasureTrialFragment extends DialogFragment {
 
         if (getArguments() != null){
             description.setText(getArguments().getString("desc"));
-            measurement.setText(getArguments().getString("measure"));
+            measurement.setText(String.valueOf(getArguments().getDouble("measure")));
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -70,9 +71,13 @@ public class EditMeasureTrialFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String measurement1 = measurement.getText().toString();
+                        String measurement1 = String.valueOf(measurement.getText());
                         String description1 = description.getText().toString();
-                        listener.onOkPressed(new MeasurementTrial(description1, measurement1));
+                        Double measurement2 = 0.;
+                        if (measurement1.length() != 0){
+                            measurement2 = Double.parseDouble(measurement1);
+                        }
+                        listener.onOkPressed(new MeasurementTrial(description1, measurement2, "", userID));
                     }
                 }).create();
     }

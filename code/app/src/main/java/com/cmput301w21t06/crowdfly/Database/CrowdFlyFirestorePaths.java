@@ -17,30 +17,24 @@ public class CrowdFlyFirestorePaths {
     }
 
     /***
-     * Path for an experiment
+     * Path to a particular experiment
      * @param experimentID
+     * The experiment that is being accessed
      * @return
+     * The path to that experiment in the database
      */
     public static final String experiment(String experimentID) {
         return String.format("/Experiments/%s", experimentID);
     }
 
-    /***
-     * Path for the experiments collection
-     * @return
-     */
-    public static final String experimentsCollection() {
-        return "/Experiments";
+
+
+    public static final String subscription(String experimentID, String userID) {
+        return String.format("/Experiments/%s/Subscribers/%s", experimentID, userID);
     }
 
-    /***
-     * Path for subscriptions sub collection for experiment
-     * @param experimentID
-     * @param userID
-     * @return
-     */
-    public static final String subscriptions(String experimentID, String userID) {
-        return String.format("/Experiments/%s/Subscribers/%s", experimentID, userID);
+    public static final String subscriptions(String experimentID) {
+        return String.format("/Experiments/%s/Subscribers", experimentID);
     }
 
     /***

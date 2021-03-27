@@ -15,7 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
@@ -27,14 +28,17 @@ import com.google.firebase.auth.FirebaseAuth;
  * this is an activity that adds a new trial to the Listview in the Trial log
  */
 
-public class NewTrial extends AppCompatActivity implements EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
+public class NewTrial extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener, EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
 
     private EditText regionEnforced, trialDesc, regionType,  successes, failures;
     private Button addButton, buttonBinomial, buttonMeasure, buttonCount, buttonCancel;
-    public String newTrialSuccesses, newTrialFailures, newTrialCount, newTrialMeasurement, newTrialDescription;
+    public int newTrialSuccesses, newTrialFailures, newTrialCount;
+    public double newTrialMeasurement;
+    public String newTrialDescription;
 
     public String trialType;
     public String expID;
+    public Experiment exp;
     private String userID = FirebaseAuth.getInstance().getUid();
 
     @Override
@@ -54,8 +58,11 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
         buttonCount = findViewById(R.id.countTrial);
 
 
-        trialType = getIntent().getStringExtra("trialType");
         expID = getIntent().getStringExtra("expID");
+        ExperimentController.getExperimentData(expID,this);
+        trialType = exp.getDescription();
+        Log.e("ddff",expID);
+        Log.e("Ddd",trialType+  " " + exp.getDescription());
         //condition for trial type differentiation
         if (trialType.equals("binomial")){
             buttonMeasure.setBackgroundColor(Color.LTGRAY);
@@ -115,31 +122,18 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
 
 
                 if(trialType.equals("binomial")){
-                    BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures);
-                    trialAdd.setExperimenterID(userID);
-                    trialLog.addTrial(new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures));
-                    new CrowdFlyFirestore().addTrialData(trialAdd, expID);
+                    BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures, "", userID);
+                    exp.getTrialController().addTrialData(trialAdd, expID);
                 }
                 if(trialType.equals("count")){
-                    CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount);
-                    trialAdd.setExperimenterID(userID);
-                    trialLog.addTrial(new CountTrial(newTrialDescription, newTrialCount));
-                    new CrowdFlyFirestore().addTrialData(trialAdd, expID);
+                    CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount,"", userID);
+                    exp.getTrialController().addTrialData(trialAdd, expID);
                 }
                 if(trialType.equals("measurement")){
-                    MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement);
-                    trialAdd.setExperimenterID(userID);
-                    trialLog.addTrial(new MeasurementTrial(newTrialDescription, newTrialMeasurement));
-                    new CrowdFlyFirestore().addTrialData(trialAdd, expID);
+                    MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement, "", userID);
+                    exp.getTrialController().addTrialData(trialAdd, expID);
                 }
-
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-//                intent.putExtra("trialDesc", newTrialDescription);
-//                intent.putExtra("measurement", newTrialMeasurement);
-//                intent.putExtra("count", newTrialCount);
-//                intent.putExtra("success",newTrialSuccesses);
-//                intent.putExtra("failure",newTrialFailures);
-
                 startActivity(intent);
 
             }
@@ -174,7 +168,7 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
     public void onOkPressed(CountTrial trial) {
         Log.d("NEW TRIAL","onOkPressed CountTrial version");
         newTrialDescription = ((CountTrial) trial).getDescription();
-        newTrialCount = String.valueOf(((CountTrial) trial).getCount());
+        newTrialCount = ((CountTrial) trial).getCount();
         buttonCount.setBackgroundColor(Color.BLUE);
     }
 
@@ -189,7 +183,12 @@ public class NewTrial extends AppCompatActivity implements EditBinomialTrialFrag
     public void onOkPressed(MeasurementTrial trial) {
         Log.d("NEW TRIAL","onOkPressed MeasurementTrial Version");
         newTrialDescription = ((MeasurementTrial) trial).getDescription();
-        newTrialMeasurement = String.valueOf(((MeasurementTrial)trial).getMeasurement());
+        newTrialMeasurement = ((MeasurementTrial) trial).getMeasurement();
         buttonMeasure.setBackgroundColor(Color.BLUE);
+    }
+
+    @Override
+    public void onDoneGetExperiment(Experiment experiment) {
+        exp = experiment;
     }
 }

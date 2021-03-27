@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
@@ -98,7 +97,7 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
             trialInfo.setText(countDisplay+cTrial.getCount());
         } else if (trialType.equals("measurement")){
             String measurementDisplay = "Measurement: ";
-            MeasurementTrial mTrial = (MeasurementTrial)trial;
+            MeasurementTrial mTrial = (MeasurementTrial) trial;
             trialInfo.setText(measurementDisplay+mTrial.getMeasurement());
         }
 

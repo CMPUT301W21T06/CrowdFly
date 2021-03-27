@@ -8,9 +8,12 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+/**
+ * This allows pictures to be displayed properly
+ */
 public class PictureHandler {
     private static final FirebaseStorage storage = FirebaseStorage.getInstance();
-    public static final String qasimHehe = "gs://crowdfly-76eb6.appspot.com/smiley.png";
+    public static final String qasimHehe = "https://miro.medium.com/fit/c/1360/1360/0*ihDslnI8k9SqGTf0";
 
     /**
      * This method retrieves items from storage at the particular URL

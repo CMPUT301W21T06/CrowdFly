@@ -1,22 +1,23 @@
 package com.cmput301w21t06.crowdfly.Models;
 
-import com.cmput301w21t06.crowdfly.Controllers.SubscriptionManager;
 import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.QRManager;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
+import com.cmput301w21t06.crowdfly.Database.TrialController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * this is the experiment model class involving model functions
- * Things related to region have yet to be implemented
+ * This is a model of the experiment object
+ * Issues related to region have yet to be implemented
  */
 
-public class Experiment {
+public class Experiment implements Comparable<Experiment> {
     // Eventually this class will import and export JSON objects to firebase, so these attributes
     //methods are subject to change
     private String description;
@@ -24,100 +25,209 @@ public class Experiment {
     private int minTrials;
     private Boolean stillRunning;
     private ArrayList<User> subscribedUsers;
-    private ArrayList<Trial> trials;
     private ArrayList<Question> questions;
     private String ownerID;
     private QRManager qrCode;
     private String experimentId;
-
+    private TrialController trialController;
+    private SubscriptionController subController;
     // CONSTRUCTORS
 
-    /***
-     * General constructor for Experiment class
+    /**
+     * This constructor is for experiments created during the app runtime by a user
      * @param desc
+     * The description that was entered by the user
      * @param reg
+     * The region that was entered by the user
      * @param minT
+     * The minimum number of trials entered by the user
      */
-    public Experiment(String desc,String reg, int minT){
+    public Experiment(String desc,String reg, int minT, String userID){
+
         this.description = desc;
         this.region = reg;
         this.minTrials = minT;
         this.stillRunning = true;
-
+        this.ownerID = userID;
         subscribedUsers = new ArrayList<>();
-        trials = new ArrayList<>();
         questions = new ArrayList<>();
 
     }
 
-    /***
-     * Constructor for Experiment class.
-     * Used for getting experiments from FireStore.
-     * @param data data containing experiment
+    /**
+     * Constructor for Experiment class used when getting experiments from FireStore.
+     * @param data
+     * This is data representing the experiment
      */
     public Experiment(Map<String, Object> data) {
         this.description = (String) data.get("description");
         this.region = (String) data.get("region");
-        this.minTrials = (int) (long) data.get("minTrials");
+        this.minTrials = ((Long) data.get("minTrials")).intValue();
         this.stillRunning = (boolean) data.get("stillRunning");
         this.ownerID = (String) data.get("ownerID");
-        this.experimentId = (String) data.get("experimentID");
+        setUpFullExperiment((String) data.get("experimentID"));
     }
 
     // METHODS
 
-    public void summarizeTrials(ArrayList<Trial> t){}
+//    public void summarizeTrials(ArrayList<Trial> t){}
 
     /**
-     * this allows a user to subscribe to an experiment
+     * This allows a user to subscribe to this experiment
      * @param user
+     * The user who wishes to subscribe
      */
     public void subscribe(User user){
-        new SubscriptionManager().subscribe(user, this);
+        subController.setSubscribedUser(this,user);
     }
 
     /**
-     * this allows a user to unsubscribe to an experiment
+     * This allows a user to unsubscribe to an experiment
      * @param user
+     * The user who wishes to unsubscribe
      */
     public void unsubscribe(User user){
-        new SubscriptionManager().unsubscribe(user, this);
+        subController.removeSubscribedUser(this,user);
     }
 
     /**
-     * this determines if or if not the user is subscribed to the following experiment
+     * This determines if or if not the user is subscribed to the following experiment
      * @param user
+     * The user who is unsubscribing
      */
-    public void isSubscribed(User user, SubscriptionManager.OnDoneGetSubscribedListener onDoneGetSubscribedListener){
-        new SubscriptionManager().isSubscribed(this, user, onDoneGetSubscribedListener);
+    public void isSubscribed(User user, CrowdFlyListeners.OnDoneGetSubscribedListener onDoneGetSubscribedListener){
+        subController.isSubscribed(user, onDoneGetSubscribedListener);
     }
-    public void changeType(int type){}
-    public void addTrial(Trial trial){}
-    public void ignore(ArrayList<User> subscribedUsers){}
-    public void togglePublish(){}
+
 
     // GETTERS
+
+    /**
+     * This returns the experiment description
+     * @return
+     * This is the experiment description
+     */
     public String getDescription() {return description;}
+
+    /**
+     * This returns the experiment region
+     * @return
+     * This is the experiment region
+     */
+
     public String getRegion() {return region;}
+
+    /**
+     * This returns the experiment's minimum number of trials
+     * @return
+     * This is the experiment's minimum number of trials
+     */
+
     public int getMinTrials() {return minTrials;}
-    public int getNumTrials() {return trials.size();}
+
+    /**
+     * This returns who is subscribed to the experiment
+     * @return
+     * This is who is subscribed to the experiment
+     */
+
     public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
-    public ArrayList<Trial> getTrials() {return trials;}
+
+
+
+    /**
+     * This returns questions about an experiment
+     * @return
+     * This is the questions about this experiment
+     */
+
     public ArrayList<Question> getQuestions() {return questions;}
+
+    /**
+     * This returns the owner of the experiment
+     * @return
+     * This is the owner of the experiment
+    */
+
     public String getOwnerID() {return ownerID;}
-    public QRManager getQRManager() {return qrCode;}
+
+    /**
+     * This check if the experiment is still active
+     * @return
+     * THis is a boolean indicating whether or not the experiment is still active
+     */
+
     public Boolean getStillRunning() { return stillRunning;}
+
+    /**
+     * This returns the experiment ID
+     * @return
+     * This is the experiment ID
+     */
+
     public String getExperimentId() { return experimentId; }
 
+    /**
+     * This returns the number of trials in the experiment
+     * @return
+     * This is the number of trials in the experiment
+     */
+
+    public int getNumTrials() {
+        return trialController.getTrials().size();
+    }
+
+
     // SETTERS
+
+    /**
+     * This can be used to change the experiment between the active and inactive state
+     * @param stillRunning
+     * This is a boolean indicating if it is still active
+     */
+
     public void setStillRunning(Boolean stillRunning) { this.stillRunning = stillRunning; }
+
+    /**
+     * This is used to set the owner ID of a new experiment
+     * @param ownerID
+     * This is the ID of the owner of the newly created experiment
+     */
+
     public void setOwnerID(String ownerID) { this.ownerID = ownerID; }
-    public void setExperimentId(String experimentId) { this.experimentId = experimentId; }
+
+    /**
+     * This is used to set the experiment ID of an experiment
+     * @param experimentId
+     * This is the experiment ID to be associated with this experiment
+     */
+
+    public void setExperimentId(String experimentId) {
+        this.experimentId = experimentId;
+
+    }
+
+    public void setUpFullExperiment(String experimentId){
+        setExperimentId(experimentId);
+        trialController = new TrialController(experimentId);
+        subController = new SubscriptionController(experimentId);
+    }
+
+    public TrialController getTrialController() {
+        return trialController;
+    }
+
+    public SubscriptionController getSubController() {
+        return subController;
+    }
+
 
     /***
-     * this transforms the Experiment to a HashMap that is fed into the database
-     * @return Map
+     * This transforms the experiment to a hash map that is fed into the database
+     * @return
+     * The hash map to be fed into the database
      */
+
     public Map<String, Object> toHashMap() {
         Map<String, Object> exp = new HashMap<>();
         exp.put("description", this.description);
@@ -128,5 +238,10 @@ public class Experiment {
         exp.put("experimentID", this.experimentId);
 
         return exp;
+    }
+
+    @Override
+    public int compareTo(Experiment experiment) {
+        return this.getExperimentId().compareTo(experiment.getExperimentId());
     }
 }

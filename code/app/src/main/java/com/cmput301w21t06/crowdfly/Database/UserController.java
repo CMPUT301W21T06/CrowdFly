@@ -19,10 +19,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This handles almost all operations for users - does not include the subscription aspect of users
+ */
 //db setters should process shit in the class too
 public class UserController {
     private static CollectionReference userCollection = GodController.getDb().collection("users");
-    private static ArrayList<User> users = new ArrayList<User>();
+    private static HashMap<String, User> users = new HashMap<String, User>();
 
     /**
      * This handles the set up of a snapshot listener by the GodController
@@ -33,7 +36,8 @@ public class UserController {
             public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 users.clear();
                 for (QueryDocumentSnapshot doc : response){
-                    users.add(new User(doc.getData()));
+                    User user = new User(doc.getData());
+                    users.put(user.getUserID(),user);
                 }
             }
         });
@@ -46,7 +50,7 @@ public class UserController {
      */
     public static void getUsers(CrowdFlyListeners.OnDoneGetIdsListener onDoneGetIdsListener) {
         ArrayList<String> ids = new ArrayList<String>();
-        for (User user : users){
+        for (User user : users.values()){
             ids.add(user.getUserID());
         }
         onDoneGetIdsListener.onDoneGetIds(ids);
@@ -60,22 +64,8 @@ public class UserController {
      * The class that implements the onDone listener
      */
     public static void getUserProfile(String uid, CrowdFlyListeners.OnDoneGetUserListener onDoneGetUserListener){
-        User user = null;
-        boolean loop = true;
-        int i = 0;
-        while (loop){
-            user = users.get(i);
-            if (user.getUserID().matches(uid)){
-                loop = false;
-            }
-            i++;
-        }
-        if (user != null) {
-            onDoneGetUserListener.onDoneGetUser(user);
-        }
-        else{
-            Log.e("UserController","User not found!");
-        }
+        onDoneGetUserListener.onDoneGetUser(users.get(uid));
+
 
     }
 

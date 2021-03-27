@@ -2,6 +2,7 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,62 +81,45 @@ public class AddExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //hard coding variables for now will be adjusted
-                final String description = "binomial";
+                String description = "binomial";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
-                Experiment expAdd = new Experiment(description, region, minNumTrials);
-                expAdd.setOwnerID(userID);
-                experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
-                new CrowdFlyFirestore().addExperimentData(expAdd);
-                Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
-                intent.putExtra("type",description);
-                startActivity(intent);
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
+                ExperimentController.addExperimentData(expAdd);
+                finish();
             }
         });
 
         btnMeasurement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = "measurement";
+                String description = "measurement";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
-                Experiment expAdd = new Experiment(description, region, minNumTrials);
-                expAdd.setOwnerID(userID);
-                experimentLog.addExperiment(new Experiment(description,region,minNumTrials));
-                new CrowdFlyFirestore().addExperimentData(expAdd);
-                Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
-                intent.putExtra("type",description);
-                startActivity(intent);
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
+                ExperimentController.addExperimentData(expAdd);
+                finish();
             }
         });
 
         btnCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = "count";
+                String description = "count";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
 
                 Log.d("myTag", region);
-
-                if (region.equals("")){
-                    makeToast("no",0);
-                }
-                else {
-                    Experiment expAdd = new Experiment(description, region, minNumTrials);
-                    expAdd.setOwnerID(userID);
-                    experimentLog.addExperiment(new Experiment(description, region, minNumTrials));
-                    new CrowdFlyFirestore().addExperimentData(expAdd);
-                    Intent intent = new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class);
-                    startActivity(intent);
-                }
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
+                ExperimentController.addExperimentData(expAdd);
+                finish();
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AddExperimentActivity.this, ViewExperimentLogActivity.class));
+               finish();
             }
         });
     }
