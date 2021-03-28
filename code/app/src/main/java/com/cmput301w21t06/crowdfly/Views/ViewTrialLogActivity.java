@@ -5,7 +5,6 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
@@ -26,7 +24,6 @@ import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
-import com.cmput301w21t06.crowdfly.Models.NewTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
@@ -148,7 +145,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 }
                 if(subscribed || isOwner){
 
-                    Intent intent = new Intent(getApplicationContext(), NewTrial.class);
+                    Intent intent = new Intent(getApplicationContext(), NewTrialActivity.class);
                     intent.putExtra("trialType", trialType);
                     intent.putExtra("expID", String.valueOf(expID));
                     startActivityForResult(intent,0);
