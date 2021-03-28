@@ -1,0 +1,28 @@
+version = 1
+
+test_patterns = [
+    "code/app/src/test/**",
+    "code/app/src/androidTest/**"
+]
+
+exclude_patterns = [
+    "docs/**",
+    ".github/**",
+    ".idea/**",
+    "/Users/qasimkhawaja/Programming/s**/.gitignore",
+    "LICENSE",
+    "README.md",
+    "code/part3_javadocs/**",
+    "code/.gradle/**",
+    "code/.idea/**",
+    "code/app/build/**",
+    "code/build/**",
+    "**.log"
+]
+
+[[analyzers]]
+name = "java"
+enabled = true
+
+  [analyzers.meta]
+  runtime_version = "11"
