@@ -28,7 +28,7 @@ jobs:
           working-directory: ./code
           script: ./gradlew build
   run_android_tests:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./code
@@ -54,7 +54,7 @@ jobs:
       - name: Run Android Emulator and Firestore Emulator with Gradle Task
         uses: ReactiveCircus/android-emulator-runner@v2.15.0
         with:
-          api-level: 30
+          api-level: 23
           working-directory: ./code
           script: |
               npm install -g firebase-tools
