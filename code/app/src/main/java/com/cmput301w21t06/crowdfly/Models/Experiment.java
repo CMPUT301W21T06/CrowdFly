@@ -65,7 +65,8 @@ public class Experiment implements Comparable<Experiment> {
         this.minTrials = ((Long) data.get("minTrials")).intValue();
         this.stillRunning = (boolean) data.get("stillRunning");
         this.ownerID = (String) data.get("ownerID");
-        setUpFullExperiment((String) data.get("experimentID"));
+        this.experimentId = (String) data.get("experimentID");
+//        setUpFullExperiment((String) data.get("experimentID"));
     }
 
     // METHODS
@@ -166,16 +167,6 @@ public class Experiment implements Comparable<Experiment> {
      */
 
     public String getExperimentId() { return experimentId; }
-
-    /**
-     * This returns the number of trials in the experiment
-     * @return
-     * This is the number of trials in the experiment
-     */
-
-    public int getNumTrials() {
-        return trialController.getTrials().size();
-    }
 
 
     // SETTERS
