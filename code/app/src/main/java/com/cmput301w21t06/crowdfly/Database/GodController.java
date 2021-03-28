@@ -35,8 +35,7 @@ public class GodController {
         if(isEmulated == null){
             isEmulated = true;
             FirebaseAuth.getInstance().useEmulator("10.0.2.2", 9099);
-            db.useEmulator("10.0.2.2", 8080);
-
+            db.useEmulator("10.0.2.2", 9080);
             FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                     .setPersistenceEnabled(false)
                     .build();

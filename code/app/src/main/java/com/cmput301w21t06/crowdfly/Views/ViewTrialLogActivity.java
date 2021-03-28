@@ -74,7 +74,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         //only update the trialtype once per experiment
         trialType =  getIntent().getStringExtra("trialType");
         expID = getIntent().getStringExtra("expID");
-        Log.e("View",expID);
         ExperimentController.getExperimentData(expID, this);
         trialLog = TrialLog.getTrialLog();
         setUpList();

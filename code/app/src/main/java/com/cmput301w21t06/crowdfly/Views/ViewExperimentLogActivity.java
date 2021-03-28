@@ -95,6 +95,11 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         ExperimentController.getExperimentLogData(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ExperimentController.getExperimentLogData(this);
+    }
 
     /**
      * Handles projecting data to list view once data retrieved from database
