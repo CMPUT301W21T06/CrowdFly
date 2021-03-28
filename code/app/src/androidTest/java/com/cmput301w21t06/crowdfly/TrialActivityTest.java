@@ -42,12 +42,10 @@ public class TrialActivityTest {
     @Before
     public void setup() throws Exception {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
-        solo.waitForActivity(MainActivity.class);
         solo.clickOnButton("Experiment Log");
         solo.waitForActivity(ViewExperimentLogActivity.class);
         solo.assertCurrentActivity("Wrong activity", ViewExperimentLogActivity.class);
         solo.clickOnButton("Add experiment");
-        solo.waitForActivity(AddExperimentActivity.class);
         solo.assertCurrentActivity("Wrong activity", AddExperimentActivity.class);
         solo.enterText((EditText) solo.getView(R.id.region_edit_text), "test region");
         solo.enterText((EditText) solo.getView(R.id.min_trial_edit_text), "15");
@@ -88,7 +86,6 @@ public class TrialActivityTest {
         solo.enterText((EditText) solo.getView(R.id.countDescInput), "TestCase");
         solo.enterText((EditText) solo.getView(R.id.countInput), "4");
         solo.clickOnButton("OK");
-        solo.waitForActivity(NewTrial.class);
         solo.clickOnButton("Add Trial");
 
         solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
