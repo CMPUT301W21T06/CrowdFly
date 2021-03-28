@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Experiment Trials"
+        android:fontFamily="@font/nexa_bold"
         android:textColor="#090909"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,26 +22,28 @@
 
     <ListView
         android:id="@+id/trialListView"
-        android:layout_width="399dp"
-        android:layout_height="439dp"
+        android:layout_width="380dp"
+        android:padding="8dp"
+        android:layout_height="371dp"
         android:layout_marginStart="2dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/edit_text_border"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.101" />
+        app:layout_constraintTop_toBottomOf="@+id/trialTitle" />
 
     <Spinner
         android:id="@+id/dropDown"
         android:layout_width="322dp"
         android:layout_height="42dp"
-        app:layout_constraintBottom_toTopOf="@+id/addButton"
+        app:layout_constraintBottom_toTopOf="@+id/endButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trialListView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.067" />
 
     <Button
         android:id="@+id/QRButton"
@@ -48,6 +51,7 @@
         android:layout_height="53dp"
         android:layout_marginBottom="4dp"
         android:text="QR"
+        android:backgroundTint="@color/bluejay"
         app:layout_constraintBottom_toTopOf="@+id/questionButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.761"
@@ -59,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="68dp"
         android:text="Add Trial"
+        android:backgroundTint="@color/bluejay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.115"
@@ -71,6 +76,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="28dp"
         android:text="Question"
+        android:backgroundTint="@color/bluejay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -84,6 +90,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/questionButton"
         app:layout_constraintHorizontal_bias="0.0"
+        android:backgroundTint="@color/bluejay"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -92,6 +99,7 @@
         android:layout_height="45dp"
         android:layout_marginBottom="132dp"
         android:text="End Experiment"
+        android:backgroundTint="@color/bluejay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.432"
