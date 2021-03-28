@@ -49,6 +49,7 @@ public class TrialActivityTest {
         solo.assertCurrentActivity("Wrong activity", AddExperimentActivity.class);
         solo.enterText((EditText) solo.getView(R.id.region_edit_text), "test region");
         solo.enterText((EditText) solo.getView(R.id.min_trial_edit_text), "15");
+        solo.hideSoftKeyboard();
         solo.clickOnButton("Count");
         solo.assertCurrentActivity("Wrong activity", ViewExperimentLogActivity.class);
         solo.waitForText("test region", 1, 2000);
@@ -81,10 +82,12 @@ public class TrialActivityTest {
         solo.assertCurrentActivity("Wrong activity", NewTrial.class);
         solo.enterText((EditText) solo.getView(R.id.regionEnforcedEditText), "True");
         solo.enterText((EditText) solo.getView(R.id.regionTypeEditText), "CANADA");
+        solo.hideSoftKeyboard();
         solo.clickOnButton("Count Trial");
 
         solo.enterText((EditText) solo.getView(R.id.countDescInput), "TestCase");
         solo.enterText((EditText) solo.getView(R.id.countInput), "4");
+        solo.hideSoftKeyboard();
         solo.clickOnButton("OK");
         solo.clickOnButton("Add Trial");
 
