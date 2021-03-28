@@ -40,28 +40,29 @@ public class TrialController {
     private void setUp(){
         trialsCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
+            public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 trials.clear();
-                for (QueryDocumentSnapshot doc : response){
-                    String type = doc.getString("type");
-                    Trial trial = null;
-                    switch (type) {
-                        case "binomial":
-                            trial = new BinomialTrial(doc.getData());
-                            Log.e("shitdipper",trial.getTrialID());
-                            break;
-                        case "count":
-                            trial = new CountTrial(doc.getData());
-                            break;
-                        case "measurement":
-                            trial = new MeasurementTrial(doc.getData());
-                            break;
-                    }
-                    if (trial != null) {
-                        trials.add(trial);
-                    }
-                    else{
-                        Log.e("TrialController", "Getting trials was a failure");
+                if(response != null){
+                    for (QueryDocumentSnapshot doc : response){
+                        String type = doc.getString("type");
+                        Trial trial = null;
+                        switch (type) {
+                            case "binomial":
+                                trial = new BinomialTrial(doc.getData());
+                                break;
+                            case "count":
+                                trial = new CountTrial(doc.getData());
+                                break;
+                            case "measurement":
+                                trial = new MeasurementTrial(doc.getData());
+                                break;
+                        }
+                        if (trial != null) {
+                            trials.add(trial);
+                        }
+                        else{
+                            Log.e("TrialController", "Getting trials was a failure");
+                        }
                     }
                 }
             }

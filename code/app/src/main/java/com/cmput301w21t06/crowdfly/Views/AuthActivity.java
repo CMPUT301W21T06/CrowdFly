@@ -53,7 +53,6 @@ public class AuthActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = authManager.getCurrentUser();
-
         if( currentUser != null){
             updateUI(currentUser);
         }
@@ -82,7 +81,7 @@ public class AuthActivity extends AppCompatActivity {
                     System.out.println(task.getException());
                     Toast.makeText(AuthActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
-                    updateUI(null);
+                    loadingAuth();
                 }
 
 

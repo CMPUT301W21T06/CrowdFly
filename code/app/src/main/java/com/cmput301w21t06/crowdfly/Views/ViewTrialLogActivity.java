@@ -77,7 +77,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         Log.e("View",expID);
         ExperimentController.getExperimentData(expID, this);
         trialLog = TrialLog.getTrialLog();
-        Log.e("ff","ff" + String.valueOf(trialLog));
         setUpList();
         UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);
         //setup the data

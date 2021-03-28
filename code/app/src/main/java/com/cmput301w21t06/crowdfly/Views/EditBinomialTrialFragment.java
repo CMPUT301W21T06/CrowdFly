@@ -87,7 +87,6 @@ public class EditBinomialTrialFragment extends DialogFragment {
                         String description1 = description.getText().toString();
 
                         listener.onOkPressed(new BinomialTrial(description1, successes2,failures2, "",userID));
-                        //Log.e("brebs", itemDate1);
                     }
                 }).create();
     }
