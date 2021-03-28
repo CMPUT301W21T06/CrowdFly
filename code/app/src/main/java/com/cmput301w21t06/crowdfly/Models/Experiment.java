@@ -206,17 +206,29 @@ public class Experiment implements Comparable<Experiment> {
         this.experimentId = experimentId;
 
     }
-
+    /**
+     * This is used to instantiate new Trial and Subscription Controllers
+     * @param experimentId
+     * This is the experiment ID to be associated with the experiment
+     */
     public void setUpFullExperiment(String experimentId){
         setExperimentId(experimentId);
         trialController = new TrialController(experimentId);
         subController = new SubscriptionController(experimentId);
     }
 
+    /**
+     * This gets trialController
+     * @return trialController
+     */
     public TrialController getTrialController() {
         return trialController;
     }
 
+    /**
+     * This gets subController
+     * @return subController
+     */
     public SubscriptionController getSubController() {
         return subController;
     }
@@ -224,7 +236,7 @@ public class Experiment implements Comparable<Experiment> {
 
     /***
      * This transforms the experiment to a hash map that is fed into the database
-     * @return
+     * @return exp
      * The hash map to be fed into the database
      */
 
@@ -240,6 +252,10 @@ public class Experiment implements Comparable<Experiment> {
         return exp;
     }
 
+    /***
+     * This compares the experiments experiment id with itself, used to check
+     * @return Boolean
+     */
     @Override
     public int compareTo(Experiment experiment) {
         return this.getExperimentId().compareTo(experiment.getExperimentId());

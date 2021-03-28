@@ -55,7 +55,7 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
     /**
      * This handles setting textboxes after user info has been pulled from the database
      * @param userProfile
-     * The instatiated user with information from the database
+     * The instantiated user with information from the database
      */
     @Override
     public void onDoneGetUser(User userProfile) {

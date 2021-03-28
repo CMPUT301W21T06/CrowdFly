@@ -24,41 +24,46 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * This class controls all operations related to subscriptions
+ */
 public class SubscriptionController {
     private CollectionReference subsCollection;
-    private HashMap<String, User> subs = new HashMap<String, User>();
     public SubscriptionController(String eid){
         subsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.subscriptions(eid));
-        setUp();
     }
 
-    private void setUp(){
-        subsCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
-                subs.clear();
-                for (QueryDocumentSnapshot doc : response){
-                    Log.e("ddd",String.valueOf(doc.getData()));
-                    User user = new User(doc.getId());
-                    subs.put(user.getUserID(),user);
-                }
-            }
-        });
-    }
-
+    /**
+     * This subscribes a user to an experiment
+     * @param experiment
+     * The experiment id to subscribe a user to
+     * @param user
+     * The user we are subscribing to an experiment
+     */
     public void setSubscribedUser(Experiment experiment, User user) {
         Map<String,Object> data = new HashMap<String,Object>();
         data.put("subscribed", true);
         GodController.setDocumentData(CrowdFlyFirestorePaths.subscription(experiment.getExperimentId(), user.getUserID()),data);
     }
 
-
+    /**
+     * This unsubscribes a user from an experiment
+     * @param experiment
+     * the experiment id to unsubscribe a user from
+     * @param user
+     * the user we are unsubscribing from an experiment
+     */
     public void removeSubscribedUser(Experiment experiment, User user) {
         GodController.deleteDocumentData(CrowdFlyFirestorePaths.subscription(experiment.getExperimentId(), user.getUserID()));
     }
 
-
+    /**
+     * This checks if a user is subscribed to an experiment
+     * @param user
+     * The user we are checking to see if they are subscribed to an experiment
+     * @param OnDoneGetSubscribedListener
+     * The listener that listens to the to the completion of the query request and returns a boolean to
+     */
     public void isSubscribed(User user, CrowdFlyListeners.OnDoneGetSubscribedListener OnDoneGetSubscribedListener) {
         DocumentReference doc = subsCollection.document(String.valueOf(user.getUserID()));
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -74,11 +79,12 @@ public class SubscriptionController {
         });
     }
 
+    /**
+     * This removes all subscription documents from an experiment
+     */
     public void removeSubs(){
-        for (String subId : subs.keySet()){
-            DocumentReference doc = subsCollection.document(String.valueOf(subId));
-            doc.delete();
-        }
+        Log.d("Subcontroller","All subs have been removed");
+
     }
 
 }

@@ -52,9 +52,9 @@ public class ExperimentController {
 
 
     /**
-     * This feeds all the experimeents into a new experiment log
+     * This feeds all the experiments into a new experiment log
      * @param onDoneGetExpLogListener
-     * The class that implemeents the method to handle the result of this function
+     * The class that implements the method to handle the result of this function
      */
     public static void getExperimentLogData(CrowdFlyListeners.OnDoneGetExpLogListener onDoneGetExpLogListener) {
         Collections.sort(experiments);

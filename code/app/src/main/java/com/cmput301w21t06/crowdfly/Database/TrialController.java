@@ -24,7 +24,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
+/**
+ * This class controls all operations related to Trials
+ */
 public class TrialController {
     private CollectionReference trialsCollection;
     private ArrayList<Trial> trials = new ArrayList<Trial>();
@@ -32,6 +34,9 @@ public class TrialController {
         trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(eid));
         setUp();
     }
+    /**
+     * This sets up the snapshot listener for trials
+     */
     private void setUp(){
         trialsCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -62,7 +67,11 @@ public class TrialController {
             }
         });
     }
-
+    /**
+     * This feeds all the experiments into a new trial log
+     * @param onDoneGetTrialsListener
+     * The class that implements the method to handle the result of this function
+     */
     public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener){
         Collections.sort(trials);
         TrialLog trialLog = TrialLog.getTrialLog();
@@ -74,9 +83,22 @@ public class TrialController {
 
         onDoneGetTrialsListener.onDoneGetTrials(trialLog);
     }
+    /**
+     * Returns all trials from Array List
+     * @return trials
+     * this returns all trials from the ArrayList<Trial>
+     */
     public ArrayList<Trial> getTrials(){
         return trials;
     }
+
+    /**
+     * This gets a specific trial
+     * @param trialID
+     * The trial id to look for
+     * @param onDoneGetTrialListener
+     * The class that implements a handler for the result of this method
+     */
     public void getTrial(String trialID, CrowdFlyListeners.OnDoneGetTrialListener onDoneGetTrialListener){
         Trial loopTrial = null;
         boolean loop = true;
@@ -96,7 +118,13 @@ public class TrialController {
         }
 
     }
-
+    /**
+     * This creates a new document in the database for the trial with the necessary data
+     * @param trial
+     * The trial to store
+     * @param experimentID
+     * The experiment to reference to get the location of where to store the trial
+     */
     public void addTrialData(Trial trial, String experimentID) {
         trials.add(trial);
         trialsCollection.add(trial.toHashMap()).addOnCompleteListener(
@@ -113,11 +141,22 @@ public class TrialController {
         );
     }
 
-
+    /**
+     * This proceeds to store the trial id and timestamp with the new trial
+     * Can/should be used to update data of an existing trial
+     * @param trial
+     * This is the manipulated trial
+     * @param experimentID
+     * Experiment ID used to grab the trial path
+     */
     public void setTrialData(Trial trial, String experimentID) {
         GodController.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
     }
-
+    /**
+     * This proceeds to remove an existing trial within an experiment
+     * @param trialID
+     * This is the trial to be removed
+     */
     public void removeTrialData(String trialID){
         Trial loopTrial = null;
         boolean loop = true;
@@ -140,7 +179,9 @@ public class TrialController {
         DocumentReference doc = trialsCollection.document(String.valueOf(trialID));
         doc.delete();
     }
-
+    /**
+     * This deletes any and all trials
+     */
     public void removeTrials(){
         for (Trial trial : trials){
             Log.e("deletion",trial.getTrialID());
