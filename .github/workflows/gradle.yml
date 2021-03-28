@@ -28,7 +28,7 @@ jobs:
           working-directory: ./code
           script: ./gradlew build
   run_android_tests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     defaults:
       run:
         working-directory: ./code
