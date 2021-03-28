@@ -50,18 +50,8 @@ public class ExperimentTest {
     }
 
     @Test
-    public void testGetNumTrials() {
-        assertEquals(0, exp.getNumTrials());
-    }
-
-    @Test
     public void testGetSubscribedUsers() {
         assertEquals(new ArrayList<User>(), exp.getSubscribedUsers());
-    }
-
-    @Test
-    public void testGetTrials() {
-        assertEquals(0, exp.getNumTrials());
     }
 
     @Test

@@ -46,6 +46,7 @@ public class ExperimentController {
                 if(response != null){
                     for (QueryDocumentSnapshot doc : response){
                         Experiment exp = new Experiment(doc.getData());
+                        exp.setUpFullExperiment(exp.getExperimentId());
                         experiments.add(exp);
                     }
                 }
