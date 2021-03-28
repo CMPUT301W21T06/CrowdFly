@@ -33,11 +33,13 @@ public class UserController {
     public static void setUp() {
         userCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
+            public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 users.clear();
-                for (QueryDocumentSnapshot doc : response){
-                    User user = new User(doc.getData());
-                    users.put(user.getUserID(),user);
+                if(response != null){
+                    for (QueryDocumentSnapshot doc : response){
+                        User user = new User(doc.getData());
+                        users.put(user.getUserID(),user);
+                    }
                 }
             }
         });

@@ -51,10 +51,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         // get all experiment data from firestore
         ExperimentController.getExperimentLogData(this);
 
-
-
-        //Log.e("experimentLog", String.valueOf(experimentLog.getExperiments()));
-
         btnAddExperiment.setOnClickListener(new View.OnClickListener() {
 
             // should lead to a new activity, but just manually adding experiments for now
@@ -96,9 +92,14 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
+        ExperimentController.getExperimentLogData(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ExperimentController.getExperimentLogData(this);
+    }
 
     /**
      * Handles projecting data to list view once data retrieved from database

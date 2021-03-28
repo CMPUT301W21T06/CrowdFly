@@ -61,8 +61,6 @@ public class NewTrial extends AppCompatActivity implements CrowdFlyListeners.OnD
         expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID,this);
         trialType = exp.getDescription();
-        Log.e("ddff",expID);
-        Log.e("Ddd",trialType+  " " + exp.getDescription());
         //condition for trial type differentiation
         if (trialType.equals("binomial")){
             buttonMeasure.setBackgroundColor(Color.LTGRAY);

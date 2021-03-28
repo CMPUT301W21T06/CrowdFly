@@ -7,14 +7,19 @@ import android.widget.ListView;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
+import com.cmput301w21t06.crowdfly.Database.GodController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.NewTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.Views.AddExperimentActivity;
+import com.cmput301w21t06.crowdfly.Views.AuthActivity;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
+import com.cmput301w21t06.crowdfly.Views.MainActivity;
 import com.cmput301w21t06.crowdfly.Views.ViewExperimentLogActivity;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -26,22 +31,34 @@ import static org.junit.Assert.assertEquals;
 
 public class TrialActivityTest {
     private Solo solo;
-    private User user;
+    public Boolean isEmulated = GodController.useEmulator();
 
     @Rule
-    public ActivityTestRule<ViewTrialLogActivity> rule =
-            new ActivityTestRule<>(ViewTrialLogActivity.class, true, true);
+    public ActivityTestRule<AuthActivity> rule =
+            new ActivityTestRule<>(AuthActivity.class, true, true);
+
+
 
     @Before
     public void setup() throws Exception {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
-        user.setUserID("test_user_id");
-
+        solo.clickOnButton("Experiment Log");
+        solo.waitForActivity(ViewExperimentLogActivity.class);
+        solo.assertCurrentActivity("Wrong activity", ViewExperimentLogActivity.class);
+        solo.clickOnButton("Add experiment");
+        solo.assertCurrentActivity("Wrong activity", AddExperimentActivity.class);
+        solo.enterText((EditText) solo.getView(R.id.region_edit_text), "test region");
+        solo.enterText((EditText) solo.getView(R.id.min_trial_edit_text), "15");
+        solo.hideSoftKeyboard();
+        solo.clickOnButton("Count");
+        solo.assertCurrentActivity("Wrong activity", ViewExperimentLogActivity.class);
+        solo.waitForText("test region", 1, 2000);
+        solo.clickOnText("test region");
     }
 
     @After
     public void tearDown() {
-        solo.finishOpenedActivities();
+        FirebaseAuth.getInstance().signOut();
     }
 
     @Test
@@ -50,31 +67,36 @@ public class TrialActivityTest {
     }
 
     @Test
-    public void testAddTrial() {
+    public void testAddTrial() throws InterruptedException {
+
         solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
         solo.clickOnButton("Subscribe");
-        solo.clickOnButton("Add Trial");
 
         ListView listView = (ListView) solo.getView(R.id.trialListView);
         ArrayAdapter<Trial> adapter = (ArrayAdapter<Trial>) listView.getAdapter();
         int oldCount = adapter.getCount();
 
+        solo.clickOnButton("Add Trial");
+
+
         solo.assertCurrentActivity("Wrong activity", NewTrial.class);
         solo.enterText((EditText) solo.getView(R.id.regionEnforcedEditText), "True");
         solo.enterText((EditText) solo.getView(R.id.regionTypeEditText), "CANADA");
+        solo.hideSoftKeyboard();
         solo.clickOnButton("Count Trial");
 
-        solo.assertCurrentActivity("Wrong Acitivity", EditCountTrialFragment.class);
         solo.enterText((EditText) solo.getView(R.id.countDescInput), "TestCase");
         solo.enterText((EditText) solo.getView(R.id.countInput), "4");
+        solo.hideSoftKeyboard();
+        solo.clickOnButton("OK");
         solo.clickOnButton("Add Trial");
 
         solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
-        solo.waitForText("test region", 1, 2000);
 
         listView = (ListView) solo.getView(R.id.trialListView);
         adapter = (ArrayAdapter<Trial>) listView.getAdapter();
         int newCount = adapter.getCount();
         assertEquals(true, (oldCount < newCount));
     }
+
 }

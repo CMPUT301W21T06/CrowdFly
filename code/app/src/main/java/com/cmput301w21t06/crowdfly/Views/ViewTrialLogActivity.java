@@ -74,10 +74,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         //only update the trialtype once per experiment
         trialType =  getIntent().getStringExtra("trialType");
         expID = getIntent().getStringExtra("expID");
-        Log.e("View",expID);
         ExperimentController.getExperimentData(expID, this);
         trialLog = TrialLog.getTrialLog();
-        Log.e("ff","ff" + String.valueOf(trialLog));
         setUpList();
         UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);
         //setup the data

@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -38,13 +39,15 @@ public class ExperimentController {
      * This sets up the snapshot listener for experiments
      */
     public static void setUp(){
-        experimentCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        experimentCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
+            public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 experiments.clear();
-                for (QueryDocumentSnapshot doc : response){
-                    Experiment exp = new Experiment(doc.getData());
-                    experiments.add(exp);
+                if(response != null){
+                    for (QueryDocumentSnapshot doc : response){
+                        Experiment exp = new Experiment(doc.getData());
+                        experiments.add(exp);
+                    }
                 }
             }
         });
@@ -57,7 +60,6 @@ public class ExperimentController {
      * The class that implements the method to handle the result of this function
      */
     public static void getExperimentLogData(CrowdFlyListeners.OnDoneGetExpLogListener onDoneGetExpLogListener) {
-        Collections.sort(experiments);
         ExperimentLog expLog = ExperimentLog.getExperimentLog();
         expLog.resetExperimentLog();
         for (Experiment exp : experiments){

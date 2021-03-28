@@ -53,3 +53,7 @@ obj/
 local.properties
 code/app/google-services.json
 .DS_Store
+code/firestore-debug.log
+code/ui-debug.log
+code/database-debug.log
+code/firebase-debug.log

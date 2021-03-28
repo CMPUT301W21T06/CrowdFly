@@ -45,8 +45,20 @@ jobs:
         with:
           java-version: 1.8
       - run: chmod +x ./gradlew
-      - name: Android Test with Gradle
-        run: ./gradlew connectedAndroidTest
+      - name: Make Android Test Script Executable
+        run: chmod +x ./android_int_test.sh
+      - name: Install node.js to get access to npm
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Run Android Emulator and Firestore Emulator with Gradle Task
+        uses: ReactiveCircus/android-emulator-runner@v2.15.0
+        with:
+          api-level: 23
+          working-directory: ./code
+          script: |
+              npm install -g firebase-tools
+              firebase emulators:exec ./android_int_test.sh
 
   run_unit_tests:
     runs-on: ubuntu-latest
