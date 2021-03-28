@@ -1,6 +1,7 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -68,8 +69,11 @@ public class AddExperimentActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 btnCount.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
+                btnCount.setBackgroundColor(Color.parseColor("#2B547E"));
                 btnMeasurement.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
+                btnMeasurement.setBackgroundColor(Color.parseColor("#2B547E"));
                 btnBinomial.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
+                btnBinomial.setBackgroundColor(Color.parseColor("#2B547E"));
 
             }
             @Override

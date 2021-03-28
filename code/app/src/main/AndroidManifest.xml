@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
-        <activity android:name=".Views.QuestionThreadActivity"></activity>
+        <activity android:name=".Views.GenerateQRActivity"></activity>
+        <activity android:name=".Views.QuestionThreadActivity" />
         <activity android:name=".Views.AskQuestionActivity" />
         <activity android:name=".Views.ViewQRActivity" />
         <activity android:name=".Views.ViewLocationActivity" />

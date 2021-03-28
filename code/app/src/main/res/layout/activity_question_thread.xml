@@ -37,6 +37,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="start|top"
+        android:background="@drawable/edit_text_border"
         android:inputType="textMultiLine"
         android:textColor="#0B0A0A"
         android:textColorHint="#0B0A0A"
@@ -52,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="44dp"
-        android:text="userID"
+        android:text="date"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chosen_question" />
