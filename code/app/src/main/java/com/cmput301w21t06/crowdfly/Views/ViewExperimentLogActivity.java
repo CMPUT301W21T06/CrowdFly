@@ -4,16 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.cmput301w21t06.crowdfly.Controllers.ExperimentContent;
+import com.cmput301w21t06.crowdfly.Controllers.ExperimentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
@@ -28,7 +25,7 @@ import java.util.ArrayList;
  */
 public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpLogListener {
     private ListView experimentListView;
-    private ExperimentContent expAdapter;
+    private ExperimentAdapter expAdapter;
     private ExperimentLog experimentLog;
     private ArrayList<Experiment> experimentsList;
 
@@ -46,7 +43,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         btnAddExperiment = findViewById(R.id.experiment_add);
         btnMap = findViewById(R.id.experiment_map);
         btnSearch = findViewById(R.id.experiment_search);
-        expAdapter = new ExperimentContent(this, experimentsList);
+        expAdapter = new ExperimentAdapter(this, experimentsList);
         experimentListView.setAdapter(expAdapter);
         // get all experiment data from firestore
         ExperimentController.getExperimentLogData(this);
