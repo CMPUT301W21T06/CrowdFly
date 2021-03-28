@@ -54,7 +54,7 @@ jobs:
       - name: Run Android Emulator and Firestore Emulator with Gradle Task
         uses: ReactiveCircus/android-emulator-runner@v2.15.0
         with:
-          api-level: 23
+          api-level: 30
           working-directory: ./code
           script: |
               npm install -g firebase-tools
