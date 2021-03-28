@@ -1,7 +1,7 @@
 
 //class for adding new Trials
 
-package com.cmput301w21t06.crowdfly.Models;
+package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +17,10 @@ import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
+import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
+import com.cmput301w21t06.crowdfly.Models.CountTrial;
+import com.cmput301w21t06.crowdfly.Models.Experiment;
+import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
@@ -28,7 +32,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * this is an activity that adds a new trial to the Listview in the Trial log
  */
 
-public class NewTrial extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener, EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
+public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener, EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
 
     private EditText regionEnforced, trialDesc, regionType,  successes, failures;
     private Button addButton, buttonBinomial, buttonMeasure, buttonCount, buttonCancel;

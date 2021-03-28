@@ -8,18 +8,13 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.cmput301w21t06.crowdfly.Database.GodController;
-import com.cmput301w21t06.crowdfly.Models.Experiment;
-import com.cmput301w21t06.crowdfly.Models.NewTrial;
+import com.cmput301w21t06.crowdfly.Views.NewTrialActivity;
 import com.cmput301w21t06.crowdfly.Models.Trial;
-import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.Views.AddExperimentActivity;
 import com.cmput301w21t06.crowdfly.Views.AuthActivity;
-import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
-import com.cmput301w21t06.crowdfly.Views.MainActivity;
 import com.cmput301w21t06.crowdfly.Views.ViewExperimentLogActivity;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -79,7 +74,7 @@ public class TrialActivityTest {
         solo.clickOnButton("Add Trial");
 
 
-        solo.assertCurrentActivity("Wrong activity", NewTrial.class);
+        solo.assertCurrentActivity("Wrong activity", NewTrialActivity.class);
         solo.enterText((EditText) solo.getView(R.id.regionEnforcedEditText), "True");
         solo.enterText((EditText) solo.getView(R.id.regionTypeEditText), "CANADA");
         solo.hideSoftKeyboard();
