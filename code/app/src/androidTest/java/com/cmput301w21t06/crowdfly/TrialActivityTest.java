@@ -15,6 +15,7 @@ import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.Views.AddExperimentActivity;
 import com.cmput301w21t06.crowdfly.Views.AuthActivity;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
+import com.cmput301w21t06.crowdfly.Views.MainActivity;
 import com.cmput301w21t06.crowdfly.Views.ViewExperimentLogActivity;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,10 +42,12 @@ public class TrialActivityTest {
     @Before
     public void setup() throws Exception {
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
+        solo.waitForActivity(MainActivity.class);
         solo.clickOnButton("Experiment Log");
         solo.waitForActivity(ViewExperimentLogActivity.class);
         solo.assertCurrentActivity("Wrong activity", ViewExperimentLogActivity.class);
         solo.clickOnButton("Add experiment");
+        solo.waitForActivity(AddExperimentActivity.class);
         solo.assertCurrentActivity("Wrong activity", AddExperimentActivity.class);
         solo.enterText((EditText) solo.getView(R.id.region_edit_text), "test region");
         solo.enterText((EditText) solo.getView(R.id.min_trial_edit_text), "15");
@@ -69,11 +72,13 @@ public class TrialActivityTest {
 
         solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
         solo.clickOnButton("Subscribe");
-        solo.clickOnButton("Add Trial");
 
         ListView listView = (ListView) solo.getView(R.id.trialListView);
         ArrayAdapter<Trial> adapter = (ArrayAdapter<Trial>) listView.getAdapter();
         int oldCount = adapter.getCount();
+
+        solo.clickOnButton("Add Trial");
+
 
         solo.assertCurrentActivity("Wrong activity", NewTrial.class);
         solo.enterText((EditText) solo.getView(R.id.regionEnforcedEditText), "True");
