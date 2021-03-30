@@ -13,7 +13,7 @@ public class CrowdFlyFirestorePathsTest extends TestCase {
     @Test
     public void testUserProfile() {
 
-        assertEquals(CrowdFlyFirestorePaths.userProfile(mockUserID()), "/users/12345");
+        assertEquals(CrowdFlyFirestorePaths.userProfile(mockUserID()), "/Users/12345");
 
     }
 }
