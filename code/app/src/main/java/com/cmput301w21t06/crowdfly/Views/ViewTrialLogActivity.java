@@ -150,10 +150,12 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     if(isOwner){
                         if(!currentExperiment.getStillRunning()){
                             currentExperiment.setStillRunning(true);
+                            endButton.setText("Start");
                         }
                         else {
                             if (currentExperiment.canEnd()) {
                                 currentExperiment.setStillRunning(false);
+                                endButton.setText("End");
                             }
                             else{
                                 Toaster.makeToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
