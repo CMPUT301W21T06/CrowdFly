@@ -13,7 +13,7 @@ public class CrowdFlyFirestorePaths {
      * This returns the completed path
      */
     public static final String userProfile(String userID){
-        return String.format("/users/%s", userID);
+        return String.format("/Users/%s", userID);
     }
 
     /***
@@ -75,7 +75,14 @@ public class CrowdFlyFirestorePaths {
         return String.format("/Questions/{}", questionID);
     }
 
-
+    /**
+     * This provides the path to the display ID counter document
+     * @return
+     * This is the path to the counter document
+     */
+    public static final String counter(){
+        return String.format("/Admin/Admin");
+    }
 
 
 }

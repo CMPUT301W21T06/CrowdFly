@@ -87,7 +87,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         trialType = currentExperiment.getType();
         trialLog = TrialLog.getTrialLog();
         setUpList();
-        UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);
+        UserController.getUserProfile(UserController.reverseConvert(FirebaseAuth.getInstance().getUid()), this);
         //setup the data
         setupData();
 

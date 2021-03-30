@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 
@@ -60,7 +61,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
 
         // set content description
         description.setText(experiment.getDescription());
-        ownerName.setText(experiment.getOwnerID());
+        ownerName.setText(UserController.reverseConvert(experiment.getOwnerID()));
         status.setText(experiment.getStillRunning() ? "Active" : "Not Active" );
         numTrials.setText(String.valueOf(experiment.getMinTrials()));
         region.setText(experiment.getRegion());

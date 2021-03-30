@@ -30,9 +30,9 @@ public class User {
      * @param userData
      */
     public User(Map<String, Object> userData) {
-        this.userID = getOrDefault(userData.get("userID"));
-        this.contactInfo = getOrDefault(userData.get("contactInfo"));
-        this.displayID = getOrDefault(userData.get("displayId"));
+        this.userID = (String) userData.get("userID");
+        this.contactInfo = (String) userData.get("contactInfo");
+        this.displayID = (String) userData.get("displayID");
     }
 
     /**
@@ -45,19 +45,14 @@ public class User {
     }
 
 
-    private String getOrDefault(Object val) {
-        if (val == null) {
-            return null;
-        }
-        return val.toString();
-    }
-
     /**
-     * This allows a display ID to be set - testing purposes
+     * This allows a display ID to be set
      * @param displayID
      * The display ID to set
      */
-    public void setDisplayID(String displayID) { this.displayID = displayID; }
+    public void setDisplayID(String displayID) {
+        this.displayID = displayID;
+    }
 
     /**
      * This returns the display ID
