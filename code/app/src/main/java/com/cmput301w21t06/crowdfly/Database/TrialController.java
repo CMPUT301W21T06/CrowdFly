@@ -18,6 +18,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -39,7 +40,7 @@ public class TrialController {
      * This sets up the snapshot listener for trials
      */
     private void setUp(){
-        trialsCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        trialsCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 trials.clear();
@@ -75,7 +76,6 @@ public class TrialController {
      * The class that implements the method to handle the result of this function
      */
     public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener, ArrayList<String> filters){
-        Collections.sort(trials);
         TrialLog trialLog = TrialLog.getTrialLog();
         trialLog.resetTrialLog();
 
@@ -87,15 +87,15 @@ public class TrialController {
 
         onDoneGetTrialsListener.onDoneGetTrials(trialLog);
     }
-    /**
-     * Returns all trials from Array List
-     * @return trials
-     * this returns all trials from the ArrayList<Trial>
-     */
-    public ArrayList<Trial> getTrials(){
-        return trials;
-    }
 
+    /**
+     * This returns the number of trials
+     * @return
+     * This is the number of trials
+     */
+    public int getNumTrials(){
+        return trials.size();
+    }
     /**
      * This gets all the trial ids and passes it to a method that handles it
      * @param onDoneGetExperimenterIdsListener

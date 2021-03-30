@@ -17,7 +17,7 @@ import java.util.Map;
  * Issues related to region have yet to be implemented
  */
 
-public class Experiment implements Comparable<Experiment> {
+public class Experiment {
     // Eventually this class will import and export JSON objects to firebase, so these attributes
     //methods are subject to change
     private String description;
@@ -103,6 +103,9 @@ public class Experiment implements Comparable<Experiment> {
         subController.isSubscribed(user, onDoneGetSubscribedListener);
     }
 
+    public boolean canEnd(){
+        return (trialController.getNumTrials() >= minTrials);
+    }
 
     // GETTERS
 
@@ -252,12 +255,4 @@ public class Experiment implements Comparable<Experiment> {
         return exp;
     }
 
-    /***
-     * This compares the experiments experiment id with itself, used to check
-     * @return Boolean
-     */
-    @Override
-    public int compareTo(Experiment experiment) {
-        return this.getExperimentId().compareTo(experiment.getExperimentId());
-    }
 }

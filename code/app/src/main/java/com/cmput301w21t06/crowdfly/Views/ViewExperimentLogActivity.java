@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
@@ -16,6 +17,7 @@ import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -23,11 +25,12 @@ import java.util.ArrayList;
  * Shows all the experiments in a list view
  * Map and search buttons not implemented
  */
-public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpLogListener {
+public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpLogListener, Toaster {
     private ListView experimentListView;
     private ExperimentAdapter expAdapter;
     private ExperimentLog experimentLog;
     private ArrayList<Experiment> experimentsList;
+    private final String userID = FirebaseAuth.getInstance().getUid();
 
     Button btnAddExperiment;
     Button btnMap;
@@ -76,8 +79,13 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.e("R","LONG CLICK");
                 Experiment exp = experimentsList.get(i);
-                ExperimentController.deleteExperiment(exp.getExperimentId(), exp);
-                ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
+                if (userID.matches(exp.getOwnerID())) {
+                    ExperimentController.deleteExperiment(exp.getExperimentId(), exp);
+                    ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
+                }
+                else{
+                    Toaster.makeToast(ViewExperimentLogActivity.this, "Only the owner may unpublish an experiment!");
+                }
                 return true;
             }
         });

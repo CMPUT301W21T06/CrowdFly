@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * this is the Trial superclass that extends its functionalities to its subclasses
  */
-public class Trial implements Comparable<Trial> {
+public class Trial {
     protected String trialID;
     protected String description;
 //    private Boolean locRequired;
@@ -95,12 +95,6 @@ public class Trial implements Comparable<Trial> {
         trl.put("experimenter",creatorID);
         return trl;
     }
-
-    @Override
-    public int compareTo(Trial trial) {
-        return this.getTrialID().compareTo(trial.getTrialID());
-    }
-
 
 }
 

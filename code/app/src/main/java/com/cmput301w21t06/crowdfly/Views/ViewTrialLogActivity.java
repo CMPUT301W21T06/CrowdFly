@@ -49,7 +49,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         CrowdFlyListeners.OnDoneGetExpListener,
         CrowdFlyListeners.OnDoneGetUserListener,
         CrowdFlyListeners.OnDoneGetTrialListener,
-        CrowdFlyListeners.OnDoneGetExperimenterIdsListener
+        CrowdFlyListeners.OnDoneGetExperimenterIdsListener,
+        Toaster
 {
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
@@ -151,12 +152,18 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                             currentExperiment.setStillRunning(true);
                         }
                         else {
-                            currentExperiment.setStillRunning(false);
+                            if (currentExperiment.canEnd()) {
+                                currentExperiment.setStillRunning(false);
+                            }
+                            else{
+                                Toaster.makeToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
+                            }
                         }
                         ExperimentController.setExperimentData(currentExperiment);
                     }
                     else {
-                        makeToast("You must be the owner to end or start this experiment!");
+                        Log.e("rr","run");
+                        Toaster.makeToast(ViewTrialLogActivity.this, "Only the owner can end an experiment!");
                     }
                 }
             }
@@ -175,7 +182,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 if(!currentExperiment.getStillRunning()){
-                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return;
                 }
                 if(subscribed || isOwner){
@@ -186,7 +193,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     startActivityForResult(intent,0);
                 }
                 else {
-                    makeToast("Please subscribe to the experiment to add trials");
+                    Toaster.makeToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to add trials");
                 }
 
             }
@@ -199,7 +206,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if(!currentExperiment.getStillRunning()){
-                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return false;
                 }
                 if(subscribed || isOwner) {
@@ -209,7 +216,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this, filters);
                 }
                 else {
-                    makeToast("Please subscribe to the experiment to remove trials");
+                    Toaster.makeToast(ViewTrialLogActivity.this,"Please subscribe to the experiment to remove trials");
                 }
                 return false;
             }
@@ -220,7 +227,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(!currentExperiment.getStillRunning()){
-                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return;
                 }
                 if(subscribed || isOwner) {
@@ -256,7 +263,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     }
                 }
                 else {
-                    makeToast("Please subscribe to the experiment to edit trials");
+                    Toaster.makeToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to edit trials");
                 }
                 }
 
@@ -273,9 +280,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         }
     }
 
-    private void makeToast(String s) {
-        Toast.makeText(ViewTrialLogActivity.this, s, Toast.LENGTH_LONG).show();
-    }
+
 
     private void setupData(){
 
