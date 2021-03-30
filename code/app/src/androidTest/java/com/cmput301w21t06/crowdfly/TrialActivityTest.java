@@ -56,10 +56,10 @@ public class TrialActivityTest {
         FirebaseAuth.getInstance().signOut();
     }
 
-    @Test
-    public void start() throws Exception {
-        solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
-    }
+//    @Test
+//    public void start() throws Exception {
+//        solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
+//    }
 
 //    @Test
 //    public void testAddTrial() throws InterruptedException {
