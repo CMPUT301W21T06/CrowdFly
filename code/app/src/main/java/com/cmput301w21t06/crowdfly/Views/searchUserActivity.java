@@ -54,7 +54,7 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyLis
     public void onDoneGetIds(ArrayList<String> ids) {
         this.defaultArray = ids;
         this.changedArray = (ArrayList<String>) defaultArray.clone();
-        idAdapter = new ArrayAdapter<String>(this,R.layout.id_content,changedArray);
+        idAdapter = new ArrayAdapter<String>(this,R.layout.general_content,changedArray);
         idDisplay.setAdapter(idAdapter);
         idAdapter.notifyDataSetChanged();
     }

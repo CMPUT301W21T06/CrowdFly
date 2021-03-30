@@ -94,6 +94,19 @@ public class TrialController {
     }
 
     /**
+     * This gets all the trial ids and passes it to a method that handles it
+     * @param onDoneGetExperimenterIdsListener
+     * This is the class that listens to the response
+     */
+    public void getExperimenterIds(CrowdFlyListeners.OnDoneGetExperimenterIdsListener onDoneGetExperimenterIdsListener){
+        ArrayList<String> ids = new ArrayList<String>();
+        for (Trial trial : trials){
+            ids.add(trial.getExperimenterID());
+        }
+        onDoneGetExperimenterIdsListener.onDoneGetExperimenterIds(ids);
+    }
+
+    /**
      * This gets a specific trial
      * @param trialID
      * The trial id to look for

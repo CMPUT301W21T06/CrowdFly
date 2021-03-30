@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 
@@ -42,7 +44,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         CrowdFlyListeners.OnDoneGetSubscribedListener,
         CrowdFlyListeners.OnDoneGetExpListener,
         CrowdFlyListeners.OnDoneGetUserListener,
-        CrowdFlyListeners.OnDoneGetTrialListener
+        CrowdFlyListeners.OnDoneGetTrialListener,
+        CrowdFlyListeners.OnDoneGetExperimenterIdsListener
 {
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
@@ -52,6 +55,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Button qrButton;
     private Button subButton;
     private Button endButton;
+    private Spinner dropdown;
+    private ArrayAdapter<String> dropAdapter;
     static int entry_pos;
     public TrialAdapter adapter;
     static public String trialType;
@@ -68,6 +73,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trial_log);
         endButton = findViewById(R.id.endButton);
+        dropdown = findViewById(R.id.dropDown);
         //only update the trialtype once per experiment
         trialType =  getIntent().getStringExtra("trialType");
         expID = getIntent().getStringExtra("expID");
@@ -81,6 +87,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         trialArrayList = trialLog.getTrials();
 
         questionButton = findViewById(R.id.questionButton);
+
+        currentExperiment.getTrialController().getExperimenterIds(this);
         questionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -318,10 +326,18 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         currentExperiment.getTrialController().getTrialLogData(this);
+        currentExperiment.getTrialController().getExperimenterIds(this);
+
     }
 
     @Override
     public void onDoneGetTrial(Trial trial) {
         reviewedTrial = trial.getData();
+    }
+
+    @Override
+    public void onDoneGetExperimenterIds(ArrayList<String> ids){
+        dropAdapter = new ArrayAdapter<String>(this, R.layout.general_content,ids);
+        dropdown.setAdapter(dropAdapter);
     }
 }
