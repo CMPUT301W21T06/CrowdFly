@@ -104,7 +104,10 @@ public class TrialController {
     public void getExperimenterIds(CrowdFlyListeners.OnDoneGetExperimenterIdsListener onDoneGetExperimenterIdsListener){
         ArrayList<String> ids = new ArrayList<String>();
         for (Trial trial : trials){
-            ids.add(trial.getExperimenterID());
+            String id = trial.getExperimenterID();
+            if (!ids.contains(id)){
+                ids.add(UserController.reverseConvert(id));
+            }
         }
         onDoneGetExperimenterIdsListener.onDoneGetExperimenterIds(ids);
     }
