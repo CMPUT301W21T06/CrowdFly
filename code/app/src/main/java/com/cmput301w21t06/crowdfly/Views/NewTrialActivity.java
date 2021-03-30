@@ -64,7 +64,7 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
 
         expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID,this);
-        trialType = exp.getDescription();
+        trialType = exp.getType();
         //condition for trial type differentiation
         if (trialType.equals("binomial")){
             buttonMeasure.setBackgroundColor(Color.LTGRAY);

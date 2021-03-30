@@ -24,7 +24,7 @@ public class ExperimentTest {
 
     @Before
     public void setup() {
-        exp = new Experiment("sampleExp", "Canada", 15,"");
+        exp = new Experiment("sampleExp", "Canada", 15,"","");
     }
 
     @Test
@@ -85,6 +85,7 @@ public class ExperimentTest {
         data.put("stillRunning", true);
         data.put("ownerID", "testID");
         data.put("experimentID", "experiment1");
+        data.put("type","test");
 
         exp = new Experiment(data);
         assertEquals(data.keySet(), exp.toHashMap().keySet());

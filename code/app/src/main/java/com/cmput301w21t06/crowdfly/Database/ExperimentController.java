@@ -32,13 +32,14 @@ import java.util.Map;
  * This class controls all operations related to experiments
  */
 public class ExperimentController {
-    private static CollectionReference experimentCollection = GodController.getDb().collection("Experiments");
+    private static CollectionReference experimentCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.experiments());
     private static ArrayList<Experiment> experiments = new ArrayList<Experiment>();
 
     /**
      * This sets up the snapshot listener for experiments
      */
     public static void setUp(){
+
         experimentCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {

@@ -47,7 +47,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         //etDescription = findViewById(R.id.trial_listview);
         etMinNumTrials = findViewById(R.id.min_trial_edit_text);
         etRegion = findViewById(R.id.region_edit_text);
-
+        etDescription = findViewById(R.id.descriptionBox);
         btnMeasurement = findViewById(R.id.m_btn);
         btnBinomial = findViewById(R.id.binomial_btn);
         btnCount = findViewById(R.id.count_btn);
@@ -85,10 +85,10 @@ public class AddExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //hard coding variables for now will be adjusted
-                String description = "binomial";
+                String description = getDescription();
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
-                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"binomial");
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -97,10 +97,10 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnMeasurement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String description = "measurement";
+                String description = getDescription();
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
-                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"measurement");
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -109,12 +109,12 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String description = "count";
+                String description = getDescription();
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
 
                 Log.d("myTag", region);
-                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"count");
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -136,6 +136,8 @@ public class AddExperimentActivity extends AppCompatActivity {
     public String getRegion(){
         return etRegion.getText().toString();
     }
+
+    private String getDescription(){return etDescription.getText().toString();}
 
     /**
      * Gets the number of trials from the input box

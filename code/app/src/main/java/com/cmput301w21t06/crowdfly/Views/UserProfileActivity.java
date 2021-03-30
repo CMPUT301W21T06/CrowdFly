@@ -48,8 +48,6 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
         userInfo.setEnabled(canEdit());
         UserController.getUserProfile(requestedID, this);
         PictureHandler.updatePic("gs://crowdfly-76eb6.appspot.com/smiley.png", profilePicView, getApplicationContext());
-
-
     }
 
     /**
@@ -60,7 +58,7 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
     @Override
     public void onDoneGetUser(User userProfile) {
         user = userProfile;
-        userIDText.setText(user.getUserID());
+        userIDText.setText(user.getDisplayID());
         userInfo.setText(user.getContactInfo());
     }
 
@@ -88,7 +86,7 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
     private boolean canEdit(){
         Intent intent = getIntent();
         requestedID = intent.getStringExtra(TAG);
-        boolean condition =  (userID.matches(requestedID));
+        boolean condition =  (UserController.reverseConvert(userID).matches(requestedID));
         return condition;
     }
 

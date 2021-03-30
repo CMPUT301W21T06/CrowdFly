@@ -13,9 +13,26 @@ public class CrowdFlyFirestorePaths {
      * This returns the completed path
      */
     public static final String userProfile(String userID){
-        return String.format("/users/%s", userID);
+        return String.format("/Users/%s", userID);
     }
 
+    /**
+     * This returns the path to the users collection
+     * @return
+     * This is the path to the users collection
+     */
+    public static final String users(){
+        return String.format("/Users");
+    }
+
+    /**
+     * This returns the path to the experiments collection
+     * @return
+     * This is the path to the experiments collection
+     */
+    public static final String experiments(){
+        return String.format("/Experiments");
+    }
     /***
      * Path to a particular experiment
      * @param experimentID
@@ -73,6 +90,15 @@ public class CrowdFlyFirestorePaths {
      */
     public static final String questions(int questionID) {
         return String.format("/Questions/{}", questionID);
+    }
+
+    /**
+     * This provides the path to the display ID counter document
+     * @return
+     * This is the path to the counter document
+     */
+    public static final String counter(){
+        return String.format("/Admin/Admin");
     }
 
 
