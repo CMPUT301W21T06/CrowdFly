@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+//descending shit
 /**
  * This class controls all operations related to Trials
  */
@@ -73,13 +74,15 @@ public class TrialController {
      * @param onDoneGetTrialsListener
      * The class that implements the method to handle the result of this function
      */
-    public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener){
+    public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener, ArrayList<String> filters){
         Collections.sort(trials);
         TrialLog trialLog = TrialLog.getTrialLog();
         trialLog.resetTrialLog();
 
         for (Trial trial : trials){
-            trialLog.addTrial(trial);
+            if (!filters.contains(trial.getExperimenterID())) {
+                trialLog.addTrial(trial);
+            }
         }
 
         onDoneGetTrialsListener.onDoneGetTrials(trialLog);

@@ -4,19 +4,23 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cmput301w21t06.crowdfly.Controllers.DropdownAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
@@ -56,7 +60,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Button subButton;
     private Button endButton;
     private Spinner dropdown;
-    private ArrayAdapter<String> dropAdapter;
+    private DropdownAdapter dropAdapter;
     static int entry_pos;
     public TrialAdapter adapter;
     static public String trialType;
@@ -67,11 +71,13 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private User currentUser;
     private Boolean isOwner = false;
     Trial reviewedTrial;
+    ArrayList<String> filters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trial_log);
+        filters = new ArrayList<String>();
         endButton = findViewById(R.id.endButton);
         dropdown = findViewById(R.id.dropDown);
         //only update the trialtype once per experiment
@@ -89,6 +95,27 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         questionButton = findViewById(R.id.questionButton);
 
         currentExperiment.getTrialController().getExperimenterIds(this);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView textView = (TextView) view;
+                String text = String.valueOf(textView.getText());
+
+                if (dropAdapter.addSelectedPosition(i)) {
+                    filters.add(text);
+                }
+                else{
+                    filters.remove(text);
+                }
+                dropdown.setSelection(0);
+                currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this, filters);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         questionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -179,7 +206,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     Trial deleteTrial = (Trial) parent.getAdapter().getItem(position);
                     String trialIDAtPos = deleteTrial.getTrialID();
                     currentExperiment.getTrialController().removeTrialData(trialIDAtPos);
-                    currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this);
+                    currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this, filters);
                 }
                 else {
                     makeToast("Please subscribe to the experiment to remove trials");
@@ -238,6 +265,14 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (trialLog.getTrials().size() == 0){
+            dropdown.setVisibility(View.INVISIBLE);
+        }
+    }
+
     private void makeToast(String s) {
         Toast.makeText(ViewTrialLogActivity.this, s, Toast.LENGTH_LONG).show();
     }
@@ -246,7 +281,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
 
         // get all experiment data from firestore
-        currentExperiment.getTrialController().getTrialLogData(this);
+        currentExperiment.getTrialController().getTrialLogData(this, filters);
 
 
     }
@@ -325,7 +360,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        currentExperiment.getTrialController().getTrialLogData(this);
+        currentExperiment.getTrialController().getTrialLogData(this, filters);
         currentExperiment.getTrialController().getExperimenterIds(this);
 
     }
@@ -337,7 +372,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
     @Override
     public void onDoneGetExperimenterIds(ArrayList<String> ids){
-        dropAdapter = new ArrayAdapter<String>(this, R.layout.general_content,ids);
+        ids.add(0,"Filter Experimenter...");
+        dropAdapter = new DropdownAdapter(this, R.layout.general_content,ids);
         dropdown.setAdapter(dropAdapter);
     }
 }
