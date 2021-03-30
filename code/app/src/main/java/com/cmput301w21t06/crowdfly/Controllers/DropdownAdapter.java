@@ -13,29 +13,54 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
+/**
+ * This is a custom adapter for items in drop down menus
+ */
 public class DropdownAdapter extends ArrayAdapter<String> {
     private ArrayList<Integer> pos;
+
+    /**
+     * This is the constructor for the custom adapter, which creates the superobject and other items
+     * @param context
+     * The application context
+     * @param resourceID
+     * The layout of the items in the adapter
+     * @param items
+     * The list of items that feed the adapter
+     */
     public DropdownAdapter(Context context, int resourceID, ArrayList<String> items){
         super(context,resourceID,items);
         pos = new ArrayList<Integer>();
     }
 
+    /**
+     * This logs the position of the user selection for correct handling
+     * @param position
+     * This is the position clicked
+     * @return
+     * This indicates if the item was added (was not pre-selected) or deleted (was pre-selected)
+     */
     public boolean addSelectedPosition(Integer position){
-        Log.e("pos",String.valueOf(position));
         if (pos.contains(position)){
-            Log.e("rrhrh","heheh");
             pos.remove(position);
-            Log.e("stuff",String.valueOf(pos));
             return false;
         }else{
-            Log.e("rrhrh","heheh");
             pos.add(position);
-            Log.e("stuff",String.valueOf(pos));
-
             return true;
         }
     }
 
+    /**
+     * This handles creating views for items in the dropdown
+     * @param position
+     * The position of the item to be displayed
+     * @param convertView
+     * An old view which can be converted to save time
+     * @param parent
+     * The parent view group
+     * @return
+     * The created view
+     */
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (position != 0) {
