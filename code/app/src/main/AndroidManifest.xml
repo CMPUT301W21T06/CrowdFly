@@ -4,13 +4,15 @@
     package="com.cmput301w21t06.crowdfly">
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
-        <activity android:name=".Views.QuestionThreadActivity"></activity>
+        <activity android:name=".Views.GenerateQRActivity"></activity>
+        <activity android:name=".Views.QuestionThreadActivity" />
         <activity android:name=".Views.AskQuestionActivity" />
         <activity android:name=".Views.ViewQRActivity" />
         <activity android:name=".Views.ViewLocationActivity" />
@@ -25,7 +27,7 @@
         <activity
             android:name=".Views.ViewStatisticActivity"
             android:parentActivityName=".Views.ViewTrialLogActivity" />
-        <activity android:name=".Models.NewTrial" />
+        <activity android:name=".Views.NewTrialActivity" />
         <activity
             android:name=".Views.ViewTrialLogActivity"
             android:label="@string/title_activity_view_trial_log"

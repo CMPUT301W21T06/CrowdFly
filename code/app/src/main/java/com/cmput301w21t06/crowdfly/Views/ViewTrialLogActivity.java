@@ -5,7 +5,6 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,13 +12,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Controllers.SubscriptionManager;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Database.UserController;
@@ -27,7 +24,6 @@ import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
-import com.cmput301w21t06.crowdfly.Models.NewTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
@@ -42,10 +38,11 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         EditBinomialTrialFragment.OnFragmentInteractionListener,
         EditCountTrialFragment.OnFragmentInteractionListener,
         EditMeasureTrialFragment.OnFragmentInteractionListener,
-        CrowdFlyFirestore.OnDoneGetTrialsListener,
-        SubscriptionManager.OnDoneGetSubscribedListener,
+        CrowdFlyListeners.OnDoneGetTrialsListener,
+        CrowdFlyListeners.OnDoneGetSubscribedListener,
         CrowdFlyListeners.OnDoneGetExpListener,
-        CrowdFlyListeners.OnDoneGetUserListener
+        CrowdFlyListeners.OnDoneGetUserListener,
+        CrowdFlyListeners.OnDoneGetTrialListener
 {
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
@@ -55,7 +52,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Button qrButton;
     private Button subButton;
     private Button endButton;
-    static Integer counter = 0;
     static int entry_pos;
     public TrialAdapter adapter;
     static public String trialType;
@@ -65,6 +61,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Experiment currentExperiment;
     private User currentUser;
     private Boolean isOwner = false;
+    Trial reviewedTrial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +69,14 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_view_trial_log);
         endButton = findViewById(R.id.endButton);
         //only update the trialtype once per experiment
-        if (counter < 1){
-            trialType =  getIntent().getStringExtra("trialType");
-            expID = getIntent().getStringExtra("expID");
-        }
-
-        trialLog = TrialLog.getTrialLog();
+        trialType =  getIntent().getStringExtra("trialType");
+        expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID, this);
+        trialLog = TrialLog.getTrialLog();
+        setUpList();
         UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);
         //setup the data
         setupData();
-        setUpList();
 
         trialArrayList = trialLog.getTrials();
 
@@ -151,11 +145,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 }
                 if(subscribed || isOwner){
 
-                    counter += 1;
-                    Intent intent = new Intent(getApplicationContext(), NewTrial.class);
+                    Intent intent = new Intent(getApplicationContext(), NewTrialActivity.class);
                     intent.putExtra("trialType", trialType);
                     intent.putExtra("expID", String.valueOf(expID));
-                    startActivity(intent);
+                    startActivityForResult(intent,0);
                 }
                 else {
                     makeToast("Please subscribe to the experiment to add trials");
@@ -175,11 +168,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     return false;
                 }
                 if(subscribed || isOwner) {
-                    Trial btrial = (Trial) parent.getAdapter().getItem(position);
-                    String trialIDAtPos = btrial.getTrialID();
-                    new CrowdFlyFirestore().removeTrialData(expID, trialIDAtPos);
-                    trialLog.removeTrial(position);
-                    adapter.notifyDataSetChanged();
+                    Trial deleteTrial = (Trial) parent.getAdapter().getItem(position);
+                    String trialIDAtPos = deleteTrial.getTrialID();
+                    currentExperiment.getTrialController().removeTrialData(trialIDAtPos);
+                    currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this);
                 }
                 else {
                     makeToast("Please subscribe to the experiment to remove trials");
@@ -204,8 +196,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         entry_pos = i;
                         Trial btrial = (Trial) adapterView.getAdapter().getItem(i);
                         String trialIDAtPos = btrial.getTrialID();
-                        BinomialTrial trial = new CrowdFlyFirestore().getBTrial(expID, trialIDAtPos);
-                        editBinomialTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
+                        currentExperiment.getTrialController().getTrial(trialIDAtPos, ViewTrialLogActivity.this);
+                        editBinomialTrialFragment.newInstance((BinomialTrial) reviewedTrial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
                     if (trialType.equals("count")) {
@@ -214,8 +206,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
                         Trial ctrial = (Trial) adapterView.getAdapter().getItem(i);
                         String trialIDAtPos = ctrial.getTrialID();
-                        CountTrial trial = new CrowdFlyFirestore().getCTrial(expID, trialIDAtPos);
-                        editCountTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
+                        currentExperiment.getTrialController().getTrial(trialIDAtPos, ViewTrialLogActivity.this);
+                        editCountTrialFragment.newInstance((CountTrial) reviewedTrial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
                     if (trialType.equals("measurement")) {
@@ -223,8 +215,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         entry_pos = i;
                         Trial mtrial = (Trial) adapterView.getAdapter().getItem(i);
                         String trialIDAtPos = mtrial.getTrialID();
-                        MeasurementTrial trial = new CrowdFlyFirestore().getMTrial(expID, trialIDAtPos);
-                        editMeasureTrialFragment.newInstance(trial).show(getSupportFragmentManager(), "EDIT TEXT");
+                        currentExperiment.getTrialController().getTrial(trialIDAtPos, ViewTrialLogActivity.this);
+                        editMeasureTrialFragment.newInstance((MeasurementTrial) reviewedTrial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
                 }
@@ -246,7 +238,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
 
         // get all experiment data from firestore
-        new CrowdFlyFirestore().getTrialData(expID, this);
+        currentExperiment.getTrialController().getTrialLogData(this);
 
 
     }
@@ -300,7 +292,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     public void onDoneGetUser(User user) {
         this.currentUser = user;
-        this.currentExperiment.isSubscribed(user, this);
+        this.currentExperiment.getSubController().isSubscribed(user, this);
     }
 
     @Override
@@ -320,5 +312,16 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         else{
             endButton.setText("Start");
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        currentExperiment.getTrialController().getTrialLogData(this);
+    }
+
+    @Override
+    public void onDoneGetTrial(Trial trial) {
+        reviewedTrial = trial.getData();
     }
 }

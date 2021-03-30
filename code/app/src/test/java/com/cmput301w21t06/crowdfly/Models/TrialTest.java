@@ -1,4 +1,4 @@
-package com.cmput301w21t06.crowdfly;
+package com.cmput301w21t06.crowdfly.Models;
 
 import com.cmput301w21t06.crowdfly.Models.Trial;
 
@@ -13,7 +13,7 @@ public class TrialTest {
 
     private Trial mockTrial(){
         String description = "mocktrial";
-        Trial trial = new Trial(description);
+        Trial trial = new Trial(description,"","");
         return trial;
     }
     private String userID = "userTestID";

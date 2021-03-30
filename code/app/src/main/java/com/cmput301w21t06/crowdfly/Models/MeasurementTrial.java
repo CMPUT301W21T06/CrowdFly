@@ -1,5 +1,4 @@
 package com.cmput301w21t06.crowdfly.Models;
-//This trial
 
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 
@@ -11,10 +10,10 @@ import java.util.Map;
  * Things related to region have yet to be implemented
  */
 public class MeasurementTrial extends Trial{
-    private String measurement;
+    private double measurement;
 
-    public MeasurementTrial(String description, String measurement) {
-        super(description);
+    public MeasurementTrial(String description, double measurement, String trialID, String creatorID) {
+        super(description,creatorID,trialID);
         this.measurement = measurement;
 
     }
@@ -24,9 +23,8 @@ public class MeasurementTrial extends Trial{
      * @param data
      */
     public MeasurementTrial(Map<String, Object> data) {
-        super(data);
-        this.description = (String) data.get("description");
-        this.measurement = (String) data.get("measurement");
+        super((String) data.get("description"), (String) data.get("experimenter"), (String) data.get("trialID"));
+        this.measurement = (double) data.get("measurement");
 
     }
 
@@ -35,28 +33,32 @@ public class MeasurementTrial extends Trial{
      * @return
      *    return number of successes
      */
-    public String getMeasurement(){return measurement;}
+    public double getMeasurement(){return measurement;}
 
     /**
      * sets the string display of the number of the measurement number that occur in a binomial trial
      * @param measurement
      */
-    public void setMeasurement(String measurement){
+    public void setMeasurement(double measurement){
         this.measurement = measurement;
     }
 
+    /***
+     * this returns a MeasurementTrial object in its current state
+     * @return Map
+     */
+    public MeasurementTrial getData(){
+        return new MeasurementTrial(description, measurement, trialID,creatorID);
+    }
 
     /***
      * this transforms the Measurement Trial to a HashMap that is fed into the database
      * @return Map
      */
     public Map<String, Object> toHashMap() {
-        Map<String, Object> trl = new HashMap<>();
-        trl.put("trialID", this.trialID);
-        trl.put("description", this.description);
+        Map<String, Object> trl = super.toHashMap();
+        trl.put("type","measurement");
         trl.put("measurement", this.measurement);
-        //trl.put("owner", String.format("users/{}", this.recordedBy.getUserID()));
-
         return trl;
     }
 }

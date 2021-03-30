@@ -1,6 +1,7 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
@@ -69,8 +69,11 @@ public class AddExperimentActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
                 btnCount.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
+                btnCount.setBackgroundColor(Color.parseColor("#2B547E"));
                 btnMeasurement.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
+                btnMeasurement.setBackgroundColor(Color.parseColor("#2B547E"));
                 btnBinomial.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
+                btnBinomial.setBackgroundColor(Color.parseColor("#2B547E"));
 
             }
             @Override
@@ -82,11 +85,10 @@ public class AddExperimentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //hard coding variables for now will be adjusted
-                final String description = "binomial";
+                String description = "binomial";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
-                Experiment expAdd = new Experiment(description, region, minNumTrials);
-                expAdd.setOwnerID(userID);
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -95,11 +97,10 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnMeasurement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = "measurement";
+                String description = "measurement";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
-                Experiment expAdd = new Experiment(description, region, minNumTrials);
-                expAdd.setOwnerID(userID);
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -108,15 +109,12 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String description = "count";
+                String description = "count";
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
 
                 Log.d("myTag", region);
-
-
-                Experiment expAdd = new Experiment(description, region, minNumTrials);
-                expAdd.setOwnerID(userID);
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID);
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }

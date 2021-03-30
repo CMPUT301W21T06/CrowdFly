@@ -12,37 +12,42 @@ import java.util.Map;
  * Still need to handle things related to location
  */
 public class BinomialTrial extends Trial{
-    private String successes;
-    private String failures;
+    private int successes;
+    private int failures;
+
 
     /**
      * this is the main constructor for purposes of instantiating a valid binomial trial
      * @param description
      * @param successes
      * @param failures
+     * @param creatorID
+     * @param trialID
      */
-    public BinomialTrial(String description, String successes, String failures) {
-        super(description); //This needs to match the Trial constructor with the user experimenter
+    public BinomialTrial(String description, int successes, int failures, String trialID, String creatorID) {
+        super(description,creatorID,trialID);
         this.successes = successes;
         this.failures = failures;
     }
+
 
     /**
      * this is a hashmap constructor for the purposes of getting data from the DB
      * @param data
      */
     public BinomialTrial(Map<String, Object> data) {
-        super(data);
-        this.successes = (String) data.get("successes");
-        this.failures = (String) data.get("failures");
+        super((String) data.get("description"),(String) data.get("experimenter"), (String) data.get("trialID"));
+        successes = ((Long) data.get("successes")).intValue();
+        failures =  ((Long) data.get("failures")).intValue();
     }
+
 
     /**
      * this returns the string display of the number of successes that occur in a binomial trial
      * @return
      *    return number of successes
      */
-    public String getSuccesses() {
+    public int getSuccesses() {
         return successes;
     }
 
@@ -50,7 +55,7 @@ public class BinomialTrial extends Trial{
      * sets the string display of the number of successes that occur in a binomial trial
      * @param successes
      */
-    public void setSuccesses(String successes) {
+    public void setSuccesses(int successes) {
         this.successes = successes;
     }
 
@@ -58,8 +63,18 @@ public class BinomialTrial extends Trial{
      * sets the string display of the number of failures that occur in a binomial trial
      * @param failures
      */
-    public void setFailures(String failures) {
+    public void setFailures(int failures) {
         this.failures = failures;
+    }
+
+
+    /**
+     * this returns the string display of the number of failures that occur in a binomial trial
+     * @return failures
+     *    return number of failures
+     */
+    public int getFailures() {
+        return failures;
     }
 
     /**
@@ -67,23 +82,18 @@ public class BinomialTrial extends Trial{
      * @return failures
      *    return number of failures
      */
-    public String getFailures() {
-        return failures;
+    public BinomialTrial getData(){
+        return new BinomialTrial(description,successes,failures,trialID,creatorID);
     }
-
-
     /***
      * this transforms the Binomial Trial to a HashMap that is fed into the database
      * @return Map
      */
     public Map<String, Object> toHashMap() {
-        Map<String, Object> trl = new HashMap<>();
-        trl.put("trialID", this.trialID);
-        trl.put("description", this.description);
+        Map<String, Object> trl = super.toHashMap();
+        trl.put("type","binomial");
         trl.put("successes", this.successes);
         trl.put("failures", this.failures);
-        //trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
-        
         return trl;
     }
 }

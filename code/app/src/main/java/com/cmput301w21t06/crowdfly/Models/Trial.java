@@ -1,62 +1,55 @@
 package com.cmput301w21t06.crowdfly.Models;
 
+import android.util.Log;
+
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * this is the Trial superclass that extends its functionalities to its subclasses
  */
-public class Trial {
-    protected User experimenter;
+public class Trial implements Comparable<Trial> {
     protected String trialID;
     protected String description;
-    private Boolean locRequired;
-    private String location;
-    private String result;
-    private Statistics statistics;
-    //private final String userID = FirebaseAuth.getInstance().getUid();
-    private String userID;
+//    private Boolean locRequired;
+//    private String location;
+//    private String result;
+//    private Statistics statistics;
+    protected String creatorID;
 
-    public Trial(String description) {
-
+    public Trial(String description, String creatorID, String trialID) {
         this.description = description;
-//        this.experimenter = experimenter;
+        this.creatorID = creatorID;
+        this.trialID = trialID;
     }
-
-    /**
-     * this sets the user ID to a specific trial class
-     * @param userID
-     */
-    public void setExperimenterID(String userID){ this.userID = userID;}
-
-
+    public Trial(Map<String, Object> data) {
+        this.description = (String) data.get("description");
+        this.trialID = (String) data.get("trialID");
+        this.creatorID = (String) data.get("experimenter");
+    }
     /**
      * this returns user id that is connected with a specific trial
      * @return userID
      */
-    public String getExperimenterID(){return userID;}
-
-    /***
-     * this returns the experimenter that created the trial
-     * @return experimenter
-     */
-    public User getExperimenter() {
-        return experimenter;
-    }
-
+    public String getExperimenterID(){return creatorID;}
 
     /***
      * this returns the trial ID number
-     * @return String
+     * @return creatorID
      */
     public String getTrialID() {
         return trialID;
     }
 
+    /***
+     * this sets the trial ID number
+     * @param trialID
+     */
     public void setTrialID(String trialID) {
         this.trialID = trialID;
     }
@@ -69,30 +62,27 @@ public class Trial {
         this.description = description;
     }
 
-    /***
-     * this is the hash map constructor for trial
-     * @param data
-     */
-    public Trial(Map<String, Object> data) {
-        this.description = (String) data.get("description");
-        this.trialID = (String) data.get("trialID");
-    }
-
-
-    //setup getters
     /**
-     * this returns the string description of the trial
-     * @return
-     *    return string description of the trial
+     * this sets the user ID to a specific trial class
+     * @param userID
+     */
+    public void setExperimenterID(String userID){ this.creatorID = userID;}
+    /***
+     * this gets the description of the trial
+     * @return description
      */
     public String getDescription() {
         return description;
     }
 
-    public void specifyLocReq(Boolean locReq){}
-    public void specifyLoc(String location){}
-    public String getLoc(){return "";}
-    private void warnUsers(){}
+    /***
+     * this returns an instance of the Trial object in its current state
+     * @return Map
+     */
+    public Trial getData(){
+        return new Trial(description, creatorID, trialID);
+    }
+
 
     /***
      * this transforms the Trial to a HashMap that is fed into the database
@@ -102,12 +92,15 @@ public class Trial {
         Map<String, Object> trl = new HashMap<>();
         trl.put("description", this.description);
         trl.put("trialID",this.trialID);
-        trl.put("experimenter",userID);
-        //trl.put("owner", String.format("users/{}", this.experimenter.getUserID()));
-
-
-
+        trl.put("experimenter",creatorID);
         return trl;
     }
+
+    @Override
+    public int compareTo(Trial trial) {
+        return this.getTrialID().compareTo(trial.getTrialID());
+    }
+
+
 }
 

@@ -7,11 +7,11 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [staging, main]
+    branches: [staging, main, stagingv4]
   pull_request:
-    branches: [staging, main]
+    branches: [staging, main, stagingv4]
 jobs:
-  run_project:
+  build_project:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -27,8 +27,40 @@ jobs:
           api-level: 23
           working-directory: ./code
           script: ./gradlew build
+  run_android_tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./code
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add service.json file
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "google-services.json"
+          json: ${{ secrets.SERVICE_JSON }}
+          dir: "code/app/"
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - run: chmod +x ./gradlew
+      - name: Make Android Test Script Executable
+        run: chmod +x ./android_int_test.sh
+      - name: Install node.js to get access to npm
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Run Android Emulator and Firestore Emulator with Gradle Task
+        uses: ReactiveCircus/android-emulator-runner@v2.15.0
+        with:
+          api-level: 23
+          working-directory: ./code
+          script: |
+              npm install -g firebase-tools
+              firebase emulators:exec ./android_int_test.sh
 
-  run_tests:
+  run_unit_tests:
     runs-on: ubuntu-latest
     defaults:
       run:

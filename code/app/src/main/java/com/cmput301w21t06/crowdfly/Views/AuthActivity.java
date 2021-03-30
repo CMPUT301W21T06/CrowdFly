@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Database.GodController;
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.User;
@@ -54,7 +53,6 @@ public class AuthActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = authManager.getCurrentUser();
-
         if( currentUser != null){
             updateUI(currentUser);
         }
@@ -83,7 +81,7 @@ public class AuthActivity extends AppCompatActivity {
                     System.out.println(task.getException());
                     Toast.makeText(AuthActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
-                    updateUI(null);
+                    loadingAuth();
                 }
 
 
@@ -119,7 +117,7 @@ public class AuthActivity extends AppCompatActivity {
      */
     private void createUser(FirebaseUser user) {
         String userID = user.getUid();
-        User newUser = new User("", "", "", userID);
+        User newUser = new User(userID);
         UserController.setUserProfile(newUser);
     }
 

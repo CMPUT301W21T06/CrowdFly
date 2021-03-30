@@ -1,53 +1,52 @@
-package com.cmput301w21t06.crowdfly;
+package com.cmput301w21t06.crowdfly.Models;
 
-import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
 import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 
-import org.junit.Before;
+import junit.framework.TestCase;
+
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
-public class BinomialTrialTest {
+public class BinomialTrialTest extends TestCase {
 
     private BinomialTrial mockBinomialTrial(){
         String description = "mock binomial";
-        String successes = "3";
-        String failures = "4";
+        int successes = 3;
+        int failures = 4;
 
-        BinomialTrial mockBTrial = new BinomialTrial(description, successes, failures);
+        BinomialTrial mockBTrial = new BinomialTrial(description, successes, failures, "", "");
         return mockBTrial;
     }
 
     @Test
     public void testGetSuccesses() {
         BinomialTrial binomialTrial = mockBinomialTrial();
-        assertEquals("3", binomialTrial.getSuccesses());
+        assertEquals(3, binomialTrial.getSuccesses());
     }
 
     @Test
     public void testGetFailures() {
         BinomialTrial binomialTrial = mockBinomialTrial();
-        assertEquals(0, "4".compareTo(binomialTrial.getFailures()));
+        assertEquals(4, binomialTrial.getFailures());
     }
 
     @Test
     public void testToHashMap(){
         Map<String, Object> data = new HashMap<>();
         data.put("trialID", "testID");
+        data.put("experimenter", "ownerID");
+        data.put("type", "Binomial");
         data.put("description", "testDescription");
-        data.put("successes", "0");
-        data.put("failures", "1");
+        data.put("successes", (long) 0);
+        data.put("failures", (long) 1);
 
         BinomialTrial btrial = new BinomialTrial(data);
-        assertEquals(data, btrial.toHashMap());
+        assertEquals(data.keySet(), btrial.toHashMap().keySet());
     }
 
 }

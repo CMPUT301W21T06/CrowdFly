@@ -1,30 +1,26 @@
 package com.cmput301w21t06.crowdfly.Views;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.bumptech.glide.Glide;
 
-import com.cmput301w21t06.crowdfly.Database.CrowdFlyFirestore;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.PictureHandler;
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.storage.StorageReference;
 
 /**
  * This activity allows the user to see and edit their profile
  */
 public class UserProfileActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetUserListener {
-    private CrowdFlyFirestore crowdFlyFirestore;
     final private String userID = FirebaseAuth.getInstance().getUid();
     private User user;
     private TextView userIDText;
@@ -50,7 +46,6 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
         profilePicView = findViewById(R.id.profilePic);
         doneButton.setOnClickListener(doneListener);
         userInfo.setEnabled(canEdit());
-        crowdFlyFirestore = new CrowdFlyFirestore();
         UserController.getUserProfile(requestedID, this);
         PictureHandler.updatePic("gs://crowdfly-76eb6.appspot.com/smiley.png", profilePicView, getApplicationContext());
 
@@ -60,7 +55,7 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
     /**
      * This handles setting textboxes after user info has been pulled from the database
      * @param userProfile
-     * The instatiated user with information from the database
+     * The instantiated user with information from the database
      */
     @Override
     public void onDoneGetUser(User userProfile) {

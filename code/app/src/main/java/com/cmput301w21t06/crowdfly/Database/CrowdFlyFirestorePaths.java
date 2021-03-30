@@ -28,14 +28,13 @@ public class CrowdFlyFirestorePaths {
     }
 
 
-    /***
-     * Path for subscriptions sub collection for experiment
-     * @param experimentID
-     * @param userID
-     * @return
-     */
-    public static final String subscriptions(String experimentID, String userID) {
+
+    public static final String subscription(String experimentID, String userID) {
         return String.format("/Experiments/%s/Subscribers/%s", experimentID, userID);
+    }
+
+    public static final String subscriptions(String experimentID) {
+        return String.format("/Experiments/%s/Subscribers", experimentID);
     }
 
     /***

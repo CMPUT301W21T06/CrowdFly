@@ -1,4 +1,4 @@
-package com.cmput301w21t06.crowdfly;
+package com.cmput301w21t06.crowdfly.Models;
 
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 
@@ -7,21 +7,22 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class CountTrialTest {
 
     private CountTrial mockCountTrial(){
         String description = "mock count";
-        String count = "3";
-        CountTrial mockCTrial = new CountTrial(description, count);
+        int count = 3;
+        CountTrial mockCTrial = new CountTrial(description, count, "trial_id", "");
         return mockCTrial;
     }
 
     @Test
     public void testGetCount() {
         CountTrial countTrial = mockCountTrial();
-        assertEquals(0, "3".compareTo(countTrial.getCount()));
+        assertEquals(3, countTrial.getCount());
     }
 
     @Test
@@ -38,11 +39,13 @@ public class CountTrialTest {
     public void testToHashMap(){
         Map<String, Object> data = new HashMap<>();
         data.put("trialID", "testID");
+        data.put("experimenter", "ownerID");
         data.put("description", "testDescription");
-        data.put("count", "0");
+        data.put("type", "count");
+        data.put("count", (long) 0);
 
         CountTrial ctrial = new CountTrial(data);
-        assertEquals(data, ctrial.toHashMap());
+        assertEquals(data.keySet(), ctrial.toHashMap().keySet());
     }
 
 
