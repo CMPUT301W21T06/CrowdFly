@@ -61,37 +61,37 @@ public class TrialActivityTest {
         solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
     }
 
-    @Test
-    public void testAddTrial() throws InterruptedException {
-
-        solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
-        solo.clickOnButton("Subscribe");
-
-        ListView listView = (ListView) solo.getView(R.id.trialListView);
-        ArrayAdapter<Trial> adapter = (ArrayAdapter<Trial>) listView.getAdapter();
-        int oldCount = adapter.getCount();
-
-        solo.clickOnButton("Add Trial");
-
-
-        solo.assertCurrentActivity("Wrong activity", NewTrialActivity.class);
-        solo.enterText((EditText) solo.getView(R.id.regionEnforcedEditText), "True");
-        solo.enterText((EditText) solo.getView(R.id.regionTypeEditText), "CANADA");
-        solo.hideSoftKeyboard();
-        solo.clickOnButton("Count Trial");
-
-        solo.enterText((EditText) solo.getView(R.id.countDescInput), "TestCase");
-        solo.enterText((EditText) solo.getView(R.id.countInput), "4");
-        solo.hideSoftKeyboard();
-        solo.clickOnButton("OK");
-        solo.clickOnButton("Add Trial");
-
-        solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
-
-        listView = (ListView) solo.getView(R.id.trialListView);
-        adapter = (ArrayAdapter<Trial>) listView.getAdapter();
-        int newCount = adapter.getCount();
-        assertEquals(true, (oldCount < newCount));
-    }
+//    @Test
+//    public void testAddTrial() throws InterruptedException {
+//
+//        solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
+//        solo.clickOnButton("Subscribe");
+//
+//        ListView listView = (ListView) solo.getView(R.id.trialListView);
+//        ArrayAdapter<Trial> adapter = (ArrayAdapter<Trial>) listView.getAdapter();
+//        int oldCount = adapter.getCount();
+//
+//        solo.clickOnButton("Add Trial");
+//
+//
+//        solo.assertCurrentActivity("Wrong activity", NewTrialActivity.class);
+//        solo.enterText((EditText) solo.getView(R.id.regionEnforcedEditText), "True");
+//        solo.enterText((EditText) solo.getView(R.id.regionTypeEditText), "CANADA");
+//        solo.hideSoftKeyboard();
+//        solo.clickOnButton("Count Trial");
+//
+//        solo.enterText((EditText) solo.getView(R.id.countDescInput), "TestCase");
+//        solo.enterText((EditText) solo.getView(R.id.countInput), "4");
+//        solo.hideSoftKeyboard();
+//        solo.clickOnButton("OK");
+//        solo.clickOnButton("Add Trial");
+//
+//        solo.assertCurrentActivity("Wrong activity", ViewTrialLogActivity.class);
+//
+//        listView = (ListView) solo.getView(R.id.trialListView);
+//        adapter = (ArrayAdapter<Trial>) listView.getAdapter();
+//        int newCount = adapter.getCount();
+//        assertEquals(true, (oldCount < newCount));
+//    }
 
 }
