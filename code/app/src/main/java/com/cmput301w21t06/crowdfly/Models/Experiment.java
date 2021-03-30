@@ -31,6 +31,7 @@ public class Experiment implements Comparable<Experiment> {
     private String experimentId;
     private TrialController trialController;
     private SubscriptionController subController;
+    private String type;
     // CONSTRUCTORS
 
     /**
@@ -42,13 +43,14 @@ public class Experiment implements Comparable<Experiment> {
      * @param minT
      * The minimum number of trials entered by the user
      */
-    public Experiment(String desc,String reg, int minT, String userID){
+    public Experiment(String desc,String reg, int minT, String userID, String type){
 
         this.description = desc;
         this.region = reg;
         this.minTrials = minT;
         this.stillRunning = true;
         this.ownerID = userID;
+        this.type = type;
         subscribedUsers = new ArrayList<>();
         questions = new ArrayList<>();
 
@@ -66,6 +68,7 @@ public class Experiment implements Comparable<Experiment> {
         this.stillRunning = (boolean) data.get("stillRunning");
         this.ownerID = (String) data.get("ownerID");
         this.experimentId = (String) data.get("experimentID");
+        this.type = (String) data.get("type");
 //        setUpFullExperiment((String) data.get("experimentID"));
     }
 
@@ -110,6 +113,12 @@ public class Experiment implements Comparable<Experiment> {
      */
     public String getDescription() {return description;}
 
+    /**
+     * This returns the type of experiment
+     * @return
+     * This is a string representing the type of experiment
+     */
+    public String getType(){return type;}
     /**
      * This returns the experiment region
      * @return
@@ -239,7 +248,7 @@ public class Experiment implements Comparable<Experiment> {
         exp.put("stillRunning", this.stillRunning);
         exp.put("ownerID", this.ownerID);
         exp.put("experimentID", this.experimentId);
-
+        exp.put("type",this.type);
         return exp;
     }
 

@@ -62,12 +62,9 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //String trialType = getIntent().getStringExtra("trialType");
                 Experiment experiment = (Experiment) adapterView.getAdapter().getItem(i);
-                String trialType = experiment.getDescription();
                 String expID = experiment.getExperimentId();
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-                intent.putExtra("trialType", trialType);
                 intent.putExtra("expID", String.valueOf(expID));
                 startActivity(intent);
 

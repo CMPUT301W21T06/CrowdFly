@@ -81,9 +81,9 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         endButton = findViewById(R.id.endButton);
         dropdown = findViewById(R.id.dropDown);
         //only update the trialtype once per experiment
-        trialType =  getIntent().getStringExtra("trialType");
         expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID, this);
+        trialType = currentExperiment.getType();
         trialLog = TrialLog.getTrialLog();
         setUpList();
         UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);

@@ -24,7 +24,7 @@ public class ExperimentTest {
 
     @Before
     public void setup() {
-        exp = new Experiment("sampleExp", "Canada", 15,"");
+        exp = new Experiment("sampleExp", "Canada", 15,"","");
     }
 
     @Test
