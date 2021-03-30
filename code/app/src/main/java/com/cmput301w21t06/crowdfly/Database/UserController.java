@@ -27,7 +27,7 @@ import java.util.Map;
  */
 //db setters should process shit in the class too
 public class UserController {
-    private static CollectionReference userCollection = GodController.getDb().collection("Users");
+    private static CollectionReference userCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.users());
     private static HashMap<String, User> users = new HashMap<String, User>();
     private static HashMap<String,String> converter = new HashMap<String, String>();
     /**
@@ -121,7 +121,6 @@ public class UserController {
      * The user to add to the database
      */
     public static void setUserProfile(@NonNull User user) {
-        Log.e("ss",CrowdFlyFirestorePaths.userProfile(user.getUserID()));
         GodController.setDocumentData(CrowdFlyFirestorePaths.userProfile(user.getUserID()), user.toHashMap());
     }
 

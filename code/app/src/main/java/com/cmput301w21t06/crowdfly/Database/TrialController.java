@@ -25,7 +25,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-//descending shit
 /**
  * This class controls all operations related to Trials
  */
