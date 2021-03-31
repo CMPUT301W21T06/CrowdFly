@@ -277,7 +277,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        if (trialLog.getTrials().size() == 0){
+        if (currentExperiment.getTrialController().getNumTrials() == 0){
             dropdown.setVisibility(View.INVISIBLE);
         }
     }
