@@ -39,7 +39,6 @@ public class ExperimentController {
      * This sets up the snapshot listener for experiments
      */
     public static void setUp(){
-
         experimentCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {

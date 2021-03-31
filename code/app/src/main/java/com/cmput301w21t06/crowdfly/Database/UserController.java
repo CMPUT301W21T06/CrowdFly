@@ -30,6 +30,7 @@ public class UserController {
     private static CollectionReference userCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.users());
     private static HashMap<String, User> users = new HashMap<String, User>();
     private static HashMap<String,String> converter = new HashMap<String, String>();
+    private static HashMap<String,String> reverseConverter = new HashMap<String, String>();
     /**
      * This handles the set up of a snapshot listener by the GodController
      */
@@ -39,11 +40,13 @@ public class UserController {
             public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 users.clear();
                 converter.clear();
+                reverseConverter.clear();
                 if(response != null){
                     for (QueryDocumentSnapshot doc : response){
                         User user = new User(doc.getData());
                         users.put(user.getUserID(),user);
                         converter.put(user.getDisplayID(),user.getUserID());
+                        reverseConverter.put(user.getUserID(),user.getDisplayID());
                     }
                 }
             }
@@ -77,12 +80,7 @@ public class UserController {
     }
 
     public static String reverseConvert(String uid){
-        for (String k : converter.keySet()){
-            if (converter.get(k).matches(uid)){
-                return k;
-            }
-        }
-        return "ERROR";
+        return reverseConverter.get(uid);
     }
 
     /**

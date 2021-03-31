@@ -25,6 +25,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class controls all operations related to Trials
  */
@@ -101,14 +104,12 @@ public class TrialController {
      * This is the class that listens to the response
      */
     public void getExperimenterIds(CrowdFlyListeners.OnDoneGetExperimenterIdsListener onDoneGetExperimenterIdsListener){
-        ArrayList<String> ids = new ArrayList<String>();
+        Set<String> ids = new HashSet<String>();
         for (Trial trial : trials){
             String id = trial.getExperimenterID();
-            if (!ids.contains(id)){
-                ids.add(UserController.reverseConvert(id));
-            }
+            ids.add(UserController.reverseConvert(id));
         }
-        onDoneGetExperimenterIdsListener.onDoneGetExperimenterIds(ids);
+        onDoneGetExperimenterIdsListener.onDoneGetExperimenterIds(new ArrayList<String>(ids));
     }
 
     /**

@@ -139,6 +139,13 @@ public class Experiment {
     public int getMinTrials() {return minTrials;}
 
     /**
+     * This returns the number of trials in the experiment
+     * @return
+     * This is the number of trials in the experiment
+     */
+
+    public int getNumTrials() {return trialController.getNumTrials();}
+    /**
      * This returns who is subscribed to the experiment
      * @return
      * This is who is subscribed to the experiment
