@@ -109,7 +109,7 @@ public class TrialController {
             String id = trial.getExperimenterID();
             ids.add(UserController.reverseConvert(id));
         }
-        onDoneGetExperimenterIdsListener.onDoneGetExperimenterIds((ArrayList<String>) ids);
+        onDoneGetExperimenterIdsListener.onDoneGetExperimenterIds(new ArrayList<String>(ids));
     }
 
     /**
