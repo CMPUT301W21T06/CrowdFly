@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
@@ -28,6 +30,7 @@ public class AddExperimentActivity extends AppCompatActivity {
 
     Button btnAddExperiment;
     Button btnCancel;
+    SwitchCompat regionSwitch;
     EditText etDescription;
     EditText etMinNumTrials;
     EditText etRegion;
@@ -43,6 +46,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         ExperimentLog experimentLog = ExperimentLog.getExperimentLog();
 
         //btnAddExperiment = findViewById(R.id.add_experiment);
+        regionSwitch = findViewById(R.id.regionSwitch);
         btnCancel = findViewById(R.id.cancelBtn);
         //etDescription = findViewById(R.id.trial_listview);
         etMinNumTrials = findViewById(R.id.min_trial_edit_text);
@@ -56,8 +60,6 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnCount.setEnabled(false);
         btnBinomial.setEnabled(false);
         btnMeasurement.setEnabled(false);
-
-
 
 
         etMinNumTrials.addTextChangedListener(new TextWatcher() {
