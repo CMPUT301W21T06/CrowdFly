@@ -216,6 +216,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     String trialIDAtPos = deleteTrial.getTrialID();
                     currentExperiment.getTrialController().removeTrialData(trialIDAtPos);
                     currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this, filters);
+                    changeVisibility();
                 }
                 else {
                     Toaster.makeToast(ViewTrialLogActivity.this,"Please subscribe to the experiment to remove trials");
@@ -277,12 +278,17 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        if (currentExperiment.getTrialController().getNumTrials() == 0){
-            dropdown.setVisibility(View.INVISIBLE);
-        }
+        changeVisibility();
     }
 
 
+    private void changeVisibility(){
+        if (currentExperiment.getNumTrials() == 0){
+            dropdown.setVisibility(View.INVISIBLE);
+        }else{
+            dropdown.setVisibility(View.VISIBLE);
+        }
+    }
 
     private void setupData(){
 
