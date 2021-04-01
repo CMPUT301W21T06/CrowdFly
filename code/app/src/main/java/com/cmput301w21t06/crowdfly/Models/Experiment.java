@@ -8,6 +8,7 @@ import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
  * Issues related to region have yet to be implemented
  */
 
-public class Experiment {
+public class Experiment implements Serializable {
     // Eventually this class will import and export JSON objects to firebase, so these attributes
     //methods are subject to change
     private String description;
