@@ -10,4 +10,8 @@
     <color name="colorPrimary">#298574 </color>
     <color name="colorPrimaryDark">#298574 </color>
     <color name="colorAccent">#C5F3EA</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="midnight">#151B54</color>
+    <color name="bluejay">#2B547E</color>
+    <color name="lightbluejay">#646D7E</color>
 </resources>

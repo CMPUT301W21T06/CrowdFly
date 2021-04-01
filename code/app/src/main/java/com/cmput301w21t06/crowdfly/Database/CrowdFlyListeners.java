@@ -51,6 +51,10 @@ public class CrowdFlyListeners {
     public interface OnDoneGetSubscribedListener {
         public void onDoneGetIsSubscribed(Boolean result);
     }
+
+    public interface OnDoneGetExperimenterIdsListener {
+        public void onDoneGetExperimenterIds(ArrayList<String> ids);
+    }
 }
 
 

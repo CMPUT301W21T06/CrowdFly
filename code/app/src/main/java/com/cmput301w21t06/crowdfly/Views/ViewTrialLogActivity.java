@@ -4,19 +4,23 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
+import com.cmput301w21t06.crowdfly.Controllers.DropdownAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
@@ -26,7 +30,6 @@ import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
-import com.cmput301w21t06.crowdfly.Models.NewTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
@@ -45,7 +48,9 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         CrowdFlyListeners.OnDoneGetSubscribedListener,
         CrowdFlyListeners.OnDoneGetExpListener,
         CrowdFlyListeners.OnDoneGetUserListener,
-        CrowdFlyListeners.OnDoneGetTrialListener
+        CrowdFlyListeners.OnDoneGetTrialListener,
+        CrowdFlyListeners.OnDoneGetExperimenterIdsListener,
+        Toaster
 {
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
@@ -55,6 +60,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Button qrButton;
     private Button subButton;
     private Button endButton;
+    private Spinner dropdown;
+    private DropdownAdapter dropAdapter;
     static int entry_pos;
     public TrialAdapter adapter;
     static public String trialType;
@@ -65,25 +72,51 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private User currentUser;
     private Boolean isOwner = false;
     Trial reviewedTrial;
+    ArrayList<String> filters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trial_log);
+        filters = new ArrayList<String>();
         endButton = findViewById(R.id.endButton);
+        dropdown = findViewById(R.id.dropDown);
         //only update the trialtype once per experiment
-        trialType =  getIntent().getStringExtra("trialType");
         expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID, this);
+        trialType = currentExperiment.getType();
         trialLog = TrialLog.getTrialLog();
         setUpList();
-        UserController.getUserProfile(FirebaseAuth.getInstance().getUid(), this);
+        UserController.getUserProfile(UserController.reverseConvert(FirebaseAuth.getInstance().getUid()), this);
         //setup the data
         setupData();
 
         trialArrayList = trialLog.getTrials();
 
         questionButton = findViewById(R.id.questionButton);
+
+        currentExperiment.getTrialController().getExperimenterIds(this);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView textView = (TextView) view;
+                String text = String.valueOf(textView.getText());
+
+                if (dropAdapter.addSelectedPosition(i)) {
+                    filters.add(text);
+                }
+                else{
+                    filters.remove(text);
+                }
+                dropdown.setSelection(0);
+                currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this, filters);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         questionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -119,14 +152,22 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     if(isOwner){
                         if(!currentExperiment.getStillRunning()){
                             currentExperiment.setStillRunning(true);
+                            endButton.setText("Start");
                         }
                         else {
-                            currentExperiment.setStillRunning(false);
+                            if (currentExperiment.canEnd()) {
+                                currentExperiment.setStillRunning(false);
+                                endButton.setText("End");
+                            }
+                            else{
+                                Toaster.makeToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
+                            }
                         }
                         ExperimentController.setExperimentData(currentExperiment);
                     }
                     else {
-                        makeToast("You must be the owner to end or start this experiment!");
+                        Log.e("rr","run");
+                        Toaster.makeToast(ViewTrialLogActivity.this, "Only the owner can end an experiment!");
                     }
                 }
             }
@@ -145,18 +186,18 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 if(!currentExperiment.getStillRunning()){
-                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return;
                 }
                 if(subscribed || isOwner){
 
-                    Intent intent = new Intent(getApplicationContext(), NewTrial.class);
+                    Intent intent = new Intent(getApplicationContext(), NewTrialActivity.class);
                     intent.putExtra("trialType", trialType);
                     intent.putExtra("expID", String.valueOf(expID));
                     startActivityForResult(intent,0);
                 }
                 else {
-                    makeToast("Please subscribe to the experiment to add trials");
+                    Toaster.makeToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to add trials");
                 }
 
             }
@@ -169,17 +210,18 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if(!currentExperiment.getStillRunning()){
-                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return false;
                 }
                 if(subscribed || isOwner) {
                     Trial deleteTrial = (Trial) parent.getAdapter().getItem(position);
                     String trialIDAtPos = deleteTrial.getTrialID();
                     currentExperiment.getTrialController().removeTrialData(trialIDAtPos);
-                    currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this);
+                    currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this, filters);
+                    changeVisibility();
                 }
                 else {
-                    makeToast("Please subscribe to the experiment to remove trials");
+                    Toaster.makeToast(ViewTrialLogActivity.this,"Please subscribe to the experiment to remove trials");
                 }
                 return false;
             }
@@ -190,7 +232,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(!currentExperiment.getStillRunning()){
-                    makeToast(EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return;
                 }
                 if(subscribed || isOwner) {
@@ -226,7 +268,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     }
                 }
                 else {
-                    makeToast("Please subscribe to the experiment to edit trials");
+                    Toaster.makeToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to edit trials");
                 }
                 }
 
@@ -235,15 +277,26 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
     }
 
-    private void makeToast(String s) {
-        Toast.makeText(ViewTrialLogActivity.this, s, Toast.LENGTH_LONG).show();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        changeVisibility();
+    }
+
+
+    private void changeVisibility(){
+        if (currentExperiment.getNumTrials() == 0){
+            dropdown.setVisibility(View.INVISIBLE);
+        }else{
+            dropdown.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setupData(){
 
 
         // get all experiment data from firestore
-        currentExperiment.getTrialController().getTrialLogData(this);
+        currentExperiment.getTrialController().getTrialLogData(this, filters);
 
 
     }
@@ -322,11 +375,20 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        currentExperiment.getTrialController().getTrialLogData(this);
+        currentExperiment.getTrialController().getTrialLogData(this, filters);
+        currentExperiment.getTrialController().getExperimenterIds(this);
+
     }
 
     @Override
     public void onDoneGetTrial(Trial trial) {
         reviewedTrial = trial.getData();
+    }
+
+    @Override
+    public void onDoneGetExperimenterIds(ArrayList<String> ids){
+        ids.add(0,"Filter Experimenter...");
+        dropAdapter = new DropdownAdapter(this, R.layout.general_content,ids);
+        dropdown.setAdapter(dropAdapter);
     }
 }

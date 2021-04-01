@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:id="@+id/question_content"
-    android:layout_height="150dp"
-    android:background="@color/colorAccent"
+    android:layout_height="135dp"
     android:orientation="horizontal">
 
     <TextView
@@ -14,7 +13,7 @@
         android:layout_width="127dp"
         android:layout_height="34dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="date"
         android:textColor="@color/colorPrimaryDark"
@@ -67,7 +66,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="28dp"
         android:gravity="center_vertical"
         android:text="question snippet"
         android:textColor="@color/colorPrimaryDark"

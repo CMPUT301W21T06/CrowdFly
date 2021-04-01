@@ -17,7 +17,7 @@ import java.util.Map;
  * Issues related to region have yet to be implemented
  */
 
-public class Experiment implements Comparable<Experiment> {
+public class Experiment {
     // Eventually this class will import and export JSON objects to firebase, so these attributes
     //methods are subject to change
     private String description;
@@ -31,6 +31,7 @@ public class Experiment implements Comparable<Experiment> {
     private String experimentId;
     private TrialController trialController;
     private SubscriptionController subController;
+    private String type;
     // CONSTRUCTORS
 
     /**
@@ -42,13 +43,14 @@ public class Experiment implements Comparable<Experiment> {
      * @param minT
      * The minimum number of trials entered by the user
      */
-    public Experiment(String desc,String reg, int minT, String userID){
+    public Experiment(String desc,String reg, int minT, String userID, String type){
 
         this.description = desc;
         this.region = reg;
         this.minTrials = minT;
         this.stillRunning = true;
         this.ownerID = userID;
+        this.type = type;
         subscribedUsers = new ArrayList<>();
         questions = new ArrayList<>();
 
@@ -66,6 +68,7 @@ public class Experiment implements Comparable<Experiment> {
         this.stillRunning = (boolean) data.get("stillRunning");
         this.ownerID = (String) data.get("ownerID");
         this.experimentId = (String) data.get("experimentID");
+        this.type = (String) data.get("type");
 //        setUpFullExperiment((String) data.get("experimentID"));
     }
 
@@ -100,6 +103,9 @@ public class Experiment implements Comparable<Experiment> {
         subController.isSubscribed(user, onDoneGetSubscribedListener);
     }
 
+    public boolean canEnd(){
+        return (trialController.getNumTrials() >= minTrials);
+    }
 
     // GETTERS
 
@@ -110,6 +116,12 @@ public class Experiment implements Comparable<Experiment> {
      */
     public String getDescription() {return description;}
 
+    /**
+     * This returns the type of experiment
+     * @return
+     * This is a string representing the type of experiment
+     */
+    public String getType(){return type;}
     /**
      * This returns the experiment region
      * @return
@@ -126,6 +138,13 @@ public class Experiment implements Comparable<Experiment> {
 
     public int getMinTrials() {return minTrials;}
 
+    /**
+     * This returns the number of trials in the experiment
+     * @return
+     * This is the number of trials in the experiment
+     */
+
+    public int getNumTrials() {return trialController.getNumTrials();}
     /**
      * This returns who is subscribed to the experiment
      * @return
@@ -239,16 +258,8 @@ public class Experiment implements Comparable<Experiment> {
         exp.put("stillRunning", this.stillRunning);
         exp.put("ownerID", this.ownerID);
         exp.put("experimentID", this.experimentId);
-
+        exp.put("type",this.type);
         return exp;
     }
 
-    /***
-     * This compares the experiments experiment id with itself, used to check
-     * @return Boolean
-     */
-    @Override
-    public int compareTo(Experiment experiment) {
-        return this.getExperimentId().compareTo(experiment.getExperimentId());
-    }
 }

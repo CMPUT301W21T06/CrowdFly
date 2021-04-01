@@ -18,12 +18,16 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class controls all operations related to Trials
  */
@@ -38,7 +42,7 @@ public class TrialController {
      * This sets up the snapshot listener for trials
      */
     private void setUp(){
-        trialsCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        trialsCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
                 trials.clear();
@@ -73,24 +77,39 @@ public class TrialController {
      * @param onDoneGetTrialsListener
      * The class that implements the method to handle the result of this function
      */
-    public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener){
-        Collections.sort(trials);
+    public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener, ArrayList<String> filters){
         TrialLog trialLog = TrialLog.getTrialLog();
         trialLog.resetTrialLog();
 
         for (Trial trial : trials){
-            trialLog.addTrial(trial);
+            if (!filters.contains(trial.getExperimenterID())) {
+                trialLog.addTrial(trial);
+            }
         }
 
         onDoneGetTrialsListener.onDoneGetTrials(trialLog);
     }
+
     /**
-     * Returns all trials from Array List
-     * @return trials
-     * this returns all trials from the ArrayList<Trial>
+     * This returns the number of trials
+     * @return
+     * This is the number of trials
      */
-    public ArrayList<Trial> getTrials(){
-        return trials;
+    public int getNumTrials(){
+        return trials.size();
+    }
+    /**
+     * This gets all the trial ids and passes it to a method that handles it
+     * @param onDoneGetExperimenterIdsListener
+     * This is the class that listens to the response
+     */
+    public void getExperimenterIds(CrowdFlyListeners.OnDoneGetExperimenterIdsListener onDoneGetExperimenterIdsListener){
+        Set<String> ids = new HashSet<String>();
+        for (Trial trial : trials){
+            String id = trial.getExperimenterID();
+            ids.add(UserController.reverseConvert(id));
+        }
+        onDoneGetExperimenterIdsListener.onDoneGetExperimenterIds(new ArrayList<String>(ids));
     }
 
     /**

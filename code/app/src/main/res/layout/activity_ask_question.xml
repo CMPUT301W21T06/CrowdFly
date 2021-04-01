@@ -13,18 +13,21 @@
         android:layout_marginTop="40dp"
         android:text="Ask a Question"
         android:textSize="28dp"
+
+        android:fontFamily="@font/nexa_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
+    <EditText
         android:id="@+id/ask_question_desc"
         android:layout_width="351dp"
         android:layout_height="256dp"
         android:layout_marginTop="28dp"
         android:ems="10"
+        android:background="@drawable/edit_text_border"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:textColor="#0B0A0A"
@@ -40,6 +43,7 @@
         android:layout_height="45dp"
         android:layout_marginTop="116dp"
         android:text="Ask Question"
+        android:backgroundTint="@color/bluejay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
