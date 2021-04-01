@@ -1,32 +1,41 @@
 package com.cmput301w21t06.crowdfly.Models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * This is the question class, each question is a forum entry with comments
  * Nothing has been implemented for this yet
  */
 public class Question {
-    private Integer questionID;
+    private String questionID;
     private String question;
     private String username;
+    private Date date;
     private ArrayList<Comment> comments;
     
-    // public void Question(int questionID,String question,String username){}
+    public void Question(String question, String username, Date date){
+        comments = new ArrayList<>();
+        this.question = question;
+        this.username = username;
+        this.date = date;
+    }
 
-    public int getQuestionID(){
-        return 0;
+    public String getQuestionID(){
+        return this.questionID;
     }
     public String getQuestion(){
-        return "";
+        return this.question;
     }
-    public String getUsername(){ return "";}
-
+    public String getUsername(){ return this.username;}
     public ArrayList<Comment> getComments() {
-        return new ArrayList<Comment>();
+        return this.comments;
     }
-
     public String addComment(String comment,String username){
         return "";
+    }
+
+    public void setQuestionID(String questionID) {
+        this.questionID = questionID;
     }
 }

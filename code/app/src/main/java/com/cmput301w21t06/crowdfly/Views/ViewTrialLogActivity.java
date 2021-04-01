@@ -88,6 +88,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewTrialLogActivity.this, ViewQuestionLogActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("expID", expID);
                 startActivity(intent);
             }
         });
