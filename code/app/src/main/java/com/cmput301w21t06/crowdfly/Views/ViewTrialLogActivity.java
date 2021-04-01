@@ -52,6 +52,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         CrowdFlyListeners.OnDoneGetExperimenterIdsListener,
         Toaster
 {
+    private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
+    private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private ListView listView;

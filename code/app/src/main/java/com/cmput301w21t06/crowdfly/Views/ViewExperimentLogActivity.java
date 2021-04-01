@@ -26,6 +26,8 @@ import java.util.ArrayList;
  * Map and search buttons not implemented
  */
 public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpLogListener, Toaster {
+    private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
+    private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
     private ListView experimentListView;
     private ExperimentAdapter expAdapter;
     private ExperimentLog experimentLog;
@@ -87,6 +89,15 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                     Toaster.makeToast(ViewExperimentLogActivity.this, "Only the owner may unpublish an experiment!");
                 }
                 return true;
+            }
+        });
+
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewExperimentLogActivity.this,ViewLocationActivity.class);
+                intent.putExtra(SELECTION,false);
+                startActivity(intent);
             }
         });
     }
