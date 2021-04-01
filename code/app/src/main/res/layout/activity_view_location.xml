@@ -9,10 +9,32 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="370dp"
-        android:layout_height="691dp"
-        android:layout_marginBottom="20dp"
+        android:layout_height="659dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.777" />
+
+    <Button
+        android:id="@+id/cancelMapButton"
+        android:layout_width="177dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="12dp"
+        android:text="@android:string/cancel"
+        app:layout_constraintBottom_toTopOf="@+id/mapView"
+        app:layout_constraintEnd_toStartOf="@+id/doneMapButton"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/doneMapButton"
+        android:layout_width="177dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/Done"
+        app:layout_constraintBaseline_toBaselineOf="@+id/cancelMapButton"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
