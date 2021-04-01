@@ -21,4 +21,8 @@
     <string name="UserSearch">User Search</string>
     <string name="unsubscribe">Unsubscribe</string>
     <string name="title_activity_search_user">searchUserActivity</string>
+    <string name="scanner_menu">Scanner Menu</string>
+    <string name="generate_qr_code">Generate QR Code</string>
+    <string name="scan_qr_code_or_barcode">Scan QR Code or Barcode</string>
+    <string name="register_barcode">Register Barcode</string>
 </resources>

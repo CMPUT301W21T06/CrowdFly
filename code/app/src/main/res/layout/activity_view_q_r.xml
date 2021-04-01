@@ -8,13 +8,13 @@
 
 
     <TextView
-        android:id="@+id/QRMenuTitle"
+        android:id="@+id/ScannerMenuTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="QR Menu"
-        android:textColor="@color/black"
-        android:textSize="30dp"
         android:fontFamily="@font/nexa_bold"
+        android:text="@string/scanner_menu"
+        android:textColor="@color/black"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,37 +23,26 @@
 
     <Button
         android:id="@+id/generateQRButton"
-        android:layout_width="270dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="52dp"
-        android:text="Generate QR Code"
-        android:backgroundTint="@color/bluejay"
+        android:text="@string/generate_qr_code"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/QRMenuTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/ScannerMenuTitle"
+        style="@style/menuButtons" />
 
     <Button
         android:id="@+id/scanQRButton"
-        android:layout_width="270dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="52dp"
-        android:text="Scan QR Code"
-        android:backgroundTint="@color/bluejay"
+        style="@style/menuButtons"
+        android:text="@string/scan_qr_code_or_barcode"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/generateQRButton" />
 
     <Button
         android:id="@+id/registerBarcodeButton"
-        android:layout_width="270dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="52dp"
-        android:text="Register Barcode"
-        android:backgroundTint="@color/bluejay"
+        style="@style/menuButtons"
+        android:text="@string/register_barcode"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scanQRButton" />
 

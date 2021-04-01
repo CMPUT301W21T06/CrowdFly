@@ -125,6 +125,14 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             }
         });
         qrButton = findViewById(R.id.QRButton);
+        qrButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewTrialLogActivity.this, ViewQRActivity.class);
+                intent.putExtra("expID", expID);
+                startActivity(intent);
+            }
+        });
         addButton = findViewById(R.id.addButton);
         questionButton = findViewById(R.id.questionButton);
         subButton = findViewById(R.id.subButton);

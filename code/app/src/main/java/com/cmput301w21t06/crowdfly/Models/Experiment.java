@@ -3,7 +3,6 @@ package com.cmput301w21t06.crowdfly.Models;
 import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Controllers.QRManager;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
@@ -27,7 +26,6 @@ public class Experiment {
     private ArrayList<User> subscribedUsers;
     private ArrayList<Question> questions;
     private String ownerID;
-    private QRManager qrCode;
     private String experimentId;
     private TrialController trialController;
     private SubscriptionController subController;
