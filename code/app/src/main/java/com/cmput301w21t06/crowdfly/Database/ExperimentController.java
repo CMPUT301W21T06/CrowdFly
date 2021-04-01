@@ -32,7 +32,7 @@ import java.util.Map;
  * This class controls all operations related to experiments
  */
 public class ExperimentController {
-    private static CollectionReference experimentCollection = GodController.getDb().collection("Experiments");
+    private static CollectionReference experimentCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.experiments());
     private static ArrayList<Experiment> experiments = new ArrayList<Experiment>();
 
     /**

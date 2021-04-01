@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cmput301w21t06.crowdfly.Database.GodController;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
-                intent.putExtra(TAG,userID);
+                intent.putExtra(TAG, UserController.reverseConvert(userID));
                 startActivity(intent);
             }
         });
