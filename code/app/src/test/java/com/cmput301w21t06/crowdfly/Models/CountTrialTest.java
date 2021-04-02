@@ -40,6 +40,7 @@ public class CountTrialTest {
         Map<String, Object> data = new HashMap<>();
         data.put("trialID", "testID");
         data.put("experimenter", "ownerID");
+        data.put("region","1,0");
         data.put("description", "testDescription");
         data.put("type", "count");
         data.put("count", (long) 0);

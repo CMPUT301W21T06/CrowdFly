@@ -39,6 +39,7 @@ public class MeasurementTrialTest {
         Map<String, Object> data = new HashMap<>();
         data.put("trialID", "testID");
         data.put("description", "testDescription");
+        data.put("region","1,0");
         data.put("experimenter", "ownerID");
         data.put("type", "Measurement");
         data.put("measurement", (double) 0);

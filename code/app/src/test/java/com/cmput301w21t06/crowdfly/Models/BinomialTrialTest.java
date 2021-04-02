@@ -41,6 +41,7 @@ public class BinomialTrialTest extends TestCase {
         data.put("trialID", "testID");
         data.put("experimenter", "ownerID");
         data.put("type", "Binomial");
+        data.put("region","1,0");
         data.put("description", "testDescription");
         data.put("successes", (long) 0);
         data.put("failures", (long) 1);
