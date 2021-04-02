@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
@@ -34,7 +35,11 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 
 public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener, EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
-
+    private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
+    private final String LATITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LAT";
+    private final String LONGITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LONG";
+    private final int lCode = 0;
+    Double latitude,longitude;
     private EditText trialDesc, successes, failures;
     private TextView region;
     private Button addButton, buttonBinomial, buttonMeasure, buttonCount, buttonCancel;
@@ -119,33 +124,62 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
             }
         });
 
+        region.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("dd","CLICKCED");
+                Intent intent = new Intent(NewTrialActivity.this,ViewLocationActivity.class);
+                intent.putExtra(SELECTION,false);
+                startActivityForResult(intent,lCode);
+            }
+        });
+
         // Confirmation button, this will direct the user back to the viewTrialLogActivity Page
         // with an intent bundled with information given from the extended fragment from the newTrial
         // activity
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
-                if(trialType.equals("binomial")){
-                    BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures, "", userID);
-                    exp.getTrialController().addTrialData(trialAdd, expID);
+                if (!forceRegion || (forceRegion && !String.valueOf(region.getText()).matches(""))) {
+                    if (trialType.equals("binomial")) {
+                        BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures, "", userID, getRegion());
+                        exp.getTrialController().addTrialData(trialAdd, expID);
+                    }
+                    if (trialType.equals("count")) {
+                        CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount, "", userID,getRegion());
+                        exp.getTrialController().addTrialData(trialAdd, expID);
+                    }
+                    if (trialType.equals("measurement")) {
+                        MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement, "", userID,getRegion());
+                        exp.getTrialController().addTrialData(trialAdd, expID);
+                    }
+                    finish();
                 }
-                if(trialType.equals("count")){
-                    CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount,"", userID);
-                    exp.getTrialController().addTrialData(trialAdd, expID);
+                else{
+                    Toaster.makeCrispyToast(NewTrialActivity.this,"Region was enforced by the experimenter creator and one has not been entered! ");
                 }
-                if(trialType.equals("measurement")){
-                    MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement, "", userID);
-                    exp.getTrialController().addTrialData(trialAdd, expID);
-                }
-                Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-                startActivity(intent);
-
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == lCode){
+            latitude = data.getDoubleExtra(LATITUDE,0.);
+            longitude = data.getDoubleExtra(LONGITUDE,0.);
+            region.setText(ViewLocationActivity.getStringLocation(latitude,longitude,true));
+        }
+    }
+
+    private String getRegion(){
+        String regionString = region.getText().toString();
+        if (!regionString.matches("")){
+            return ViewLocationActivity.getStringLocation(latitude,longitude,false);
+        }
+        return regionString;
     }
 
     /**

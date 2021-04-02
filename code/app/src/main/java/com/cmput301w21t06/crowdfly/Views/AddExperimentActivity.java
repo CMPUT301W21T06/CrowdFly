@@ -154,7 +154,7 @@ public class AddExperimentActivity extends AppCompatActivity {
      * @return
      * Returns the region
      */
-    public String getRegion(){
+    private String getRegion(){
         String region = etRegion.getText().toString();
         if (!region.matches("")){
             return ViewLocationActivity.getStringLocation(latitude,longitude,false);

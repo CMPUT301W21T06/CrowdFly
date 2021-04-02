@@ -99,6 +99,13 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     }
 
 
+    /**
+     * This overrides what happens if the user presses the back button in the toolbar
+     * @param item
+     * This is what the user pressed in the toolbar
+     * @return
+     * This is a boolean that is not important in this case
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -165,6 +172,11 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
+    /**
+     * This is the callback function to implement when a map object has been created
+     * @param googleMap
+     * This is the map object
+     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
@@ -177,6 +189,15 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
+    /**
+     * This is the callback for permissions have been requested from a user, in our case for location services
+     * @param requestCode
+     * This is the particular permissions request code
+     * @param permissions
+     * This is the permissions we were looking for
+     * @param grantResults
+     * The result for each permission
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -197,6 +218,17 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
+    /**
+     * This converts a locations coordinates to strings either for storage or display
+     * @param latitude
+     * The latitude portion of the coordinate
+     * @param longitude
+     * The longitude portion of the coordiante
+     * @param disp
+     * This is a boolean indicating whether the returned string is for display or not
+     * @return
+     * This is the formatted coordinate string
+     */
     public static String getStringLocation(Double latitude, Double longitude, boolean disp){
         if (!disp) {
             return (latitude + "," + longitude);
@@ -206,6 +238,13 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         }
     }
 
+    /**
+     * This converts a database string back to a pair of doubles
+     * @param loc
+     * This is the database string
+     * @return
+     * This is an array of type Double holding the coordinates
+     */
     public static Double[] parseStringLocation(String loc){
         String arr[] = loc.split(",");
         Double latitude = Double.parseDouble(arr[0]);
