@@ -40,6 +40,7 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     private final String LATITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LAT";
     private final String LONGITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LONG";
     private final String OWNER = "COM.CMPUT301W21T06.CROWDFLY.MAP.OWNER";
+    SupportMapFragment mapFragment;
     private FusedLocationProviderClient mFusedLocationClient;
     private String owner;
     private Button doneButton;
@@ -97,6 +98,7 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         setUp(savedInstanceState);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -119,7 +121,7 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
 
             } else {
-                Toaster.makeCrispyToast(this, "Location permissions have already been granted, please note that this application is currently using your location.");
+                Toaster.makeCrispyToast(this, "Location permissions already granted, application is currently using your location!");
             }
 
         }
@@ -128,7 +130,7 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     private void setUpViews(Bundle savedInstanceState) {
         doneButton = findViewById(R.id.doneMapButton);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
         mapFragment.getMapAsync(this);
     }
 

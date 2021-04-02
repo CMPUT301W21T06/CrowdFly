@@ -141,6 +141,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         etRegion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.e("dd","CLICKCED");
                 Intent intent = new Intent(AddExperimentActivity.this,ViewLocationActivity.class);
                 intent.putExtra(SELECTION,false);
                 startActivityForResult(intent,lCode);

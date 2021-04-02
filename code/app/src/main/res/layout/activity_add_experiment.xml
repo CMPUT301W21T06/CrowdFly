@@ -84,6 +84,7 @@
         android:layout_marginTop="108dp"
         android:ems="10"
         android:hint="Region..."
+        android:focusable="false"
         android:inputType="textPersonName"
         android:textColor="#0B0A0A"
         android:textColorHint="#0B0A0A"

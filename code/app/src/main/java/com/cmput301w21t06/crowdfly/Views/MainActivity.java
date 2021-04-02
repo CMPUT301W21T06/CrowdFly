@@ -11,6 +11,9 @@ import android.widget.Button;
 import com.cmput301w21t06.crowdfly.Database.GodController;
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dummySetup();
         userProfileButton = (Button) findViewById(R.id.userProfileBtn);
         viewExperimentLogButton = (Button) findViewById(R.id.viewExperimentLogBtn);
         userSearch = findViewById(R.id.userSearchButton);
@@ -54,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    private void dummySetup(){
+        SupportMapFragment mapFragment = new SupportMapFragment();
+        mapFragment.getMapAsync(new OnMapReadyCallback(){
+            @Override
+            public void onMapReady(GoogleMap googleMap){}
+        });
     }
 }
