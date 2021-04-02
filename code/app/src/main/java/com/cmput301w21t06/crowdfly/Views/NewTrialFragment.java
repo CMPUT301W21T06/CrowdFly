@@ -91,7 +91,12 @@ public class NewTrialFragment extends DialogFragment {
         builder = builder
                 .setView(view)
                 .setTitle("Set Trial Result")
-                .setNegativeButton("Cancel", null);
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onOkPressed(null);
+                    }
+                });
         if (layout == R.layout.activity_edit_count_trial_fragment) {
             // EditText successes, failures, description;
             EditText countTextView, descriptionTextView;

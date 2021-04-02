@@ -24,8 +24,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.concurrent.ExecutionException;
-
 public class GenerateQRActivity extends AppCompatActivity implements
         CrowdFlyListeners.OnDoneGetExpListener, NewTrialFragment.OnNewTrialListener,
         CodeController.OnDoneRegisteredCodeListener {
@@ -38,6 +36,7 @@ public class GenerateQRActivity extends AppCompatActivity implements
     Bitmap qrCodeBitmap;
 
     QRCodeController qrCodeController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +60,12 @@ public class GenerateQRActivity extends AppCompatActivity implements
             }
         });
 
-        saveToCamera.setOnClickListener(new View.OnClickListener(){
+        saveToCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String path  = Environment.getExternalStorageDirectory().getPath() + "/CrowdFly/";
+                String path = Environment.getExternalStorageDirectory().getPath() + "/CrowdFly/";
                 Boolean success = qrCodeController.saveCode(qrCodeBitmap, path);
-                if(!success){
+                if (!success) {
                     Toaster.makeToast(GenerateQRActivity.this, "Uh Oh! Sorry the QR Code failed to save.");
                 }
             }
@@ -88,7 +87,12 @@ public class GenerateQRActivity extends AppCompatActivity implements
 
     @Override
     public void onOkPressed(Trial trial) {
-        qrCodeController.registerCode(trial, this);
+        if (trial != null) {
+            qrCodeController.registerCode(trial, this);
+        } else {
+            generateQRButton.setText(R.string.generate);
+            generateQRButton.setClickable(true);
+        }
     }
 
     @Override
