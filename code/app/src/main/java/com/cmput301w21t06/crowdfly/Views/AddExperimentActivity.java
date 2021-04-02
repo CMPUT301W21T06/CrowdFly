@@ -99,7 +99,7 @@ public class AddExperimentActivity extends AppCompatActivity {
                 String description = getDescription();
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
-                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"binomial");
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"binomial",regionSwitch.isChecked());
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -111,7 +111,7 @@ public class AddExperimentActivity extends AppCompatActivity {
                 String description = getDescription();
                 String region = getRegion();
                 int minNumTrials = getMinNumTrials();
-                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"measurement");
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"measurement",regionSwitch.isChecked());
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }
@@ -125,7 +125,7 @@ public class AddExperimentActivity extends AppCompatActivity {
                 int minNumTrials = getMinNumTrials();
 
                 Log.d("myTag", region);
-                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"count");
+                Experiment expAdd = new Experiment(description, region, minNumTrials,userID,"count",regionSwitch.isChecked());
                 ExperimentController.addExperimentData(expAdd);
                 finish();
             }

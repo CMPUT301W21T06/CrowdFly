@@ -18,7 +18,7 @@ import java.util.Map;
  * Issues related to region have yet to be implemented
  */
 
-public class Experiment implements Serializable {
+public class Experiment {
     // Eventually this class will import and export JSON objects to firebase, so these attributes
     //methods are subject to change
     private String description;
@@ -33,6 +33,7 @@ public class Experiment implements Serializable {
     private TrialController trialController;
     private SubscriptionController subController;
     private String type;
+    private boolean regionEnabled;
     // CONSTRUCTORS
 
     /**
@@ -44,7 +45,7 @@ public class Experiment implements Serializable {
      * @param minT
      * The minimum number of trials entered by the user
      */
-    public Experiment(String desc,String reg, int minT, String userID, String type){
+    public Experiment(String desc,String reg, int minT, String userID, String type, boolean regionEnabled){
 
         this.description = desc;
         this.region = reg;
@@ -52,9 +53,9 @@ public class Experiment implements Serializable {
         this.stillRunning = true;
         this.ownerID = userID;
         this.type = type;
+        this.regionEnabled = regionEnabled;
         subscribedUsers = new ArrayList<>();
         questions = new ArrayList<>();
-
     }
 
     /**
@@ -70,6 +71,7 @@ public class Experiment implements Serializable {
         this.ownerID = (String) data.get("ownerID");
         this.experimentId = (String) data.get("experimentID");
         this.type = (String) data.get("type");
+        this.regionEnabled = (Boolean) data.get("enabled");
 //        setUpFullExperiment((String) data.get("experimentID"));
     }
 
@@ -188,6 +190,12 @@ public class Experiment implements Serializable {
 
     public String getExperimentId() { return experimentId; }
 
+    /**
+     * This returns if the region is enabled or not
+     * @return
+     * This is a boolean indicating if the region is enabled or not
+     */
+    public boolean getRegionEnabled(){return regionEnabled;}
 
     // SETTERS
 
@@ -244,7 +252,6 @@ public class Experiment implements Serializable {
         return subController;
     }
 
-
     /***
      * This transforms the experiment to a hash map that is fed into the database
      * @return exp
@@ -260,6 +267,7 @@ public class Experiment implements Serializable {
         exp.put("ownerID", this.ownerID);
         exp.put("experimentID", this.experimentId);
         exp.put("type",this.type);
+        exp.put("enabled",this.regionEnabled);
         return exp;
     }
 
