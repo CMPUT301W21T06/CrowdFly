@@ -47,8 +47,8 @@ public class TrialActivityTest {
         solo.hideSoftKeyboard();
         solo.clickOnButton("Count");
         solo.assertCurrentActivity("Wrong activity", ViewExperimentLogActivity.class);
-        solo.waitForText("test region", 1, 2000);
-        solo.clickOnText("test region");
+//        solo.waitForText("test region", 1, 2000);
+//        solo.clickOnText("test region");
     }
 
     @After
