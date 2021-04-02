@@ -2,9 +2,12 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 /**
  * This activity bridges various activites together and provides the starting screen for the user
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
     private final String userID = FirebaseAuth.getInstance().getUid();
     private Button userProfileButton;
@@ -37,10 +40,15 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserId = (TextView) headerView.findViewById(R.id.userFBID);
+        navUserId.setText(userID);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         userProfileButton = (Button) findViewById(R.id.userProfileBtn);
         viewExperimentLogButton = (Button) findViewById(R.id.viewExperimentLogBtn);
@@ -71,5 +79,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.hamHome:
+                //Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivity(intent1);
+                break;
+            case R.id.hamAccount:
+                Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
+                intent.putExtra(TAG, UserController.reverseConvert(userID));
+                startActivity(intent);
+            case R.id.hamExperiment:
+                break;
+
+        }
+        return true;
     }
 }

@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id = "@+id/mItem1"
-        android:title="Item 1"/>
 
     <item
-        android:id = "@+id/mItem2"
-        android:title="Item 2"/>
+        android:id = "@+id/hamHome"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24"/>
 
     <item
-        android:id = "@+id/mItem3"
-        android:title="Item 3"/>
+        android:id = "@+id/hamAccount"
+        android:title="My Account"
+        android:icon="@drawable/ic_baseline_person_24"
+        />
+
+    <item
+        android:id = "@+id/hamExperiment"
+        android:title="My Experiments"
+        android:icon="@drawable/ic_baseline_experiment_24"/>
 
 
 
