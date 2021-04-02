@@ -12,13 +12,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.R;
-<<<<<<< HEAD
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-=======
 import com.google.android.material.navigation.NavigationView;
->>>>>>> 1470428a5dae6c1221c3bae81e0be288b1ce5df6
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
