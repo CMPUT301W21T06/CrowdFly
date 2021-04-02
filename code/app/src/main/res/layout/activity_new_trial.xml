@@ -42,19 +42,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.032" />
 
-        <EditText
-            android:id="@+id/regionTypeEditText"
+        <TextView
+            android:id="@+id/regionText"
             android:layout_width="315dp"
             android:layout_height="47dp"
-            android:layout_marginEnd="44dp"
+            android:layout_marginTop="100dp"
             android:width="300sp"
             android:height="40dp"
             android:background="@null"
-            android:hint="Region Type:"
+            android:hint="Region"
             android:textColor="@color/black"
             android:textColorHint="#0C0C0C"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="146dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
 
         <Button
             android:id="@+id/newTrialAddButton"
@@ -82,7 +83,7 @@
             android:textSize="10dp"
             app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regionTypeEditText"
+            app:layout_constraintTop_toBottomOf="@+id/regionText"
             app:layout_constraintVertical_bias="1.0"
             tools:ignore="MissingConstraints" />
 

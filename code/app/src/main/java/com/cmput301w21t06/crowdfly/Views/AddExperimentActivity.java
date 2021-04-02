@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -37,7 +38,7 @@ public class AddExperimentActivity extends AppCompatActivity {
     SwitchCompat regionSwitch;
     EditText etDescription;
     EditText etMinNumTrials;
-    EditText etRegion;
+    TextView etRegion;
     Button btnMeasurement;
     Button btnBinomial;
     Button btnCount;
@@ -62,7 +63,6 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnCount = findViewById(R.id.count_btn);
         userID = FirebaseAuth.getInstance().getUid();
         //set clickers to false until user enters input
-        etRegion.setKeyListener(null);
         btnCount.setEnabled(false);
         btnBinomial.setEnabled(false);
         btnMeasurement.setEnabled(false);

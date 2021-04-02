@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -34,12 +35,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener, EditBinomialTrialFragment.OnFragmentInteractionListener, EditCountTrialFragment.OnFragmentInteractionListener, EditMeasureTrialFragment.OnFragmentInteractionListener{
 
-    private EditText regionEnforced, trialDesc, regionType,  successes, failures;
+    private EditText trialDesc, successes, failures;
+    private TextView region;
     private Button addButton, buttonBinomial, buttonMeasure, buttonCount, buttonCancel;
     public int newTrialSuccesses, newTrialFailures, newTrialCount;
     public double newTrialMeasurement;
     public String newTrialDescription;
-
+    boolean forceRegion;
     public String trialType;
     public String expID;
     public Experiment exp;
@@ -54,7 +56,7 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
 
         //instantiate variables
         buttonCancel = findViewById(R.id.cancelButton);
-        regionType = findViewById(R.id.regionTypeEditText);
+        region = findViewById(R.id.regionText);
         addButton = findViewById(R.id.newTrialAddButton);
         buttonBinomial = findViewById(R.id.binTrial);
         buttonMeasure = findViewById(R.id.measureTrial);
@@ -64,6 +66,10 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
         expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID,this);
         trialType = exp.getType();
+        forceRegion = exp.getRegionEnabled();
+        if (forceRegion){
+            Toaster.makeCrispyToast(this,"Please note that the experiment creator has required location data be collected!");
+        }
         //condition for trial type differentiation
         if (trialType.equals("binomial")){
             buttonMeasure.setBackgroundColor(Color.LTGRAY);

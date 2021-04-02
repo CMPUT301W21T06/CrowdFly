@@ -77,15 +77,13 @@
         app:layout_constraintVertical_bias="0.079"
         app:rippleColor="#FFFFFF" />
 
-    <EditText
+    <TextView
         android:id="@+id/region_edit_text"
         android:layout_width="251dp"
         android:layout_height="45dp"
         android:layout_marginTop="108dp"
         android:ems="10"
         android:hint="Region..."
-        android:focusable="false"
-        android:inputType="textPersonName"
         android:textColor="#0B0A0A"
         android:textColorHint="#0B0A0A"
         app:layout_constraintEnd_toEndOf="parent"
