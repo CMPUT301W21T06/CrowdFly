@@ -54,7 +54,6 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
 
         //instantiate variables
         buttonCancel = findViewById(R.id.cancelButton);
-        regionEnforced = findViewById(R.id.regionEnforcedEditText);
         regionType = findViewById(R.id.regionTypeEditText);
         addButton = findViewById(R.id.newTrialAddButton);
         buttonBinomial = findViewById(R.id.binTrial);

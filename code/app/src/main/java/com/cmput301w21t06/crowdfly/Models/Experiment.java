@@ -71,7 +71,7 @@ public class Experiment {
         this.ownerID = (String) data.get("ownerID");
         this.experimentId = (String) data.get("experimentID");
         this.type = (String) data.get("type");
-        this.regionEnabled = (Boolean) data.get("enabled");
+        this.regionEnabled = (boolean) data.get("enabled");
 //        setUpFullExperiment((String) data.get("experimentID"));
     }
 
