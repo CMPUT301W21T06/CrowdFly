@@ -55,7 +55,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 {
     private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
     private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
-    private final String OWNER = "COM.CMPUT301W21T06.CROWDFLY.MAP.OWNER";
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private ListView listView;
@@ -303,7 +302,6 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     Intent intent = new Intent(ViewTrialLogActivity.this, ViewLocationActivity.class);
                     intent.putExtra(SELECTION, true);
                     intent.putExtra(EXP, locations);
-                    intent.putExtra(OWNER,UserController.reverseConvert(currentExperiment.getOwnerID()));
                     startActivity(intent);
                 }
             }

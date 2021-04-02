@@ -11,11 +11,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,8 +41,7 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
     private final String LATITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LAT";
     private final String LONGITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LONG";
-    private final String OWNER = "COM.CMPUT301W21T06.CROWDFLY.MAP.OWNER";
-    SupportMapFragment mapFragment;
+    private SupportMapFragment mapFragment;
     private FusedLocationProviderClient mFusedLocationClient;
     private String owner;
     private Button doneButton;
@@ -75,6 +76,15 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         }
     };
 
+    OnSuccessListener successListener = new OnSuccessListener<Location>() {
+        @Override
+        public void onSuccess(Location location) {
+            if (location != null) {
+                CameraUpdate point = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
+                map.moveCamera(point);
+            }
+        }
+    };
     View.OnClickListener doneListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -129,6 +139,7 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
 
             } else {
                 Toaster.makeCrispyToast(this, "Location permissions already granted, application is currently using your location!");
+                mFusedLocationClient.getLastLocation().addOnSuccessListener(successListener);
             }
 
         }
@@ -146,19 +157,19 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         getAll = intent.getBooleanExtra(SELECTION, false);
         if (getAll) {
             locations = (HashMap<String, String[]>) intent.getSerializableExtra(EXP);
-            owner = intent.getStringExtra(OWNER);
         }
     }
 
     private void createMarkers() {
         for (String id : locations.keySet()) {
             String[] sArr = locations.get(id);
-            String prefix = "Trial";
-            owner = sArr[1];
+            String prefix = "Trial ";
+            owner = UserController.reverseConvert(sArr[1]);
             Double[] arr = parseStringLocation(sArr[0]);
             if (sArr.length == 2) {
-                prefix = "Experiment";
+                prefix = "Experiment ";
             }
+            Log.e("othershit",owner);
             String title = prefix + "coordinates: " + getStringLocation(arr[0], arr[1], true) + "; Owner: " + owner;
             map.addMarker(new MarkerOptions().position(new LatLng(arr[0], arr[1])).title(title));
         }
@@ -203,15 +214,7 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 0 && ContextCompat.checkSelfPermission(ViewLocationActivity.this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             Toaster.makeToast(ViewLocationActivity.this, "Thank you! Location services enabled!");
-            mFusedLocationClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-                public void onSuccess(Location location) {
-                    if (location != null) {
-                        CameraUpdate point = CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude()));
-                        map.moveCamera(point);
-                    }
-                }
-            });
+            mFusedLocationClient.getLastLocation().addOnSuccessListener(successListener);
         }
         else{
             Toaster.makeToast(ViewLocationActivity.this, "Location services disabled! Please manually specify a location!");
