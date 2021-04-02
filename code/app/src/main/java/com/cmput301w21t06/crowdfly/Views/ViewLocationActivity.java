@@ -36,6 +36,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
+/**
+ * This class handles picking a location as well as showing all the locations of a particular activity
+ */
 public class ViewLocationActivity extends AppCompatActivity implements OnMapReadyCallback, Toaster {
     private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
     private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
@@ -161,17 +164,29 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void createMarkers() {
+        Double[] arr = null;
         for (String id : locations.keySet()) {
             String[] sArr = locations.get(id);
             String prefix = "Trial ";
             owner = UserController.reverseConvert(sArr[1]);
-            Double[] arr = parseStringLocation(sArr[0]);
+            arr = parseStringLocation(sArr[0]);
             if (sArr.length == 2) {
                 prefix = "Experiment ";
             }
             String title = prefix + "coordinates: " + getStringLocation(arr[0], arr[1], true) + "; Owner: " + owner;
             map.addMarker(new MarkerOptions().position(new LatLng(arr[0], arr[1])).title(title));
         }
+        if (arr != null) {
+            panMap(arr);
+        }
+        else{
+            Log.e("LocationViewer","There were no markers!");
+        }
+    }
+
+    private void panMap(Double[] arr){
+        CameraUpdate point = CameraUpdateFactory.newLatLng(new LatLng(arr[0], arr[1]));
+        map.animateCamera(point);
     }
 
     private void handleButtonSetup() {
