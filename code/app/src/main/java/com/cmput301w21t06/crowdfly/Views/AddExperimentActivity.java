@@ -13,11 +13,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -35,6 +38,9 @@ public class AddExperimentActivity extends AppCompatActivity {
     Button btnBinomial;
     Button btnCount;
     String userID;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,21 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnCount.setEnabled(false);
         btnBinomial.setEnabled(false);
         btnMeasurement.setEnabled(false);
+
+        drawerLayout = findViewById(R.id.drawerAddExp);
+        navigationView = findViewById(R.id.nav_view_add_exp);
+        toolbar = findViewById(R.id.toolbar_add_exp);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(getApplicationContext(), ViewExperimentLogActivity.class);
+                startActivity(intent1);
+            }
+        });
 
 
 
