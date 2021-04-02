@@ -42,7 +42,7 @@ public class TrialActivityTest {
         solo.assertCurrentActivity("Wrong activity", ViewExperimentLogActivity.class);
         solo.clickOnButton("Add experiment");
         solo.assertCurrentActivity("Wrong activity", AddExperimentActivity.class);
-        solo.enterText((EditText) solo.getView(R.id.region_edit_text), "test region");
+//        solo.enterText((EditText) solo.getView(R.id.region_edit_text), "test region");
         solo.enterText((EditText) solo.getView(R.id.min_trial_edit_text), "15");
         solo.hideSoftKeyboard();
         solo.clickOnButton("Count");
