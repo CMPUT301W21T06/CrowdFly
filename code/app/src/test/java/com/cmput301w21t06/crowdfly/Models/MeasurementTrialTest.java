@@ -15,7 +15,7 @@ public class MeasurementTrialTest {
     private MeasurementTrial mockMeasurementTrial(){
         String description = "mock count";
         int measurement = 3;
-        MeasurementTrial mockMTrial = new MeasurementTrial(description, measurement, "", "");
+        MeasurementTrial mockMTrial = new MeasurementTrial(description, measurement, "", "","1,0");
         return mockMTrial;
     }
 

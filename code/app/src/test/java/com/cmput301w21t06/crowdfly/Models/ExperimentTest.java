@@ -24,7 +24,7 @@ public class ExperimentTest {
 
     @Before
     public void setup() {
-        exp = new Experiment("sampleExp", "Canada", 15,"","");
+        exp = new Experiment("sampleExp", "1,0", 15,"","",false);
     }
 
     @Test
@@ -34,7 +34,7 @@ public class ExperimentTest {
 
     @Test
     public void testGetRegion() {
-        assertEquals("Canada", exp.getRegion());
+        assertEquals("1,0", exp.getRegion());
     }
 
     @Test
@@ -80,7 +80,7 @@ public class ExperimentTest {
     public void testToHashMap() {
         Map<String, Object> data = new HashMap<>();
         data.put("description", "testDescription");
-        data.put("region", "Canada");
+        data.put("region", "1,0");
         data.put("minTrials", (long) 99);
         data.put("stillRunning", true);
         data.put("ownerID", "testID");

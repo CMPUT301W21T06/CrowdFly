@@ -15,7 +15,7 @@ public class CountTrialTest {
     private CountTrial mockCountTrial(){
         String description = "mock count";
         int count = 3;
-        CountTrial mockCTrial = new CountTrial(description, count, "trial_id", "");
+        CountTrial mockCTrial = new CountTrial(description, count, "trial_id", "","1,0");
         return mockCTrial;
     }
 

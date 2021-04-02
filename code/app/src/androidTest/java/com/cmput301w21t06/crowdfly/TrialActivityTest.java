@@ -75,8 +75,7 @@ public class TrialActivityTest {
 
 
         solo.assertCurrentActivity("Wrong activity", NewTrialActivity.class);
-        solo.enterText((EditText) solo.getView(R.id.regionEnforcedEditText), "True");
-        solo.enterText((EditText) solo.getView(R.id.regionTypeEditText), "CANADA");
+//        solo.enterText((EditText) solo.getView(R.id.regionText), "0,0"); this is no longer an edit text
         solo.hideSoftKeyboard();
         solo.clickOnButton("Count Trial");
 
