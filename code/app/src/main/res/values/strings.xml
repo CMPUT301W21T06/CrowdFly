@@ -13,9 +13,9 @@
     <string name="ID">ID</string>
     <string name="Contact">Contact Information:</string>
     <string name="Done">DONE</string>
-    <string name="authButtonLoading">Generating...</string>
+    <string name="generating">Generating...</string>
     <string name="authButtonSubtitleLoading">Please wait while we generate a new anonymous ID</string>
-    <string name="authButton">Generate</string>
+    <string name="generate">Generate</string>
     <string name="authButtonSubtitle">Generate a new anonymous ID</string>
     <string name="subscribe">Subscribe</string>
     <string name="UserSearch">User Search</string>
@@ -25,4 +25,10 @@
     <string name="generate_qr_code">Generate QR Code</string>
     <string name="scan_qr_code_or_barcode">Scan QR Code or Barcode</string>
     <string name="register_barcode">Register Barcode</string>
+    <string name="binomial">binomial</string>
+    <string name="count">count</string>
+    <string name="measurement">measurement</string>
+    <string name="generatedSuccess">Generated successfully</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

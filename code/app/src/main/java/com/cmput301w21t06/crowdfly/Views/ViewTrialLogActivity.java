@@ -4,18 +4,14 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -128,9 +124,18 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         qrButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewTrialLogActivity.this, ViewQRActivity.class);
-                intent.putExtra("expID", expID);
-                startActivity(intent);
+                if (isCodeScanningAvailable()) {
+                    Toaster.makeToast(ViewTrialLogActivity.this, "This feature is not available for experiments with this trial type");
+                }
+                else {
+                    Intent intent = new Intent(ViewTrialLogActivity.this, ViewQRActivity.class);
+                    intent.putExtra("expID", expID);
+                    startActivity(intent);
+                }
+            }
+
+            private boolean isCodeScanningAvailable() {
+                return !(trialType.equals(getString(R.string.binomial)) || trialType.equals(getString(R.string.count)));
             }
         });
         addButton = findViewById(R.id.addButton);

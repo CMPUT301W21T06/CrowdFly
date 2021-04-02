@@ -14,6 +14,7 @@ public class ViewQRActivity extends AppCompatActivity {
     private Button scanCode;
     private Button registerCode;
     private Button generateCode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,11 +25,16 @@ public class ViewQRActivity extends AppCompatActivity {
         setup();
     }
 
+    /**
+     * Setup click listeners
+     */
     private void setup(){
+        String experimentID = getIntent().getStringExtra("expID");
         scanCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewQRActivity.this, ScanCodeActivity.class);
+                addExperimentID(intent, experimentID);
                 startActivity(intent);
             }
         });
@@ -36,6 +42,7 @@ public class ViewQRActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewQRActivity.this, RegisterBarcodeActivity.class);
+                addExperimentID(intent, experimentID);
                 startActivity(intent);
             }
         });
@@ -43,9 +50,19 @@ public class ViewQRActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewQRActivity.this, GenerateQRActivity.class);
+                addExperimentID(intent, experimentID);
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Pass in experiment ID to an intent
+     * @param intent
+     * @param experimentID
+     */
+    private void addExperimentID(Intent intent, String experimentID) {
+        intent.putExtra("experimentID", experimentID);
     }
 
 }
