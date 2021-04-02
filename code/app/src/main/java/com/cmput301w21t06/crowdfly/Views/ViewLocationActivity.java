@@ -169,7 +169,6 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
             if (sArr.length == 2) {
                 prefix = "Experiment ";
             }
-            Log.e("othershit",owner);
             String title = prefix + "coordinates: " + getStringLocation(arr[0], arr[1], true) + "; Owner: " + owner;
             map.addMarker(new MarkerOptions().position(new LatLng(arr[0], arr[1])).title(title));
         }
