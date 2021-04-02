@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@color/bluejay"
+    android:gravity="bottom"
+
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="105dp"
+        android:layout_height="42dp"
+        android:text="userDisplyID"
+        android:textSize="24sp"
+        android:padding="5dp"
+        android:textColor="@color/white"/>
+    <TextView
+        android:layout_width="105dp"
+        android:layout_height="42dp"
+        android:text="userID"
+        android:padding="5dp"
+        android:textColor="@color/white"/>
+
+
+</LinearLayout>

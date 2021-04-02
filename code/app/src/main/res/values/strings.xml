@@ -21,4 +21,6 @@
     <string name="UserSearch">User Search</string>
     <string name="unsubscribe">Unsubscribe</string>
     <string name="title_activity_search_user">searchUserActivity</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
 </resources>
