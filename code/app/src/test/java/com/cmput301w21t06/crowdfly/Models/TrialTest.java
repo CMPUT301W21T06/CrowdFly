@@ -47,6 +47,7 @@ public class TrialTest {
         data.put("trialID", "testID");
         data.put("experimenter", "expID");
         data.put("description", "testDescription");
+        data.put("region","testregion");
         Trial trial = new Trial(data);
         trial.setExperimenterID("expID");
         assertEquals(data, trial.toHashMap());

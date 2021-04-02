@@ -83,6 +83,7 @@ public class ExperimentTest {
         data.put("region", "1,0");
         data.put("minTrials", (long) 99);
         data.put("stillRunning", true);
+        data.put("enabled",true);
         data.put("ownerID", "testID");
         data.put("experimentID", "experiment1");
         data.put("type","test");
