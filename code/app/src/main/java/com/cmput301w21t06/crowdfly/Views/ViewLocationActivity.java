@@ -29,9 +29,11 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
     private final String LATITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LAT";
     private final String LONGITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LONG";
+    private final String OWNER = "COM.CMPUT301W21T06.CROWDFLY.MAP.OWNER";
+    private String owner;
     private Button doneButton;
     private boolean getAll;
-    private HashMap<String,String> locations;
+    private HashMap<String,String[]> locations;
     private Marker marker = null;
     private GoogleMap map;
 
@@ -111,18 +113,24 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         Intent intent = getIntent();
         getAll = intent.getBooleanExtra(SELECTION, false);
         if (getAll) {
-            locations = (HashMap<String,String>) intent.getSerializableExtra(EXP);
+            locations = (HashMap<String,String[]>) intent.getSerializableExtra(EXP);
+            owner = intent.getStringExtra(OWNER);
         }
     }
 
     private void createMarkers(){
         for (String id : locations.keySet()){
-            String loc = locations.get(id);
-            Double[] arr = parseStringLocation(loc);
-            map.addMarker(new MarkerOptions().position(new LatLng(arr[0],arr[1])).title(id));
+            String[] sArr = locations.get(id);
+            String prefix = "Trial";
+            String owner = sArr[1];
+            Double[] arr = parseStringLocation(sArr[0]);
+            if (sArr.length == 2){
+                prefix = "Experiment";
+            }
+            String title = prefix + "coordinates: " + getStringLocation(arr[0],arr[1],true) + "; Owner: " + owner;
+            map.addMarker(new MarkerOptions().position(new LatLng(arr[0],arr[1])).title(title));
         }
     }
-
     private void handleButtonSetup(){
         if (getAll){
             doneButton.setVisibility(View.INVISIBLE);

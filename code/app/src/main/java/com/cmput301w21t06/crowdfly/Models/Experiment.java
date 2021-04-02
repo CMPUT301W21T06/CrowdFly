@@ -156,6 +156,12 @@ public class Experiment {
 
     public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
 
+    /**
+     * This returns the current trials in the experiment
+     * @return
+     * This is the current trials
+     */
+    public ArrayList<Trial> getTrials(){return trialController.getTrials();}
 
 
     /**

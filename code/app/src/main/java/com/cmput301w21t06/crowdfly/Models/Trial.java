@@ -17,7 +17,7 @@ public class Trial {
     protected String trialID;
     protected String description;
 //    private Boolean locRequired;
-//    private String location;
+    private String location = "";
 //    private String result;
 //    private Statistics statistics;
     protected String creatorID;
@@ -82,6 +82,8 @@ public class Trial {
     public Trial getData(){
         return new Trial(description, creatorID, trialID);
     }
+
+    public String getLocation() {return location;}
 
 
     /***
