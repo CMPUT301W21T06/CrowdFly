@@ -26,16 +26,12 @@ import java.util.ArrayList;
  * Map and search buttons not implemented
  */
 public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpLogListener, Toaster {
-    private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
-    private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
     private ListView experimentListView;
     private ExperimentAdapter expAdapter;
     private ExperimentLog experimentLog;
     private ArrayList<Experiment> experimentsList;
     private final String userID = FirebaseAuth.getInstance().getUid();
-
     Button btnAddExperiment;
-    Button btnMap;
     Button btnSearch;
 
     @Override
@@ -46,7 +42,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentsList = experimentLog.getExperiments();
         experimentListView = findViewById(R.id.experiment_list);
         btnAddExperiment = findViewById(R.id.experiment_add);
-        btnMap = findViewById(R.id.experiment_map);
         btnSearch = findViewById(R.id.experiment_search);
         expAdapter = new ExperimentAdapter(this, experimentsList);
         experimentListView.setAdapter(expAdapter);
@@ -86,20 +81,12 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                     ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
                 }
                 else{
-                    Toaster.makeToast(ViewExperimentLogActivity.this, "Only the owner may unpublish an experiment!");
+                    Toaster.makeCrispyToast(ViewExperimentLogActivity.this, "Only the owner may unpublish an experiment!");
                 }
                 return true;
             }
         });
 
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ViewExperimentLogActivity.this,ViewLocationActivity.class);
-                intent.putExtra(SELECTION,false);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override

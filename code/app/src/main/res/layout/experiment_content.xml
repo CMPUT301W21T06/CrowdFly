@@ -23,7 +23,7 @@
         android:id="@+id/exp_ownerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="168dp"
         android:text="Owner Name"
         android:textColor="#131313"
         app:layout_constraintStart_toStartOf="@+id/exp_numTrials"
@@ -56,8 +56,8 @@
 
     <TextView
         android:id="@+id/exp_region"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="17dp"
         android:text="Region:"
         android:textColor="#090909"
         app:layout_constraintStart_toStartOf="@+id/exp_numTrials"

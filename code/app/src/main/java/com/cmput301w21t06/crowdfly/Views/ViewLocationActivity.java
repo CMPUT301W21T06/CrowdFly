@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
@@ -20,11 +21,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class ViewLocationActivity extends AppCompatActivity implements OnMapReadyCallback, Toaster {
     private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
     private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
+    private final String LATITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LAT";
+    private final String LONGITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LONG";
     private Button doneButton;
     private boolean getAll;
     private HashMap<String,String> locations;
@@ -37,9 +41,9 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
             if (marker != null){
                 marker.remove();
             }
-            marker = map.addMarker(new MarkerOptions().position(latLng).title("Selected Location"));
+            marker = map.addMarker(new MarkerOptions().position(latLng).title("Coordinates: " + getStringLocation(latLng.latitude,latLng.longitude,true)));
             Toaster.makeToast(ViewLocationActivity.this,"Marker Placed, press and hold anywhere to remove it!");
-            doneButton.setBackgroundColor(Color.parseColor("#223366"));
+            doneButton.setBackgroundColor(Color.parseColor("#2B547E"));
             doneButton.setText(R.string.Done);
         }
     };
@@ -60,11 +64,17 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     View.OnClickListener doneListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String stringPos = String.valueOf(marker.getPosition());
-            Intent intent = new Intent();
-            intent.putExtra(EXP,stringPos);
-            setResult(RESULT_OK,intent);
-            finish();
+            if (marker != null) {
+                LatLng latLng = marker.getPosition();
+                Intent intent = new Intent();
+                intent.putExtra(LATITUDE, latLng.latitude);
+                intent.putExtra(LONGITUDE,latLng.longitude);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+            else{
+                Toaster.makeToast(ViewLocationActivity.this,"Please select a location first!");
+            }
         }
     };
 
@@ -108,10 +118,8 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     private void createMarkers(){
         for (String id : locations.keySet()){
             String loc = locations.get(id);
-            String arr[] = loc.split(",");
-            Double latitude = Double.parseDouble(arr[0]);
-            Double longitude = Double.parseDouble(arr[1]);
-            map.addMarker(new MarkerOptions().position(new LatLng(latitude,longitude)).title(id));
+            Double[] arr = parseStringLocation(loc);
+            map.addMarker(new MarkerOptions().position(new LatLng(arr[0],arr[1])).title(id));
         }
     }
 
@@ -137,4 +145,20 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     }
 
 
+    public static String getStringLocation(Double latitude, Double longitude, boolean disp){
+        if (!disp) {
+            return (latitude + "," + longitude);
+        }
+        else{
+            return (String.format("%.4f",latitude) + ", " + String.format("%.4f",longitude));
+        }
+    }
+
+    public static Double[] parseStringLocation(String loc){
+        String arr[] = loc.split(",");
+        Double latitude = Double.parseDouble(arr[0]);
+        Double longitude = Double.parseDouble(arr[1]);
+        Double dArr[] = {latitude,longitude};
+        return dArr;
+    }
 }

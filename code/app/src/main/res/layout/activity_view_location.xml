@@ -22,7 +22,7 @@
         android:id="@+id/doneMapButton"
         android:layout_width="0dp"
         android:layout_height="62dp"
-        android:backgroundTint="#E32610"
+        android:backgroundTint="@color/bluejay"
         android:text="@string/pickLocation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -9,10 +9,12 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -27,8 +29,10 @@ import com.google.firebase.auth.FirebaseAuth;
  * Yet to handle location data
  */
 public class AddExperimentActivity extends AppCompatActivity {
-
-    Button btnAddExperiment;
+    private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
+    private final String LATITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LAT";
+    private final String LONGITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LONG";
+    private final int lCode = 0;
     Button btnCancel;
     SwitchCompat regionSwitch;
     EditText etDescription;
@@ -38,7 +42,8 @@ public class AddExperimentActivity extends AppCompatActivity {
     Button btnBinomial;
     Button btnCount;
     String userID;
-
+    Double latitude;
+    Double longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +62,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnCount = findViewById(R.id.count_btn);
         userID = FirebaseAuth.getInstance().getUid();
         //set clickers to false until user enters input
+        etRegion.setKeyListener(null);
         btnCount.setEnabled(false);
         btnBinomial.setEnabled(false);
         btnMeasurement.setEnabled(false);
@@ -64,22 +70,25 @@ public class AddExperimentActivity extends AppCompatActivity {
 
         etMinNumTrials.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                btnCount.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
-                btnCount.setBackgroundColor(Color.parseColor("#2B547E"));
-                btnMeasurement.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
-                btnMeasurement.setBackgroundColor(Color.parseColor("#2B547E"));
-                btnBinomial.setEnabled(etMinNumTrials.getText().toString().trim().length() > 0);
-                btnBinomial.setBackgroundColor(Color.parseColor("#2B547E"));
+                Log.e("tag","d" + String.valueOf(canEnable()));
+                handleButton();
 
             }
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        regionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isOn) {
+                handleButton();
+                if (isOn == true){
+                    Toaster.makeCrispyToast(AddExperimentActivity.this,"Region enabled!");
+                }
             }
         });
 
@@ -128,6 +137,15 @@ public class AddExperimentActivity extends AppCompatActivity {
                finish();
             }
         });
+
+        etRegion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AddExperimentActivity.this,ViewLocationActivity.class);
+                intent.putExtra(SELECTION,false);
+                startActivityForResult(intent,lCode);
+            }
+        });
     }
 
     /**
@@ -136,7 +154,11 @@ public class AddExperimentActivity extends AppCompatActivity {
      * Returns the region
      */
     public String getRegion(){
-        return etRegion.getText().toString();
+        String region = etRegion.getText().toString();
+        if (!region.matches("")){
+            return ViewLocationActivity.getStringLocation(latitude,longitude,false);
+        }
+        return region;
     }
 
     private String getDescription(){return etDescription.getText().toString();}
@@ -158,7 +180,42 @@ public class AddExperimentActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, toast, Toast.LENGTH_LONG).show();
         }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == lCode){
+            latitude = data.getDoubleExtra(LATITUDE,0.);
+            longitude = data.getDoubleExtra(LONGITUDE,0.);
+            etRegion.setText(ViewLocationActivity.getStringLocation(latitude,longitude,true));
+            handleButton();
+        }
+    }
+
+    private boolean canEnable(){
+        Log.e("dd",String.valueOf(!etMinNumTrials.getText().toString().matches("")));
+        boolean condition = (!regionSwitch.isChecked() || (regionSwitch.isChecked() && !(String.valueOf(etRegion.getText())).matches("")));
+        return (condition && (!etMinNumTrials.getText().toString().matches("")));
+    }
+
+    private void handleButton(){
+        btnCount.setEnabled(canEnable());
+        btnMeasurement.setEnabled(canEnable());
+        btnBinomial.setEnabled(canEnable());
+
+        if (canEnable()){
+            btnCount.setBackgroundColor(Color.parseColor("#2B547E"));
+            btnMeasurement.setBackgroundColor(Color.parseColor("#2B547E"));
+            btnBinomial.setBackgroundColor(Color.parseColor("#2B547E"));
+        }
+        else{
+            Log.e("doing this","ddddf");
+            btnCount.setBackgroundColor(getResources().getColor(R.color.lightbluejay));
+            btnMeasurement.setBackgroundColor(getResources().getColor(R.color.lightbluejay));
+            btnBinomial.setBackgroundColor(getResources().getColor(R.color.lightbluejay));
+        }
     }
 
 }
