@@ -34,23 +34,4 @@ public class TrialFactory {
         throw new Exception("Not a valid trial type");
     }
 
-    /**
-     * Factory method for getting Trial
-     * @param metadata HashMap with metadata from the database
-     * @return Trial
-     * @throws Exception
-     */
-    public Trial getTrialInferType(Map<String, Object> metadata) {
-        if(metadata.containsKey("successes")){
-            return new BinomialTrial(metadata);
-        }
-        if(metadata.containsKey("count")){
-            return new CountTrial(metadata);
-        }
-        if(metadata.containsKey("measurement")){
-            return new MeasurementTrial(metadata);
-        }
-        return new Trial(metadata);
-    }
-
 }

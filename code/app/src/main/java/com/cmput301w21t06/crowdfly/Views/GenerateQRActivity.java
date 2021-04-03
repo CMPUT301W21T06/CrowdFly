@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -102,7 +103,7 @@ public class GenerateQRActivity extends AppCompatActivity implements
     @Override
     public void onDoneRegisteredCode(Barcode code) {
         QRCode qrCode = (QRCode) code;
-        System.out.println(qrCode.getCodeID());
+        Log.d("QR Code", qrCode.getCodeID());
         qrCodeBitmap = qrCodeController.printCode(qrCode);
         qrCodeImageView.setImageBitmap(qrCodeBitmap);
         qrCodeImageView.setVisibility(View.VISIBLE);
