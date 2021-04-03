@@ -217,7 +217,7 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
         });
 
         preview.setSurfaceProvider(previewView.createSurfaceProvider());
-        cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, imageAnalysis, preview);
+        cameraProvider.bindToLifecycle(this, cameraSelector, imageAnalysis, preview);
     }
 
     public void onDoneGetBarcode(Task<List<Barcode>> barcodesTask, ImageProxy imageProxy) {
@@ -232,7 +232,6 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
                 builder.setNegativeButton(CANCEL, (dialog, which) -> {
                     imageProxy.close(); // Continue detection
                 }).setPositiveButton(PROCEED, (dialog, which) -> {
-                    ;
                     if (type.equals(QR_CODE)) {
                         QRCodeController qrCodeController = new QRCodeController(codesCollectionReference, userID);
                         qrCodeController.getBarcode(barcode.getRawValue(), barcodeScanned -> {
@@ -270,23 +269,22 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
     private void processCode(com.cmput301w21t06.crowdfly.Models.Barcode barcodeScanned, OnFinishProcessListener listener) {
         Map<String, Object> storedTrial = barcodeScanned.getTrialData();
         if (storedTrial != null) {
-                if (currentExperiment.getType().equals(BINOMIAL)) {
-                    if (storedTrial.containsKey("successes")) {
-                        EditBinomialTrialFragment.newInstance(new BinomialTrial(storedTrial)).show(getSupportFragmentManager(), "Add a Binomial Trial");
-                    } else {
-                        incompatibleTrialToast();
-                    }
-                } else if (currentExperiment.getType().equals(COUNT)) {
-                    if (storedTrial.containsKey(COUNT)) {
-                        EditCountTrialFragment.newInstance(new CountTrial(storedTrial)).show(getSupportFragmentManager(), "Add a Count Trial");
-                    } else {
-                        incompatibleTrialToast();
-                    }
+            if (currentExperiment.getType().equals(BINOMIAL)) {
+                if (storedTrial.containsKey("successes")) {
+                    EditBinomialTrialFragment.newInstance(new BinomialTrial(storedTrial)).show(getSupportFragmentManager(), "Add a Binomial Trial");
+                } else {
+                    incompatibleTrialToast();
                 }
+            } else if (currentExperiment.getType().equals(COUNT)) {
+                if (storedTrial.containsKey(COUNT)) {
+                    EditCountTrialFragment.newInstance(new CountTrial(storedTrial)).show(getSupportFragmentManager(), "Add a Count Trial");
+                } else {
+                    incompatibleTrialToast();
+                }
+            }
 
             listener.onFinishProcess();
-            }
-        else {
+        } else {
             Toaster.makeToast(ScanCodeActivity.this, "This code does not exist!");
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder = builder
@@ -335,12 +333,21 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
 
     @Override
     public void onOkPressed(Trial trial) {
-        new BarcodeController(codesCollectionReference, userID).registerOldCode(trial, recentlyScannedBarcode.getCodeID(), new CodeController.OnDoneRegisteredCodeListener() {
-            @Override
-            public void onDoneRegisteredCode(com.cmput301w21t06.crowdfly.Models.Barcode barcode) {
-                Toaster.makeToast(ScanCodeActivity.this, "Successfully registered!");
-            }
-        });
+        if (trial != null) {
+
+            new BarcodeController(codesCollectionReference, userID).registerOldCode(trial, recentlyScannedBarcode.getCodeID(), new CodeController.OnDoneRegisteredCodeListener() {
+                @Override
+                public void onDoneRegisteredCode(com.cmput301w21t06.crowdfly.Models.Barcode barcode) {
+                    Toaster.makeToast(ScanCodeActivity.this, "Successfully registered!");
+                }
+            });
+        } else {
+            Toaster.makeToast(ScanCodeActivity.this, "Cancelled");
+        }
+    }
+
+    public interface OnFinishProcessListener {
+        void onFinishProcess();
     }
 
     /**
@@ -351,10 +358,6 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
         public void execute(Runnable command) {
             command.run();
         }
-    }
-
-    public interface OnFinishProcessListener {
-        public void onFinishProcess();
     }
 
 
