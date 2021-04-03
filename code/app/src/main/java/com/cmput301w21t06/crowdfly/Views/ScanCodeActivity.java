@@ -33,7 +33,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
 
 import com.cmput301w21t06.crowdfly.Controllers.BarcodeController;
 import com.cmput301w21t06.crowdfly.Controllers.CodeController;
@@ -77,6 +76,7 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
     private PreviewView previewView;
     private Experiment currentExperiment;
     private com.cmput301w21t06.crowdfly.Models.Barcode recentlyScannedBarcode;
+    private OnFinishProcessListener lastListener; // Need to do this as the fragments don't have reference to the listener to start processing next frames.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,7 +165,7 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
                                             processCode(barcodeScanned, new OnFinishProcessListener() {
                                                 @Override
                                                 public void onFinishProcess() {
-
+                                                    // Do nothing since this is mostly needed for closing image proxy from camera stream.
                                                 }
                                             });
                                         });
@@ -271,19 +271,26 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
         if (storedTrial != null) {
             if (currentExperiment.getType().equals(BINOMIAL)) {
                 if (storedTrial.containsKey("successes")) {
+                    lastListener = listener;
                     EditBinomialTrialFragment.newInstance(new BinomialTrial(storedTrial)).show(getSupportFragmentManager(), "Add a Binomial Trial");
                 } else {
                     incompatibleTrialToast();
+
+                    listener.onFinishProcess();
                 }
             } else if (currentExperiment.getType().equals(COUNT)) {
                 if (storedTrial.containsKey(COUNT)) {
-                    EditCountTrialFragment.newInstance(new CountTrial(storedTrial)).show(getSupportFragmentManager(), "Add a Count Trial");
+                    lastListener = listener;
+                    EditCountTrialFragment editCountTrialFragment = EditCountTrialFragment.newInstance(new CountTrial(storedTrial));
+                    editCountTrialFragment.show(getSupportFragmentManager(), "Add a Count Trial");
+
                 } else {
                     incompatibleTrialToast();
+
+                    listener.onFinishProcess();
                 }
             }
 
-            listener.onFinishProcess();
         } else {
             Toaster.makeToast(ScanCodeActivity.this, "This code does not exist!");
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -293,12 +300,14 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             listener.onFinishProcess();
+
                         }
                     })
                     .setPositiveButton("Register", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             recentlyScannedBarcode = barcodeScanned;
+                            lastListener = listener;
                             NewTrialFragment.newInstance(currentExperiment.getType(), userID).show(getSupportFragmentManager(), "Register Trial to Code");
                         }
                     });
@@ -323,26 +332,38 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
 
     @Override
     public void onOkPressed(BinomialTrial trial) {
-        currentExperiment.getTrialController().addTrialData(trial, currentExperiment.getExperimentId());
+        if (trial != null) {
+            currentExperiment.getTrialController().addTrialData(trial, currentExperiment.getExperimentId());
+        }
+
+        lastListener.onFinishProcess();
+        lastListener = null;
     }
 
     @Override
     public void onOkPressed(CountTrial trial) {
-        currentExperiment.getTrialController().addTrialData(trial, currentExperiment.getExperimentId());
+        if (trial != null) {
+            currentExperiment.getTrialController().addTrialData(trial, currentExperiment.getExperimentId());
+        }
+        lastListener.onFinishProcess();
+        lastListener = null;
     }
 
     @Override
     public void onOkPressed(Trial trial) {
         if (trial != null) {
-
             new BarcodeController(codesCollectionReference, userID).registerOldCode(trial, recentlyScannedBarcode.getCodeID(), new CodeController.OnDoneRegisteredCodeListener() {
                 @Override
                 public void onDoneRegisteredCode(com.cmput301w21t06.crowdfly.Models.Barcode barcode) {
                     Toaster.makeToast(ScanCodeActivity.this, "Successfully registered!");
+                    lastListener.onFinishProcess();
+                    lastListener = null;
                 }
             });
         } else {
             Toaster.makeToast(ScanCodeActivity.this, "Cancelled");
+            lastListener.onFinishProcess();
+            lastListener = null;
         }
     }
 

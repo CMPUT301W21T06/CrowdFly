@@ -319,22 +319,27 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
     @Override
     public void onOkPressed(BinomialTrial btrial){
-        this.trialLog.set(entry_pos, btrial);
-        setUpList();
+        if(btrial!=null){
+            this.trialLog.set(entry_pos, btrial);
+            setUpList();
+        }
     }
 
 
     @Override
     public void onOkPressed(CountTrial ctrial) {
-        this.trialLog.set(entry_pos, ctrial);
-        setUpList();
-
+        if(ctrial!=null){
+            this.trialLog.set(entry_pos, ctrial);
+            setUpList();
+        }
     }
 
     @Override
     public void onOkPressed(MeasurementTrial mtrial) {
-        this.trialLog.set(entry_pos, mtrial);
-        setUpList();
+        if(mtrial!=null) {
+            this.trialLog.set(entry_pos, mtrial);
+            setUpList();
+        }
     }
 
 

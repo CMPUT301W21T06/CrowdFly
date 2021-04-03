@@ -67,7 +67,12 @@ public class EditMeasureTrialFragment extends DialogFragment {
         return builder
                 .setView(view)
                 .setTitle("Edit Entry")
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onOkPressed(null);
+                    }
+                })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
