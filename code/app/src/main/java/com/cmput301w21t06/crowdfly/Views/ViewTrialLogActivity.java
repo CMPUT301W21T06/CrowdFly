@@ -32,6 +32,7 @@ import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This shows all the trials related to the particular experiment
@@ -48,9 +49,12 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         CrowdFlyListeners.OnDoneGetExperimenterIdsListener,
         Toaster
 {
+    private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
+    private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private ListView listView;
+    private Button mapButton;
     private Button addButton;
     private Button questionButton;
     private Button qrButton;
@@ -75,6 +79,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trial_log);
         filters = new ArrayList<String>();
+        mapButton = findViewById(R.id.mapButton);
         endButton = findViewById(R.id.endButton);
         dropdown = findViewById(R.id.dropDown);
         //only update the trialtype once per experiment
@@ -171,14 +176,14 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                                 endButton.setText("End");
                             }
                             else{
-                                Toaster.makeToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
+                                Toaster.makeCrispyToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
                             }
                         }
                         ExperimentController.setExperimentData(currentExperiment);
                     }
                     else {
                         Log.e("rr","run");
-                        Toaster.makeToast(ViewTrialLogActivity.this, "Only the owner can end an experiment!");
+                        Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Only the owner can end an experiment!");
                     }
                 }
             }
@@ -197,7 +202,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 if(!currentExperiment.getStillRunning()){
-                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return;
                 }
                 if(subscribed || isOwner){
@@ -208,7 +213,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     startActivityForResult(intent,0);
                 }
                 else {
-                    Toaster.makeToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to add trials");
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to add trials");
                 }
 
             }
@@ -221,7 +226,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if(!currentExperiment.getStillRunning()){
-                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return false;
                 }
                 if(subscribed || isOwner) {
@@ -232,7 +237,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     changeVisibility();
                 }
                 else {
-                    Toaster.makeToast(ViewTrialLogActivity.this,"Please subscribe to the experiment to remove trials");
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this,"Please subscribe to the experiment to remove trials");
                 }
                 return false;
             }
@@ -243,7 +248,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(!currentExperiment.getStillRunning()){
-                    Toaster.makeToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
                     return;
                 }
                 if(subscribed || isOwner) {
@@ -279,11 +284,40 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     }
                 }
                 else {
-                    Toaster.makeToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to edit trials");
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to edit trials");
                 }
                 }
 
 
+        });
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String,String[]> locations = new HashMap<String, String[]>();
+                if (!currentExperiment.getRegion().matches("")){
+                    String[] arr = {currentExperiment.getRegion(),currentExperiment.getOwnerID()};
+                    locations.put(currentExperiment.getExperimentId(),arr);
+                }
+                for (Trial trial : currentExperiment.getTrials()){
+                    if (!trial.getLocation().matches("")){
+                        String[] arr = {trial.getLocation(),trial.getExperimenterID(),"T"};
+                        locations.put(trial.getTrialID(),arr);
+                    }
+                }
+                if (locations.size() == 0){
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Locations were not required and no locations were voluntarily entered!");
+                }
+                else {
+                    if (!currentExperiment.getRegionEnabled()){
+                        Toaster.makeCrispyToast(ViewTrialLogActivity.this,"Location were not required, but displaying those voluntarily entered!");
+                    }
+                    Intent intent = new Intent(ViewTrialLogActivity.this, ViewLocationActivity.class);
+                    intent.putExtra(SELECTION, true);
+                    intent.putExtra(EXP, locations);
+                    startActivity(intent);
+                }
+            }
         });
 
     }

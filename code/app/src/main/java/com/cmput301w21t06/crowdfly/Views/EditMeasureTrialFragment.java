@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class EditMeasureTrialFragment extends DialogFragment {
     String userID = FirebaseAuth.getInstance().getUid();
     private EditText measurement, description;
+    private String loc;
     private EditMeasureTrialFragment.OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
@@ -44,7 +45,7 @@ public class EditMeasureTrialFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putDouble("measure", new_trial.getMeasurement());
         args.putString("desc", new_trial.getDescription());
-
+        args.putString("loc", new_trial.getLocation());
         EditMeasureTrialFragment fragment = new EditMeasureTrialFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,10 +58,11 @@ public class EditMeasureTrialFragment extends DialogFragment {
 
         measurement = view.findViewById(R.id.measurementInput);
         description = view.findViewById(R.id.measurementDesc);
-
+        loc = "";
         if (getArguments() != null){
             description.setText(getArguments().getString("desc"));
             measurement.setText(String.valueOf(getArguments().getDouble("measure")));
+            loc = getArguments().getString("loc");
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -82,7 +84,7 @@ public class EditMeasureTrialFragment extends DialogFragment {
                         if (measurement1.length() != 0){
                             measurement2 = Double.parseDouble(measurement1);
                         }
-                        listener.onOkPressed(new MeasurementTrial(description1, measurement2, "", userID));
+                        listener.onOkPressed(new MeasurementTrial(description1, measurement2, "", userID,loc));
                     }
                 }).create();
     }

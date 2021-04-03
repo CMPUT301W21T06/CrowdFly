@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class EditBinomialTrialFragment extends DialogFragment {
     private EditText successes, failures, description;
     private OnFragmentInteractionListener listener;
+    private String loc;
     String userID = FirebaseAuth.getInstance().getUid();
     public interface OnFragmentInteractionListener {
         void onOkPressed(BinomialTrial trial);
@@ -44,7 +45,7 @@ public class EditBinomialTrialFragment extends DialogFragment {
         args.putInt("suc", new_trial.getSuccesses());
         args.putInt("fail", new_trial.getFailures());
         args.putString("desc", new_trial.getDescription());
-
+        args.putString("loc", new_trial.getLocation());
         EditBinomialTrialFragment fragment = new EditBinomialTrialFragment();
         fragment.setArguments(args);
         return fragment;
@@ -58,11 +59,12 @@ public class EditBinomialTrialFragment extends DialogFragment {
         description = view.findViewById(R.id.binDescription);
         successes = view.findViewById(R.id.binSuccesses);
         failures = view.findViewById(R.id.binFailures);
-
+        loc = "";
         if (getArguments() != null){
             description.setText(getArguments().getString("desc"));
             successes.setText(String.valueOf(getArguments().getInt("suc")));
             failures.setText(String.valueOf(getArguments().getInt("fail")));
+            loc = getArguments().getString("loc");
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -90,7 +92,7 @@ public class EditBinomialTrialFragment extends DialogFragment {
                         }
                         String description1 = description.getText().toString();
 
-                        listener.onOkPressed(new BinomialTrial(description1, successes2,failures2, "",userID));
+                        listener.onOkPressed(new BinomialTrial(description1, successes2,failures2, "",userID,loc));
                     }
                 }).create();
     }

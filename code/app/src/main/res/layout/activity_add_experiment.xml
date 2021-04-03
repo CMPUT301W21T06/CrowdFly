@@ -25,7 +25,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintVertical_bias="0.022" />
 
     <Button
         android:id="@+id/cancelBtn"
@@ -74,17 +74,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionBox"
-        app:layout_constraintVertical_bias="0.118" />
+        app:layout_constraintVertical_bias="0.079"
+        app:rippleColor="#FFFFFF" />
 
-    <EditText
+    <TextView
         android:id="@+id/region_edit_text"
         android:layout_width="251dp"
         android:layout_height="45dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="108dp"
         android:ems="10"
         android:hint="Region..."
-        android:inputType="textPersonName"
+        android:textColor="#0B0A0A"
         android:textColorHint="#0B0A0A"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
@@ -93,10 +95,11 @@
         android:id="@+id/min_trial_edit_text"
         android:layout_width="251dp"
         android:layout_height="47dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Minimum Number of Trials..."
-        android:inputType="number"
 
+        android:inputType="number"
         android:textColor="#090909"
         android:textColorHint="#0E0E0E"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,6 +110,7 @@
         android:id="@+id/descriptionBox"
         android:layout_width="251dp"
         android:layout_height="47dp"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Description"
         android:inputType="textPersonName"
@@ -115,5 +119,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/min_trial_edit_text" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/regionSwitch"
+        android:layout_width="165dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
+        android:scaleX="1.7"
+        android:scaleY="1.7"
+        android:shadowColor="@color/bluejay"
+        android:text="Region Enforced:"
+        android:textColor="#121111"
+        android:textColorLink="#0C0C0C"
+        android:textOff="No"
+        android:textOn="Yes"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/region_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/newTrialTitle"
+        app:layout_constraintVertical_bias="1.0"
+        app:showText="true"
+        app:switchTextAppearance="@style/TextAppearance.AppCompat.Body2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

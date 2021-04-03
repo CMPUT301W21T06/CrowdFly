@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
+import com.cmput301w21t06.crowdfly.Views.ViewLocationActivity;
 
 import java.util.ArrayList;
 
@@ -64,8 +65,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         ownerName.setText(UserController.reverseConvert(experiment.getOwnerID()));
         status.setText(experiment.getStillRunning() ? "Active" : "Not Active" );
         numTrials.setText(String.valueOf(experiment.getMinTrials()));
-        region.setText(experiment.getRegion());
-
+        RegionViewSetter.setRegion(region,experiment.getRegion());
         return view;
     }
 }

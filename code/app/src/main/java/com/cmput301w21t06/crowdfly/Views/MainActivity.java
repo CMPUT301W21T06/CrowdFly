@@ -15,6 +15,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dummySetup();
         //instantiating the hamburger menu
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
@@ -78,7 +82,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
-
+    }
+    //allows the API to do useless shit like authentication while the user thinks shit hasnt fucking started
+    //increases start up time so it doesnt fuck with my time later
+    //if you dont like my comment, edit it or... fight me
+    private void dummySetup(){
+        SupportMapFragment mapFragment = new SupportMapFragment();
+        mapFragment.getMapAsync(new OnMapReadyCallback(){
+            @Override
+            public void onMapReady(GoogleMap googleMap){}
+        });
     }
 
     @Override

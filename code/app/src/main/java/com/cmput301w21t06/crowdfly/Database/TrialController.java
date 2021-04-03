@@ -128,6 +128,15 @@ public class TrialController {
         }
 
     }
+
+    /**
+     * This returns the current trials
+     * @return
+     * This is the current trials
+     */
+    public ArrayList<Trial> getTrials(){
+        return trials;
+    }
     /**
      * This creates a new document in the database for the trial with the necessary data
      * @param trial
