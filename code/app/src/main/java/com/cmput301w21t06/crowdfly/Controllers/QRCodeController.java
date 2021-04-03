@@ -32,15 +32,7 @@ public class QRCodeController extends CodeController {
 
     @Override
     public QRCode generateCode(Trial trial) {
-        return new QRCode(trial, this.userID);
-    }
-
-    @Override
-    public Boolean saveCode(Bitmap bitmap, String path) {
-        // Save with location, value, bitmap returned and type of Image(JPG/PNG).
-        QRGSaver qrgSaver = new QRGSaver();
-        Boolean success = qrgSaver.save(path, "QRCODE_CROWDFLY", bitmap, QRGContents.ImageType.IMAGE_JPEG);
-        return success;
+        return new QRCode(trial.toHashMap(), this.userID);
     }
 
     @Override

@@ -7,8 +7,8 @@ import java.util.Map;
  */
 public class QRCode extends Barcode {
 
-    public QRCode(Trial trial, String ownerID) {
-        super(trial, ownerID);
+    public QRCode(Map<String, Object> trialData, String ownerID) {
+        super(trialData, ownerID);
     }
 
     public QRCode(Map<String, Object> data) {

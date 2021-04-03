@@ -12,11 +12,11 @@ import java.util.Map;
 public class Barcode {
     @DocumentId
     private String codeID;
-    private Trial trial;
+    private Map<String, Object> trialData;
     private String ownerID;
 
-    public Barcode(Trial trial, String ownerID) {
-        this.trial = trial;
+    public Barcode(Map<String, Object> trialData, String ownerID) {
+        this.trialData = trialData;
         this.ownerID = ownerID;
     }
 
@@ -26,7 +26,7 @@ public class Barcode {
      */
     public Barcode(Map<String, Object> data) {
         this.ownerID = (String) data.get("ownerID");
-        this.trial = new Trial((Map<String, Object>) data.get("trial"));
+        this.trialData = (Map<String, Object>) data.get("trial");
     }
 
     /**
@@ -35,6 +35,10 @@ public class Barcode {
      */
     public void setCodeID(String codeID) {
         this.codeID = codeID;
+    }
+
+    public Map<String, Object> getTrialData() {
+        return trialData;
     }
 
     /**
@@ -52,7 +56,7 @@ public class Barcode {
     public Map<String, Object> toHashMap() {
         Map<String, Object> code = new HashMap<>();
         code.put("ownerID", this.ownerID);
-        code.put("trial", this.trial.toHashMap());
+        code.put("trial", this.trialData);
         return code;
     }
 

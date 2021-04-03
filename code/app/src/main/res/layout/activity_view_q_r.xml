@@ -38,12 +38,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/generateQRButton" />
 
-    <Button
-        android:id="@+id/registerBarcodeButton"
-        style="@style/menuButtons"
-        android:text="@string/register_barcode"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanQRButton" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

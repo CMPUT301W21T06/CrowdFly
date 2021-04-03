@@ -12,7 +12,6 @@ import com.cmput301w21t06.crowdfly.R;
 
 public class ViewQRActivity extends AppCompatActivity {
     private Button scanCode;
-    private Button registerCode;
     private Button generateCode;
 
     @Override
@@ -20,7 +19,6 @@ public class ViewQRActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_q_r);
         scanCode = findViewById(R.id.scanQRButton);
-        registerCode = findViewById(R.id.registerBarcodeButton);
         generateCode = findViewById(R.id.generateQRButton);
         setup();
     }
@@ -34,14 +32,6 @@ public class ViewQRActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ViewQRActivity.this, ScanCodeActivity.class);
-                addExperimentID(intent, experimentID);
-                startActivity(intent);
-            }
-        });
-        registerCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ViewQRActivity.this, RegisterBarcodeActivity.class);
                 addExperimentID(intent, experimentID);
                 startActivity(intent);
             }

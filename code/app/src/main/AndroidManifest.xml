@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cmput301w21t06.crowdfly">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.CAMERA"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +13,6 @@
         android:theme="@style/Theme.CrowdFly"
         android:usesCleartextTraffic="true">
         <activity android:name=".Views.ScanCodeActivity"></activity>
-        <activity android:name=".Views.RegisterBarcodeActivity" />
         <activity android:name=".Views.GenerateQRActivity" />
         <activity android:name=".Views.QuestionThreadActivity" />
         <activity android:name=".Views.AskQuestionActivity" />
