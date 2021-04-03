@@ -60,6 +60,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Button qrButton;
     private Button subButton;
     private Button endButton;
+    private Button statButton;
     private Spinner dropdown;
     private DropdownAdapter dropAdapter;
     static int entry_pos;
@@ -93,6 +94,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
         trialArrayList = trialLog.getTrials();
 
+
         questionButton = findViewById(R.id.questionButton);
 
         currentExperiment.getTrialController().getExperimenterIds(this);
@@ -124,10 +126,24 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
+        statButton = findViewById(R.id.statisticButton);
         qrButton = findViewById(R.id.QRButton);
         addButton = findViewById(R.id.addButton);
         questionButton = findViewById(R.id.questionButton);
         subButton = findViewById(R.id.subButton);
+
+        statButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewTrialLogActivity.this, ViewStatisticActivity.class);
+                intent.putExtra("trialType", trialType);
+                intent.putExtra("expID", String.valueOf(expID));
+                startActivity(intent);
+
+            }
+        });
+
+
         subButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

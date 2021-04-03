@@ -120,9 +120,6 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-
                 if(trialType.equals("binomial")){
                     BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures, "", userID);
                     exp.getTrialController().addTrialData(trialAdd, expID);
