@@ -112,7 +112,7 @@ public class NewTrialFragment extends DialogFragment {
                     if (count.length() != 0) {
                         countInt = Integer.parseInt(count);
                     }
-                    listener.onOkPressed(new CountTrial(description, countInt, "", userID));
+                    listener.onOkPressed(new CountTrial(description, countInt, "", "", userID));
                 }
             });
         } else if (layout == R.layout.activity_edit_binomial_trial_fragment) {
@@ -135,7 +135,7 @@ public class NewTrialFragment extends DialogFragment {
                         failuresInt = Integer.parseInt(failures);
                     }
                     String description = descriptionTextView.getText().toString();
-                    listener.onOkPressed(new BinomialTrial(description, successesInt, failuresInt, "", userID));
+                    listener.onOkPressed(new BinomialTrial(description, successesInt, failuresInt, "", "", userID));
                 }
             });
         }

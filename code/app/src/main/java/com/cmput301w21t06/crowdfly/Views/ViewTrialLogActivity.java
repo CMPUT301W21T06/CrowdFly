@@ -132,10 +132,16 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 if (isCodeScanningAvailable()) {
                     Toaster.makeToast(ViewTrialLogActivity.this, "This feature is not available for experiments with this trial type");
                 }
-                else {
+                else if(!currentExperiment.getStillRunning()){
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                }
+                else if(subscribed || isOwner){
                     Intent intent = new Intent(ViewTrialLogActivity.this, ViewQRActivity.class);
                     intent.putExtra("expID", expID);
                     startActivity(intent);
+                }
+                else {
+                    Toaster.makeToast(ViewTrialLogActivity.this,"Please subscribe to the experiment to use this feature");
                 }
             }
 

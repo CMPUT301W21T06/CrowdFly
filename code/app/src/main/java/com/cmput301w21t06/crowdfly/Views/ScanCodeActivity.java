@@ -70,8 +70,8 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
     public static final String CANCEL = "Cancel";
     public static final String PROCEED = "Proceed";
     private final BarcodeScanner scanner = BarcodeScanning.getClient(); // Library to parse barcodes from images
-    String userID;
-    CollectionReference codesCollectionReference;
+    private String userID;
+    private CollectionReference codesCollectionReference;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private PreviewView previewView;
     private Experiment currentExperiment;
@@ -84,10 +84,10 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
         setContentView(R.layout.activity_scan_code);
         Button uploadButton = findViewById(R.id.uploadButton);
         previewView = findViewById(R.id.viewFinder);
+        userID = FirebaseAuth.getInstance().getUid();
         String codesCollectionPath = CrowdFlyFirestorePaths.codes(userID);
         FirebaseFirestore db = GodController.getDb();
         codesCollectionReference = db.collection(codesCollectionPath);
-        userID = FirebaseAuth.getInstance().getUid();
         String experimentID = getIntent().getStringExtra("experimentID");
         ExperimentController.getExperimentData(experimentID, new CrowdFlyListeners.OnDoneGetExpListener() {
             @Override
@@ -227,7 +227,6 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
 
                 String type = getCodeType(barcode);
 
-                String userID = FirebaseAuth.getInstance().getUid();
                 AlertDialog.Builder builder = getDetectedAlertDialogBuilder(barcode, type);
                 builder.setNegativeButton(CANCEL, (dialog, which) -> {
                     imageProxy.close(); // Continue detection
@@ -334,6 +333,7 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
     public void onOkPressed(BinomialTrial trial) {
         if (trial != null) {
             currentExperiment.getTrialController().addTrialData(trial, currentExperiment.getExperimentId());
+            Toaster.makeToast(ScanCodeActivity.this, "Trial added successfully!");
         }
 
         lastListener.onFinishProcess();
@@ -344,6 +344,7 @@ public class ScanCodeActivity extends AppCompatActivity implements NewTrialFragm
     public void onOkPressed(CountTrial trial) {
         if (trial != null) {
             currentExperiment.getTrialController().addTrialData(trial, currentExperiment.getExperimentId());
+            Toaster.makeToast(ScanCodeActivity.this, "Trial added successfully!");
         }
         lastListener.onFinishProcess();
         lastListener = null;
