@@ -42,35 +42,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.032" />
 
-        <EditText
-            android:id="@+id/regionEnforcedEditText"
-            android:layout_width="315dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="44dp"
+        <TextView
+            android:id="@+id/regionText"
+            android:layout_width="307dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="100dp"
             android:width="300sp"
             android:height="40dp"
             android:background="@null"
-            android:hint="Region Enforced:"
-            android:textColor="@color/black"
-            android:textColorHint="#070707"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
-
-        <EditText
-            android:id="@+id/regionTypeEditText"
-            android:layout_width="315dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="44dp"
-            android:width="300sp"
-            android:height="40dp"
-            android:background="@null"
-            android:hint="Region Type:"
+            android:hint="Region..."
             android:textColor="@color/black"
             android:textColorHint="#0C0C0C"
+            android:textSize="20dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regionEnforcedEditText" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
 
         <Button
             android:id="@+id/newTrialAddButton"
@@ -98,7 +84,7 @@
             android:textSize="10dp"
             app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/regionTypeEditText"
+            app:layout_constraintTop_toBottomOf="@+id/regionText"
             app:layout_constraintVertical_bias="1.0"
             tools:ignore="MissingConstraints" />
 

@@ -13,7 +13,7 @@ public class TrialTest {
 
     private Trial mockTrial(){
         String description = "mocktrial";
-        Trial trial = new Trial(description,"","");
+        Trial trial = new Trial(description,"","","1,0");
         return trial;
     }
     private String userID = "userTestID";
@@ -47,6 +47,7 @@ public class TrialTest {
         data.put("trialID", "testID");
         data.put("experimenter", "expID");
         data.put("description", "testDescription");
+        data.put("region","testregion");
         Trial trial = new Trial(data);
         trial.setExperimenterID("expID");
         assertEquals(data, trial.toHashMap());
