@@ -110,8 +110,9 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         drawerLayout = findViewById(R.id.drawer_trials);
         navigationView = findViewById(R.id.nav_view_trials);
         toolbar = findViewById(R.id.toolbar_trails);
-
+        toolbar.setTitle("CrowdFly");
         setSupportActionBar(toolbar);
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -214,12 +215,12 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     if(isOwner){
                         if(!currentExperiment.getStillRunning()){
                             currentExperiment.setStillRunning(true);
-                            endButton.setText("Start");
+                            endButton.setText("Publish");
                         }
                         else {
                             if (currentExperiment.canEnd()) {
                                 currentExperiment.setStillRunning(false);
-                                endButton.setText("End");
+                                endButton.setText("Unpublish");
                             }
                             else{
                                 Toaster.makeCrispyToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
@@ -461,10 +462,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         this.isOwner = this.currentExperiment.getOwnerID().equals(FirebaseAuth.getInstance().getUid());
         if(currentExperiment.getStillRunning()){
 
-            endButton.setText("End");
+            endButton.setText("Publish");
         }
         else{
-            endButton.setText("Start");
+            endButton.setText("Unpublish");
         }
     }
 
