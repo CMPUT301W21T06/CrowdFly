@@ -16,12 +16,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/bluejay"
-            android:theme="?attr/actionBarTheme"
             android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/menu"/>
+            app:navigationIcon="@drawable/menu" />
 
         <TextView
             android:id="@+id/experiment_log_text"
@@ -67,17 +67,15 @@
 
         <Button
             android:id="@+id/experiment_add"
-            android:layout_width="143dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="132dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="56dp"
+            android:layout_width="306dp"
+            android:layout_height="49dp"
             android:backgroundTint="@color/bluejay"
             android:text="Add experiment"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/experiment_search"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.268" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

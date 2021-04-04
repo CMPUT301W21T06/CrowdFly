@@ -92,15 +92,16 @@
             app:layout_constraintTop_toBottomOf="@+id/descriptionBox"
             app:layout_constraintVertical_bias="0.108" />
 
-        <EditText
-            android:id="@+id/region_edit_text"
-            android:layout_width="251dp"
+        <Button
+            android:id="@+id/addRegionButton"
+            android:layout_width="257dp"
             android:layout_height="45dp"
             android:layout_marginTop="90dp"
             android:ems="10"
-            android:hint="Region..."
+            android:hint="@string/regionButton"
             android:inputType="textPersonName"
-            android:textColorHint="#0B0A0A"
+            android:textColorHint="#FDF9F9"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
@@ -117,7 +118,7 @@
             android:textColorHint="#0E0E0E"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/region_edit_text" />
+            app:layout_constraintTop_toBottomOf="@+id/addRegionButton" />
 
         <EditText
             android:id="@+id/descriptionBox"
@@ -147,7 +148,7 @@
             android:textOff="No"
             android:textOn="Yes"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/region_edit_text"
+            app:layout_constraintBottom_toTopOf="@+id/addRegionButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/newTrialTitle"

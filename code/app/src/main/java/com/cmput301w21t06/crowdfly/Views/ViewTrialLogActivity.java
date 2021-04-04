@@ -83,6 +83,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Experiment currentExperiment;
     private User currentUser;
     private Boolean isOwner = false;
+    private String trialIDAtAddPos = null;
     Trial reviewedTrial;
     ArrayList<String> filters;
     DrawerLayout drawerLayout;
@@ -107,7 +108,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         setUpList();
         UserController.getUserProfile(UserController.reverseConvert(FirebaseAuth.getInstance().getUid()), this);
         //setup the data
-        setupData();
+        reset();
 
         drawerLayout = findViewById(R.id.drawer_trials);
         navigationView = findViewById(R.id.nav_view_trials);
@@ -282,7 +283,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     Trial deleteTrial = (Trial) parent.getAdapter().getItem(position);
                     String trialIDAtPos = deleteTrial.getTrialID();
                     currentExperiment.getTrialController().removeTrialData(trialIDAtPos);
-                    currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this, filters);
+                    reset();
                     changeVisibility();
                 }
                 else {
@@ -307,8 +308,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         EditBinomialTrialFragment editBinomialTrialFragment = new EditBinomialTrialFragment();
                         entry_pos = i;
                         Trial btrial = (Trial) adapterView.getAdapter().getItem(i);
-                        String trialIDAtPos = btrial.getTrialID();
-                        currentExperiment.getTrialController().getTrial(trialIDAtPos, ViewTrialLogActivity.this);
+                        trialIDAtAddPos = btrial.getTrialID();
+                        currentExperiment.getTrialController().getTrial(trialIDAtAddPos, ViewTrialLogActivity.this);
                         editBinomialTrialFragment.newInstance((BinomialTrial) reviewedTrial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
@@ -317,8 +318,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         entry_pos = i;
 
                         Trial ctrial = (Trial) adapterView.getAdapter().getItem(i);
-                        String trialIDAtPos = ctrial.getTrialID();
-                        currentExperiment.getTrialController().getTrial(trialIDAtPos, ViewTrialLogActivity.this);
+                        trialIDAtAddPos = ctrial.getTrialID();
+                        currentExperiment.getTrialController().getTrial(trialIDAtAddPos, ViewTrialLogActivity.this);
                         editCountTrialFragment.newInstance((CountTrial) reviewedTrial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
@@ -326,8 +327,8 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                         EditMeasureTrialFragment editMeasureTrialFragment = new EditMeasureTrialFragment();
                         entry_pos = i;
                         Trial mtrial = (Trial) adapterView.getAdapter().getItem(i);
-                        String trialIDAtPos = mtrial.getTrialID();
-                        currentExperiment.getTrialController().getTrial(trialIDAtPos, ViewTrialLogActivity.this);
+                        trialIDAtAddPos = mtrial.getTrialID();
+                        currentExperiment.getTrialController().getTrial(trialIDAtAddPos, ViewTrialLogActivity.this);
                         editMeasureTrialFragment.newInstance((MeasurementTrial) reviewedTrial).show(getSupportFragmentManager(), "EDIT TEXT");
 
                     }
@@ -386,43 +387,49 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         }
     }
 
-    private void setupData(){
-
-
-        // get all experiment data from firestore
+    private void reset(){
         currentExperiment.getTrialController().getTrialLogData(this, filters);
-
-
+        currentExperiment.getTrialController().getExperimenterIds(this);
     }
+
+//    private void setupData(){
+//
+//
+//        // get all experiment data from firestore
+//        currentExperiment.getTrialController().getTrialLogData(this, filters);
+//
+//
+//    }
     private void setUpList(){
         listView = findViewById(R.id.trialListView);
         adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials(),trialType,expID);
         listView.setAdapter(adapter);
     }
 
+    public void  handleOk(Trial trial){
+        if (trial != null){
+            if (trialIDAtAddPos != null){
+                trial.setTrialID(trialIDAtAddPos);
+                trialIDAtAddPos = null;
+            }
+            currentExperiment.getTrialController().setTrialData(trial,currentExperiment.getExperimentId());
+            reset();
+        }
+    }
     @Override
     public void onOkPressed(BinomialTrial btrial){
-        if(btrial!=null){
-            this.trialLog.set(entry_pos, btrial);
-            setUpList();
-        }
+        handleOk(btrial);
     }
 
 
     @Override
     public void onOkPressed(CountTrial ctrial) {
-        if(ctrial!=null){
-            this.trialLog.set(entry_pos, ctrial);
-            setUpList();
-        }
+        handleOk(ctrial);
     }
 
     @Override
     public void onOkPressed(MeasurementTrial mtrial) {
-        if(mtrial!=null) {
-            this.trialLog.set(entry_pos, mtrial);
-            setUpList();
-        }
+        handleOk(mtrial);
     }
 
 
@@ -455,7 +462,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        setupData();
+        reset();
     }
 
     @Override
@@ -489,8 +496,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                 Log.d("NEW TRIAL RESULT", "Cancelled adding a new trial");
             }
         }
-        currentExperiment.getTrialController().getTrialLogData(this, filters);
-        currentExperiment.getTrialController().getExperimenterIds(this);
+        reset();
 
     }
 

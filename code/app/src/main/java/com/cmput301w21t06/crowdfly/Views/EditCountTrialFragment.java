@@ -28,8 +28,7 @@ public class EditCountTrialFragment extends DialogFragment {
     private String loc;
 
     private EditText count, description;
-    private EditCountTrialFragment.OnFragmentInteractionListener listener;
-
+    private OnFragmentInteractionListener listener;
     public interface OnFragmentInteractionListener {
         void onOkPressed(CountTrial trial);
     }
@@ -37,8 +36,8 @@ public class EditCountTrialFragment extends DialogFragment {
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
-        if (context instanceof EditCountTrialFragment.OnFragmentInteractionListener){
-            listener = (EditCountTrialFragment.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener){
+            listener = (OnFragmentInteractionListener) context;
         }else{
             throw new RuntimeException(context.toString() + " must implement OnFragListner");
         }
