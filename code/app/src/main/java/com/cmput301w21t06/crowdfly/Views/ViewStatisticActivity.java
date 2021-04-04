@@ -15,6 +15,12 @@ import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
+import android.os.Bundle;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +29,7 @@ import java.util.Collections;
  * This will be used to show the statistics screen
  * Required statistics implemented
  * Results of trials/over time yet to be implemented
- * Histogram of trials yet to be implemented
+ * Histogram of trials has now been implemented
  */
 public class ViewStatisticActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener,CrowdFlyListeners.OnDoneGetTrialsListener {
     public String trialType;
@@ -41,6 +47,8 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     public TextView sdTextView;
     public TextView minTextView;
     public TextView maxTextView;
+    public BarChart barChart;
+    final String notApplicableMsg = "NA";
 
 
     @Override
@@ -48,6 +56,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_statistic);
 
+        barChart = findViewById(R.id.barchart);
         firstQuartileTextView = findViewById(R.id.sFirstQuartile);
         thirdQuartileTextView = findViewById(R.id.sThirdQuartile);
         medianTextView = findViewById(R.id.sMedian);
@@ -55,40 +64,82 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         sdTextView = findViewById(R.id.sStdDev);
         minTextView = findViewById(R.id.sMinimum);
         maxTextView = findViewById(R.id.sMaximum);
-        final String notApplicableMsg = "NA";
-
 
         expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID,this);
         trialLog.getTrials();
 
-        if (!trialArrayList.isEmpty()){
-            double mean = mean(trialArrayList);
-            double median = median(trialArrayList);
-            double max = max(trialArrayList);
-            double min = min(trialArrayList);
-            double firstQuartile = firstQuartile(trialArrayList);
-            double thirdQuartile = thirdQuartile(trialArrayList);
-            double sd = standardDeviation(trialArrayList);
-
-            medianTextView.setText(String.valueOf(median));
-            meanTextView.setText(String.valueOf(mean));
-            sdTextView.setText(String.valueOf(sd));
-            minTextView.setText(String.valueOf(min));
-            maxTextView.setText(String.valueOf(max));
-
-            if (firstQuartile == -1) {
-                firstQuartileTextView.setText(notApplicableMsg);
-                thirdQuartileTextView.setText(notApplicableMsg);
-            }
-            else{
-                firstQuartileTextView.setText(String.valueOf(firstQuartile));
-                thirdQuartileTextView.setText(String.valueOf(thirdQuartile));
-            }
-
+        if (trialArrayList.isEmpty()){
+            setNotApplicableMessages(notApplicableMsg);
         }
         else{
+            displayStats();
+            displayHistogram();
+        }
+
+    }
+    /**
+     * This method displays the statistical information in respect to its current trials
+     */
+    private void displayStats(){
+
+        double mean = mean(trialArrayList);
+        double median = median(trialArrayList);
+        if (median == -1){
             setNotApplicableMessages(notApplicableMsg);
+            return;
+        }
+
+        double max = max(trialArrayList);
+        double min = min(trialArrayList);
+        double firstQuartile = firstQuartile(trialArrayList);
+        double thirdQuartile = thirdQuartile(trialArrayList);
+        double sd = standardDeviation(trialArrayList);
+
+
+        medianTextView.setText(String.valueOf(median));
+        meanTextView.setText(String.valueOf(mean));
+        sdTextView.setText(String.valueOf(sd));
+        minTextView.setText(String.valueOf(min));
+        maxTextView.setText(String.valueOf(max));
+
+        if (firstQuartile == -1) {
+            firstQuartileTextView.setText(notApplicableMsg);
+            thirdQuartileTextView.setText(notApplicableMsg);
+        }
+        else{
+            firstQuartileTextView.setText(String.valueOf(firstQuartile));
+            thirdQuartileTextView.setText(String.valueOf(thirdQuartile));
+        }
+
+    }
+    /**
+     * This method displays the histogram in respect to its current trials
+     */
+    private void displayHistogram(){
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        BarDataSet bardataset = new BarDataSet(entries, "Cells");
+        ArrayList<String> labels = new ArrayList<String>();
+        ArrayList<Double> barChartTrials = getTrialList(this.trialType,trialArrayList);
+
+        System.out.println(barChartTrials);
+
+        if (barChartTrials.isEmpty()){
+            barChart.removeAllViews();
+        }
+        else {
+
+            for (int i = 0; i < barChartTrials.size(); i++) {
+                float x = barChartTrials.get(i).floatValue();
+                System.out.println(x);
+                entries.add(new BarEntry(x, i));
+                labels.add("Trial " + i);
+            }
+            BarData data = new BarData(labels, bardataset);
+            barChart.setData(data); // set the data and list of labels into chart
+            barChart.setDescription(trialType.toUpperCase() + " TRIALS");  // set the description
+            barChart.animateY(2000);
         }
     }
     /**
@@ -173,7 +224,11 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         int length = trialArrayList.size();
 
         ArrayList<Double> trials = getTrialList(this.trialType,trialArrayList);
+        System.out.println("THIS ONE"+trials);
         Collections.sort(trials);
+
+        if (trials.isEmpty())
+            return -1;
 
         if (length % 2 !=0)
             return trials.get(length / 2);

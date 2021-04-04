@@ -206,25 +206,34 @@
             app:layout_constraintStart_toEndOf="@+id/titleStdDev"
             app:layout_constraintTop_toBottomOf="@+id/sMean" />
 
-        <ImageView
-            android:id="@+id/histogram"
-            android:layout_width="234dp"
-            android:layout_height="156dp"
-            android:layout_marginStart="92dp"
-            android:layout_marginTop="192dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="404dp"
+            android:layout_height="472dp"
+            android:layout_marginTop="75dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sStdDev"
-            tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />
+            app:layout_constraintTop_toBottomOf="@+id/titleQuartiles5"
+            app:layout_constraintVertical_bias="1.0"
+            tools:context="Android.in.barchart.MainActivity">
 
-        <ImageView
-            android:id="@+id/forecastedData"
-            android:layout_width="402dp"
-            android:layout_height="270dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="28dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/histogram"
-            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barchart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
