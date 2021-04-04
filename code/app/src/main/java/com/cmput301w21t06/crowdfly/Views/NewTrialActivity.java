@@ -227,10 +227,12 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
     @Override
     public void onOkPressed(BinomialTrial trial) {
         Log.d("NEW TRIAL", "onOkPressed BinomialTrial version");
-        newTrialDescription = ((BinomialTrial) trial).getDescription();
-        newTrialSuccesses = ((BinomialTrial) trial).getSuccesses();
-        newTrialFailures = ((BinomialTrial) trial).getFailures();
-        buttonBinomial.setBackgroundColor(Color.BLUE);
+        if (trial != null) {
+            newTrialDescription = ((BinomialTrial) trial).getDescription();
+            newTrialSuccesses = ((BinomialTrial) trial).getSuccesses();
+            newTrialFailures = ((BinomialTrial) trial).getFailures();
+            buttonBinomial.setBackgroundColor(Color.BLUE);
+        }
     }
 
     /**
@@ -242,10 +244,12 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
     // CountTrial onOkPressed
     @Override
     public void onOkPressed(CountTrial trial) {
-        Log.d("NEW TRIAL","onOkPressed CountTrial version");
-        newTrialDescription = ((CountTrial) trial).getDescription();
-        newTrialCount = ((CountTrial) trial).getCount();
-        buttonCount.setBackgroundColor(Color.BLUE);
+        if (trial != null) {
+            Log.d("NEW TRIAL", "onOkPressed CountTrial version");
+            newTrialDescription = ((CountTrial) trial).getDescription();
+            newTrialCount = ((CountTrial) trial).getCount();
+            buttonCount.setBackgroundColor(Color.BLUE);
+        }
     }
 
     /**
@@ -257,10 +261,12 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
     // Measurement onOkPressed
     @Override
     public void onOkPressed(MeasurementTrial trial) {
-        Log.d("NEW TRIAL","onOkPressed MeasurementTrial Version");
-        newTrialDescription = ((MeasurementTrial) trial).getDescription();
-        newTrialMeasurement = ((MeasurementTrial) trial).getMeasurement();
-        buttonMeasure.setBackgroundColor(Color.BLUE);
+        if (trial != null) {
+            Log.d("NEW TRIAL", "onOkPressed MeasurementTrial Version");
+            newTrialDescription = ((MeasurementTrial) trial).getDescription();
+            newTrialMeasurement = ((MeasurementTrial) trial).getMeasurement();
+            buttonMeasure.setBackgroundColor(Color.BLUE);
+        }
     }
 
     @Override
