@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
@@ -28,6 +30,7 @@ import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditMeasureTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
@@ -51,6 +54,9 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
     public String expID;
     public Experiment exp;
     private String userID = FirebaseAuth.getInstance().getUid();
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,21 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
         buttonBinomial = findViewById(R.id.binTrial);
         buttonMeasure = findViewById(R.id.measureTrial);
         buttonCount = findViewById(R.id.countTrial);
+
+        drawerLayout = findViewById(R.id.drawer_addTrial);
+        navigationView = findViewById(R.id.nav_view_add_trial);
+        toolbar = findViewById(R.id.toolbar_add_trial);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
+                startActivity(intent1);
+            }
+        });
 
 
         expID = getIntent().getStringExtra("expID");

@@ -6,6 +6,7 @@ package com.cmput301w21t06.crowdfly.Views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,8 +14,12 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Controllers.DropdownAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
@@ -29,6 +34,7 @@ import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -47,10 +53,13 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         CrowdFlyListeners.OnDoneGetUserListener,
         CrowdFlyListeners.OnDoneGetTrialListener,
         CrowdFlyListeners.OnDoneGetExperimenterIdsListener,
-        Toaster
-{
+
+        Toaster,
+        NavigationView.OnNavigationItemSelectedListener {
+
     private final String SELECTION = "COM.CMPUT301W21T06.CROWDFLY.MAP.ALL";
     private final String EXP = "COM.CMPUT301W21T06.CROWDFLY.MAP.EXP";
+
     public static final String EXPERIMENT_IS_NO_LONGER_ACTIVE = "This experiment is no longer active.";
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private ListView listView;
@@ -74,6 +83,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Boolean isOwner = false;
     Trial reviewedTrial;
     ArrayList<String> filters;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+    private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +106,21 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         UserController.getUserProfile(UserController.reverseConvert(FirebaseAuth.getInstance().getUid()), this);
         //setup the data
         setupData();
+
+        drawerLayout = findViewById(R.id.drawer_trials);
+        navigationView = findViewById(R.id.nav_view_trials);
+        toolbar = findViewById(R.id.toolbar_trails);
+
+        setSupportActionBar(toolbar);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+        View headerView = navigationView.getHeaderView(0);
+        TextView navUserId = (TextView) headerView.findViewById(R.id.userFBID);
+        navUserId.setText(currentUser.getUserID());
 
         trialArrayList = trialLog.getTrials();
 
@@ -458,5 +486,25 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         ids.add(0,"Filter Experimenter...");
         dropAdapter = new DropdownAdapter(this, R.layout.general_content,ids);
         dropdown.setAdapter(dropAdapter);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.hamHome:
+                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.hamAccount:
+                Intent intent = new Intent(getApplicationContext(), UserProfileActivity.class);
+                intent.putExtra(TAG, UserController.reverseConvert(currentUser.getUserID()));
+                startActivity(intent);
+                break;
+            case R.id.hamExperiment:
+                break;
+
+        }
+        return true;
     }
 }
