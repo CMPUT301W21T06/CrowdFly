@@ -33,17 +33,17 @@ Generating QR Code:
   4. Leads to a screen to input details
   5. On confirming details, generates a QR Code
 
-Using a QR Code:
+Using a QR Code or Barcode:
   1. Select an experiment from the experiment log
   2. Select QR button
-  3. Select Scan QR Code Button
-  4. Scan the QR Code
+  3. Select Scan Scan QR Code or Barcode Button
+  4. Scan the QR Code or Barcode
   5. Add the details
   
-Register a Bar Code:
+Register a Barcode:
   1. Select an experiment from the experiment log
   2. Select Scan QR Code or Barcode Button
-  3. Scan the bar code that you want to associate to an experiment trial
+  3. Scan the new barcode that you want to associate to an experiment trial
   4. Input trial details
   
 Generating Experiment Statistics:
