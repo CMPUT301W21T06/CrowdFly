@@ -485,6 +485,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             }
             if (resultCode == RESULT_CANCELED) {
                // Do nothing?
+                Log.d("NEW TRIAL RESULT", "Cancelled adding a new trial");
             }
         }
         currentExperiment.getTrialController().getTrialLogData(this, filters);
