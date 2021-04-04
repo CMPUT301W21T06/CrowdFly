@@ -120,8 +120,9 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
         switch (item.getItemId()){
 
             case R.id.hamHome:
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent1 = new Intent(this, MainActivity.class);
                 startActivity(intent1);
+                break;
             case R.id.hamAccount:
                 break;
             case R.id.hamExperiment:

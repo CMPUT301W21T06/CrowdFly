@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
                 intent.putExtra(TAG, UserController.reverseConvert(userID));
                 startActivity(intent);
+                break;
             case R.id.hamExperiment:
                 break;
 
