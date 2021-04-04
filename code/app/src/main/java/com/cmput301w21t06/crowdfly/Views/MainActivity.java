@@ -104,10 +104,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //startActivity(intent1);
                 break;
             case R.id.hamAccount:
+                drawerLayout.closeDrawers();
                 Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
                 intent.putExtra(TAG, UserController.reverseConvert(userID));
                 startActivity(intent);
+                break;
             case R.id.hamExperiment:
+                drawerLayout.closeDrawers();
+                Intent intent2 = new Intent(MainActivity.this, ViewExperimentLogActivity.class);
+                startActivity(intent2);
                 break;
 
         }
