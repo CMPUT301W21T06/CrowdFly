@@ -14,7 +14,8 @@
     <string name="ID">ID</string>
     <string name="Contact">Contact Information:</string>
     <string name="Done">DONE</string>
-    <string name="authButtonLoading">Generating...</string>
+    <string name="pickLocation">"Tap to Select a Location…"</string>
+    <string name="authButtonLoading">Generating…</string>
     <string name="authButtonSubtitleLoading">Please wait while we generate a new anonymous ID</string>
     <string name="authButton">Generate</string>
     <string name="authButtonSubtitle">Generate a new anonymous ID</string>

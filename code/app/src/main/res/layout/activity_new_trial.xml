@@ -75,7 +75,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/newTrialTitle" />
 
             <EditText
-                android:id="@+id/regionTypeEditText"
+                android:id="@+id/regionText"
                 android:layout_width="315dp"
                 android:layout_height="47dp"
                 android:layout_marginTop="24dp"
@@ -115,7 +115,7 @@
                 android:textSize="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/newTrialAddButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/regionTypeEditText"
+                app:layout_constraintTop_toBottomOf="@+id/regionText"
                 app:layout_constraintVertical_bias="1.0"
                 tools:ignore="MissingConstraints" />
 
@@ -154,11 +154,9 @@
         android:id="@+id/nav_view_add_trial"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+
         app:headerLayout="@layout/nav_header"
         android:layout_gravity="start"
         />
-
-
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

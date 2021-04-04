@@ -75,6 +75,7 @@
             app:layout_constraintHorizontal_bias="0.761"
             app:layout_constraintStart_toEndOf="@+id/addButton" />
 
+
         <Button
             android:id="@+id/addButton"
             android:layout_width="100sp"
@@ -122,6 +123,21 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.432"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/mapButton"
+            android:layout_width="106dp"
+            android:layout_height="54dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/bluejay"
+            android:text="Map"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/QRButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/addButton"
+            app:layout_constraintTop_toBottomOf="@+id/endButton"
+            app:layout_constraintVertical_bias="0.115" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

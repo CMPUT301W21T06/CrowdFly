@@ -15,7 +15,7 @@ public class MeasurementTrialTest {
     private MeasurementTrial mockMeasurementTrial(){
         String description = "mock count";
         int measurement = 3;
-        MeasurementTrial mockMTrial = new MeasurementTrial(description, measurement, "", "");
+        MeasurementTrial mockMTrial = new MeasurementTrial(description, measurement, "", "","1,0");
         return mockMTrial;
     }
 
@@ -39,6 +39,7 @@ public class MeasurementTrialTest {
         Map<String, Object> data = new HashMap<>();
         data.put("trialID", "testID");
         data.put("description", "testDescription");
+        data.put("region","1,0");
         data.put("experimenter", "ownerID");
         data.put("type", "Measurement");
         data.put("measurement", (double) 0);

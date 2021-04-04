@@ -39,9 +39,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     private ExperimentLog experimentLog;
     private ArrayList<Experiment> experimentsList;
     private final String userID = FirebaseAuth.getInstance().getUid();
-
     Button btnAddExperiment;
-    Button btnMap;
     Button btnSearch;
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
     DrawerLayout drawerLayout;
@@ -56,7 +54,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentsList = experimentLog.getExperiments();
         experimentListView = findViewById(R.id.experiment_list);
         btnAddExperiment = findViewById(R.id.experiment_add);
-        btnMap = findViewById(R.id.experiment_map);
         btnSearch = findViewById(R.id.experiment_search);
         expAdapter = new ExperimentAdapter(this, experimentsList);
         experimentListView.setAdapter(expAdapter);
@@ -111,11 +108,12 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                     ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
                 }
                 else{
-                    Toaster.makeToast(ViewExperimentLogActivity.this, "Only the owner may unpublish an experiment!");
+                    Toaster.makeCrispyToast(ViewExperimentLogActivity.this, "Only the owner may unpublish an experiment!");
                 }
                 return true;
             }
         });
+
     }
 
     @Override

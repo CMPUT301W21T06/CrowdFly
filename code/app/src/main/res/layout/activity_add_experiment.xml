@@ -96,7 +96,7 @@
             android:id="@+id/region_edit_text"
             android:layout_width="251dp"
             android:layout_height="45dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="90dp"
             android:ems="10"
             android:hint="Region..."
             android:inputType="textPersonName"
@@ -132,11 +132,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/min_trial_edit_text" />
 
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/regionSwitch"
+            android:layout_width="165dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:scaleX="1.7"
+            android:scaleY="1.7"
+            android:shadowColor="@color/bluejay"
+            android:text="Region Enforced:"
+            android:textColor="#121111"
+            android:textColorLink="#0C0C0C"
+            android:textOff="No"
+            android:textOn="Yes"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/region_edit_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newTrialTitle"
+            app:layout_constraintVertical_bias="1.0"
+            app:showText="true"
+            app:switchTextAppearance="@style/TextAppearance.AppCompat.Body2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view_add_exp"
         android:layout_width="wrap_content"
+
         android:layout_height="match_parent"
         app:headerLayout="@layout/nav_header"
         android:layout_gravity="start"

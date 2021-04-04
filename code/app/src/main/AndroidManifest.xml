@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cmput301w21t06.crowdfly">
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -15,7 +15,8 @@
         <activity android:name=".Views.QuestionThreadActivity" />
         <activity android:name=".Views.AskQuestionActivity" />
         <activity android:name=".Views.ViewQRActivity" />
-        <activity android:name=".Views.ViewLocationActivity" />
+        <activity android:name=".Views.ViewLocationActivity"
+            android:parentActivityName=".Views.NewTrialActivity"/>
         <activity
             android:name=".Views.searchUserActivity"
             android:label="@string/title_activity_search_user"
@@ -51,6 +52,11 @@
         <activity
             android:name=".Views.ViewExperimentLogActivity"
             android:parentActivityName=".Views.MainActivity" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAX1ye19C-XRncAnDdjYihwnyl48GIO5DA"/>
+        <service
+            android:name=".Views.ViewLocationActivity"
+            android:foregroundServiceType="location"  >
+        </service>
     </application>
 
 </manifest>

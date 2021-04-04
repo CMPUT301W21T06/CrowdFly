@@ -27,9 +27,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+//    plugins {
+//        id 'com.google.secrets_gradle_plugin' version '0.5'
+//    }
 }
 
 dependencies {
+    implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'androidx.wear:wear:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
