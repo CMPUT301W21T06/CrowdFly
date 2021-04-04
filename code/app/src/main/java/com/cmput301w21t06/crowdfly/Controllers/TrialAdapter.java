@@ -72,16 +72,6 @@ public class TrialAdapter extends ArrayAdapter<Trial> {
         //set variables to particular views
         TextView trialInfo = (TextView) convertView.findViewById(R.id.itemSuccesses);
         TextView desc = convertView.findViewById(R.id.itemDescription);
-        Button statbtn = convertView.findViewById(R.id.statButton);
-
-        statbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ViewStatisticActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
-        });
 
 
         // checking the exact type of the trial so it can correctly set the text boxes in the content in the list view

@@ -53,21 +53,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/statButton"
         app:layout_constraintStart_toEndOf="@+id/itemDescription"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/statButton"
-        android:layout_width="102dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
-        android:focusable="false"
-        android:backgroundTint="@color/lightbluejay"
-        android:text="STATS"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
