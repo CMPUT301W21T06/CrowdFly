@@ -7,9 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Views.ViewStatisticActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/textView2"
@@ -31,17 +32,65 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="16dp"
-            android:text="Quartiles:"
+            android:text="First Quartile"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <TextView
-            android:id="@+id/sQuartiles"
+            android:id="@+id/titleQuartiles2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="148dp"
+            android:text="Third Quartile: "
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/titleQuartiles3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="148dp"
+            android:text="Third Quartile: "
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/titleQuartiles4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="180dp"
+            android:text="Maximum"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/titleQuartiles5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="212dp"
+            android:text="Minimum"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/sFirstQuartile"
             android:layout_width="153dp"
             android:layout_height="26dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:text="_______________"
             android:textColor="#0B0A0A"
@@ -65,13 +114,13 @@
             android:id="@+id/sMedian"
             android:layout_width="153dp"
             android:layout_height="25dp"
-            android:layout_marginStart="27.8dp"
+            android:layout_marginStart="76dp"
             android:layout_marginTop="8dp"
             android:text="_______________"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
             app:layout_constraintStart_toEndOf="@+id/titleMedian"
-            app:layout_constraintTop_toBottomOf="@+id/sQuartiles" />
+            app:layout_constraintTop_toBottomOf="@+id/sFirstQuartile" />
 
         <TextView
             android:id="@+id/titleMean"
@@ -89,8 +138,8 @@
             android:id="@+id/sMean"
             android:layout_width="153dp"
             android:layout_height="25dp"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginStart="92dp"
+            android:layout_marginTop="8dp"
             android:text="_______________"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
@@ -113,38 +162,79 @@
             android:id="@+id/sStdDev"
             android:layout_width="153dp"
             android:layout_height="25dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="4dp"
             android:text="_______________"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
             app:layout_constraintStart_toEndOf="@+id/titleStdDev"
             app:layout_constraintTop_toBottomOf="@+id/sMean" />
 
-        <ImageView
-            android:id="@+id/histogram"
-            android:layout_width="402dp"
-            android:layout_height="270dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="44dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sStdDev"
-            tools:srcCompat="@tools:sample/backgrounds/scenic[4]" />
+        <TextView
+            android:id="@+id/sThirdQuartile"
+            android:layout_width="153dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="40dp"
+            android:text="_______________"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/titleStdDev"
+            app:layout_constraintTop_toBottomOf="@+id/sMean" />
 
-        <ImageView
-            android:id="@+id/forecastedData"
-            android:layout_width="402dp"
-            android:layout_height="270dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="28dp"
+        <TextView
+            android:id="@+id/sMaximum"
+            android:layout_width="153dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="72dp"
+            android:text="_______________"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/titleStdDev"
+            app:layout_constraintTop_toBottomOf="@+id/sMean" />
+
+        <TextView
+            android:id="@+id/sMinimum"
+            android:layout_width="153dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginTop="104dp"
+            android:text="_______________"
+            android:textColor="#0B0A0A"
+            android:textSize="20dp"
+            app:layout_constraintStart_toEndOf="@+id/titleStdDev"
+            app:layout_constraintTop_toBottomOf="@+id/sMean" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relativeLayout2"
+            android:layout_width="404dp"
+            android:layout_height="472dp"
+            android:layout_marginTop="75dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.533"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/histogram"
-            tools:srcCompat="@tools:sample/backgrounds/scenic[5]" />
+            app:layout_constraintTop_toBottomOf="@+id/titleQuartiles5"
+            app:layout_constraintVertical_bias="1.0"
+            tools:context="Android.in.barchart.MainActivity">
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barchart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </ScrollView>

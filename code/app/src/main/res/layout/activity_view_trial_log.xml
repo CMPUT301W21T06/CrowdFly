@@ -68,6 +68,17 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
+        android:id="@+id/statisticButton"
+        android:layout_width="100sp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="144dp"
+        android:layout_marginBottom="128dp"
+        android:backgroundTint="@color/bluejay"
+        android:text="STATS"
+        app:layout_constraintBottom_toTopOf="@+id/subButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/questionButton"
         android:layout_width="160dp"
         android:layout_height="39dp"
