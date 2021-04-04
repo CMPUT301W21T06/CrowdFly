@@ -109,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.hamExperiment:
+                Intent intent2 = new Intent(MainActivity.this, ViewExperimentLogActivity.class);
+                startActivity(intent2);
                 break;
 
         }

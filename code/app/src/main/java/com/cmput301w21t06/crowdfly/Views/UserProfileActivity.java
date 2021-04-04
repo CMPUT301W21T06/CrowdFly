@@ -126,6 +126,8 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
             case R.id.hamAccount:
                 break;
             case R.id.hamExperiment:
+                Intent intent2 = new Intent(this, ViewExperimentLogActivity.class);
+                startActivity(intent2);
                 break;
 
         }
