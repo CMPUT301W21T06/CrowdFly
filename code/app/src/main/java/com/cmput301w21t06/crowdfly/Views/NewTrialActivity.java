@@ -3,6 +3,7 @@
 
 package com.cmput301w21t06.crowdfly.Views;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
+import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
@@ -32,6 +34,8 @@ import com.cmput301w21t06.crowdfly.Views.EditMeasureTrialFragment;
 import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.HashMap;
 
 /**
  * this is an activity that adds a new trial to the Listview in the Trial log
@@ -42,7 +46,7 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
     private final String LATITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LAT";
     private final String LONGITUDE = "COM.CMPUT301W21T06.CROWDFLY.MAP.LONG";
     private final int lCode = 0;
-    Double latitude,longitude;
+    private Double latitude,longitude;
     private EditText trialDesc, successes, failures;
     private TextView region;
     private Button addButton, buttonBinomial, buttonMeasure, buttonCount, buttonCancel;
@@ -54,9 +58,9 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
     public String expID;
     public Experiment exp;
     private String userID = FirebaseAuth.getInstance().getUid();
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,8 +87,8 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
-                startActivity(intent1);
+                setResult(RESULT_CANCELED, null);
+                finish();
             }
         });
 
@@ -118,6 +122,7 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_CANCELED, null);
                 finish();
             }
         });
@@ -164,24 +169,33 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
                 if (!forceRegion || (forceRegion && !String.valueOf(region.getText()).matches(""))) {
                     if (trialType.equals("binomial")) {
                         BinomialTrial trialAdd = new BinomialTrial(newTrialDescription, newTrialSuccesses, newTrialFailures, "", userID, getRegion());
-                        exp.getTrialController().addTrialData(trialAdd, expID);
+                        returnTrial(trialAdd);
                     }
-                    if (trialType.equals("count")) {
+                    else if (trialType.equals("count")) {
                         CountTrial trialAdd = new CountTrial(newTrialDescription, newTrialCount, "", userID,getRegion());
-                        exp.getTrialController().addTrialData(trialAdd, expID);
+                        returnTrial(trialAdd);
                     }
-                    if (trialType.equals("measurement")) {
+                    else if (trialType.equals("measurement")) {
                         MeasurementTrial trialAdd = new MeasurementTrial(newTrialDescription, newTrialMeasurement, "", userID,getRegion());
-                        exp.getTrialController().addTrialData(trialAdd, expID);
+                        returnTrial(trialAdd);
+                    }
+                    else {
+                        setResult(RESULT_CANCELED, null);
                     }
                     finish();
                 }
-                else{
+                else {
                     Toaster.makeCrispyToast(NewTrialActivity.this,"Region was enforced by the experimenter creator and one has not been entered! ");
                 }
             }
         });
 
+    }
+
+    private void returnTrial(Trial trialAdd) {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("trialData", new HashMap<String,Object>(trialAdd.toHashMap()));
+        setResult(RESULT_OK, returnIntent);
     }
 
     @Override

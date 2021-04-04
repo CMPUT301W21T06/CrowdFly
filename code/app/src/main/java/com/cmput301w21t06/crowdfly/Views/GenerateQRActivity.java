@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cmput301w21t06.crowdfly.Controllers.CodeController;
@@ -22,25 +23,24 @@ import com.cmput301w21t06.crowdfly.Models.Barcode;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.QRCode;
 import com.cmput301w21t06.crowdfly.Models.Trial;
+import com.cmput301w21t06.crowdfly.Models.TrialFactory;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
 
-public class GenerateQRActivity extends AppCompatActivity implements
-        CrowdFlyListeners.OnDoneGetExpListener, NewTrialFragment.OnNewTrialListener,
-        CodeController.OnDoneRegisteredCodeListener {
-    Experiment currentExperiment;
-    String userID;
-    NewTrialFragment newTrialFragment;
-    Button generateQRButton;
-    Button saveToCamera;
-    ImageView qrCodeImageView;
-    Bitmap qrCodeBitmap;
-
-    QRCodeController qrCodeController;
+public class GenerateQRActivity extends AppCompatActivity
+        implements CrowdFlyListeners.OnDoneGetExpListener, CodeController.OnDoneRegisteredCodeListener {
+    private Experiment currentExperiment;
+    private String userID;
+    private Button generateQRButton;
+    private Button saveToCamera;
+    private ImageView qrCodeImageView;
+    private Bitmap qrCodeBitmap;
+    private QRCodeController qrCodeController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +56,12 @@ public class GenerateQRActivity extends AppCompatActivity implements
         generateQRButton = findViewById(R.id.generate);
         saveToCamera = findViewById(R.id.saveToCamera);
         qrCodeImageView = findViewById(R.id.qrCode);
+        generateQRButton.setClickable(true);
         generateQRButton.setOnClickListener(v -> {
-            newTrialFragment.show(getSupportFragmentManager(), "Add Trial Result");
+            Intent intent = new Intent(getApplicationContext(), NewTrialActivity.class);
+            intent.putExtra("trialType", currentExperiment.getType());
+            intent.putExtra("expID", currentExperiment.getExperimentId());
+            startActivityForResult(intent, 0);
             generateQRButton.setText(R.string.generating);
             generateQRButton.setClickable(false);
         });
@@ -67,7 +71,8 @@ public class GenerateQRActivity extends AppCompatActivity implements
             Intent dataIntent = new Intent(Intent.ACTION_SEND); // Opens send menu
             ByteArrayOutputStream bytesBuffer = new ByteArrayOutputStream();
             qrCodeBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytesBuffer);
-            String filePath = MediaStore.Images.Media.insertImage(this.getContentResolver(), qrCodeBitmap, "QRCODE", "Scan to add the associated trial data");
+            String filePath = MediaStore.Images.Media.insertImage(this.getContentResolver(), qrCodeBitmap, "QRCODE",
+                    "Scan to add the associated trial data");
             Uri data = Uri.parse(filePath);
             dataIntent.setData(data);
 
@@ -86,17 +91,30 @@ public class GenerateQRActivity extends AppCompatActivity implements
     public void onDoneGetExperiment(Experiment experiment) {
         currentExperiment = experiment;
         // Add some logic for view page after loading experiment data
-        newTrialFragment = NewTrialFragment.newInstance(currentExperiment.getType(), userID);
         setup();
     }
 
     @Override
-    public void onOkPressed(Trial trial) {
-        if (trial != null) {
-            qrCodeController.registerCode(trial, this);
-        } else {
-            generateQRButton.setText(R.string.generate);
-            generateQRButton.setClickable(true);
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                HashMap<String, Object> result = (HashMap<String, Object>) data.getSerializableExtra("trialData");
+                try {
+                    Trial trialAdd = new TrialFactory().getTrialInferType(result);
+                    qrCodeController.registerCode(trialAdd, this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toaster.makeToast(this, "Something went wrong. Please try again.");
+                    generateQRButton.setText(R.string.generate);
+                    generateQRButton.setClickable(true);
+                }
+            }
+            if (resultCode == RESULT_CANCELED) {
+                // Reset
+                generateQRButton.setText(R.string.generate);
+                generateQRButton.setClickable(true);
+            }
         }
     }
 

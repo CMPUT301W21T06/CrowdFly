@@ -11,6 +11,10 @@ import java.util.Map;
 
 public class TrialFactory {
 
+    public static final String COUNT = "count";
+    public static final String BINOMIAL = "binomial";
+    public static final String MEASUREMENT = "measurement";
+
     public TrialFactory() {
     }
 
@@ -22,16 +26,29 @@ public class TrialFactory {
      * @throws Exception
      */
     public Trial getTrial(String trialType, Map<String, Object> metadata) throws Exception {
-        if(trialType.equals("binomial")){
+        if(trialType.equals(BINOMIAL)){
             return new BinomialTrial(metadata);
         }
-        if(trialType.equals("count")){
+        if(trialType.equals(COUNT)){
             return new CountTrial(metadata);
         }
-        if(trialType.equals("measurement")){
+        if(trialType.equals(MEASUREMENT)){
             return new MeasurementTrial(metadata);
         }
         throw new Exception("Not a valid trial type");
+    }
+
+    public Trial getTrialInferType(Map<String, Object> metadata) throws Exception {
+        if(metadata.containsKey(COUNT)){
+            return this.getTrial(COUNT, metadata);
+        }
+        if(metadata.containsKey(MEASUREMENT)){
+            return this.getTrial(MEASUREMENT, metadata);
+        }
+        if(metadata.containsKey("successes")){
+            return this.getTrial(BINOMIAL, metadata);
+        }
+        return new Trial(metadata);
     }
 
 }

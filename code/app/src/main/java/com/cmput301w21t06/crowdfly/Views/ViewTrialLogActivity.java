@@ -32,6 +32,7 @@ import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
+import com.cmput301w21t06.crowdfly.Models.TrialFactory;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.android.material.navigation.NavigationView;
@@ -39,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This shows all the trials related to the particular experiment
@@ -471,6 +473,20 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                HashMap<String, Object> result = (HashMap<String, Object>) data.getSerializableExtra("trialData");
+                try {
+                    Trial trialAdd = new TrialFactory().getTrialInferType(result);
+                    currentExperiment.getTrialController().addTrialData(trialAdd, expID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (resultCode == RESULT_CANCELED) {
+               // Do nothing?
+            }
+        }
         currentExperiment.getTrialController().getTrialLogData(this, filters);
         currentExperiment.getTrialController().getExperimenterIds(this);
 
