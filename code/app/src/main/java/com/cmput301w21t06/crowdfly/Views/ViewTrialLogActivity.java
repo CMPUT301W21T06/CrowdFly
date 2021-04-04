@@ -4,19 +4,15 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -170,6 +166,29 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             }
         });
         qrButton = findViewById(R.id.QRButton);
+        qrButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if (isCodeScanningAvailable()) {
+                    Toaster.makeToast(ViewTrialLogActivity.this, "This feature is not available for experiments with this trial type");
+                }
+                else if(!currentExperiment.getStillRunning()){
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, EXPERIMENT_IS_NO_LONGER_ACTIVE);
+                }
+                else if(subscribed || isOwner){
+                    Intent intent = new Intent(ViewTrialLogActivity.this, ViewQRActivity.class);
+                    intent.putExtra("expID", expID);
+                    startActivity(intent);
+                }
+                else {
+                    Toaster.makeToast(ViewTrialLogActivity.this,"Please subscribe to the experiment to use this feature");
+                }
+            }
+
+            private boolean isCodeScanningAvailable() {
+                return !(trialType.equals(getString(R.string.binomial)) || trialType.equals(getString(R.string.count)));
+            }
+        });
         addButton = findViewById(R.id.addButton);
         questionButton = findViewById(R.id.questionButton);
         subButton = findViewById(R.id.subButton);
@@ -380,22 +399,27 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
     @Override
     public void onOkPressed(BinomialTrial btrial){
-        this.trialLog.set(entry_pos, btrial);
-        setUpList();
+        if(btrial!=null){
+            this.trialLog.set(entry_pos, btrial);
+            setUpList();
+        }
     }
 
 
     @Override
     public void onOkPressed(CountTrial ctrial) {
-        this.trialLog.set(entry_pos, ctrial);
-        setUpList();
-
+        if(ctrial!=null){
+            this.trialLog.set(entry_pos, ctrial);
+            setUpList();
+        }
     }
 
     @Override
     public void onOkPressed(MeasurementTrial mtrial) {
-        this.trialLog.set(entry_pos, mtrial);
-        setUpList();
+        if(mtrial!=null) {
+            this.trialLog.set(entry_pos, mtrial);
+            setUpList();
+        }
     }
 
 
