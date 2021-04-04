@@ -39,7 +39,7 @@ public class AuthActivity extends AppCompatActivity {
         authManager = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_auth);
 
-        authButton = (Button) findViewById(R.id.authButton);
+        authButton = (Button) findViewById(R.id.generate);
         subtitle = (TextView) findViewById(R.id.authButtonSubtitle);
         authButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,7 @@ public class AuthActivity extends AppCompatActivity {
      * Handles authentication for new users
      */
     private void loadingAuth() {
-        authButton.setText(R.string.authButtonLoading);
+        authButton.setText(R.string.generating);
         authButton.setClickable(false);
         subtitle.setText(R.string.authButtonSubtitleLoading);
         authManager.signInAnonymously().addOnCompleteListener(AuthActivity.this, new OnCompleteListener<AuthResult>() {
@@ -103,7 +103,7 @@ public class AuthActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             authButton.setClickable(true);
-            authButton.setText(R.string.authButton);
+            authButton.setText(R.string.generate);
             subtitle.setText(R.string.authButtonSubtitle);
         }
 
