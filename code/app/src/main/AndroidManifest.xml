@@ -12,8 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly">
         <activity android:name=".Views.GenerateQRActivity"></activity>
-        <activity android:name=".Views.QuestionThreadActivity" />
-        <activity android:name=".Views.AskQuestionActivity" />
+        <activity
+            android:name=".Views.PostCommentActivity"
+            android:parentActivityName=".Views.QuestionThreadActivity"/>
+        <activity
+            android:name=".Views.QuestionThreadActivity"
+            android:parentActivityName=".Views.ViewQuestionLogActivity"/>
+        <activity
+            android:name=".Views.AskQuestionActivity"
+            android:parentActivityName=".Views.ViewQuestionLogActivity"/>
         <activity android:name=".Views.ViewQRActivity" />
         <activity android:name=".Views.ViewLocationActivity" />
         <activity

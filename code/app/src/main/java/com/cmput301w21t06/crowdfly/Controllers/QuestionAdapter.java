@@ -12,7 +12,7 @@ import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
 
-public class QuestionContent extends ArrayAdapter<Question> {
+public class QuestionAdapter extends ArrayAdapter<Question> {
     private ArrayList<Question> questions;
     private Context context;
 
@@ -21,7 +21,7 @@ public class QuestionContent extends ArrayAdapter<Question> {
      * @param context
      * @param questions
      */
-    public QuestionContent(Context context, ArrayList<Question> questions) {
+    public QuestionAdapter(Context context, ArrayList<Question> questions) {
         super(context, 0, questions);
         this.questions = questions;
         this.context = context;
@@ -48,10 +48,10 @@ public class QuestionContent extends ArrayAdapter<Question> {
         TextView replies = view.findViewById(R.id.qReplies);
         TextView qSnippet = view.findViewById(R.id.qSnippet);
 
-        date.setText("2021-04-01");
-        uid.setText("wonbin");
-        replies.setText("2");
-        qSnippet.setText("What is a question?");
+        date.setText(question.getDate());
+        uid.setText(question.getUsername());
+        replies.setText(String.valueOf(question.getNumReplies()));
+        qSnippet.setText(question.getQuestion());
 
         return view;
     }

@@ -5,8 +5,10 @@ import android.util.Log;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.QRManager;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.QuestionController;
 import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
+import com.google.firebase.firestore.local.QueryEngine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,7 @@ public class Experiment {
     private String experimentId;
     private TrialController trialController;
     private SubscriptionController subController;
+    private QuestionController qController;
     private String type;
     // CONSTRUCTORS
 
@@ -52,7 +55,7 @@ public class Experiment {
         this.ownerID = userID;
         this.type = type;
         subscribedUsers = new ArrayList<>();
-        questions = new ArrayList<>();
+        questions = new ArrayList<Question>();
 
     }
 
@@ -163,6 +166,36 @@ public class Experiment {
 
     public ArrayList<Question> getQuestions() {return questions;}
 
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
+    }
+
+    public void setQuestion(Question question, int position) {
+        questions.set(position, question);
+    }
+
+    public Question getQuestionByID(String questionID) {
+        for (Question q : questions) {
+            String compId = q.getQuestionID();
+            if (compId.compareTo(questionID) == 0) {
+                return q;
+            }
+        }
+        return null;
+    }
+
+    public int getQuestionPosByID(String questionID) {
+        int pos = 0;
+        for (Question q : questions) {
+            String compId = q.getQuestionID();
+            if (compId.compareTo(questionID) == 0) {
+                return pos;
+            }
+            pos++;
+        }
+        return -1;
+    }
+
     /**
      * This returns the owner of the experiment
      * @return
@@ -216,6 +249,14 @@ public class Experiment {
         this.experimentId = experimentId;
 
     }
+
+    public void addQuestion(Question question) {
+        if (questions == null) {
+            questions = new ArrayList<Question>();
+        }
+        questions.add(question);
+    }
+
     /**
      * This is used to instantiate new Trial and Subscription Controllers
      * @param experimentId
@@ -225,6 +266,7 @@ public class Experiment {
         setExperimentId(experimentId);
         trialController = new TrialController(experimentId);
         subController = new SubscriptionController(experimentId);
+        qController = new QuestionController(experimentId);
     }
 
     /**
@@ -241,6 +283,10 @@ public class Experiment {
      */
     public SubscriptionController getSubController() {
         return subController;
+    }
+
+    public QuestionController getQuestionController() {
+        return qController;
     }
 
 

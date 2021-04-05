@@ -10,63 +10,69 @@
 
     <TextView
         android:id="@+id/qDate"
-        android:layout_width="127dp"
+        android:layout_width="120dp"
         android:layout_height="34dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:text="date"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/qSnippet"/>
 
     <TextView
         android:id="@+id/askerID"
-        android:layout_width="127dp"
+        android:layout_width="120dp"
         android:layout_height="34dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:text="asker ID"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="@+id/qDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/qDate" />
+        app:layout_constraintTop_toBottomOf="@id/qSnippet"
+        tools:layout_editor_absoluteY="85dp" />
 
     <TextView
         android:id="@+id/qtitleReplies"
         android:layout_width="61dp"
         android:layout_height="35dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="276dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_vertical"
         android:text="Replies:"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="@+id/askerID"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/askerID" />
+        app:layout_constraintTop_toBottomOf="@id/qSnippet"
+        tools:layout_editor_absoluteY="84dp" />
 
     <TextView
         android:id="@+id/qReplies"
         android:layout_width="61dp"
         android:layout_height="35dp"
-        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
         android:text="0"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp"
         app:layout_constraintStart_toEndOf="@+id/qtitleReplies"
-        app:layout_constraintTop_toBottomOf="@+id/askerID" />
+        app:layout_constraintLeft_toLeftOf="@+id/qtitleReplies"
+        app:layout_constraintTop_toBottomOf="@id/qSnippet"
+        tools:layout_editor_absoluteY="84dp" />
 
     <TextView
         android:id="@+id/qSnippet"
-        android:layout_width="135dp"
-        android:layout_height="36dp"
+        android:layout_width="342dp"
+        android:layout_height="57dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="28dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:gravity="center_vertical"
         android:text="question snippet"
         android:textColor="@color/colorPrimaryDark"
@@ -74,7 +80,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    <TextView-->
+    <!--    <TextView-->
 <!--        android:id="@+id/viewAllReplies"-->
 <!--        android:layout_width="133dp"-->
 <!--        android:layout_height="32dp"-->

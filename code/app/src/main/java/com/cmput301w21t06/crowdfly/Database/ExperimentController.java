@@ -153,6 +153,7 @@ public class ExperimentController {
         }
         loopExp.getTrialController().removeTrials();
         loopExp.getSubController().removeSubs();
+        loopExp.getQuestionController().removeQuestions();
         GodController.deleteDocumentData(CrowdFlyFirestorePaths.experiment(experimentId));
     }
 

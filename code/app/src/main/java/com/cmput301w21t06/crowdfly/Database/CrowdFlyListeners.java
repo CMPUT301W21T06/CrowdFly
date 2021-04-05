@@ -1,7 +1,9 @@
 package com.cmput301w21t06.crowdfly.Database;
 
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+import com.cmput301w21t06.crowdfly.Models.Comment;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
+import com.cmput301w21t06.crowdfly.Models.Question;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.google.firebase.storage.StorageReference;
@@ -54,6 +56,22 @@ public class CrowdFlyListeners {
 
     public interface OnDoneGetExperimenterIdsListener {
         public void onDoneGetExperimenterIds(ArrayList<String> ids);
+    }
+
+    public interface OnDoneGetQuestionsListener {
+        public void onDoneGetQuestions(ArrayList<Question> questions);
+    }
+
+    public interface  OnDoneGetQuestionListener {
+        public void onDoneGetQuestion(Question question);
+    }
+
+    public interface OnDoneGetCommentsListener {
+        public void onDoneGetComments(ArrayList<Comment> comments);
+    }
+
+    public interface  OnDoneGetCommentListener {
+        public void onDoneGetComment(Comment comment);
     }
 }
 
