@@ -29,7 +29,6 @@ public class EditBinomialTrialFragment extends DialogFragment {
     public interface OnFragmentInteractionListener {
         void onOkPressed(BinomialTrial trial);
     }
-
     @Override
     public void onAttach(Context context){
         super.onAttach(context);

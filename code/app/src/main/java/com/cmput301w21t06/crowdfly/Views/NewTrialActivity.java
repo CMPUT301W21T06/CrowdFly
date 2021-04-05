@@ -3,7 +3,6 @@
 
 package com.cmput301w21t06.crowdfly.Views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,14 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
@@ -28,10 +25,6 @@ import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
-import com.cmput301w21t06.crowdfly.Views.EditBinomialTrialFragment;
-import com.cmput301w21t06.crowdfly.Views.EditCountTrialFragment;
-import com.cmput301w21t06.crowdfly.Views.EditMeasureTrialFragment;
-import com.cmput301w21t06.crowdfly.Views.ViewTrialLogActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -48,7 +41,7 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
     private final int lCode = 0;
     private Double latitude,longitude;
     private EditText trialDesc, successes, failures;
-    private TextView region;
+    private Button region;
     private Button addButton, buttonBinomial, buttonMeasure, buttonCount, buttonCancel;
     public int newTrialSuccesses, newTrialFailures, newTrialCount;
     public double newTrialMeasurement;
@@ -71,7 +64,7 @@ public class NewTrialActivity extends AppCompatActivity implements CrowdFlyListe
 
         //instantiate variables
         buttonCancel = findViewById(R.id.cancelButton);
-        region = findViewById(R.id.regionText);
+        region = findViewById(R.id.regionButton);
         addButton = findViewById(R.id.newTrialAddButton);
         buttonBinomial = findViewById(R.id.binTrial);
         buttonMeasure = findViewById(R.id.measureTrial);
