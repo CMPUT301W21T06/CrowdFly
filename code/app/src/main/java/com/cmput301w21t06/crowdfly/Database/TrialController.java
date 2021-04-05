@@ -11,7 +11,6 @@ import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
-import com.cmput301w21t06.crowdfly.Models.TrialFactory;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -52,7 +52,7 @@ public class TrialController {
                         String type = doc.getString("type");
                         Trial trial = null;
                         try {
-                            trial = new TrialFactory().getTrial(type, doc.getData());
+                            trial = getTrialFactory(type, doc.getData());
                             trials.add(trial);
                         } catch (Exception e) {
                             Log.i("TrialController", "Not a valid trial");
@@ -207,6 +207,26 @@ public class TrialController {
             DocumentReference doc = trialsCollection.document(String.valueOf(trial.getTrialID()));
             doc.delete();
         }
+    }
+
+    /**
+     * Factory method for getting Trial
+     * @param trialType String representation of the trial Type
+     * @param metadata HashMap with metadata from the database
+     * @return Trial
+     * @throws Exception
+     */
+    private Trial getTrialFactory(String trialType, Map<String, Object> metadata) throws Exception {
+        if(trialType.equals("binomial")){
+            return new BinomialTrial(metadata);
+        }
+        if(trialType.equals("count")){
+            return new CountTrial(metadata);
+        }
+        if(trialType.equals("measurement")){
+            return new MeasurementTrial(metadata);
+        }
+        throw new Exception("Not a valid trial type");
     }
 
 

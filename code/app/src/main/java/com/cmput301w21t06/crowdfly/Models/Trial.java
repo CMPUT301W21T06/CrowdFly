@@ -20,6 +20,7 @@ public class Trial {
 //    private String result;
 //    private Statistics statistics;
     protected String creatorID;
+    protected String type;
 
     public Trial(String description, String creatorID, String trialID,String region) {
         this.description = description;
@@ -55,6 +56,14 @@ public class Trial {
         this.trialID = trialID;
     }
 
+    /**
+     * This returns the type of trial
+     * @return
+     * This is the returned type of the trial
+     */
+    public String getType(){
+        return this.type;
+    }
     /***
      * this sets the description of the trial
      * @param description
@@ -97,6 +106,7 @@ public class Trial {
         trl.put("trialID",this.trialID);
         trl.put("experimenter",this.creatorID);
         trl.put("region",this.location);
+        trl.put("type",this.type);
         return trl;
     }
 
