@@ -19,7 +19,7 @@ public class BinomialTrialTest extends TestCase {
         int successes = 3;
         int failures = 4;
 
-        BinomialTrial mockBTrial = new BinomialTrial(description, successes, failures, "", "");
+        BinomialTrial mockBTrial = new BinomialTrial(description, successes, failures, "", "","1,0");
         return mockBTrial;
     }
 
@@ -41,6 +41,7 @@ public class BinomialTrialTest extends TestCase {
         data.put("trialID", "testID");
         data.put("experimenter", "ownerID");
         data.put("type", "Binomial");
+        data.put("region","1,0");
         data.put("description", "testDescription");
         data.put("successes", (long) 0);
         data.put("failures", (long) 1);

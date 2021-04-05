@@ -132,7 +132,14 @@ public class CrowdFlyFirestorePaths {
         return String.format("/Admin/Admin");
     }
 
-
+    /**
+     * This provides a path to the codes collection for a user.
+     * @param userID Code should be registered to an individual user
+     * @return
+     */
+    public static final String codes(String userID) {
+        return String.format("/Codes/%s/SavedCodes", userID);
+    }
 
 
 }

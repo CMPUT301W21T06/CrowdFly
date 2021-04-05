@@ -67,7 +67,7 @@ public class ExperimentActivityTest {
         int oldCount = adapter.getCount();
 
         solo.assertCurrentActivity("Wrong activity", AddExperimentActivity.class);
-        solo.enterText((EditText) solo.getView(R.id.region_edit_text), "test region");
+//        solo.enterText((EditText) solo.getView(R.id.region_edit_text), "test region"); needs to be fixed
         solo.enterText((EditText) solo.getView(R.id.min_trial_edit_text), "15");
         solo.hideSoftKeyboard();
         solo.clickOnButton("Count");

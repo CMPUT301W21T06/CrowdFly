@@ -3,13 +3,13 @@ package com.cmput301w21t06.crowdfly.Models;
 import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
-import com.cmput301w21t06.crowdfly.Controllers.QRManager;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.QuestionController;
 import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
 import com.google.firebase.firestore.local.QueryEngine;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,12 +29,12 @@ public class Experiment {
     private ArrayList<User> subscribedUsers;
     private ArrayList<Question> questions;
     private String ownerID;
-    private QRManager qrCode;
     private String experimentId;
     private TrialController trialController;
     private SubscriptionController subController;
     private QuestionController qController;
     private String type;
+    private boolean regionEnabled;
     // CONSTRUCTORS
 
     /**
@@ -46,7 +46,7 @@ public class Experiment {
      * @param minT
      * The minimum number of trials entered by the user
      */
-    public Experiment(String desc,String reg, int minT, String userID, String type){
+    public Experiment(String desc,String reg, int minT, String userID, String type, boolean regionEnabled){
 
         this.description = desc;
         this.region = reg;
@@ -54,9 +54,9 @@ public class Experiment {
         this.stillRunning = true;
         this.ownerID = userID;
         this.type = type;
+        this.regionEnabled = regionEnabled;
         subscribedUsers = new ArrayList<>();
-        questions = new ArrayList<Question>();
-
+        questions = new ArrayList<>();
     }
 
     /**
@@ -72,6 +72,7 @@ public class Experiment {
         this.ownerID = (String) data.get("ownerID");
         this.experimentId = (String) data.get("experimentID");
         this.type = (String) data.get("type");
+        this.regionEnabled = (boolean) data.get("enabled");
 //        setUpFullExperiment((String) data.get("experimentID"));
     }
 
@@ -156,6 +157,12 @@ public class Experiment {
 
     public ArrayList<User> getSubscribedUsers() {return subscribedUsers;}
 
+    /**
+     * This returns the current trials in the experiment
+     * @return
+     * This is the current trials
+     */
+    public ArrayList<Trial> getTrials(){return trialController.getTrials();}
 
 
     /**
@@ -220,6 +227,12 @@ public class Experiment {
 
     public String getExperimentId() { return experimentId; }
 
+    /**
+     * This returns if the region is enabled or not
+     * @return
+     * This is a boolean indicating if the region is enabled or not
+     */
+    public boolean getRegionEnabled(){return regionEnabled;}
 
     // SETTERS
 
@@ -305,6 +318,7 @@ public class Experiment {
         exp.put("ownerID", this.ownerID);
         exp.put("experimentID", this.experimentId);
         exp.put("type",this.type);
+        exp.put("enabled",this.regionEnabled);
         return exp;
     }
 

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="90dp"
     android:orientation="horizontal">
 
     <!-- <Button
@@ -28,47 +28,43 @@
         android:text="EDIT"
         android:textSize="8dp"/>-->
 
+
     <TextView
-        android:id="@+id/itemDescription"
-        android:layout_width="131dp"
-        android:layout_height="97dp"
+        android:id="@+id/itemDescriptiontitle"
+        android:layout_width="92dp"
+        android:layout_height="41dp"
         android:layout_marginStart="16dp"
         android:gravity="center_vertical"
-        android:text="item description"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/black"
+        android:text="@string/description"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/itemSuccesses"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/itemSuccesses"
-        app:layout_constraintVertical_bias="0.486" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/itemDescription"
+        android:layout_width="302dp"
+        android:layout_height="42dp"
+        android:gravity="center_vertical"
+        android:text="item description"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@+id/itemDescriptiontitle"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/itemSuccesses"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
+        android:layout_width="116dp"
+        android:layout_height="48dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
         android:gravity="center_vertical"
         android:text="successes"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/black"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/statButton"
-        app:layout_constraintStart_toEndOf="@+id/itemDescription"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/statButton"
-        android:layout_width="102dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
-        android:focusable="false"
-        android:backgroundTint="@color/lightbluejay"
-        android:text="STATS"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemDescriptiontitle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,8 +24,8 @@ public class BinomialTrial extends Trial{
      * @param creatorID
      * @param trialID
      */
-    public BinomialTrial(String description, int successes, int failures, String trialID, String creatorID) {
-        super(description,creatorID,trialID);
+    public BinomialTrial(String description, int successes, int failures, String trialID, String creatorID,String region) {
+        super(description,creatorID,trialID,region);
         this.successes = successes;
         this.failures = failures;
     }
@@ -36,9 +36,9 @@ public class BinomialTrial extends Trial{
      * @param data
      */
     public BinomialTrial(Map<String, Object> data) {
-        super((String) data.get("description"),(String) data.get("experimenter"), (String) data.get("trialID"));
-        successes = ((Long) data.get("successes")).intValue();
-        failures =  ((Long) data.get("failures")).intValue();
+        super(data);
+        successes = (Long.valueOf(data.get("successes").toString())).intValue();
+        failures =  (Long.valueOf(data.get("failures").toString())).intValue();
     }
 
 
@@ -83,7 +83,7 @@ public class BinomialTrial extends Trial{
      *    return number of failures
      */
     public BinomialTrial getData(){
-        return new BinomialTrial(description,successes,failures,trialID,creatorID);
+        return new BinomialTrial(description,successes,failures,trialID,creatorID,location);
     }
     /***
      * this transforms the Binomial Trial to a HashMap that is fed into the database

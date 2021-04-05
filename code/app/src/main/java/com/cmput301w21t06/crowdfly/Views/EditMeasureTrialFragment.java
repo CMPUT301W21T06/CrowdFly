@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.R;
@@ -26,7 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class EditMeasureTrialFragment extends DialogFragment {
     String userID = FirebaseAuth.getInstance().getUid();
     private EditText measurement, description;
-    private EditMeasureTrialFragment.OnFragmentInteractionListener listener;
+    private String loc;
+    private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(MeasurementTrial trial);
@@ -34,8 +36,8 @@ public class EditMeasureTrialFragment extends DialogFragment {
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
-        if (context instanceof EditMeasureTrialFragment.OnFragmentInteractionListener){
-            listener = (EditMeasureTrialFragment.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener){
+            listener = (OnFragmentInteractionListener) context;
         }else{
             throw new RuntimeException(context.toString() + " must implement OnFragListner");
         }
@@ -44,7 +46,7 @@ public class EditMeasureTrialFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putDouble("measure", new_trial.getMeasurement());
         args.putString("desc", new_trial.getDescription());
-
+        args.putString("loc", new_trial.getLocation());
         EditMeasureTrialFragment fragment = new EditMeasureTrialFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,17 +59,23 @@ public class EditMeasureTrialFragment extends DialogFragment {
 
         measurement = view.findViewById(R.id.measurementInput);
         description = view.findViewById(R.id.measurementDesc);
-
+        loc = "";
         if (getArguments() != null){
             description.setText(getArguments().getString("desc"));
             measurement.setText(String.valueOf(getArguments().getDouble("measure")));
+            loc = getArguments().getString("loc");
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
                 .setTitle("Edit Entry")
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onOkPressed(null);
+                    }
+                })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -77,7 +85,7 @@ public class EditMeasureTrialFragment extends DialogFragment {
                         if (measurement1.length() != 0){
                             measurement2 = Double.parseDouble(measurement1);
                         }
-                        listener.onOkPressed(new MeasurementTrial(description1, measurement2, "", userID));
+                        listener.onOkPressed(new MeasurementTrial(description1, measurement2, "", userID,loc));
                     }
                 }).create();
     }

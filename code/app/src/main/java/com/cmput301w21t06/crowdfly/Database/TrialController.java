@@ -11,6 +11,7 @@ import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
+import com.cmput301w21t06.crowdfly.Models.TrialFactory;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,22 +51,11 @@ public class TrialController {
                     for (QueryDocumentSnapshot doc : response){
                         String type = doc.getString("type");
                         Trial trial = null;
-                        switch (type) {
-                            case "binomial":
-                                trial = new BinomialTrial(doc.getData());
-                                break;
-                            case "count":
-                                trial = new CountTrial(doc.getData());
-                                break;
-                            case "measurement":
-                                trial = new MeasurementTrial(doc.getData());
-                                break;
-                        }
-                        if (trial != null) {
+                        try {
+                            trial = new TrialFactory().getTrial(type, doc.getData());
                             trials.add(trial);
-                        }
-                        else{
-                            Log.e("TrialController", "Getting trials was a failure");
+                        } catch (Exception e) {
+                            Log.i("TrialController", "Not a valid trial");
                         }
                     }
                 }
@@ -137,6 +127,15 @@ public class TrialController {
             Log.e("TrialController","Trial not found on find!");
         }
 
+    }
+
+    /**
+     * This returns the current trials
+     * @return
+     * This is the current trials
+     */
+    public ArrayList<Trial> getTrials(){
+        return trials;
     }
     /**
      * This creates a new document in the database for the trial with the necessary data

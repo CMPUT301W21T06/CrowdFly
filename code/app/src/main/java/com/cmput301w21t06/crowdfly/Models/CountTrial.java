@@ -10,8 +10,8 @@ import java.util.Map;
 public class CountTrial extends Trial{
     private int count;
 
-    public CountTrial(String description, int count, String trialID, String creatorID) {
-        super(description,creatorID,trialID);
+    public CountTrial(String description, int count, String trialID, String creatorID, String region) {
+        super(description,creatorID,trialID,region);
         this.count = count;
     }
 
@@ -20,8 +20,8 @@ public class CountTrial extends Trial{
      * @param data
      */
     public CountTrial(Map<String, Object> data) {
-        super((String) data.get("description"),(String) data.get("experimenter"), (String) data.get("trialID"));
-        this.count = ((Long) data.get("count")).intValue();
+        super(data);
+        this.count = (Long.valueOf(data.get("count").toString())).intValue();
     }
 
     /***
@@ -29,7 +29,7 @@ public class CountTrial extends Trial{
      * @return CountTrial object
      */
     public CountTrial getData(){
-        return new CountTrial(description,count,trialID,creatorID);
+        return new CountTrial(description,count,trialID,creatorID,location);
     }
 
     /**

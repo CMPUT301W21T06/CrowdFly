@@ -25,10 +25,10 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class EditCountTrialFragment extends DialogFragment {
     String userID = FirebaseAuth.getInstance().getUid();
+    private String loc;
 
     private EditText count, description;
-    private EditCountTrialFragment.OnFragmentInteractionListener listener;
-
+    private OnFragmentInteractionListener listener;
     public interface OnFragmentInteractionListener {
         void onOkPressed(CountTrial trial);
     }
@@ -36,8 +36,8 @@ public class EditCountTrialFragment extends DialogFragment {
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
-        if (context instanceof EditCountTrialFragment.OnFragmentInteractionListener){
-            listener = (EditCountTrialFragment.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener){
+            listener = (OnFragmentInteractionListener) context;
         }else{
             throw new RuntimeException(context.toString() + " must implement OnFragListner");
         }
@@ -47,6 +47,7 @@ public class EditCountTrialFragment extends DialogFragment {
         Bundle args = new Bundle();
         args.putInt("count", new_trial.getCount());
         args.putString("desc", new_trial.getDescription());
+        args.putString("loc", new_trial.getLocation());
 
         EditCountTrialFragment fragment = new EditCountTrialFragment();
         fragment.setArguments(args);
@@ -60,17 +61,25 @@ public class EditCountTrialFragment extends DialogFragment {
 
         count = view.findViewById(R.id.countInput);
         description = view.findViewById(R.id.countDescInput);
+        loc = "";
 
         if (getArguments() != null){
             description.setText(getArguments().getString("desc"));
             count.setText(String.valueOf(getArguments().getInt("count")));
+            loc = getArguments().getString("loc");
+
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
                 .setTitle("Edit Entry")
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.onOkPressed(null);
+                    }
+                })
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -80,7 +89,7 @@ public class EditCountTrialFragment extends DialogFragment {
                         if (count1.length() != 0){
                             count2 = Integer.parseInt(count1);
                         }
-                        listener.onOkPressed(new CountTrial(description1, count2, "", userID));
+                        listener.onOkPressed(new CountTrial(description1, count2, "", userID, loc));
                     }
                 }).create();
     }

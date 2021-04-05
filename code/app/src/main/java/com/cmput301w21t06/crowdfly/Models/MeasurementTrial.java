@@ -12,8 +12,8 @@ import java.util.Map;
 public class MeasurementTrial extends Trial{
     private double measurement;
 
-    public MeasurementTrial(String description, double measurement, String trialID, String creatorID) {
-        super(description,creatorID,trialID);
+    public MeasurementTrial(String description, double measurement, String trialID, String creatorID, String region) {
+        super(description,creatorID,trialID,region);
         this.measurement = measurement;
 
     }
@@ -23,7 +23,7 @@ public class MeasurementTrial extends Trial{
      * @param data
      */
     public MeasurementTrial(Map<String, Object> data) {
-        super((String) data.get("description"), (String) data.get("experimenter"), (String) data.get("trialID"));
+        super(data);
         this.measurement = (double) data.get("measurement");
 
     }
@@ -48,7 +48,7 @@ public class MeasurementTrial extends Trial{
      * @return Map
      */
     public MeasurementTrial getData(){
-        return new MeasurementTrial(description, measurement, trialID,creatorID);
+        return new MeasurementTrial(description, measurement, trialID,creatorID,location);
     }
 
     /***
