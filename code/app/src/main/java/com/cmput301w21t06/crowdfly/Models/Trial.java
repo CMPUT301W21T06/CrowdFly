@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -102,6 +103,7 @@ public class Trial {
         trl.put("trialID",this.trialID);
         trl.put("experimenter",this.creatorID);
         trl.put("region",this.location);
+        trl.put("displayID", UserController.reverseConvert(creatorID));
         return trl;
     }
 

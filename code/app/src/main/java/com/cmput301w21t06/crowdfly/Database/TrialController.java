@@ -145,6 +145,7 @@ public class TrialController {
      * The experiment to reference to get the location of where to store the trial
      */
     public void addTrialData(Trial trial, String experimentID) {
+        SearchController.addObject(trial.toHashMap(),trial.getTrialID());
         trials.add(trial);
         trialsCollection.add(trial.toHashMap()).addOnCompleteListener(
                 new OnCompleteListener<DocumentReference>() {
@@ -169,6 +170,7 @@ public class TrialController {
      * Experiment ID used to grab the trial path
      */
     public void setTrialData(Trial trial, String experimentID) {
+        SearchController.updateObject(trial.toHashMap(),trial.getTrialID());
         GodController.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
     }
     /**
@@ -177,6 +179,7 @@ public class TrialController {
      * This is the trial to be removed
      */
     public void removeTrialData(String trialID){
+        SearchController.deleteObject(trialID);
         Trial loopTrial = null;
         boolean loop = true;
         int i = 0;

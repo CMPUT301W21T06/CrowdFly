@@ -103,6 +103,7 @@ public class ExperimentController {
      * The experiment to store
      */
     public static void addExperimentData(Experiment experiment) {
+        SearchController.addObject(experiment.toHashMap(),experiment.getExperimentId());
         experiments.add(experiment);
         experimentCollection.add(experiment.toHashMap()).addOnCompleteListener(
                 new OnCompleteListener<DocumentReference>() {
@@ -125,6 +126,7 @@ public class ExperimentController {
      * This is the manipulated experiment
      */
     public static void setExperimentData(Experiment experiment) {
+        SearchController.updateObject(experiment.toHashMap(),experiment.getExperimentId());
         GodController.setDocumentData(CrowdFlyFirestorePaths.experiment(experiment.getExperimentId()), experiment.toHashMap());
     }
 
@@ -136,6 +138,7 @@ public class ExperimentController {
      * The experiment object
      */
     public static void deleteExperiment(String experimentId, Experiment exp) {
+        SearchController.deleteObject(experimentId);
         Experiment loopExp = null;
         boolean loop = true;
         int i = 0;

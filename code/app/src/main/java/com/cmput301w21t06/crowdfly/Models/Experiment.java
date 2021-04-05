@@ -6,6 +6,7 @@ import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -270,6 +271,7 @@ public class Experiment {
         exp.put("stillRunning", this.stillRunning);
         exp.put("ownerID", this.ownerID);
         exp.put("experimentID", this.experimentId);
+        exp.put("displayID", UserController.reverseConvert(ownerID));
         exp.put("type",this.type);
         exp.put("enabled",this.regionEnabled);
         return exp;
