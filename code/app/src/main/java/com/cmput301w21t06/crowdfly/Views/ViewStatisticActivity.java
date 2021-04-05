@@ -59,9 +59,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     private BarChart barChart;
     private final String notApplicableMsg = "NA";
     private GraphView graphView;
-    private LineGraphSeries<DataPoint> series;
-    private SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
-
+    private final SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +82,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         ExperimentController.getExperimentData(expID, this);
         trialLog.getTrials();
 
-
         if (trialArrayList.isEmpty()) {
             setNotApplicableMessages(notApplicableMsg);
         } else {
@@ -96,9 +93,9 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     }
 
     /**
-     * This method adds data points to the graph where x is the date and y is the trial value
+     * This method adds data points to the graph where the horizontal axis is the date the entry was added and the vertical axis is the current trial's value
      * @return dataPoints
-     * this returns
+     * this returns the data points
      */
 
     private ArrayList<DataPoint> getDataPoints() {
@@ -123,17 +120,16 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         return dataPoints;
     }
     /**
-     * This method displays the graph in respect to its current trials
+     * This method sets and displays the graph in respect to its current trials
      */
 
     private void displayGraph() {
         ArrayList<DataPoint> arr = getDataPoints();
-        series = new LineGraphSeries<>(arr.toArray(new DataPoint[arr.size()]));
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr.toArray(new DataPoint[arr.size()]));
         graphView.addSeries(series);
         graphView.setTitle(trialType.toUpperCase() + " TRIALS");
         graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
     }
-
 
     /**
      * This method displays the statistical information in respect to its current trials
@@ -276,7 +272,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         for (double n : trials) {
             sd += Math.pow(n - mean, 2);
         }
-        return Math.sqrt(sd / length);
+        return Math.round((Math.sqrt(sd / length))*100)/100;
     }
 
     /**
@@ -348,13 +344,18 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         else if (length % 2 != 0) {
             subTrials = new ArrayList<Double>(trials.subList(0, (length / 2)));
             subTrialLength = subTrials.size();
+            System.out.println("Odd"+subTrials);
             double n1 = subTrials.get((subTrialLength / 2) - 1);
             double n2 = subTrials.get(subTrialLength / 2);
             return (n1 + n2) / 2;
         } else {
             subTrials = new ArrayList<Double>(trials.subList(0, (length / 2)));
             subTrialLength = subTrials.size();
-            return subTrials.get(subTrialLength / 2);
+            System.out.println("Even"+subTrials);
+            System.out.println(subTrials.get(subTrialLength / 2));
+            double n1 = subTrials.get((subTrialLength / 2) - 1);
+            double n2 = subTrials.get(subTrialLength / 2);
+            return (n1 + n2) / 2;
         }
     }
 
@@ -379,14 +380,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         else if (length % 2 != 0) {
             subTrials = new ArrayList<Double>(trials.subList((length / 2) + 1, length));
             subTrialLength = subTrials.size();
-
-            double n1 = subTrials.get((subTrialLength / 2) - 1);
-            double n2 = subTrials.get(subTrialLength / 2);
-            return (n1 + n2) / 2;
+            return subTrials.get(subTrialLength / 2);
         } else {
             subTrials = new ArrayList<Double>(trials.subList((length / 2), length));
             subTrialLength = subTrials.size();
             return subTrials.get(subTrialLength / 2);
+
         }
 
     }
