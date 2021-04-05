@@ -77,7 +77,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         maxTextView = findViewById(R.id.sMaximum);
         graphView = findViewById(R.id.graph);
 
-
         expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID, this);
         trialLog.getTrials();
