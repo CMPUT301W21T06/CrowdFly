@@ -263,7 +263,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     startActivityForResult(intent,0);
                 }
                 else {
-                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to add trials");
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to ask questions");
                 }
 
             }

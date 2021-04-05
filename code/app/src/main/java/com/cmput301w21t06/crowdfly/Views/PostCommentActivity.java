@@ -20,6 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/***
+ * Post comments to a question
+ */
 public class PostCommentActivity extends AppCompatActivity {
     final private String userID = FirebaseAuth.getInstance().getUid();
     private ExperimentLog expLog;

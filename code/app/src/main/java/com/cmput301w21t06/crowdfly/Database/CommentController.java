@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Models.Comment;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
+import com.cmput301w21t06.crowdfly.Models.Question;
 import com.cmput301w21t06.crowdfly.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,11 +27,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class controls all operations related to Trials
+ * This class controls all operations related to comments
  */
 public class CommentController {
     private CollectionReference cCollection;
     private ArrayList<Comment> comments = new ArrayList<Comment>();
+    private ExperimentLog expLog;
     private String qID;
     private String eID;
 
@@ -41,7 +43,7 @@ public class CommentController {
         setUp();
     }
     /**
-     * This sets up the snapshot listener for trials
+     * This sets up the snapshot listener for comments
      */
     private void setUp(){
         cCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -60,29 +62,36 @@ public class CommentController {
                             Log.e("commentController", "Getting comments was a failure");
                         }
                     }
+
+                    // add the comments to question
+                    expLog = ExperimentLog.getExperimentLog();
+                    int expPos = expLog.getExperimentPositionByID(eID);
+                    if (expPos != -1) {
+                        Experiment exp = expLog.getExperiment(expPos);
+                        int qPos = exp.getQuestionPosByID(qID);
+                        Question q = exp.getQuestionByID(qID);
+                        q.addComments(comments);
+                        exp.setQuestion(q, qPos);
+                        expLog.set(expPos, exp);
+                    }
                 }
             }
         });
     }
 
+    /***
+     * Gets the collection of comments from the database
+     * @param onDoneGetCommentsListener handler for receiving comment data
+     */
     public void getCommentData(CrowdFlyListeners.OnDoneGetCommentsListener onDoneGetCommentsListener) {
         setUp();
         onDoneGetCommentsListener.onDoneGetComments(comments);
     }
 
     /**
-     * This returns the number of comments
-     * @return
-     * This is the number of trials
-     */
-    public int getNumcomments(){
-        return comments.size();
-    }
-
-    /**
      * This gets a specific comment
      * @param commentID
-     * The trial id to look for
+     * The comment id to look for
      * @param onDoneGetCommentListener
      * The class that implements a handler for the result of this method
      */
@@ -105,12 +114,12 @@ public class CommentController {
         }
 
     }
-    /**
-     * This creates a new document in the database for the comment with the necessary data
-     * @param comment
-     * The trial to store
-     * @param experimentID
-     * The experiment to reference to get the location of where to store the trial
+
+    /***
+     * Adds a new comment data to the database
+     * @param comment comment to add to database
+     * @param questionID questionID used for comment path in database
+     * @param experimentID experimentID used for comment path in database
      */
     public void addCommentData(Comment comment, String questionID, String experimentID) {
         comments.add(comment);
@@ -122,27 +131,37 @@ public class CommentController {
                             String newId = task.getResult().getId();
                             comment.setCommentID(newId);
                             setCommentData(comment, questionID, experimentID);
+
+                            expLog = ExperimentLog.getExperimentLog();
+                            int expPos = expLog.getExperimentPositionByID(eID);
+                            if (expPos != -1) {
+                                Experiment exp = expLog.getExperiment(expPos);
+                                int qPos = exp.getQuestionPosByID(qID);
+                                Question q = exp.getQuestionByID(qID);
+                                q.addComments(comments);
+                                exp.setQuestion(q, qPos);
+                                expLog.set(expPos, exp);
+                            }
                         }
                     }
                 }
         );
     }
 
-    /**
-     * This proceeds to store the trial id and timestamp with the new trial
-     * Can/should be used to update data of an existing trial
-     * @param comment
-     * This is the manipulated trial
-     * @param experimentID
-     * Experiment ID used to grab the trial path
+    /***
+     * Sets the data of comment in the database
+     * @param comment comment to add to database
+     * @param questionID questionID used for comment path in database
+     * @param experimentID experimentID used for comment path in database
      */
     public void setCommentData(Comment comment, String questionID, String experimentID) {
         GodController.setDocumentData(CrowdFlyFirestorePaths.comment(comment.getCommentID(), questionID, experimentID), comment.toHashMap());
     }
+
     /**
-     * This proceeds to remove an existing trial within an experiment
+     * This proceeds to remove an existing comment within question
      * @param commentID
-     * This is the trial to be removed
+     * This is the comment to be removed
      */
     public void removeCommentData(String commentID){
         Comment loopComment = null;
@@ -160,14 +179,14 @@ public class CommentController {
             comments.remove(loopComment);
         }
         else{
-            Log.e("TrialController","Trial not found on delete!");
+            Log.e("commentController","comment not found on delete!");
         }
 
         DocumentReference doc = cCollection.document(String.valueOf(commentID));
         doc.delete();
     }
     /**
-     * This deletes any and all trials
+     * This deletes any and all comments
      */
     public void removeComments(){
         for (Comment comment : comments){

@@ -21,6 +21,9 @@ import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 
+/***
+ * Ask questions about an experiment
+ */
 public class AskQuestionActivity extends AppCompatActivity {
     final private String userID = FirebaseAuth.getInstance().getUid();
     private ExperimentLog expLog;

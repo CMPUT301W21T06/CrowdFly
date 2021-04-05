@@ -20,7 +20,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
- * This will be used to show the active questions, however it has not been implemented as of yet
+ * This is used to show the active questions
  */
 public class ViewQuestionLogActivity extends AppCompatActivity
     implements CrowdFlyListeners.OnDoneGetQuestionsListener
@@ -38,11 +38,10 @@ public class ViewQuestionLogActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_question_log);
-        Intent i = getIntent();
         expID = getIntent().getStringExtra("expID");
         expLog = ExperimentLog.getExperimentLog();
         int expPos = expLog.getExperimentPositionByID(expID);
-        exp = expLog.getExperiment(expPos);
+        exp = expLog.getExperiment(expPos); // get experiment associated with the questions
         qListView = findViewById(R.id.questionListView);
         btnAskQ = findViewById(R.id.askQuestionButton);
         qList = new ArrayList<>();
@@ -74,6 +73,11 @@ public class ViewQuestionLogActivity extends AppCompatActivity
         });
     }
 
+    /***
+     * Handler for getting questions from database.
+     * Updates the question list
+     * @param questions list of questions to update
+     */
     @Override
     public void onDoneGetQuestions(ArrayList<Question> questions) {
         this.qList = questions;

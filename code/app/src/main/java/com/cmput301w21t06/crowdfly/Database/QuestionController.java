@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class controls all operations related to Trials
+ * This class controls all operations related to questions
  */
 public class QuestionController {
     private CollectionReference qCollection;
@@ -40,7 +40,7 @@ public class QuestionController {
         setUp();
     }
     /**
-     * This sets up the snapshot listener for trials
+     * This sets up the snapshot listener for questions
      */
     private void setUp(){
         qCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -78,18 +78,9 @@ public class QuestionController {
     }
 
     /**
-     * This returns the number of questions
-     * @return
-     * This is the number of trials
-     */
-    public int getNumQuestions(){
-        return questions.size();
-    }
-
-    /**
      * This gets a specific question
      * @param questionID
-     * The trial id to look for
+     * The question id to look for
      * @param onDoneGetQuestionListener
      * The class that implements a handler for the result of this method
      */
@@ -115,9 +106,9 @@ public class QuestionController {
     /**
      * This creates a new document in the database for the question with the necessary data
      * @param question
-     * The trial to store
+     * The question to store
      * @param experimentID
-     * The experiment to reference to get the location of where to store the trial
+     * The experiment to reference to get the location of where to store the question
      */
     public void addQuestionData(Question question, String experimentID) {
         questions.add(question);
@@ -130,6 +121,7 @@ public class QuestionController {
                             question.setupQuestion(eid, newId);
                             setQuestionData(question, experimentID);
 
+                            // add questions to experiment
                             expLog = ExperimentLog.getExperimentLog();
                             int expPos = expLog.getExperimentPositionByID(eid);
                             if (expPos != -1) {
@@ -144,20 +136,20 @@ public class QuestionController {
     }
 
     /**
-     * This proceeds to store the trial id and timestamp with the new trial
-     * Can/should be used to update data of an existing trial
+     * This proceeds to store the question id and timestamp with the new question
+     * Can/should be used to update data of an existing question
      * @param question
-     * This is the manipulated trial
+     * This is the manipulated question
      * @param experimentID
-     * Experiment ID used to grab the trial path
+     * Experiment ID used to grab the question path
      */
     public void setQuestionData(Question question, String experimentID) {
         GodController.setDocumentData(CrowdFlyFirestorePaths.question(question.getQuestionID(), experimentID), question.toHashMap());
     }
     /**
-     * This proceeds to remove an existing trial within an experiment
+     * This proceeds to remove an existing question within an experiment
      * @param questionID
-     * This is the trial to be removed
+     * This is the question to be removed
      */
     public void removeQuestionData(String questionID){
         Question loopQuestion = null;
@@ -175,14 +167,14 @@ public class QuestionController {
             questions.remove(loopQuestion);
         }
         else{
-            Log.e("TrialController","Trial not found on delete!");
+            Log.e("questionController","question not found on delete!");
         }
 
         DocumentReference doc = qCollection.document(String.valueOf(questionID));
         doc.delete();
     }
     /**
-     * This deletes any and all trials
+     * This deletes any and all questions
      */
     public void removeQuestions(){
         for (Question question : questions){

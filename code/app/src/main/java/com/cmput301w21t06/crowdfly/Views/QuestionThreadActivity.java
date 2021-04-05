@@ -19,6 +19,9 @@ import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
 
+/***
+ * Shows comments within a question
+ */
 public class QuestionThreadActivity extends AppCompatActivity
     implements CrowdFlyListeners.OnDoneGetCommentsListener
 {
@@ -43,16 +46,19 @@ public class QuestionThreadActivity extends AppCompatActivity
         qID = getIntent().getStringExtra("qID");
         expLog = ExperimentLog.getExperimentLog();
 
+        // get the question related to this comment
         int expPos = expLog.getExperimentPositionByID(expID);
         Experiment exp = expLog.getExperiment(expPos);
         q = exp.getQuestionByID(qID);
 
+        // get views
         askerID = findViewById(R.id.qAskerID);
         questionDesc = findViewById(R.id.chosen_question);
         qDate = findViewById(R.id.qDate2);
         commentListView = findViewById(R.id.comment_list);
         btnComment = findViewById(R.id.commentButton);
 
+        // set texts
         askerID.setText(q.getUsername());
         questionDesc.setText(q.getQuestion());
         qDate.setText(q.getDate());
@@ -75,6 +81,11 @@ public class QuestionThreadActivity extends AppCompatActivity
         });
     }
 
+    /***
+     * Handler for getting comments from database.
+     * Updates the comments list
+     * @param comments list of comments to update
+     */
     @Override
     public void onDoneGetComments(ArrayList<Comment> comments) {
         this.cList = comments;

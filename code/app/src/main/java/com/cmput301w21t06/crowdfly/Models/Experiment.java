@@ -170,17 +170,30 @@ public class Experiment {
      * @return
      * This is the questions about this experiment
      */
-
     public ArrayList<Question> getQuestions() {return questions;}
 
+    /***
+     * Set questions list with a new question array list
+     * @param questions
+     */
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
     }
 
+    /***
+     * Set a question at a certain index
+     * @param question
+     * @param position
+     */
     public void setQuestion(Question question, int position) {
         questions.set(position, question);
     }
 
+    /***
+     * Gets a question by its ID
+     * @param questionID
+     * @return question, null if non-existent
+     */
     public Question getQuestionByID(String questionID) {
         for (Question q : questions) {
             String compId = q.getQuestionID();
@@ -191,6 +204,11 @@ public class Experiment {
         return null;
     }
 
+    /***
+     * Gets the index of the question in questions array
+     * @param questionID questionID to compare
+     * @return question index, -1 if non-existent
+     */
     public int getQuestionPosByID(String questionID) {
         int pos = 0;
         for (Question q : questions) {
@@ -249,7 +267,6 @@ public class Experiment {
      * @param ownerID
      * This is the ID of the owner of the newly created experiment
      */
-
     public void setOwnerID(String ownerID) { this.ownerID = ownerID; }
 
     /**
@@ -257,12 +274,15 @@ public class Experiment {
      * @param experimentId
      * This is the experiment ID to be associated with this experiment
      */
-
     public void setExperimentId(String experimentId) {
         this.experimentId = experimentId;
 
     }
 
+    /***
+     * This adds a question to an experiment's list of question array
+     * @param question
+     */
     public void addQuestion(Question question) {
         if (questions == null) {
             questions = new ArrayList<Question>();

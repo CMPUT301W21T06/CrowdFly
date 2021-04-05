@@ -11,7 +11,9 @@ import com.cmput301w21t06.crowdfly.Models.Question;
 import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
-
+/**
+ * this is the question adapter that adapts a view in a specific position
+ */
 public class QuestionAdapter extends ArrayAdapter<Question> {
     private ArrayList<Question> questions;
     private Context context;

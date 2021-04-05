@@ -7,11 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Comment;
+import com.cmput301w21t06.crowdfly.Models.User;
 import com.cmput301w21t06.crowdfly.R;
 
 import java.util.ArrayList;
 
+/**
+ * this is the comment adapter that adapts a view in a specific position
+ */
 public class CommentAdapter extends ArrayAdapter<Comment> {
     private ArrayList<Comment> comments;
     private Context context;
