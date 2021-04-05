@@ -15,15 +15,24 @@ import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
-import android.os.Bundle;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.Timestamp;
+import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+//https://github.com/PhilJay/MPAndroidChart
 
 /**
  * This will be used to show the statistics screen
@@ -31,30 +40,32 @@ import java.util.Collections;
  * Results of trials/over time yet to be implemented
  * Histogram of trials has now been implemented
  */
-public class ViewStatisticActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener,CrowdFlyListeners.OnDoneGetTrialsListener {
-    public String trialType;
-    public String measurement;
-    public Experiment exp;
-    public Trial trial;
-    public TrialLog trialLog;
+public class ViewStatisticActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener, CrowdFlyListeners.OnDoneGetTrialsListener {
+    private String trialType;
+    private String measurement;
+    private Experiment exp;
+    private Trial trial;
+    private TrialLog trialLog;
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
-    public String expID;
+    private String expID;
 
-    public TextView firstQuartileTextView;
-    public TextView thirdQuartileTextView;
-    public TextView medianTextView;
-    public TextView meanTextView;
-    public TextView sdTextView;
-    public TextView minTextView;
-    public TextView maxTextView;
-    public BarChart barChart;
-    final String notApplicableMsg = "NA";
-
+    private TextView firstQuartileTextView;
+    private TextView thirdQuartileTextView;
+    private TextView medianTextView;
+    private TextView meanTextView;
+    private TextView sdTextView;
+    private TextView minTextView;
+    private TextView maxTextView;
+    private BarChart barChart;
+    private final String notApplicableMsg = "NA";
+    private GraphView graphView;
+    private final SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_statistic);
+
 
         barChart = findViewById(R.id.barchart);
         firstQuartileTextView = findViewById(R.id.sFirstQuartile);
@@ -64,28 +75,70 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         sdTextView = findViewById(R.id.sStdDev);
         minTextView = findViewById(R.id.sMinimum);
         maxTextView = findViewById(R.id.sMaximum);
+        graphView = findViewById(R.id.graph);
+
 
         expID = getIntent().getStringExtra("expID");
-        ExperimentController.getExperimentData(expID,this);
+        ExperimentController.getExperimentData(expID, this);
         trialLog.getTrials();
 
-        if (trialArrayList.isEmpty()){
+        if (trialArrayList.isEmpty()) {
             setNotApplicableMessages(notApplicableMsg);
-        }
-        else{
+        } else {
             displayStats();
             displayHistogram();
+            displayGraph();
         }
 
     }
+
+    /**
+     * This method adds data points to the graph where the horizontal axis is the date the entry was added and the vertical axis is the current trial's value
+     * @return dataPoints
+     * this returns the data points
+     */
+
+    private ArrayList<DataPoint> getDataPoints() {
+        System.out.println(new Date().getTime());
+        long time;
+        ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
+        for (Trial trial : trialArrayList) {
+            time = trial.getTimestamp().getSeconds() * 1000L;
+
+            if ("measurement".equals(trialType)) {
+                dataPoints.add(new DataPoint(time, ((MeasurementTrial) trial).getMeasurement()));
+
+            } else if ("count".equals(trialType)) {
+                dataPoints.add(new DataPoint(time, ((CountTrial) trial).getCount()));
+
+            } else if ("binomial".equals(trialType)) {
+                dataPoints.add(new DataPoint(time, ((BinomialTrial) trial).getSuccesses()));
+                dataPoints.add(new DataPoint(time, ((BinomialTrial) trial).getFailures()));
+            }
+        }
+
+        return dataPoints;
+    }
+    /**
+     * This method sets and displays the graph in respect to its current trials
+     */
+
+    private void displayGraph() {
+        ArrayList<DataPoint> arr = getDataPoints();
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr.toArray(new DataPoint[arr.size()]));
+        graphView.addSeries(series);
+        graphView.setTitle(trialType.toUpperCase() + " TRIALS");
+        graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+    }
+
     /**
      * This method displays the statistical information in respect to its current trials
      */
-    private void displayStats(){
+    private void displayStats() {
 
         double mean = mean(trialArrayList);
         double median = median(trialArrayList);
-        if (median == -1){
+        if (median == -1) {
             setNotApplicableMessages(notApplicableMsg);
             return;
         }
@@ -96,7 +149,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         double thirdQuartile = thirdQuartile(trialArrayList);
         double sd = standardDeviation(trialArrayList);
 
-
         medianTextView.setText(String.valueOf(median));
         meanTextView.setText(String.valueOf(mean));
         sdTextView.setText(String.valueOf(sd));
@@ -106,29 +158,28 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         if (firstQuartile == -1) {
             firstQuartileTextView.setText(notApplicableMsg);
             thirdQuartileTextView.setText(notApplicableMsg);
-        }
-        else{
+        } else {
             firstQuartileTextView.setText(String.valueOf(firstQuartile));
             thirdQuartileTextView.setText(String.valueOf(thirdQuartile));
         }
 
     }
+
     /**
      * This method displays the histogram in respect to its current trials
      */
-    private void displayHistogram(){
+    private void displayHistogram() {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
         BarDataSet bardataset = new BarDataSet(entries, "Cells");
         ArrayList<String> labels = new ArrayList<String>();
-        ArrayList<Double> barChartTrials = getTrialList(this.trialType,trialArrayList);
+        ArrayList<Double> barChartTrials = getTrialList(this.trialType, trialArrayList);
 
         System.out.println(barChartTrials);
 
-        if (barChartTrials.isEmpty()){
+        if (barChartTrials.isEmpty()) {
             barChart.removeAllViews();
-        }
-        else {
+        } else {
 
             for (int i = 0; i < barChartTrials.size(); i++) {
                 float x = barChartTrials.get(i).floatValue();
@@ -142,11 +193,13 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
             barChart.animateY(2000);
         }
     }
+
     /**
      * This method handles when the trial array list is empty
+     *
      * @param message
      */
-    private void setNotApplicableMessages(String message){
+    private void setNotApplicableMessages(String message) {
         medianTextView.setText(String.valueOf(message));
         meanTextView.setText(String.valueOf(message));
         sdTextView.setText(String.valueOf(message));
@@ -158,6 +211,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
     /**
      * This handles getting the experiment after experiment has been pulled from the database
+     *
      * @param experiment
      */
 
@@ -167,8 +221,10 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         trialType = getIntent().getStringExtra("trialType");
         exp.getTrialController().getTrialLogData(this, new ArrayList<>());
     }
+
     /**
      * This handles getting the trial log after trial log has been pulled from the database
+     *
      * @param trialLog
      */
 
@@ -176,152 +232,168 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     public void onDoneGetTrials(TrialLog trialLog) {
         this.trialLog = trialLog;
         trialArrayList = trialLog.getTrials();
+        Collections.reverse(trialArrayList);
 
     }
+
     /**
      * Given the trialArrayList this method will return the mean for the current trial
+     *
      * @param trialArrayList
      * @return mean of given trial
      */
 
-    private double mean(ArrayList<Trial> trialArrayList){
+    private double mean(ArrayList<Trial> trialArrayList) {
         double sum = 0;
-        ArrayList<Double> trials = getTrialList(this.trialType,trialArrayList);
+        ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
         int length = trials.size();
-        for(double n: trials)
-            sum+=n;
-        return sum/length;
+        for (double n : trials)
+            sum += n;
+        return sum / length;
     }
 
     /**
      * Given the trialArrayList this method will return the standard deviation for the current trial
+     *
      * @param trialArrayList
      * @return standard deviation of given trial
      */
-    private double standardDeviation(ArrayList<Trial> trialArrayList){
+    private double standardDeviation(ArrayList<Trial> trialArrayList) {
         double sum = 0;
         double sd = 0;
-        ArrayList<Double> trials = getTrialList(this.trialType,trialArrayList);
+        ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
         Collections.sort(trials);
         int length = trials.size();
 
-        for(double n: trials){
-            sum+=n;
+        for (double n : trials) {
+            sum += n;
         }
-        double mean = sum/length;
-        for(double n: trials){
-            sd += Math.pow(n - mean,2);
+        double mean = sum / length;
+        for (double n : trials) {
+            sd += Math.pow(n - mean, 2);
         }
-        return Math.sqrt(sd/length);
+        return Math.round((Math.sqrt(sd / length))*100)/100;
     }
 
     /**
      * Given the trialArrayList this method will return the median for the current trial
+     *
      * @param trialArrayList
      * @return median of given trial
      */
     private double median(ArrayList<Trial> trialArrayList) {
         int length = trialArrayList.size();
 
-        ArrayList<Double> trials = getTrialList(this.trialType,trialArrayList);
-        System.out.println("THIS ONE"+trials);
+        ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
+        System.out.println("THIS ONE" + trials);
         Collections.sort(trials);
 
         if (trials.isEmpty())
             return -1;
 
-        if (length % 2 !=0)
+        if (length % 2 != 0)
             return trials.get(length / 2);
 
-        double n1 = trials.get((length/2)-1);
-        double n2 = trials.get(length/2);
-        return (n1+n2)/2;
+        double n1 = trials.get((length / 2) - 1);
+        double n2 = trials.get(length / 2);
+        return (n1 + n2) / 2;
 
     }
+
     /**
      * Given the trialArrayList this method will return the maximum value for the current trial
+     *
      * @param trialArrayList
      * @return max of given trial
      */
-    private double max(ArrayList<Trial> trialArrayList){
-        ArrayList<Double> trials = getTrialList(this.trialType,trialArrayList);
+    private double max(ArrayList<Trial> trialArrayList) {
+        ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
         return Collections.max(trials);
 
     }
+
     /**
      * Given the trialArrayList this method will return the minimum for the current trial
+     *
      * @param trialArrayList
      * @return min of given trial
      */
-    private double min(ArrayList<Trial> trialArrayList){
-        ArrayList<Double> trials = getTrialList(this.trialType,trialArrayList);
+    private double min(ArrayList<Trial> trialArrayList) {
+        ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
         return Collections.min(trials);
     }
+
     /**
      * Given the trialArrayList this method will return the first quartile for the current trial
      * First quartile will be displayed as NA if the size of the list of trials is less than 4
+     *
      * @param trialArrayList
      * @return first quartile of given trial
      */
-    private double firstQuartile(ArrayList<Trial> trialArrayList){
-        ArrayList<Double> trials = getTrialList(this.trialType,trialArrayList);
+    private double firstQuartile(ArrayList<Trial> trialArrayList) {
+        ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
         Collections.sort(trials);
 
         ArrayList<Double> subTrials;
         int length = trials.size();
         int subTrialLength;
 
-        if (length<4)
+        if (length < 4)
             return -1;
 
-        else if (length%2!=0){
-            subTrials = new ArrayList<Double>(trials.subList(0,(length/2)));
+        else if (length % 2 != 0) {
+            subTrials = new ArrayList<Double>(trials.subList(0, (length / 2)));
             subTrialLength = subTrials.size();
-            double n1 = subTrials.get((subTrialLength/2)-1);
-            double n2 = subTrials.get(subTrialLength/2);
-            return (n1+n2)/2;
-        }
-        else{
-            subTrials = new ArrayList<Double>(trials.subList(0,(length/2)));
+            System.out.println("Odd"+subTrials);
+            double n1 = subTrials.get((subTrialLength / 2) - 1);
+            double n2 = subTrials.get(subTrialLength / 2);
+            return (n1 + n2) / 2;
+        } else {
+            subTrials = new ArrayList<Double>(trials.subList(0, (length / 2)));
             subTrialLength = subTrials.size();
-            return subTrials.get(subTrialLength / 2);
+            System.out.println("Even"+subTrials);
+            System.out.println(subTrials.get(subTrialLength / 2));
+            double n1 = subTrials.get((subTrialLength / 2) - 1);
+            double n2 = subTrials.get(subTrialLength / 2);
+            return (n1 + n2) / 2;
         }
     }
+
     /**
      * Given the trialArrayList this method will return the standard deviation for the current trial
      * Third quartile will be displayed as NA if the size of the list of trials is less than 4
+     *
      * @param trialArrayList
      * @return third quartile of given trial
      */
-    private double thirdQuartile(ArrayList<Trial> trialArrayList){
-        ArrayList<Double> trials = getTrialList(this.trialType,trialArrayList);
+    private double thirdQuartile(ArrayList<Trial> trialArrayList) {
+        ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
         Collections.sort(trials);
 
         ArrayList<Double> subTrials;
         int length = trials.size();
         int subTrialLength;
 
-        if (length<4)
+        if (length < 4)
             return -1;
 
-        else if (length%2!=0){
-            subTrials = new ArrayList<Double>(trials.subList((length/2)+1,length));
-            subTrialLength = subTrials.size();
-
-            double n1 = subTrials.get((subTrialLength/2)-1);
-            double n2 = subTrials.get(subTrialLength/2);
-            return (n1+n2)/2;
-        }
-        else{
-            subTrials = new ArrayList<Double>(trials.subList((length/2),length));
+        else if (length % 2 != 0) {
+            subTrials = new ArrayList<Double>(trials.subList((length / 2) + 1, length));
             subTrialLength = subTrials.size();
             return subTrials.get(subTrialLength / 2);
+        } else {
+            subTrials = new ArrayList<Double>(trials.subList((length / 2), length));
+            subTrialLength = subTrials.size();
+            return subTrials.get(subTrialLength / 2);
+
         }
 
     }
+
     /**
      * Given the type of trial and trial array list this method will return an array list of doubles
      * containing trials in respect to its trial type
+     *
      * @param trialArrayList
      * @param typeOfTrial
      * @return an array list of doubles for given trial; for binomial trials we set "1"'s for successes and "0"'s for fails to represent statistical information
@@ -333,17 +405,15 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         for (Trial trial : trialArrayList) {
             if ("measurement".equals(typeOfTrial)) {
                 trials.add(((MeasurementTrial) trial).getMeasurement());
-            }
-            else if ("count".equals(typeOfTrial)) {
+            } else if ("count".equals(typeOfTrial)) {
                 trials.add((double) ((CountTrial) trial).getCount());
-            }
-            else if ("binomial".equals(typeOfTrial)) {
-                s+=((BinomialTrial) trial).getSuccesses();
-                f+=((BinomialTrial) trial).getFailures();
-                for(int i =0; i<s; i++){
+            } else if ("binomial".equals(typeOfTrial)) {
+                s += ((BinomialTrial) trial).getSuccesses();
+                f += ((BinomialTrial) trial).getFailures();
+                for (int i = 0; i < s; i++) {
                     trials.add((double) 1);
                 }
-                for(int i =0;i<f;i++){
+                for (int i = 0; i < f; i++) {
                     trials.add((double) 0);
                 }
             }

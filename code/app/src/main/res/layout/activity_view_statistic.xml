@@ -43,19 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="148dp"
-            android:text="Third Quartile: "
-            android:textColor="#0B0A0A"
-            android:textSize="20dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <TextView
-            android:id="@+id/titleQuartiles3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="148dp"
+            android:layout_marginTop="160dp"
             android:text="Third Quartile: "
             android:textColor="#0B0A0A"
             android:textSize="20dp"
@@ -67,8 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="180dp"
-            android:text="Maximum"
+            android:layout_marginTop="196dp"
+            android:text="Maximum:"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
-            android:layout_marginTop="212dp"
-            android:text="Minimum"
+            android:layout_marginTop="236dp"
+            android:text="Minimum:"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -152,18 +140,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="72dp"
+            android:layout_marginBottom="13dp"
             android:text="Std Dev:"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/titleQuartiles2"
+            app:layout_constraintEnd_toStartOf="@+id/sStdDev"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleMean" />
+            app:layout_constraintTop_toBottomOf="@+id/titleMean"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/sStdDev"
             android:layout_width="153dp"
             android:layout_height="25dp"
             android:layout_marginStart="72dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="12dp"
             android:text="_______________"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
@@ -175,7 +168,7 @@
             android:layout_width="153dp"
             android:layout_height="25dp"
             android:layout_marginStart="72dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="52dp"
             android:text="_______________"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
@@ -187,7 +180,7 @@
             android:layout_width="153dp"
             android:layout_height="25dp"
             android:layout_marginStart="72dp"
-            android:layout_marginTop="72dp"
+            android:layout_marginTop="88dp"
             android:text="_______________"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
@@ -199,17 +192,30 @@
             android:layout_width="153dp"
             android:layout_height="25dp"
             android:layout_marginStart="72dp"
-            android:layout_marginTop="104dp"
+            android:layout_marginTop="128dp"
             android:text="_______________"
             android:textColor="#0B0A0A"
             android:textSize="20dp"
             app:layout_constraintStart_toEndOf="@+id/titleStdDev"
             app:layout_constraintTop_toBottomOf="@+id/sMean" />
 
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph"
+            android:layout_width="382dp"
+            android:layout_height="399dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.566"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+            app:layout_constraintVertical_bias="1.0" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout2"
-            android:layout_width="404dp"
-            android:layout_height="472dp"
+            android:layout_width="408dp"
+            android:layout_height="358dp"
             android:layout_marginTop="75dp"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
@@ -217,10 +223,10 @@
             android:paddingBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleQuartiles5"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.0"
             tools:context="Android.in.barchart.MainActivity">
 
             <com.github.mikephil.charting.charts.BarChart
@@ -231,7 +237,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+
+            </com.github.mikephil.charting.charts.BarChart>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

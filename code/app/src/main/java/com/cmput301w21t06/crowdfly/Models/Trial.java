@@ -4,9 +4,11 @@ import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import java.util.Map;
  * this is the Trial superclass that extends its functionalities to its subclasses
  */
 public class Trial {
+    protected Timestamp timestamp;
     protected String trialID;
     protected String description;
     protected String location;
@@ -26,12 +29,14 @@ public class Trial {
         this.creatorID = creatorID;
         this.trialID = trialID;
         this.location = region;
+
     }
     public Trial(Map<String, Object> data) {
         this.description = (String) data.get("description");
         this.trialID = (String) data.get("trialID");
         this.creatorID = (String) data.get("experimenter");
         this.location = (String) data.get("region");
+        this.timestamp = (Timestamp) data.get("lastUpdatedAt");
     }
     /**
      * this returns user id that is connected with a specific trial
@@ -100,5 +105,12 @@ public class Trial {
         return trl;
     }
 
+    /**
+     * this returns timestamp of trial
+     * @return timestamp
+     */
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
 }
 
