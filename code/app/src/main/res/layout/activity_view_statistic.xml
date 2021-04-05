@@ -206,10 +206,23 @@
             app:layout_constraintStart_toEndOf="@+id/titleStdDev"
             app:layout_constraintTop_toBottomOf="@+id/sMean" />
 
+        <com.jjoe64.graphview.GraphView
+            android:id="@+id/graph"
+            android:layout_width="382dp"
+            android:layout_height="399dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.566"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+            app:layout_constraintVertical_bias="1.0" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout2"
-            android:layout_width="404dp"
-            android:layout_height="472dp"
+            android:layout_width="408dp"
+            android:layout_height="358dp"
             android:layout_marginTop="75dp"
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
@@ -217,10 +230,10 @@
             android:paddingBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleQuartiles5"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.0"
             tools:context="Android.in.barchart.MainActivity">
 
             <com.github.mikephil.charting.charts.BarChart
@@ -231,7 +244,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent">
+
+            </com.github.mikephil.charting.charts.BarChart>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

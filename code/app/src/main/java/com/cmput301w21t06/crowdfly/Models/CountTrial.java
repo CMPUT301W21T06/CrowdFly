@@ -20,7 +20,7 @@ public class CountTrial extends Trial{
      * @param data
      */
     public CountTrial(Map<String, Object> data) {
-        super((String) data.get("description"),(String) data.get("experimenter"), (String) data.get("trialID"),(String) data.get("region"));
+        super(data);
         this.count = ((Long) data.get("count")).intValue();
     }
 

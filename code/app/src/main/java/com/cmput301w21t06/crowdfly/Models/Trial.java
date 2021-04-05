@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Comparator;
@@ -17,27 +18,47 @@ public class Trial {
     protected String trialID;
     protected String description;
     protected String location;
-//    private String result;
+    protected Timestamp timestamp;
+    //    private String result;
 //    private Statistics statistics;
     protected String creatorID;
 
-    public Trial(String description, String creatorID, String trialID,String region) {
+    public Trial(String description, String creatorID, String trialID, String region) {
         this.description = description;
         this.creatorID = creatorID;
         this.trialID = trialID;
         this.location = region;
     }
+
+
     public Trial(Map<String, Object> data) {
         this.description = (String) data.get("description");
         this.trialID = (String) data.get("trialID");
         this.creatorID = (String) data.get("experimenter");
         this.location = (String) data.get("region");
+        this.timestamp = (Timestamp) data.get("lastUpdatedAt");
+        Log.e("this is the date",timestamp.toString());
+
+
     }
+
+    /**
+     * this returns timestamp of trial
+     * @return timestamp
+     */
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
     /**
      * this returns user id that is connected with a specific trial
+     *
      * @return userID
      */
-    public String getExperimenterID(){return creatorID;}
+    public String getExperimenterID() {
+        return creatorID;
+    }
 
     /***
      * this returns the trial ID number
@@ -65,9 +86,13 @@ public class Trial {
 
     /**
      * this sets the user ID to a specific trial class
+     *
      * @param userID
      */
-    public void setExperimenterID(String userID){ this.creatorID = userID;}
+    public void setExperimenterID(String userID) {
+        this.creatorID = userID;
+    }
+
     /***
      * this gets the description of the trial
      * @return description
@@ -80,11 +105,13 @@ public class Trial {
      * this returns an instance of the Trial object in its current state
      * @return Map
      */
-    public Trial getData(){
-        return new Trial(description, creatorID, trialID,location);
+    public Trial getData() {
+        return new Trial(description, creatorID, trialID, location);
     }
 
-    public String getLocation() {return location;}
+    public String getLocation() {
+        return location;
+    }
 
 
     /***
@@ -94,9 +121,9 @@ public class Trial {
     public Map<String, Object> toHashMap() {
         Map<String, Object> trl = new HashMap<>();
         trl.put("description", this.description);
-        trl.put("trialID",this.trialID);
-        trl.put("experimenter",this.creatorID);
-        trl.put("region",this.location);
+        trl.put("trialID", this.trialID);
+        trl.put("experimenter", this.creatorID);
+        trl.put("region", this.location);
         return trl;
     }
 
