@@ -84,6 +84,15 @@ public class UserController {
     }
 
     /**
+     * Returns the UID from the displayID.
+     * @param displayID
+     * @return
+     */
+    public static String displayIdToUID(String displayID){
+        return converter.get(displayID);
+    }
+
+    /**
      * This faciliates the creation of a new user in the database
      * @param user
      * This is the user object that is partially created locally

@@ -35,6 +35,7 @@ import java.util.Set;
 public class TrialController {
     private CollectionReference trialsCollection;
     private ArrayList<Trial> trials = new ArrayList<Trial>();
+    private ArrayList<String> filters = new ArrayList<String>();
     public TrialController(String eid) {
         trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(eid));
         setUp();
@@ -67,7 +68,7 @@ public class TrialController {
      * @param onDoneGetTrialsListener
      * The class that implements the method to handle the result of this function
      */
-    public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener, ArrayList<String> filters){
+    public void getTrialLogData(CrowdFlyListeners.OnDoneGetTrialsListener onDoneGetTrialsListener){
         TrialLog trialLog = TrialLog.getTrialLog();
         trialLog.resetTrialLog();
 
@@ -212,5 +213,27 @@ public class TrialController {
         }
     }
 
+    public void addToFilters(String UID) {
+        this.filters.add(UID);
+        this.getTrialLogData(new CrowdFlyListeners.OnDoneGetTrialsListener() {
+            @Override
+            public void onDoneGetTrials(TrialLog trialList) {
+                Log.d("Trial Controller", "Filtered user");
+            }
+        });
+    }
 
+    public void removeFromFilters(String UID) {
+        this.filters.remove(UID);
+        this.getTrialLogData(new CrowdFlyListeners.OnDoneGetTrialsListener() {
+            @Override
+            public void onDoneGetTrials(TrialLog trialList) {
+                Log.d("Trial Controller", "Unfiltered user");
+            }
+        });
+    }
+
+    public ArrayList<String> getFilters() {
+        return filters;
+    }
 }
