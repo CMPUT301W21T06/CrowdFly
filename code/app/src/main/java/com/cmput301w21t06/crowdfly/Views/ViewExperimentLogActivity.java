@@ -145,6 +145,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         switch (item.getItemId()){
 
             case R.id.hamHome:
+                drawerLayout.closeDrawers();
                 Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent1);
                 break;

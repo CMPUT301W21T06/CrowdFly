@@ -42,7 +42,7 @@ public class AddExperimentActivity extends AppCompatActivity {
     SwitchCompat regionSwitch;
     EditText etDescription;
     EditText etMinNumTrials;
-    TextView etRegion;
+    Button etRegion;
     Button btnMeasurement;
     Button btnBinomial;
     Button btnCount;
@@ -64,7 +64,7 @@ public class AddExperimentActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.cancelBtn);
         //etDescription = findViewById(R.id.trial_listview);
         etMinNumTrials = findViewById(R.id.min_trial_edit_text);
-        etRegion = findViewById(R.id.region_edit_text);
+        etRegion = findViewById(R.id.addRegionButton);
         etDescription = findViewById(R.id.descriptionBox);
         btnMeasurement = findViewById(R.id.m_btn);
         btnBinomial = findViewById(R.id.binomial_btn);

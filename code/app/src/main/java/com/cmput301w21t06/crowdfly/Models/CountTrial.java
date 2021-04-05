@@ -21,7 +21,7 @@ public class CountTrial extends Trial{
      */
     public CountTrial(Map<String, Object> data) {
         super(data);
-        this.count = ((Long) data.get("count")).intValue();
+        this.count = (Long.valueOf(data.get("count").toString())).intValue();
     }
 
     /***

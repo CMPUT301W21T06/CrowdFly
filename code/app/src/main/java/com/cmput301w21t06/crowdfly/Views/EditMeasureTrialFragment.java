@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.cmput301w21t06.crowdfly.Models.BinomialTrial;
 import com.cmput301w21t06.crowdfly.Models.CountTrial;
 import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.R;
@@ -27,7 +28,7 @@ public class EditMeasureTrialFragment extends DialogFragment {
     String userID = FirebaseAuth.getInstance().getUid();
     private EditText measurement, description;
     private String loc;
-    private EditMeasureTrialFragment.OnFragmentInteractionListener listener;
+    private OnFragmentInteractionListener listener;
 
     public interface OnFragmentInteractionListener {
         void onOkPressed(MeasurementTrial trial);
@@ -35,8 +36,8 @@ public class EditMeasureTrialFragment extends DialogFragment {
     @Override
     public void onAttach(Context context){
         super.onAttach(context);
-        if (context instanceof EditMeasureTrialFragment.OnFragmentInteractionListener){
-            listener = (EditMeasureTrialFragment.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener){
+            listener = (OnFragmentInteractionListener) context;
         }else{
             throw new RuntimeException(context.toString() + " must implement OnFragListner");
         }

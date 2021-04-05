@@ -2,9 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cmput301w21t06.crowdfly">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,13 +15,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CrowdFly"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Views.ScanCodeActivity"></activity>
+        <activity android:name=".Views.SplashActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Views.ScanCodeActivity" />
         <activity android:name=".Views.GenerateQRActivity" />
         <activity android:name=".Views.QuestionThreadActivity" />
         <activity android:name=".Views.AskQuestionActivity" />
         <activity android:name=".Views.ViewQRActivity" />
-        <activity android:name=".Views.ViewLocationActivity"
-            android:parentActivityName=".Views.NewTrialActivity"/>
+        <activity
+            android:name=".Views.ViewLocationActivity"
+            android:parentActivityName=".Views.NewTrialActivity" />
         <activity
             android:name=".Views.searchUserActivity"
             android:label="@string/title_activity_search_user"
@@ -43,11 +54,7 @@
         <activity
             android:name=".Views.AuthActivity"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".Views.MainActivity"
@@ -55,11 +62,14 @@
         <activity
             android:name=".Views.ViewExperimentLogActivity"
             android:parentActivityName=".Views.MainActivity" />
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAX1ye19C-XRncAnDdjYihwnyl48GIO5DA"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAX1ye19C-XRncAnDdjYihwnyl48GIO5DA" />
+
         <service
             android:name=".Views.ViewLocationActivity"
-            android:foregroundServiceType="location"  >
-        </service>
+            android:foregroundServiceType="location" />
     </application>
 
 </manifest>
