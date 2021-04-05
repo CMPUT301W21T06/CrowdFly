@@ -15,7 +15,6 @@ public class MeasurementTrial extends Trial{
     public MeasurementTrial(String description, double measurement, String trialID, String creatorID, String region) {
         super(description,creatorID,trialID,region);
         this.measurement = measurement;
-        this.type = "measurement";
 
     }
 
@@ -25,8 +24,8 @@ public class MeasurementTrial extends Trial{
      */
     public MeasurementTrial(Map<String, Object> data) {
         super((String) data.get("description"), (String) data.get("experimenter"), (String) data.get("trialID"),(String) data.get("region"));
-        this.type = "measurement";
         this.measurement = (double) data.get("measurement");
+
     }
 
     /**

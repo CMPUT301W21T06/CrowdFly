@@ -12,7 +12,6 @@ public class CountTrial extends Trial{
 
     public CountTrial(String description, int count, String trialID, String creatorID, String region) {
         super(description,creatorID,trialID,region);
-        this.type = "count";
         this.count = count;
     }
 
@@ -22,7 +21,6 @@ public class CountTrial extends Trial{
      */
     public CountTrial(Map<String, Object> data) {
         super((String) data.get("description"),(String) data.get("experimenter"), (String) data.get("trialID"),(String) data.get("region"));
-        this.type = "count";
         this.count = (Long.valueOf(data.get("count").toString())).intValue();
     }
 
