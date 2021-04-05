@@ -23,7 +23,7 @@ public class MeasurementTrial extends Trial{
      * @param data
      */
     public MeasurementTrial(Map<String, Object> data) {
-        super((String) data.get("description"), (String) data.get("experimenter"), (String) data.get("trialID"),(String) data.get("region"));
+        super(data);
         this.measurement = (double) data.get("measurement");
 
     }
