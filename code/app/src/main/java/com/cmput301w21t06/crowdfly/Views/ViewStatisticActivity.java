@@ -219,7 +219,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     public void onDoneGetExperiment(Experiment experiment) {
         exp = experiment;
         trialType = getIntent().getStringExtra("trialType");
-        exp.getTrialController().getTrialLogData(this, new ArrayList<>());
+        exp.getTrialController().getTrialLogData(this);
     }
 
     /**
