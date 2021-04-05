@@ -341,14 +341,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         else if (length % 2 != 0) {
             subTrials = new ArrayList<>(trials.subList(0, (length / 2)+1));
             subTrialLength = subTrials.size();
-            System.out.println("even"+subTrials);
             double n1 = subTrials.get((subTrialLength / 2) - 1);
             double n2 = subTrials.get(subTrialLength / 2);
             return (n1 + n2) / 2;
         } else {
             subTrials = new ArrayList<>(trials.subList(0, (length / 2)));
             subTrialLength = subTrials.size();
-            System.out.println("odd"+subTrials);
             return subTrials.get(subTrialLength / 2);
         }
     }
