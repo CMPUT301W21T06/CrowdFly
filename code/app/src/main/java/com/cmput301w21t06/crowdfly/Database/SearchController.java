@@ -78,7 +78,7 @@ public class SearchController {
             }
             if (!region.matches("N/A")){
                 String enabledString = "enabled:true";
-                if (!region.matches("Not Enforced")){
+                if (region.matches("Not Enforced")){
                     enabledString = "enabled:false";
                 }
                 mask = addAnd(mask);
@@ -88,7 +88,7 @@ public class SearchController {
 
             if (!active.matches("N/A")){
                     String activeString = "stillRunning:true";
-                    if (!region.matches("Not Active")){
+                    if (active.matches("Not Active")){
                         activeString = "stillRunning:false";
                     }
                 mask = addAnd(mask);
