@@ -117,12 +117,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
     /**
      * This method adds data points to the graph where the horizontal axis is the date the entry was added and the vertical axis is the current trial's value
+     *
      * @return dataPoints
      * this returns the data points
      */
 
     private ArrayList<DataPoint> getDataPoints() {
-        System.out.println(new Date().getTime());
         long time;
         ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
         for (Trial trial : trialArrayList) {
@@ -142,6 +142,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
         return dataPoints;
     }
+
     /**
      * This method sets and displays the graph in respect to its current trials
      */
@@ -198,15 +199,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         ArrayList<String> labels = new ArrayList<String>();
         ArrayList<Double> barChartTrials = getTrialList(this.trialType, trialArrayList);
 
-        System.out.println(barChartTrials);
-
         if (barChartTrials.isEmpty()) {
             barChart.removeAllViews();
         } else {
 
             for (int i = 0; i < barChartTrials.size(); i++) {
                 float x = barChartTrials.get(i).floatValue();
-                System.out.println(x);
                 entries.add(new BarEntry(x, i));
                 labels.add("Trial " + i);
             }
@@ -272,7 +270,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         int length = trials.size();
         for (double n : trials)
             sum += n;
-        return sum / length;
+        return  Math.round((sum / length)*100.0) / 100.0;
     }
 
     /**
@@ -295,7 +293,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         for (double n : trials) {
             sd += Math.pow(n - mean, 2);
         }
-        return Math.round((Math.sqrt(sd / length))*100)/100;
+        return Math.round((Math.sqrt(sd / length)) * 100.0) / 100.0;
     }
 
     /**
@@ -308,7 +306,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         int length = trialArrayList.size();
 
         ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
-        System.out.println("THIS ONE" + trials);
         Collections.sort(trials);
 
         if (trials.isEmpty())
@@ -365,20 +362,15 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
             return -1;
 
         else if (length % 2 != 0) {
-            subTrials = new ArrayList<Double>(trials.subList(0, (length / 2)));
+            subTrials = new ArrayList<>(trials.subList(0, (length / 2)+1));
             subTrialLength = subTrials.size();
-            System.out.println("Odd"+subTrials);
             double n1 = subTrials.get((subTrialLength / 2) - 1);
             double n2 = subTrials.get(subTrialLength / 2);
             return (n1 + n2) / 2;
         } else {
-            subTrials = new ArrayList<Double>(trials.subList(0, (length / 2)));
+            subTrials = new ArrayList<>(trials.subList(0, (length / 2)));
             subTrialLength = subTrials.size();
-            System.out.println("Even"+subTrials);
-            System.out.println(subTrials.get(subTrialLength / 2));
-            double n1 = subTrials.get((subTrialLength / 2) - 1);
-            double n2 = subTrials.get(subTrialLength / 2);
-            return (n1 + n2) / 2;
+            return subTrials.get(subTrialLength / 2);
         }
     }
 
@@ -401,14 +393,15 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
             return -1;
 
         else if (length % 2 != 0) {
-            subTrials = new ArrayList<Double>(trials.subList((length / 2) + 1, length));
+            subTrials = new ArrayList<>(trials.subList((length / 2) + 1, length));
             subTrialLength = subTrials.size();
-            return subTrials.get(subTrialLength / 2);
+            double n1 = subTrials.get((subTrialLength / 2) - 1);
+            double n2 = subTrials.get(subTrialLength / 2);
+            return (n1 + n2) / 2;
         } else {
-            subTrials = new ArrayList<Double>(trials.subList((length / 2), length));
+            subTrials = new ArrayList<>(trials.subList((length / 2), length));
             subTrialLength = subTrials.size();
             return subTrials.get(subTrialLength / 2);
-
         }
 
     }
