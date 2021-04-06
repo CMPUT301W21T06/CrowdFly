@@ -27,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
     private final String userID = FirebaseAuth.getInstance().getUid();
-    private Button userProfileButton;
     private Button viewExperimentLogButton;
     private Button userSearch;
     DrawerLayout drawerLayout;
@@ -53,19 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
-
-        userProfileButton = (Button) findViewById(R.id.userProfileBtn);
         viewExperimentLogButton = (Button) findViewById(R.id.viewExperimentLogBtn);
         userSearch = findViewById(R.id.userSearchButton);
-
-        userProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
-                intent.putExtra(TAG, UserController.reverseConvert(userID));
-                startActivity(intent);
-            }
-        });
 
         viewExperimentLogButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,9 +1,12 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
@@ -19,6 +22,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.Timestamp;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -60,11 +64,30 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     private final String notApplicableMsg = "NA";
     private GraphView graphView;
     private final SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_statistic);
+
+
+        drawerLayout = findViewById(R.id.drawer_stats);
+        navigationView = findViewById(R.id.nav_view_stat);
+        toolbar = findViewById(R.id.toolbar_stat);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, null);
+                finish();
+            }
+        });
 
 
         barChart = findViewById(R.id.barchart);
@@ -219,7 +242,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     public void onDoneGetExperiment(Experiment experiment) {
         exp = experiment;
         trialType = getIntent().getStringExtra("trialType");
-        exp.getTrialController().getTrialLogData(this, new ArrayList<>());
+        exp.getTrialController().getTrialLogData(this);
     }
 
     /**
