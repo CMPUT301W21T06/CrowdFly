@@ -11,7 +11,7 @@
         android:id="@+id/question_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:text="Questions"
         android:textSize="28dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,7 @@
     <TextView
         android:id="@+id/chosen_question"
         android:layout_width="320dp"
-        android:layout_height="151dp"
+        android:layout_height="100dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:gravity="start|top"
@@ -41,7 +41,7 @@
         android:inputType="textMultiLine"
         android:textColor="#0B0A0A"
         android:textColorHint="#0B0A0A"
-        android:textSize="28sp"
+        android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
@@ -58,6 +58,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chosen_question" />
 
+    <ListView
+        android:id="@+id/comment_list"
+        android:layout_width="320dp"
+        android:layout_height="350dp"
+        android:layout_marginTop="35dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:background="@drawable/edit_text_border"
+        android:textColor="#0B0A0A"
+        android:textColorHint="#0B0A0A"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chosen_question"
+        />
+
+    <Button
+        android:id="@+id/commentButton"
+        android:layout_width="270dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Comment on Question"
+        android:backgroundTint="@color/bluejay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comment_list"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

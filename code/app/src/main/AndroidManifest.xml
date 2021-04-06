@@ -23,11 +23,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Views.GenerateQRActivity"></activity>
         <activity android:name=".Views.ScanCodeActivity" />
-        <activity android:name=".Views.GenerateQRActivity" />
-        <activity android:name=".Views.QuestionThreadActivity" />
-        <activity android:name=".Views.AskQuestionActivity" />
         <activity android:name=".Views.ViewQRActivity" />
+        <activity
+            android:name=".Views.PostCommentActivity"
+            android:parentActivityName=".Views.QuestionThreadActivity"/>
+        <activity
+            android:name=".Views.QuestionThreadActivity"
+            android:parentActivityName=".Views.ViewQuestionLogActivity"/>
+        <activity
+            android:name=".Views.AskQuestionActivity"
+            android:parentActivityName=".Views.ViewQuestionLogActivity"/>
         <activity
             android:name=".Views.ViewLocationActivity"
             android:parentActivityName=".Views.NewTrialActivity" />

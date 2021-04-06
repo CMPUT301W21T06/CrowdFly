@@ -84,12 +84,43 @@ public class CrowdFlyFirestorePaths {
     }
 
     /***
-     * Path for a question
-     * @param questionID
+     * Path for Questions collection
+     * @param experimentID
      * @return
      */
-    public static final String questions(int questionID) {
-        return String.format("/Questions/{}", questionID);
+    public static final String questions(String experimentID) {
+        return String.format("/Experiments/%s/Questions", experimentID);
+    }
+
+    /***
+     * Path for a single question
+     * @param questionID
+     * @param experimentID
+     * @return
+     */
+    public static final String question(String questionID, String experimentID) {
+        return String.format("/Experiments/%s/Questions/%s", experimentID, questionID);
+    }
+
+    /***
+     * Path for comment collection
+     * @param experimentID 
+     * @param qID questionID
+     * @return
+     */
+    public static final String comments(String experimentID, String qID) {
+        return String.format("/Experiments/%s/Questions/%s/Comments", experimentID, qID);
+    }
+
+    /***
+     * Path for single comment
+     * @param commentID
+     * @param questionID
+     * @param experimentID
+     * @return
+     */
+    public static final String comment(String commentID, String questionID, String experimentID) {
+        return String.format("/Experiments/%s/Questions/%s/Comments/%s", experimentID, questionID, commentID);
     }
 
     /**

@@ -69,4 +69,31 @@ public class ExperimentLog {
      * Resets the values of experiment list
      */
     public void resetExperimentLog() { experiments = new ArrayList<>(); }
+
+    /***
+     * Get experiment by ID
+     * @param expID
+     * @return
+     */
+    public int getExperimentPositionByID(String expID) {
+        int expPosition = 0;
+        for (Experiment exp : experiments) {
+            String compId = exp.getExperimentId();
+            if (compId.compareTo(expID) == 0) {
+                return expPosition;
+            }
+            expPosition++;
+        }
+        // if no experiment found with id, return an invalid position
+        return -1;
+    }
+
+    /**
+     * sets a experiment in a particular position
+     * @param position
+     * @param exp
+     */
+    public void set(int position, Experiment exp){
+        this.experiments.set(position,exp);
+    }
 }

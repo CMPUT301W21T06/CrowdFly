@@ -150,13 +150,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
 
             }
         });
-        questionButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ViewTrialLogActivity.this, ViewQuestionLogActivity.class);
-                startActivity(intent);
-            }
-        });
+        
         statButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,8 +233,14 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         questionButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewTrialLogActivity.this, ViewQuestionLogActivity.class);
-                startActivity(intent);
+                if(subscribed || isOwner){
+                    Intent intent = new Intent(ViewTrialLogActivity.this, ViewQuestionLogActivity.class);
+                    intent.putExtra("expID", String.valueOf(expID));
+                    startActivity(intent);
+                }
+                else {
+                    Toaster.makeToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to add trials");
+                }
             }
         });
 
@@ -261,7 +261,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     startActivityForResult(intent,0);
                 }
                 else {
-                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to add trials");
+                    Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Please subscribe to the experiment to ask questions");
                 }
 
             }
