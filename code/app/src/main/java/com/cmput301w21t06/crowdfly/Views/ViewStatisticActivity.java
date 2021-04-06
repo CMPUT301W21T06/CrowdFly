@@ -136,7 +136,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
             } else if ("binomial".equals(trialType)) {
                 dataPoints.add(new DataPoint(time, ((BinomialTrial) trial).getSuccesses()));
-                dataPoints.add(new DataPoint(time, ((BinomialTrial) trial).getFailures()));
             }
         }
 
@@ -150,8 +149,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     private void displayGraph() {
         ArrayList<DataPoint> arr = getDataPoints();
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr.toArray(new DataPoint[arr.size()]));
+        String title = trialType.toUpperCase() +"TRIALS OVER TIME";
+        if (trialType.equals("binomial")){
+            title = trialType.toUpperCase() +" SUCCESS TRIALS OVER TIME";
+        }
         graphView.addSeries(series);
-        graphView.setTitle(trialType.toUpperCase() + " TRIALS");
+        graphView.setTitle(title);
         graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
     }
 
@@ -203,7 +206,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
             barChart.removeAllViews();
         } else {
 
-            for (int i = 0; i < barChartTrials.size(); i++) {
+            for (int i = 1; i < barChartTrials.size(); i++) {
                 float x = barChartTrials.get(i).floatValue();
                 entries.add(new BarEntry(x, i));
                 labels.add("Trial " + i);
