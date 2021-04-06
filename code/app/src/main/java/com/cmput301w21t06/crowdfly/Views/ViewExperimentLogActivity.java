@@ -8,8 +8,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +19,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.cmput301w21t06.crowdfly.Controllers.DropdownAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.ExperimentController;
+import com.cmput301w21t06.crowdfly.Database.SearchController;
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
@@ -32,6 +32,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Shows all the experiments in a list view
@@ -43,12 +44,19 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     private ExperimentLog experimentLog;
     private ArrayList<Experiment> experimentsList;
     private final String userID = FirebaseAuth.getInstance().getUid();
+    private DropdownAdapter symbolAdapter;
+    private DropdownAdapter activeAdapter;
+    private DropdownAdapter regionAdapter;
+    private final ArrayList<String> symbolList = new ArrayList<String>(Arrays.asList("N/A", "<", ">", ">=", "<=", "=", "!=", "TO"));
+    private final ArrayList<String> activeList = new ArrayList<String>(Arrays.asList("N/A", "Active", "Not Active"));
+    private final ArrayList<String> regionList = new ArrayList<String>(Arrays.asList("N/A", "Region Enforced", "Not Enforced"));
     Button btnAddExperiment;
     Button btnSearch;
     EditText searchExp;
     TextView filterText;
     Spinner symbols;
     EditText numTrials;
+    EditText numTrialsLeft;
     Button doneButton;
     Spinner activeSpinner;
     Spinner regionSpinner;
@@ -71,7 +79,8 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         btnAddExperiment = findViewById(R.id.experimentAdd);
         regionSpinner = findViewById(R.id.regionSpinner);
         activeSpinner = findViewById(R.id.activeSpinner);
-        numTrials = findViewById(R.id.numTrials);
+        numTrials = findViewById(R.id.numTrialsRight);
+        numTrialsLeft = findViewById(R.id.numTrialsLeft);
         filterText = findViewById(R.id.trialsFilter);
         symbols = findViewById(R.id.signSpinner);
         setVisibility();
@@ -99,7 +108,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             @Override
             public void onClick(View view) {
                 viewSwitcher.showNext();
-                Toaster.makeCrispyToast(ViewExperimentLogActivity.this, "Aftering entering text into the main box, click done to perform the search or long click to cancel!");
+                Toaster.makeToast(ViewExperimentLogActivity.this, "Aftering entering text into the main box, click done to perform the search or long click to cancel!");
                 setVisibility();
             }
         });
@@ -108,6 +117,22 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             @Override
             public void onClick(View view) {
                 Toaster.makeToast(ViewExperimentLogActivity.this,"Performing search!");
+                String symbolString = symbols.getSelectedItem().toString();
+                String trialFilter = numTrials.getText().toString();
+                String trialLeftFilter = numTrialsLeft.getText().toString();
+                String regionFilter = regionSpinner.getSelectedItem().toString();
+                String activeFilter = activeSpinner.getSelectedItem().toString();
+                String searchFilter = searchExp.getText().toString();
+
+
+                if (!symbolString.matches("TO") && !SearchController.validTrialFilter(symbolString,trialFilter)){
+                    Toaster.makeToast(ViewExperimentLogActivity.this,"Filtering for trials requires a number and a symbol, without those, related input will be disregarded!");
+                }
+                else if (symbolString.matches("TO") && !SearchController.validTrialToFilter(trialLeftFilter,trialFilter)){
+                    Toaster.makeToast(ViewExperimentLogActivity.this,"Filtering for trials requires two numbers and a symbol, without those, related input will be disregarded!");
+                }
+                SearchController.query(symbolString,trialFilter,trialLeftFilter, regionFilter,activeFilter,searchFilter);
+                clearBoxes();
             }
         });
 
@@ -116,27 +141,31 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             @Override
             public boolean onLongClick(View view) {
                 viewSwitcher.showPrevious();
-                setVisibility();
+                cancelSearch();
+                ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
                 return false;
             }
         });
 
-        searchExp.addTextChangedListener(new TextWatcher() {
+        symbols.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == symbolList.indexOf("TO")){
+                    numTrialsLeft.setVisibility(View.VISIBLE);
+                }
+                else{
+                    numTrialsLeft.setVisibility(View.INVISIBLE);
+                }
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
+
+
         btnAddExperiment.setOnClickListener(new View.OnClickListener() {
 
             // should lead to a new activity, but just manually adding experiments for now
@@ -151,6 +180,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                cancelSearch();
                 Experiment experiment = (Experiment) adapterView.getAdapter().getItem(i);
                 String expID = experiment.getExperimentId();
                 Intent intent = new Intent(getApplicationContext(), ViewTrialLogActivity.class);
@@ -163,6 +193,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         experimentListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                cancelSearch();
                 Log.e("R","LONG CLICK");
                 Experiment exp = experimentsList.get(i);
                 if (userID.matches(exp.getOwnerID())) {
@@ -203,11 +234,21 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     }
 
     private void setVisibility(){
-        int target = View.INVISIBLE;
+        int target = View.VISIBLE;
         if (symbols.getVisibility() == target){
-            target = View.VISIBLE;
+            target = View.INVISIBLE;
+            clearBoxes();
         }
+        else {
+            symbolAdapter = new DropdownAdapter(this, R.layout.general_layout_min, symbolList, false);
+            symbols.setAdapter(symbolAdapter);
+            activeAdapter = new DropdownAdapter(this, R.layout.general_layout_min, activeList, false);
+            activeSpinner.setAdapter(activeAdapter);
+            regionAdapter = new DropdownAdapter(this, R.layout.general_layout_min, regionList, false);
+            regionSpinner.setAdapter(regionAdapter);
 
+        }
+        numTrialsLeft.setVisibility(View.INVISIBLE);
         filterText.setVisibility(target);
         symbols.setVisibility(target);
         numTrials.setVisibility(target);
@@ -215,6 +256,18 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         regionSpinner.setVisibility(target);
         doneButton.setVisibility(target);
 
+    }
+
+    private void clearBoxes(){
+        numTrials.setText("");
+        searchExp.setText("");
+        numTrialsLeft.setText("");
+    }
+    private void cancelSearch(){
+        if (doneButton.getVisibility() == View.VISIBLE){
+            setVisibility();
+        }
+        SearchController.clearMasks();
     }
 
     @Override
@@ -236,7 +289,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
 
         }
         return true;
-
     }
 
     //added

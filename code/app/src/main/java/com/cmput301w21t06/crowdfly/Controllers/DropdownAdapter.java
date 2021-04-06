@@ -18,6 +18,7 @@ import java.util.ArrayList;
  */
 public class DropdownAdapter extends ArrayAdapter<String> {
     private ArrayList<Integer> pos;
+    boolean filterFirst;
 
     /**
      * This is the constructor for the custom adapter, which creates the superobject and other items
@@ -28,9 +29,11 @@ public class DropdownAdapter extends ArrayAdapter<String> {
      * @param items
      * The list of items that feed the adapter
      */
-    public DropdownAdapter(Context context, int resourceID, ArrayList<String> items){
+    public DropdownAdapter(Context context, int resourceID, ArrayList<String> items, boolean filterFirst){
         super(context,resourceID,items);
         pos = new ArrayList<Integer>();
+        this.filterFirst = filterFirst;
+        Log.e("FUCK",String.valueOf(items));
     }
 
     /**
@@ -63,7 +66,7 @@ public class DropdownAdapter extends ArrayAdapter<String> {
      */
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        if (position != 0) {
+        if (!filterFirst || (filterFirst && position != 0)) {
             TextView view = (TextView) super.getDropDownView(position, convertView, parent);
             view.setHeight(100);
             if (pos.contains(position)){
