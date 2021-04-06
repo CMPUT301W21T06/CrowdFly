@@ -8,113 +8,125 @@
     android:layout_gravity="center_horizontal">
 
 
-    <TextView
-        android:id="@+id/exp_title"
-        android:layout_width="86dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/description"
-        android:textColor="#0B0A0A"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="400dp"
+        android:layout_height="95dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/exp_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Description"
-        android:textColor="#0B0A0A"
-        app:layout_constraintStart_toEndOf="@+id/exp_title"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/exp_title"
+            android:layout_width="86dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/description"
+            android:textColor="#0B0A0A"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/exp_ownerName_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="72dp"
-        android:text="@string/owner"
-        android:textColor="#131313"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exp_numTrials_title" />
+        <TextView
+            android:id="@+id/exp_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Description"
+            android:textColor="#0B0A0A"
+            app:layout_constraintStart_toEndOf="@+id/exp_title"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/exp_ownerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Owner Name"
-        android:textColor="#131313"
-        app:layout_constraintStart_toEndOf="@+id/exp_ownerName_title"
-        app:layout_constraintTop_toBottomOf="@+id/exp_numTrials" />
+        <TextView
+            android:id="@+id/exp_ownerName_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="72dp"
+            android:text="@string/owner"
+            android:textColor="#131313"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/exp_numTrials_title" />
 
-    <TextView
-        android:id="@+id/exp_status_title"
-        android:layout_width="0dp"
-        android:layout_height="19dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/status"
-        android:textColor="#0E0E0E"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exp_title" />
+        <TextView
+            android:id="@+id/exp_ownerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Owner Name"
+            android:textColor="#131313"
+            app:layout_constraintStart_toEndOf="@+id/exp_ownerName_title"
+            app:layout_constraintTop_toBottomOf="@+id/exp_numTrials" />
 
-    <TextView
-        android:id="@+id/exp_status"
-        android:layout_width="0dp"
-        android:layout_height="19dp"
-        android:layout_marginTop="8dp"
-        android:text="Status"
-        android:textColor="#0E0E0E"
-        app:layout_constraintStart_toEndOf="@+id/exp_status_title"
-        app:layout_constraintTop_toBottomOf="@+id/exp_description" />
+        <TextView
+            android:id="@+id/exp_status_title"
+            android:layout_width="0dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/status"
+            android:textColor="#0E0E0E"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/exp_title" />
 
-    <TextView
-        android:id="@+id/exp_numTrials_title"
-        android:layout_width="78dp"
-        android:layout_height="19dp"
+        <TextView
+            android:id="@+id/exp_status"
+            android:layout_width="0dp"
+            android:layout_height="19dp"
+            android:layout_marginTop="8dp"
+            android:text="Status"
+            android:textColor="#0E0E0E"
+            app:layout_constraintStart_toEndOf="@+id/exp_status_title"
+            app:layout_constraintTop_toBottomOf="@+id/exp_description" />
 
-        android:layout_marginTop="8dp"
+        <TextView
+            android:id="@+id/exp_numTrials_title"
+            android:layout_width="78dp"
+            android:layout_height="19dp"
 
-        android:layout_marginEnd="44dp"
-        android:text="@string/numTrials"
-        android:textColor="#0B0A0A"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="8dp"
 
-    <TextView
-        android:id="@+id/exp_numTrials"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+            android:layout_marginEnd="44dp"
+            android:text="@string/numTrials"
+            android:textColor="#0B0A0A"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        android:text="numTrials"
+        <TextView
+            android:id="@+id/exp_numTrials"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
 
-        android:textColor="#0B0A0A"
-        app:layout_constraintStart_toEndOf="@+id/exp_numTrials_title"
-        app:layout_constraintTop_toTopOf="parent" />
+            android:text="numTrials"
 
-    <TextView
-        android:id="@+id/exp_region_Title"
-        android:layout_width="57dp"
-        android:layout_height="18dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/region"
-        android:textColor="#090909"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exp_status_title" />
+            android:textColor="#0B0A0A"
+            app:layout_constraintStart_toEndOf="@+id/exp_numTrials_title"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/exp_region"
-        android:layout_width="150dp"
-        android:layout_height="17dp"
-        android:layout_marginTop="8dp"
-        android:text="Region"
-        android:textColor="#090909"
-        app:layout_constraintStart_toEndOf="@+id/exp_region_Title"
-        app:layout_constraintTop_toBottomOf="@+id/exp_status" />
+        <TextView
+            android:id="@+id/exp_region_Title"
+            android:layout_width="57dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/region"
+            android:textColor="#090909"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/exp_status_title" />
+
+        <TextView
+            android:id="@+id/exp_region"
+            android:layout_width="150dp"
+            android:layout_height="17dp"
+            android:layout_marginTop="8dp"
+            android:text="Region"
+            android:textColor="#090909"
+            app:layout_constraintStart_toEndOf="@+id/exp_region_Title"
+            app:layout_constraintTop_toBottomOf="@+id/exp_status" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
