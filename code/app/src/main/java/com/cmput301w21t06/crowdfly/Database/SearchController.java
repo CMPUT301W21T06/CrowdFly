@@ -10,13 +10,10 @@ import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.IndexQuery;
 import com.algolia.search.saas.Query;
-import com.cmput301w21t06.crowdfly.Views.Toaster;
-import com.cmput301w21t06.crowdfly.Views.ViewExperimentLogActivity;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +27,7 @@ public class SearchController {
     private static CompletionHandler handler = new CompletionHandler() {
         @Override
         public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
-            if (jsonObject != null){
+            if (e == null){
                 Log.i("Algolia","Operation completed " + String.valueOf(jsonObject));
             }
             else{
@@ -42,7 +39,7 @@ public class SearchController {
     private static CompletionHandler handlerMultiple= new CompletionHandler() {
         @Override
         public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
-            if (jsonObject != null){
+            if ( e == null){
                 Log.i("Algolia","Operation completed " + String.valueOf(jsonObject));
             }
             else{
@@ -68,41 +65,48 @@ public class SearchController {
         index.saveObjectAsync(obj,id,handler);
     }
 
-    public static void query(String symbol, String trial, String trialLeft, String region, String active, String general){
+    public static void query(String symbol, String trial, String trialLeft, String region, String active, String general, CompletionHandler handler) {
         clearMasks();
         List<IndexQuery> queries = new ArrayList<IndexQuery>();
+        String mask = "";
         if (!(symbol.matches("N/A") && trial.matches("") && region.matches("N/A") && active.matches("N/A") && general.matches(""))) {
             if (symbol.matches("TO") && validTrialToFilter(trialLeft,trial)){
-                queries.add(new IndexQuery(indexName,new Query("").setFilters("minTrials:" + trialLeft + " " + symbol + " " + trial)));
+                mask = mask.concat("minTrials:" + trialLeft + " " + symbol + " " + trial);
             }
             else if (validTrialFilter(symbol,trial) && !(symbol.matches("N/A") || symbol.matches("TO"))){
-                queries.add(new IndexQuery(indexName,new Query("").setFilters("minTrials " + symbol + " " + trial)));
+                mask = mask.concat("minTrials " + symbol + " " + trial);
             }
             if (!region.matches("N/A")){
                 String enabledString = "enabled:true";
-                if (!region.matches("Not Enforced")){
+                if (region.matches("Not Enforced")){
                     enabledString = "enabled:false";
                 }
-                queries.add(new IndexQuery(indexName,new Query("").setFilters(enabledString)));
+                mask = addAnd(mask);
+                mask = mask.concat(enabledString);
+
             }
 
             if (!active.matches("N/A")){
                     String activeString = "stillRunning:true";
-                    if (!region.matches("Not Active")){
+                    if (active.matches("Not Active")){
                         activeString = "stillRunning:false";
                     }
-                    queries.add(new IndexQuery(indexName,new Query("").setFilters(activeString)));
+                mask = addAnd(mask);
+                mask = mask.concat(activeString);
             }
 
-            if (!general.matches("")){
-                queries.add(new IndexQuery(indexName,new Query(general)));
-            }
-
-            client.multipleQueriesAsync(queries,strategy,handlerMultiple);
+            Log.i("MASK", mask);
+            index.searchAsync(new Query(general).setFilters(mask), handler);
         }
-
-
     }
+
+    private static String addAnd(String mask) {
+        if(mask.length()>0){
+            mask = mask.concat(" AND ");
+        }
+        return mask;
+    }
+
     public static boolean validTrialFilter(String symbol, String tFilter){
        if ((symbol.matches("N/A") && !tFilter.matches("")) || (tFilter.matches("") && !symbol.matches("N/A"))){
            return false;

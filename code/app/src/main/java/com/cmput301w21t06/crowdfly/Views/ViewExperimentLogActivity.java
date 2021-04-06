@@ -1,6 +1,7 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,6 +20,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.CompletionHandler;
 import com.cmput301w21t06.crowdfly.Controllers.DropdownAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
@@ -30,15 +33,21 @@ import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Shows all the experiments in a list view
  * Map and search buttons not implemented
  */
-public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpLogListener, Toaster, NavigationView.OnNavigationItemSelectedListener {
+public class ViewExperimentLogActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpLogListener, Toaster, NavigationView.OnNavigationItemSelectedListener, CompletionHandler {
     private ListView experimentListView;
     private ExperimentAdapter expAdapter;
     private ExperimentLog experimentLog;
@@ -131,7 +140,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 else if (symbolString.matches("TO") && !SearchController.validTrialToFilter(trialLeftFilter,trialFilter)){
                     Toaster.makeToast(ViewExperimentLogActivity.this,"Filtering for trials requires two numbers and a symbol, without those, related input will be disregarded!");
                 }
-                SearchController.query(symbolString,trialFilter,trialLeftFilter, regionFilter,activeFilter,searchFilter);
+                SearchController.query(symbolString,trialFilter,trialLeftFilter, regionFilter,activeFilter,searchFilter, ViewExperimentLogActivity.this);
                 clearBoxes();
             }
         });
@@ -289,6 +298,42 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
 
         }
         return true;
+    }
+
+    @Override
+    public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
+        if ( e == null){
+            Log.i("Algolia","Operation completed " + String.valueOf(jsonObject));
+            try {
+                experimentLog.resetExperimentLog();
+                ExperimentLog experimentLog = ExperimentLog.getExperimentLog();
+                JSONArray hits = jsonObject.getJSONArray("hits");
+                for (int i = 0; i < hits.length(); i++) {
+                    JSONObject hit = hits.getJSONObject(i);
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("stillRunning", hit.get("stillRunning"));
+                    map.put("minTrials",  Long.valueOf(hit.get("minTrials").toString()));
+                    map.put("description", hit.get("description"));
+                    map.put("experimentID", hit.get("experimentID"));
+                    map.put("region", hit.get("region"));
+                    map.put("ownerID", hit.get("ownerID"));
+                    map.put("displayID", hit.get("displayID"));
+                    map.put("type", hit.get("type"));
+                    map.put("enabled", hit.get("enabled"));
+
+                    Experiment exp = new Experiment(map);
+                    exp.setUpFullExperiment(exp.getExperimentId());
+                    experimentLog.addExperiment(exp);
+                }
+                this.onDoneGetExperiments();
+            } catch (JSONException jsonException) {
+                jsonException.printStackTrace();
+                // Maybe show a toast here.
+            }
+        }
+        else{
+            Log.e("Algolia",String.valueOf(e));
+        }
     }
 
     //added
