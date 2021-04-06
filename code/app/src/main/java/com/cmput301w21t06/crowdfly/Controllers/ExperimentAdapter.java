@@ -1,6 +1,8 @@
 package com.cmput301w21t06.crowdfly.Controllers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +46,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
      * @return
      *      a view at a particular position
      */
+    @SuppressLint("ResourceAsColor")
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
@@ -64,6 +67,10 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         description.setText(experiment.getDescription());
         ownerName.setText(UserController.reverseConvert(experiment.getOwnerID()));
         status.setText(experiment.getStillRunning() ? "Active" : "Not Active" );
+        if (!experiment.getStillRunning()){
+            view.setBackgroundColor(R.color.purple_200);
+        }
+
         numTrials.setText(String.valueOf(experiment.getMinTrials()));
         RegionViewSetter.setRegion(region,experiment.getRegion());
         return view;
