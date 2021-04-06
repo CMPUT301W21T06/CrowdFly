@@ -51,6 +51,8 @@ public class ExperimentActivityTest {
     @Test
     public void start() throws Exception {
         solo.assertCurrentActivity("Wrong activity", AuthActivity.class);
+//        solo.clickOnButton("Generate");
+//        solo.assertCurrentActivity("Wrong activity", MainActivity.class);
     }
 
     @Test

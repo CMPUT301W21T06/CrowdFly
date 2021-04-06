@@ -12,6 +12,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Controllers.CodeController;
 import com.cmput301w21t06.crowdfly.Controllers.QRCodeController;
@@ -25,6 +27,7 @@ import com.cmput301w21t06.crowdfly.Models.QRCode;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.Models.TrialFactory;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,11 +44,28 @@ public class GenerateQRActivity extends AppCompatActivity
     private ImageView qrCodeImageView;
     private Bitmap qrCodeBitmap;
     private QRCodeController qrCodeController;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_qr);
+        drawerLayout = findViewById(R.id.drawer_gen_qr);
+        navigationView = findViewById(R.id.nav_view_gen_qr);
+        toolbar = findViewById(R.id.toolbar_gen_qr);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, null);
+                finish();
+            }
+        });
         String experimentID = getIntent().getStringExtra("experimentID");
         userID = FirebaseAuth.getInstance().getUid();
         ExperimentController.getExperimentData(experimentID, this);

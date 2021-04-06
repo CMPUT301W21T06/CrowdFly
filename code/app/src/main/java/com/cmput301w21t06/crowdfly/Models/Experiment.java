@@ -4,9 +4,11 @@ import android.util.Log;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.QuestionController;
 import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
 import com.cmput301w21t06.crowdfly.Database.UserController;
+import com.google.firebase.firestore.local.QueryEngine;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class Experiment {
     private String experimentId;
     private TrialController trialController;
     private SubscriptionController subController;
+    private QuestionController qController;
     private String type;
     private boolean regionEnabled;
     // CONSTRUCTORS
@@ -168,8 +171,56 @@ public class Experiment {
      * @return
      * This is the questions about this experiment
      */
-
     public ArrayList<Question> getQuestions() {return questions;}
+
+    /***
+     * Set questions list with a new question array list
+     * @param questions
+     */
+    public void setQuestions(ArrayList<Question> questions) {
+        this.questions = questions;
+    }
+
+    /***
+     * Set a question at a certain index
+     * @param question
+     * @param position
+     */
+    public void setQuestion(Question question, int position) {
+        questions.set(position, question);
+    }
+
+    /***
+     * Gets a question by its ID
+     * @param questionID
+     * @return question, null if non-existent
+     */
+    public Question getQuestionByID(String questionID) {
+        for (Question q : questions) {
+            String compId = q.getQuestionID();
+            if (compId.compareTo(questionID) == 0) {
+                return q;
+            }
+        }
+        return null;
+    }
+
+    /***
+     * Gets the index of the question in questions array
+     * @param questionID questionID to compare
+     * @return question index, -1 if non-existent
+     */
+    public int getQuestionPosByID(String questionID) {
+        int pos = 0;
+        for (Question q : questions) {
+            String compId = q.getQuestionID();
+            if (compId.compareTo(questionID) == 0) {
+                return pos;
+            }
+            pos++;
+        }
+        return -1;
+    }
 
     /**
      * This returns the owner of the experiment
@@ -217,7 +268,6 @@ public class Experiment {
      * @param ownerID
      * This is the ID of the owner of the newly created experiment
      */
-
     public void setOwnerID(String ownerID) { this.ownerID = ownerID; }
 
     /**
@@ -225,11 +275,22 @@ public class Experiment {
      * @param experimentId
      * This is the experiment ID to be associated with this experiment
      */
-
     public void setExperimentId(String experimentId) {
         this.experimentId = experimentId;
 
     }
+
+    /***
+     * This adds a question to an experiment's list of question array
+     * @param question
+     */
+    public void addQuestion(Question question) {
+        if (questions == null) {
+            questions = new ArrayList<Question>();
+        }
+        questions.add(question);
+    }
+
     /**
      * This is used to instantiate new Trial and Subscription Controllers
      * @param experimentId
@@ -239,6 +300,7 @@ public class Experiment {
         setExperimentId(experimentId);
         trialController = new TrialController(experimentId);
         subController = new SubscriptionController(experimentId);
+        qController = new QuestionController(experimentId);
     }
 
     /**
@@ -256,6 +318,11 @@ public class Experiment {
     public SubscriptionController getSubController() {
         return subController;
     }
+
+    public QuestionController getQuestionController() {
+        return qController;
+    }
+
 
     /***
      * This transforms the experiment to a hash map that is fed into the database
