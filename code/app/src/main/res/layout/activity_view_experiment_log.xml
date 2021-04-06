@@ -53,7 +53,7 @@
             android:id="@+id/viewSwitcher"
             android:layout_width="300sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="164dp"
+            android:layout_marginTop="108dp"
             android:backgroundTint="@color/bluejay"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
@@ -98,10 +98,10 @@
             android:id="@+id/activeSpinner"
             android:layout_width="100dp"
             android:layout_height="20dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@+id/viewSwitcher"
             app:layout_constraintEnd_toStartOf="@+id/regionSpinner"
-            app:layout_constraintHorizontal_bias="0.615"
+            app:layout_constraintHorizontal_bias="0.797"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Spinner
@@ -109,7 +109,7 @@
             android:layout_width="100dp"
             android:layout_height="20dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="20dp"
             app:layout_constraintBottom_toTopOf="@+id/viewSwitcher"
             app:layout_constraintEnd_toStartOf="@+id/buttonDoneLog" />
 
@@ -117,7 +117,7 @@
             android:id="@+id/trialsFilter"
             android:layout_width="103dp"
             android:layout_height="25dp"
-            android:layout_marginStart="80dp"
+            android:layout_marginStart="84dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="12dp"
             android:text="# of Trials:"
@@ -126,18 +126,18 @@
             app:layout_constraintBottom_toTopOf="@+id/activeSpinner"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/experiment_list"
-            app:layout_constraintVertical_bias="0.847" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <Spinner
             android:id="@+id/signSpinner"
-            android:layout_width="68dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="12dp"
+            android:layout_width="73dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             app:layout_constraintBottom_toTopOf="@+id/activeSpinner"
             app:layout_constraintStart_toEndOf="@+id/trialsFilter"
             app:layout_constraintTop_toBottomOf="@+id/experiment_list"
-            app:layout_constraintVertical_bias="0.815" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <EditText
             android:id="@+id/numTrials"
@@ -153,18 +153,18 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/signSpinner"
             app:layout_constraintTop_toBottomOf="@+id/experiment_list"
-            app:layout_constraintVertical_bias="0.921" />
+            app:layout_constraintVertical_bias="0.098" />
 
         <Button
             android:id="@+id/buttonDoneLog"
-            android:layout_width="125dp"
-            android:layout_height="39dp"
-            android:layout_marginEnd="52dp"
+            android:layout_width="120dp"
+            android:layout_height="37dp"
+            android:layout_marginEnd="4dp"
             android:text="Done"
             app:layout_constraintBottom_toTopOf="@+id/viewSwitcher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/numTrials"
-            app:layout_constraintVertical_bias="0.687" />
+            app:layout_constraintVertical_bias="0.136" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
