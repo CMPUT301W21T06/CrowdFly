@@ -8,14 +8,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
@@ -41,6 +45,13 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     private final String userID = FirebaseAuth.getInstance().getUid();
     Button btnAddExperiment;
     Button btnSearch;
+    EditText searchExp;
+    TextView filterText;
+    Spinner symbols;
+    EditText numTrials;
+    Button doneButton;
+    Spinner activeSpinner;
+    Spinner regionSpinner;
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -52,9 +63,18 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         setContentView(R.layout.activity_view_experiment_log);
         experimentLog = ExperimentLog.getExperimentLog();
         experimentsList = experimentLog.getExperiments();
+        ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
+        btnSearch = findViewById(R.id.experimentSearchButton);
+        searchExp = findViewById(R.id.searchExperiment);
         experimentListView = findViewById(R.id.experiment_list);
-        btnAddExperiment = findViewById(R.id.experiment_add);
-        btnSearch = findViewById(R.id.experiment_search);
+        doneButton = findViewById(R.id.buttonDoneLog);
+        btnAddExperiment = findViewById(R.id.experimentAdd);
+        regionSpinner = findViewById(R.id.regionSpinner);
+        activeSpinner = findViewById(R.id.activeSpinner);
+        numTrials = findViewById(R.id.numTrials);
+        filterText = findViewById(R.id.trialsFilter);
+        symbols = findViewById(R.id.signSpinner);
+        setVisibility();
         expAdapter = new ExperimentAdapter(this, experimentsList);
         experimentListView.setAdapter(expAdapter);
         // get all experiment data from firestore
@@ -75,6 +95,48 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         TextView navUserId = (TextView) headerView.findViewById(R.id.userFBID);
         navUserId.setText(userID);
 
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewSwitcher.showNext();
+                Toaster.makeCrispyToast(ViewExperimentLogActivity.this, "Aftering entering text into the main box, click done to perform the search or long click to cancel!");
+                setVisibility();
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toaster.makeToast(ViewExperimentLogActivity.this,"Performing search!");
+            }
+        });
+
+        searchExp.setOnLongClickListener(new View.OnLongClickListener(){
+
+            @Override
+            public boolean onLongClick(View view) {
+                viewSwitcher.showPrevious();
+                setVisibility();
+                return false;
+            }
+        });
+
+        searchExp.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         btnAddExperiment.setOnClickListener(new View.OnClickListener() {
 
             // should lead to a new activity, but just manually adding experiments for now
@@ -138,6 +200,21 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         expAdapter.clear();
         expAdapter.addAll(experimentsList);
         expAdapter.notifyDataSetChanged();
+    }
+
+    private void setVisibility(){
+        int target = View.INVISIBLE;
+        if (symbols.getVisibility() == target){
+            target = View.VISIBLE;
+        }
+
+        filterText.setVisibility(target);
+        symbols.setVisibility(target);
+        numTrials.setVisibility(target);
+        activeSpinner.setVisibility(target);
+        regionSpinner.setVisibility(target);
+        doneButton.setVisibility(target);
+
     }
 
     @Override

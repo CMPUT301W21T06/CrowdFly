@@ -39,7 +39,7 @@ public class ExperimentController {
      * This sets up the snapshot listener for experiments
      */
     public static void setUp(){
-        Log.e("d","23اللعنة");
+        Log.e("d","25اللعنة");
         experimentCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
@@ -103,7 +103,6 @@ public class ExperimentController {
      * The experiment to store
      */
     public static void addExperimentData(Experiment experiment) {
-        SearchController.addObject(experiment.toHashMap(),experiment.getExperimentId());
         experiments.add(experiment);
         experimentCollection.add(experiment.toHashMap()).addOnCompleteListener(
                 new OnCompleteListener<DocumentReference>() {
@@ -112,6 +111,7 @@ public class ExperimentController {
                         if(task.isSuccessful()){
                             String newId = task.getResult().getId();
                             experiment.setUpFullExperiment(newId);
+                            SearchController.addObject(experiment.toHashMap(),experiment.getExperimentId());
                             setExperimentData(experiment);
                         }
                     }

@@ -16,7 +16,6 @@ import java.util.Map;
 public class SearchController {
     private static Client client = new Client("QJJ0ZUSNNJ","9236b464caa13c4420830ff5b68cdae0");
     private static Index index = client.getIndex("experiments_data");
-
     private static CompletionHandler handler = new CompletionHandler() {
         @Override
         public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
@@ -42,4 +41,6 @@ public class SearchController {
         JSONObject obj = new JSONObject(map);
         index.saveObjectAsync(obj,id,handler);
     }
+
+
 }

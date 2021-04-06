@@ -27,17 +27,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * This class controls all operations related to Trials
  */
 public class TrialController {
+    private String eid;
     private CollectionReference trialsCollection;
     private ArrayList<Trial> trials = new ArrayList<Trial>();
     private ArrayList<String> filters = new ArrayList<String>();
     public TrialController(String eid) {
-        trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(eid));
+        this.eid = eid;
+        trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(this.eid));
         setUp();
     }
     /**
@@ -146,7 +149,6 @@ public class TrialController {
      * The experiment to reference to get the location of where to store the trial
      */
     public void addTrialData(Trial trial, String experimentID) {
-        SearchController.addObject(trial.toHashMap(),trial.getTrialID());
         trials.add(trial);
         trialsCollection.add(trial.toHashMap()).addOnCompleteListener(
                 new OnCompleteListener<DocumentReference>() {
@@ -155,6 +157,7 @@ public class TrialController {
                         if(task.isSuccessful()){
                             String newId = task.getResult().getId();
                             trial.setTrialID(newId);
+                            SearchController.addObject(getAlgoMap(trial),trial.getTrialID());
                             setTrialData(trial, experimentID);
                         }
                     }
@@ -171,7 +174,7 @@ public class TrialController {
      * Experiment ID used to grab the trial path
      */
     public void setTrialData(Trial trial, String experimentID) {
-        SearchController.updateObject(trial.toHashMap(),trial.getTrialID());
+        SearchController.updateObject(getAlgoMap(trial),trial.getTrialID());
         GodController.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
     }
     /**
@@ -235,5 +238,10 @@ public class TrialController {
 
     public ArrayList<String> getFilters() {
         return filters;
+    }
+    private Map<String,Object> getAlgoMap(Trial trial){
+        Map<String,Object> map = trial.toHashMap();
+        map.put("experimentID",eid);
+        return map;
     }
 }
