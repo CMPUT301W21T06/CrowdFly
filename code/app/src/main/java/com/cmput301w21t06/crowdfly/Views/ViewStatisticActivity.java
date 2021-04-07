@@ -19,9 +19,12 @@ import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.Timestamp;
 import com.jjoe64.graphview.DefaultLabelFormatter;
@@ -35,6 +38,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 //https://github.com/PhilJay/MPAndroidChart
 
@@ -99,6 +105,8 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         minTextView = findViewById(R.id.sMinimum);
         maxTextView = findViewById(R.id.sMaximum);
         graphView = findViewById(R.id.graph);
+
+        barChart.getDescription().setEnabled(false);
 
 
         expID = getIntent().getStringExtra("expID");
@@ -198,25 +206,76 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     private void displayHistogram() {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        BarDataSet bardataset = new BarDataSet(entries, "Cells");
-        ArrayList<String> labels = new ArrayList<String>();
+        //BarDataSet bardataset = new BarDataSet(entries, "Cells");
+        //ArrayList<String> labels = new ArrayList<String>();
+        List<BarEntry> barEntries = new ArrayList<BarEntry>();
         ArrayList<Double> barChartTrials = getTrialList(this.trialType, trialArrayList);
+        ArrayList<String> labels = new ArrayList<String>();
+        ArrayList<String> sortedStringLabels = new ArrayList<String>();
+        ArrayList<Double> freq = new ArrayList<>();
+        ArrayList<Double> sortedLabels = new ArrayList<>();
+        System.out.println("list"+barChartTrials);
+
+        int i = 0;
+        int y = 0;
+        Set<Double> distinct = new HashSet<Double>(barChartTrials);
+
+        for (Double n: distinct){
+            System.out.println(Collections.frequency(barChartTrials,n));
+            freq.add((double)Collections.frequency(barChartTrials,n));
+        }
 
         if (barChartTrials.isEmpty()) {
             barChart.removeAllViews();
         } else {
 
-            for (int i = 1; i < barChartTrials.size(); i++) {
-                float x = barChartTrials.get(i).floatValue();
-                entries.add(new BarEntry(x, i));
-                labels.add("Trial " + i);
+            for (i = 0; i < freq.size(); i++) {
+                float x = freq.get(i).floatValue();
+                y++;
+                //entries.add(new BarEntry(x, i));
+                barEntries.add(new BarEntry(i,x));
+                labels.add(barChartTrials.get(i).toString());
+                //labels.add("Trial " + i);
             }
-            BarData data = new BarData(labels, bardataset);
+            for(int j = 0; j <labels.size(); j++){
+                sortedLabels.add(Double.parseDouble(labels.get(j)));
+            }
+
+            Collections.sort(sortedLabels);
+
+            for (int j = 0; j < sortedLabels.size(); j++){
+                sortedStringLabels.add(String.valueOf(sortedLabels.get(j)));
+            }
+
+            BarDataSet dataSet = new BarDataSet(barEntries,null);
+            dataSet.setBarBorderWidth(2.0f);
+            XAxis barChartXAxis = barChart.getXAxis();
+            barChartXAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            barChartXAxis.setGranularity(1f);
+            barChartXAxis.setGranularityEnabled(true);
+            barChartXAxis.setLabelCount(i);  // Set the number of labels on the x-axis
+            barChartXAxis.setTextSize(12f); // The size of the label on the x axis
+            barChartXAxis.setDrawGridLines(false); // Set this to true to draw grid lines for this axis.
+            barChart.setDrawGridBackground(false);
+            //barChartXAxis.setLabelCount(trialArrayList.size());
+            BarData data = new BarData(dataSet);
+            data.setBarWidth(0.5f);
+            barChartXAxis.setValueFormatter(new IndexAxisValueFormatter(sortedStringLabels));
+            barChart.setData(data);
+            barChart.setFitBars(true); // make the x-axis fit exactly all bars
+
             barChart.setData(data); // set the data and list of labels into chart
-            barChart.setDescription(trialType.toUpperCase() + " TRIALS");  // set the description
+            //barChart.setDescription();  // set the description
             barChart.animateY(2000);
         }
     }
+
+
+
+
+
+
+
 
     /**
      * This method handles when the trial array list is empty
