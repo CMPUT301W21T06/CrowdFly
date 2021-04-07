@@ -123,6 +123,9 @@ public class SearchController {
             Log.i("MASK", searchString);
             index.searchAsync(new Query(general).setFilters(searchString), handlerMultiple);
         }
+        else{
+            addMask("");
+        }
     }
 
     private static String addAnd(String searchString) {

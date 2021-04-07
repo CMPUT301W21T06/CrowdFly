@@ -67,7 +67,7 @@ public class ExperimentController {
         expLog.resetExperimentLog();
         HashSet<String> masks = SearchController.getMasks();
         for (Experiment exp : experiments){
-            if (masks.size() == 0 || masks.contains(exp.getExperimentId())) {
+            if (masks.contains("")|| masks.contains(exp.getExperimentId())) {
                 Log.e("Getting", String.valueOf(exp));
                 expLog.addExperiment(exp);
             }
