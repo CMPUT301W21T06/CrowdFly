@@ -41,23 +41,57 @@ public class SearchController {
     };
 
 
-
-
+    /**
+     * This allows an item to be added to Algolia
+     * @param map
+     * This is the item to be added
+     * @param id
+     * This is the object ID for it to be added at
+     */
     public static void addObject(Map<String,Object> map, String id){
         JSONObject obj = new JSONObject(map);
         index.addObjectAsync(obj,id,handler);
     }
 
+    /**
+     * This deletes an item from Algolia
+     * @param id
+     * This is the id of the item to delete
+     */
     public static void deleteObject(String id){
         index.deleteObjectAsync(id,handler);
     }
 
+    /**
+     * This updates an item in Algolia
+     * @param map
+     * This is the updated object's map
+     * @param id
+     * This is the id of the object to update
+     */
     public static void updateObject(Map<String,Object> map, String id){
         JSONObject obj = new JSONObject(map);
         index.saveObjectAsync(obj,id,handler);
     }
 
-    public static void query(CompletionHandler handlerMultiple, String symbol, String trial, String trialLeft, String region, String active, String general, CompletionHandler handler) {
+    /**
+     * This is provides query functionaltiy with Algolia
+     * @param handlerMultiple
+     * This is the class that implements the query's callback
+     * @param symbol
+     * This is the symbol the user chose
+     * @param trial
+     * The is the number they entered into the right trial box
+     * @param trialLeft
+     * This is the the number they entered into the left trial box
+     * @param region
+     * This is the level of region enforcement they chose from the dropdown box
+     * @param active
+     * This the level of activity/publication they chose from the dropdown box
+     * @param general
+     * This is the general text from the query
+     */
+    public static void query(CompletionHandler handlerMultiple, String symbol, String trial, String trialLeft, String region, String active, String general) {
         clearMasks();
         List<IndexQuery> queries = new ArrayList<IndexQuery>();
         String searchString = "";

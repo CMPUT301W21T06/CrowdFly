@@ -85,6 +85,7 @@ public class ExperimentTest {
         data.put("stillRunning", true);
         data.put("enabled",true);
         data.put("ownerID", "testID");
+        data.put("displayID","0");
         data.put("experimentID", "experiment1");
         data.put("type","test");
 

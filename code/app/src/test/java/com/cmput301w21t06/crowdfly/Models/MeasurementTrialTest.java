@@ -40,6 +40,7 @@ public class MeasurementTrialTest {
         data.put("trialID", "testID");
         data.put("description", "testDescription");
         data.put("region","1,0");
+        data.put("displayID","0");
         data.put("experimenter", "ownerID");
         data.put("type", "Measurement");
         data.put("measurement", (double) 0);

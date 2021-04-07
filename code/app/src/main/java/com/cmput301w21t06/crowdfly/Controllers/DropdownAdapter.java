@@ -33,7 +33,6 @@ public class DropdownAdapter extends ArrayAdapter<String> {
         super(context,resourceID,items);
         pos = new ArrayList<Integer>();
         this.filterFirst = filterFirst;
-        Log.e("FUCK",String.valueOf(items));
     }
 
     /**

@@ -41,6 +41,18 @@ public class TrialController {
     private CollectionReference trialsCollection;
     private ArrayList<Trial> trials = new ArrayList<Trial>();
     private ArrayList<String> filters = new ArrayList<String>();
+
+    /**
+     * This is the constructor for the trial controller
+     * @param eid
+     * This is the experiment it refers to
+     * @param running
+     * This indicates whether or not the experiment is active - needed for Algolia
+     * @param region
+     * This indicates whether or not the experiment is region enforced or not - needed for Algolia
+     * @param mTrials
+     * This indicates the minimum number of trials of the experiment - needed for Algolia
+     */
     public TrialController(String eid,boolean running, boolean region, int mTrials) {
         this.eid = eid;
         this.running = running;
@@ -245,6 +257,7 @@ public class TrialController {
     public ArrayList<String> getFilters() {
         return filters;
     }
+
     private Map<String,Object> getAlgoMap(Trial trial){
         Map<String,Object> map = trial.toHashMap();
         map.put("experimentID",eid);

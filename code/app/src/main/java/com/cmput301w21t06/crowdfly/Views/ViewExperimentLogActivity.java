@@ -140,7 +140,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 else if (symbolString.matches("TO") && !SearchController.validTrialToFilter(trialLeftFilter,trialFilter)){
                     Toaster.makeToast(ViewExperimentLogActivity.this,"Filtering for trials requires two numbers and a symbol, without those, related input will be disregarded!");
                 }
-                SearchController.query(ViewExperimentLogActivity.this, symbolString,trialFilter,trialLeftFilter, regionFilter,activeFilter,searchFilter, ViewExperimentLogActivity.this);
+                SearchController.query(ViewExperimentLogActivity.this, symbolString,trialFilter,trialLeftFilter, regionFilter,activeFilter,searchFilter);
                 clearBoxes();
             }
         });
@@ -320,43 +320,4 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             Log.e("Algolia",String.valueOf(e));
         }
     }
-//    @Override
-//    public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
-//        Log.e("Algolia","Operation completed " + String.valueOf(jsonObject));
-//        if ( e == null){
-//            Log.i("Algolia","Operation completed " + String.valueOf(jsonObject));
-//            try {
-//                experimentLog.resetExperimentLog();
-//                ExperimentLog experimentLog = ExperimentLog.getExperimentLog();
-//                JSONArray hits = jsonObject.getJSONArray("hits");
-//                for (int i = 0; i < hits.length(); i++) {
-//                    JSONObject hit = hits.getJSONObject(i);
-//                    Log.e("fuck",String.valueOf(hit.get("stillRunning")));
-//                    HashMap<String, Object> map = new HashMap<String, Object>();
-//                    map.put("stillRunning", hit.get("stillRunning"));
-//                    map.put("minTrials",  Long.valueOf(hit.get("minTrials").toString()));
-//                    map.put("description", hit.get("description"));
-//                    map.put("experimentID", hit.get("experimentID"));
-//                    map.put("region", hit.get("region"));
-//                    map.put("ownerID", hit.get("ownerID"));
-//                    map.put("displayID", hit.get("displayID"));
-//                    map.put("type", hit.get("type"));
-//                    map.put("enabled", hit.get("enabled"));
-//
-//                    Experiment exp = new Experiment(map);
-//                    exp.setUpFullExperiment(exp.getExperimentId());
-//                    experimentLog.addExperiment(exp);
-//                }
-//                this.onDoneGetExperiments();
-//            } catch (JSONException jsonException) {
-//                jsonException.printStackTrace();
-//                // Maybe show a toast here.
-//            }
-//        }
-//        else{
-//            Log.e("Algolia",String.valueOf(e));
-//        }
-//    }
-
-    //added
 }
