@@ -213,14 +213,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                             endButton.setText("Publish");
                         }
                         else {
-                            if (currentExperiment.canEnd()) {
-                                currentExperiment.setStillRunning(false);
-                                endButton.setText("Unpublish");
-                            }
-                            else{
-                                Toaster.makeCrispyToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
-                            }
+                            currentExperiment.setStillRunning(false);
+                            endButton.setText("Unpublish");
                         }
+
                         ExperimentController.setExperimentData(currentExperiment);
                     }
                     else {
