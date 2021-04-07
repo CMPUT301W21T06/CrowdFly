@@ -34,12 +34,18 @@ import java.util.Set;
  * This class controls all operations related to Trials
  */
 public class TrialController {
+    private boolean running;
+    private boolean region;
+    private int mTrials;
     private String eid;
     private CollectionReference trialsCollection;
     private ArrayList<Trial> trials = new ArrayList<Trial>();
     private ArrayList<String> filters = new ArrayList<String>();
-    public TrialController(String eid) {
+    public TrialController(String eid,boolean running, boolean region, int mTrials) {
         this.eid = eid;
+        this.running = running;
+        this.region = region;
+        this.mTrials = mTrials;
         trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(this.eid));
         setUp();
     }
@@ -242,6 +248,9 @@ public class TrialController {
     private Map<String,Object> getAlgoMap(Trial trial){
         Map<String,Object> map = trial.toHashMap();
         map.put("experimentID",eid);
+        map.put("enabled",region);
+        map.put("stillRunning",running);
+        map.put("minTrials",mTrials);
         return map;
     }
 }

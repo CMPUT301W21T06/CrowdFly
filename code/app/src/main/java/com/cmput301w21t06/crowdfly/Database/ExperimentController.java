@@ -26,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -39,7 +40,7 @@ public class ExperimentController {
      * This sets up the snapshot listener for experiments
      */
     public static void setUp(){
-        Log.e("d","26اللعنة");
+        Log.e("d","30اللعنة");
         experimentCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
@@ -64,9 +65,12 @@ public class ExperimentController {
     public static void getExperimentLogData(CrowdFlyListeners.OnDoneGetExpLogListener onDoneGetExpLogListener) {
         ExperimentLog expLog = ExperimentLog.getExperimentLog();
         expLog.resetExperimentLog();
+        HashSet<String> masks = SearchController.getMasks();
         for (Experiment exp : experiments){
-            Log.e("Getting",String.valueOf(exp));
-            expLog.addExperiment(exp);
+            if (masks.size() == 0 || masks.contains(exp.getExperimentId())) {
+                Log.e("Getting", String.valueOf(exp));
+                expLog.addExperiment(exp);
+            }
         }
         onDoneGetExpLogListener.onDoneGetExperiments();
     }

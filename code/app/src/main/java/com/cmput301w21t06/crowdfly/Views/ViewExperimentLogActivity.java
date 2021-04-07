@@ -63,6 +63,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     Button btnSearch;
     EditText searchExp;
     TextView filterText;
+    ViewSwitcher viewSwitcher;
     Spinner symbols;
     EditText numTrials;
     EditText numTrialsLeft;
@@ -80,7 +81,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         setContentView(R.layout.activity_view_experiment_log);
         experimentLog = ExperimentLog.getExperimentLog();
         experimentsList = experimentLog.getExperiments();
-        ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
+        viewSwitcher = findViewById(R.id.viewSwitcher);
         btnSearch = findViewById(R.id.experimentSearchButton);
         searchExp = findViewById(R.id.searchExperiment);
         experimentListView = findViewById(R.id.experiment_list);
@@ -125,7 +126,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toaster.makeToast(ViewExperimentLogActivity.this,"Performing search!");
                 String symbolString = symbols.getSelectedItem().toString();
                 String trialFilter = numTrials.getText().toString();
                 String trialLeftFilter = numTrialsLeft.getText().toString();
@@ -140,7 +140,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 else if (symbolString.matches("TO") && !SearchController.validTrialToFilter(trialLeftFilter,trialFilter)){
                     Toaster.makeToast(ViewExperimentLogActivity.this,"Filtering for trials requires two numbers and a symbol, without those, related input will be disregarded!");
                 }
-                SearchController.query(symbolString,trialFilter,trialLeftFilter, regionFilter,activeFilter,searchFilter, ViewExperimentLogActivity.this);
+                SearchController.query(ViewExperimentLogActivity.this, symbolString,trialFilter,trialLeftFilter, regionFilter,activeFilter,searchFilter, ViewExperimentLogActivity.this);
                 clearBoxes();
             }
         });
@@ -149,7 +149,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
 
             @Override
             public boolean onLongClick(View view) {
-                viewSwitcher.showPrevious();
                 cancelSearch();
                 ExperimentController.getExperimentLogData(ViewExperimentLogActivity.this);
                 return false;
@@ -221,6 +220,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
+        cancelSearch();
         ExperimentController.getExperimentLogData(this);
     }
 
@@ -275,6 +275,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     private void cancelSearch(){
         if (doneButton.getVisibility() == View.VISIBLE){
             setVisibility();
+            viewSwitcher.showPrevious();
         }
         SearchController.clearMasks();
     }
@@ -299,42 +300,63 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         }
         return true;
     }
-
     @Override
     public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
-        if ( e == null){
-            Log.i("Algolia","Operation completed " + String.valueOf(jsonObject));
+        if (e == null){
+            Log.e("Algolia","Operation completed " + String.valueOf(jsonObject));
             try {
-                experimentLog.resetExperimentLog();
-                ExperimentLog experimentLog = ExperimentLog.getExperimentLog();
                 JSONArray hits = jsonObject.getJSONArray("hits");
-                for (int i = 0; i < hits.length(); i++) {
+                for (int i = 0; i < hits.length(); i++){
                     JSONObject hit = hits.getJSONObject(i);
-                    HashMap<String, Object> map = new HashMap<String, Object>();
-                    map.put("stillRunning", hit.get("stillRunning"));
-                    map.put("minTrials",  Long.valueOf(hit.get("minTrials").toString()));
-                    map.put("description", hit.get("description"));
-                    map.put("experimentID", hit.get("experimentID"));
-                    map.put("region", hit.get("region"));
-                    map.put("ownerID", hit.get("ownerID"));
-                    map.put("displayID", hit.get("displayID"));
-                    map.put("type", hit.get("type"));
-                    map.put("enabled", hit.get("enabled"));
-
-                    Experiment exp = new Experiment(map);
-                    exp.setUpFullExperiment(exp.getExperimentId());
-                    experimentLog.addExperiment(exp);
+                    SearchController.addMask((String) hit.get("experimentID"));
                 }
-                this.onDoneGetExperiments();
+                ExperimentController.getExperimentLogData(this);
             } catch (JSONException jsonException) {
                 jsonException.printStackTrace();
-                // Maybe show a toast here.
             }
+
         }
         else{
             Log.e("Algolia",String.valueOf(e));
         }
     }
+//    @Override
+//    public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
+//        Log.e("Algolia","Operation completed " + String.valueOf(jsonObject));
+//        if ( e == null){
+//            Log.i("Algolia","Operation completed " + String.valueOf(jsonObject));
+//            try {
+//                experimentLog.resetExperimentLog();
+//                ExperimentLog experimentLog = ExperimentLog.getExperimentLog();
+//                JSONArray hits = jsonObject.getJSONArray("hits");
+//                for (int i = 0; i < hits.length(); i++) {
+//                    JSONObject hit = hits.getJSONObject(i);
+//                    Log.e("fuck",String.valueOf(hit.get("stillRunning")));
+//                    HashMap<String, Object> map = new HashMap<String, Object>();
+//                    map.put("stillRunning", hit.get("stillRunning"));
+//                    map.put("minTrials",  Long.valueOf(hit.get("minTrials").toString()));
+//                    map.put("description", hit.get("description"));
+//                    map.put("experimentID", hit.get("experimentID"));
+//                    map.put("region", hit.get("region"));
+//                    map.put("ownerID", hit.get("ownerID"));
+//                    map.put("displayID", hit.get("displayID"));
+//                    map.put("type", hit.get("type"));
+//                    map.put("enabled", hit.get("enabled"));
+//
+//                    Experiment exp = new Experiment(map);
+//                    exp.setUpFullExperiment(exp.getExperimentId());
+//                    experimentLog.addExperiment(exp);
+//                }
+//                this.onDoneGetExperiments();
+//            } catch (JSONException jsonException) {
+//                jsonException.printStackTrace();
+//                // Maybe show a toast here.
+//            }
+//        }
+//        else{
+//            Log.e("Algolia",String.valueOf(e));
+//        }
+//    }
 
     //added
 }

@@ -1,5 +1,6 @@
 package com.cmput301w21t06.crowdfly.Database;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -11,9 +12,13 @@ import com.algolia.search.saas.Index;
 import com.algolia.search.saas.IndexQuery;
 import com.algolia.search.saas.Query;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -21,22 +26,9 @@ public class SearchController {
     private static Client client = new Client("QJJ0ZUSNNJ","9236b464caa13c4420830ff5b68cdae0");
     private static final String indexName = "experiments_data";
     private static Index index = client.getIndex(indexName);
-    private static final Client.MultipleQueriesStrategy strategy = Client.MultipleQueriesStrategy.NONE;
-    private static ArrayList<String> masks = new ArrayList<String>();
+    private static HashSet<String> masks = new HashSet<String>();
 
     private static CompletionHandler handler = new CompletionHandler() {
-        @Override
-        public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
-            if (e == null){
-                Log.i("Algolia","Operation completed " + String.valueOf(jsonObject));
-            }
-            else{
-                Log.e("Algolia",String.valueOf(e));
-            }
-        }
-    };
-
-    private static CompletionHandler handlerMultiple= new CompletionHandler() {
         @Override
         public void requestCompleted(@Nullable JSONObject jsonObject, @Nullable AlgoliaException e) {
             if ( e == null){
@@ -65,24 +57,24 @@ public class SearchController {
         index.saveObjectAsync(obj,id,handler);
     }
 
-    public static void query(String symbol, String trial, String trialLeft, String region, String active, String general, CompletionHandler handler) {
+    public static void query(CompletionHandler handlerMultiple, String symbol, String trial, String trialLeft, String region, String active, String general, CompletionHandler handler) {
         clearMasks();
         List<IndexQuery> queries = new ArrayList<IndexQuery>();
-        String mask = "";
+        String searchString = "";
         if (!(symbol.matches("N/A") && trial.matches("") && region.matches("N/A") && active.matches("N/A") && general.matches(""))) {
             if (symbol.matches("TO") && validTrialToFilter(trialLeft,trial)){
-                mask = mask.concat("minTrials:" + trialLeft + " " + symbol + " " + trial);
+                searchString = searchString.concat("minTrials:" + trialLeft + " " + symbol + " " + trial);
             }
             else if (validTrialFilter(symbol,trial) && !(symbol.matches("N/A") || symbol.matches("TO"))){
-                mask = mask.concat("minTrials " + symbol + " " + trial);
+                searchString = searchString.concat("minTrials " + symbol + " " + trial);
+
             }
             if (!region.matches("N/A")){
                 String enabledString = "enabled:true";
                 if (region.matches("Not Enforced")){
                     enabledString = "enabled:false";
                 }
-                mask = addAnd(mask);
-                mask = mask.concat(enabledString);
+                searchString = combineString(searchString,enabledString);
 
             }
 
@@ -91,20 +83,19 @@ public class SearchController {
                     if (active.matches("Not Active")){
                         activeString = "stillRunning:false";
                     }
-                mask = addAnd(mask);
-                mask = mask.concat(activeString);
+                searchString = combineString(searchString, activeString);
             }
 
-            Log.i("MASK", mask);
-            index.searchAsync(new Query(general).setFilters(mask), handler);
+            Log.i("MASK", searchString);
+            index.searchAsync(new Query(general).setFilters(searchString), handlerMultiple);
         }
     }
 
-    private static String addAnd(String mask) {
-        if(mask.length()>0){
-            mask = mask.concat(" AND ");
+    private static String addAnd(String searchString) {
+        if(searchString.length() > 0){
+            searchString = searchString.concat(" AND ");
         }
-        return mask;
+        return searchString;
     }
 
     public static boolean validTrialFilter(String symbol, String tFilter){
@@ -120,9 +111,20 @@ public class SearchController {
         }
         return true;
     }
-
+    public static HashSet<String> getMasks(){
+        return masks;
+    }
+    public static void addMask(String mask){
+        masks.add(mask);
+    }
     public static void clearMasks(){
         masks.clear();
+    }
+
+    private static String combineString(String searchString, String addString){
+        searchString = addAnd(searchString);
+        searchString = searchString.concat(addString);
+        return searchString;
     }
 
 }

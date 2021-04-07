@@ -298,7 +298,7 @@ public class Experiment {
      */
     public void setUpFullExperiment(String experimentId){
         setExperimentId(experimentId);
-        trialController = new TrialController(experimentId);
+        trialController = new TrialController(experimentId,stillRunning,regionEnabled,minTrials);
         subController = new SubscriptionController(experimentId);
         qController = new QuestionController(experimentId);
     }
