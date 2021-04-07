@@ -29,6 +29,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.Timestamp;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LabelFormatter;
+import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -69,7 +72,9 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     private BarChart barChart;
     private final String notApplicableMsg = "NA";
     private GraphView graphView;
-    private final SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
+    private final SimpleDateFormat sdf = new SimpleDateFormat("ss");
+    private final java.text.DateFormat formatter = DateFormat.getDateTimeInstance();
+    protected int counter = 0;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -135,6 +140,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
         for (Trial trial : trialArrayList) {
             time = trial.getTimestamp().getSeconds() * 1000L;
+            Log.e("Time",String.valueOf(time));
 
             if ("measurement".equals(trialType)) {
                 dataPoints.add(new DataPoint(time, ((MeasurementTrial) trial).getMeasurement()));
@@ -146,7 +152,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
                 dataPoints.add(new DataPoint(time, ((BinomialTrial) trial).getSuccesses()));
             }
         }
-
+        System.out.println(dataPoints);
         return dataPoints;
     }
 
@@ -156,14 +162,25 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
     private void displayGraph() {
         ArrayList<DataPoint> arr = getDataPoints();
+        ArrayList<Double> values = new ArrayList<>();
+        for (DataPoint d:arr){
+            values.add(d.getX());
+        }
+        //double max = Collections.max(values);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr.toArray(new DataPoint[arr.size()]));
-        String title = trialType.toUpperCase() +"TRIALS OVER TIME";
+        series.setDrawDataPoints(true);
+        String title = trialType.toUpperCase() +" TRIALS OVER TIME";
         if (trialType.equals("binomial")){
             title = trialType.toUpperCase() +" SUCCESS TRIALS OVER TIME";
         }
         graphView.addSeries(series);
+        //series.setThickness();
         graphView.setTitle(title);
-        graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMaxX(Collections.max(values)+500);
+        graphView.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.HORIZONTAL );
+        graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this,new SimpleDateFormat("dd/MM"+"\n"+"HH:mm:ss")));
+        graphView.getGridLabelRenderer().setHorizontalLabelsAngle(130);
     }
 
     /**
@@ -205,7 +222,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
      */
     private void displayHistogram() {
 
-        ArrayList<BarEntry> entries = new ArrayList<>();
+        //ArrayList<BarEntry> entries = new ArrayList<>();
         //BarDataSet bardataset = new BarDataSet(entries, "Cells");
         //ArrayList<String> labels = new ArrayList<String>();
         List<BarEntry> barEntries = new ArrayList<BarEntry>();
@@ -218,9 +235,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
         int i = 0;
         int y = 0;
-        Set<Double> distinct = new HashSet<Double>(barChartTrials);
 
-        for (Double n: distinct){
+        Set<Double> distinct = new HashSet<Double>(barChartTrials);
+        ArrayList<Double> distinctArr = new ArrayList<>(distinct);
+        Collections.sort(distinctArr);
+
+        for (Double n: distinctArr){
             System.out.println(Collections.frequency(barChartTrials,n));
             freq.add((double)Collections.frequency(barChartTrials,n));
         }
@@ -231,23 +251,19 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
             for (i = 0; i < freq.size(); i++) {
                 float x = freq.get(i).floatValue();
-                y++;
                 //entries.add(new BarEntry(x, i));
+                Log.e("Value of i",String.valueOf(i));
                 barEntries.add(new BarEntry(i,x));
-                labels.add(barChartTrials.get(i).toString());
-                //labels.add("Trial " + i);
+                labels.add(distinctArr.get(i).toString());
+                y++;
             }
-            for(int j = 0; j <labels.size(); j++){
-                sortedLabels.add(Double.parseDouble(labels.get(j)));
-            }
-
-            Collections.sort(sortedLabels);
-
-            for (int j = 0; j < sortedLabels.size(); j++){
-                sortedStringLabels.add(String.valueOf(sortedLabels.get(j)));
+            Log.e("Bar entries",String.valueOf(barEntries));
+            for (int j = 0; j < distinctArr.size(); j++){
+                sortedStringLabels.add(String.valueOf(distinctArr.get(j)));
             }
 
             BarDataSet dataSet = new BarDataSet(barEntries,null);
+            dataSet.setValueTextSize(12f);
             dataSet.setBarBorderWidth(2.0f);
             XAxis barChartXAxis = barChart.getXAxis();
             barChartXAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -488,15 +504,18 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
             } else if ("binomial".equals(typeOfTrial)) {
                 s += ((BinomialTrial) trial).getSuccesses();
                 f += ((BinomialTrial) trial).getFailures();
-                for (int i = 0; i < s; i++) {
-                    trials.add((double) 1);
-                }
-                for (int i = 0; i < f; i++) {
-                    trials.add((double) 0);
-                }
+            }
+        }
+        if ("binomial".equals(typeOfTrial)) {
+            for (int i = 0; i < s; i++) {
+                trials.add((double) 1);
+            }
+            for (int i = 0; i < f; i++) {
+                trials.add((double) 0);
             }
         }
         return trials;
     }
+
 }
 
