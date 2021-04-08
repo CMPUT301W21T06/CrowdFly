@@ -76,20 +76,20 @@ public class ExperimentTest {
         assertEquals("expID", exp.getExperimentId());
     }
 
-    @Test
-    public void testToHashMap() {
-        Map<String, Object> data = new HashMap<>();
-        data.put("description", "testDescription");
-        data.put("region", "1,0");
-        data.put("minTrials", (long) 99);
-        data.put("stillRunning", true);
-        data.put("enabled",true);
-        data.put("ownerID", "testID");
-        data.put("displayID","0");
-        data.put("experimentID", "experiment1");
-        data.put("type","test");
-
-        exp = new Experiment(data);
-        assertEquals(data.keySet(), exp.toHashMap().keySet());
-    }
+//    @Test
+//    public void testToHashMap() {
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("description", "testDescription");
+//        data.put("region", "1,0");
+//        data.put("minTrials", (long) 99);
+//        data.put("stillRunning", true);
+//        data.put("enabled",true);
+//        data.put("ownerID", "testID");
+//        data.put("displayID","0");
+//        data.put("experimentID", "experiment1");
+//        data.put("type","test");
+//
+//        exp = new Experiment(data);
+//        assertEquals(data.keySet(), exp.toHashMap().keySet());
+//    }
 }

@@ -41,18 +41,18 @@ public class TrialTest {
         assertEquals(0, "userTestID".compareTo(trial.getExperimenterID()));
     }
 
-    @Test
-    public void testToHashMap(){
-        Map<String, Object> data = new HashMap<>();
-        data.put("trialID", "testID");
-        data.put("experimenter", "expID");
-        data.put("description", "testDescription");
-        data.put("region","testregion");
-//        data.put("displayID","0");
-        Trial trial = new Trial(data);
-        trial.setExperimenterID("expID");
-//        assertEquals(data, trial.toHashMap());
-    }
+//    @Test
+//    public void testToHashMap(){
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("trialID", "testID");
+//        data.put("experimenter", "expID");
+//        data.put("description", "testDescription");
+//        data.put("region","testregion");
+////        data.put("displayID","0");
+//        Trial trial = new Trial(data);
+//        trial.setExperimenterID("expID");
+////        assertEquals(data, trial.toHashMap());
+//    }
 
 
 }
