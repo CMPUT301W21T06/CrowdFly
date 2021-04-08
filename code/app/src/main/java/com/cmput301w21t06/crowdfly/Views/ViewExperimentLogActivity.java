@@ -75,6 +75,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         TextView navUserId = (TextView) headerView.findViewById(R.id.userFBID);
         navUserId.setText(userID);
 
+
         btnAddExperiment.setOnClickListener(new View.OnClickListener() {
 
             // should lead to a new activity, but just manually adding experiments for now
