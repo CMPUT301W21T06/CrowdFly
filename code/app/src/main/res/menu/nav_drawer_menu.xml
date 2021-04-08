@@ -14,7 +14,7 @@
 
     <item
         android:id = "@+id/hamExperiment"
-        android:title="My Experiments"
+        android:title="Experiments"
         android:icon="@drawable/ic_baseline_experiment_24"/>
 
 

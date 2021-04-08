@@ -71,7 +71,7 @@ public class UserProfileActivity extends AppCompatActivity implements CrowdFlyLi
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView navUserId = (TextView) headerView.findViewById(R.id.userFBID);
-        navUserId.setText(userID);
+        navUserId.setText(user.getDisplayID());
     }
 
     /**

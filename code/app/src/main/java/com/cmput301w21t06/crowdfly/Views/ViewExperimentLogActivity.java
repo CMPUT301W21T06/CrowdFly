@@ -113,7 +113,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView navUserId = (TextView) headerView.findViewById(R.id.userFBID);
-        navUserId.setText(userID);
+        navUserId.setText(UserController.reverseConvert(userID));
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
