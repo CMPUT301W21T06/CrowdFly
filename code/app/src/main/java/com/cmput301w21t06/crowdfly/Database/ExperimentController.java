@@ -26,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -39,7 +40,6 @@ public class ExperimentController {
      * This sets up the snapshot listener for experiments
      */
     public static void setUp(){
-        Log.e("d","24اللعنة");
         experimentCollection.orderBy("lastUpdatedAt", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@NonNull QuerySnapshot response, @Nullable FirebaseFirestoreException error) {
@@ -64,9 +64,12 @@ public class ExperimentController {
     public static void getExperimentLogData(CrowdFlyListeners.OnDoneGetExpLogListener onDoneGetExpLogListener) {
         ExperimentLog expLog = ExperimentLog.getExperimentLog();
         expLog.resetExperimentLog();
+        HashSet<String> masks = SearchController.getMasks();
         for (Experiment exp : experiments){
-            Log.e("Getting",String.valueOf(exp));
-            expLog.addExperiment(exp);
+            if (masks.size() == 0|| masks.contains(exp.getExperimentId())) {
+                Log.e("Getting", String.valueOf(exp));
+                expLog.addExperiment(exp);
+            }
         }
         onDoneGetExpLogListener.onDoneGetExperiments();
     }
@@ -111,6 +114,7 @@ public class ExperimentController {
                         if(task.isSuccessful()){
                             String newId = task.getResult().getId();
                             experiment.setUpFullExperiment(newId);
+                            SearchController.addObject(experiment.toHashMap(),experiment.getExperimentId());
                             setExperimentData(experiment);
                         }
                     }
@@ -125,6 +129,7 @@ public class ExperimentController {
      * This is the manipulated experiment
      */
     public static void setExperimentData(Experiment experiment) {
+        SearchController.updateObject(experiment.toHashMap(),experiment.getExperimentId());
         GodController.setDocumentData(CrowdFlyFirestorePaths.experiment(experiment.getExperimentId()), experiment.toHashMap());
     }
 
@@ -136,6 +141,7 @@ public class ExperimentController {
      * The experiment object
      */
     public static void deleteExperiment(String experimentId, Experiment exp) {
+        SearchController.deleteObject(experimentId);
         Experiment loopExp = null;
         boolean loop = true;
         int i = 0;

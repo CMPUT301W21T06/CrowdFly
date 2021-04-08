@@ -47,13 +47,10 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
         }
 
         Comment comment = comments.get(position);
-
-//        TextView date = view.findViewById(R.id.qDate);
         TextView uid = view.findViewById(R.id.commenterID);
         TextView qSnippet = view.findViewById(R.id.cSnippet);
 
-//        date.setText(comment.getDate());
-        uid.setText(comment.getUsername());
+        uid.setText(UserController.reverseConvert(comment.getUsername()));
         qSnippet.setText(comment.getComment());
 
         return view;

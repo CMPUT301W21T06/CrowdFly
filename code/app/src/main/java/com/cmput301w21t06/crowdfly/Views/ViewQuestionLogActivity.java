@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Controllers.QuestionAdapter;
@@ -15,6 +17,7 @@ import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.Question;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.android.material.navigation.NavigationView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -31,6 +34,9 @@ public class ViewQuestionLogActivity extends AppCompatActivity
     private ArrayList<Question> qList;
     static public String expID;
     private Experiment exp;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     Button btnAskQ;
 
@@ -47,6 +53,21 @@ public class ViewQuestionLogActivity extends AppCompatActivity
         qList = new ArrayList<>();
         qAdapter = new QuestionAdapter(this, qList);
         qListView.setAdapter(qAdapter);
+
+        drawerLayout = findViewById(R.id.drawer_question_log);
+        navigationView = findViewById(R.id.nav_view_question_log);
+        toolbar = findViewById(R.id.toolbar_question_log);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, null);
+                finish();
+            }
+        });
 
         exp.getQuestionController().getQuestionData(this); 
 

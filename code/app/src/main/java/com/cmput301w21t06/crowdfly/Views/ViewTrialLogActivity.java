@@ -22,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Controllers.DropdownAdapter;
+import com.cmput301w21t06.crowdfly.Controllers.ExperimentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
@@ -88,6 +89,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private NavigationView navigationView;
     private Toolbar toolbar;
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
+    private ExperimentAdapter eadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,14 +215,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                             endButton.setText("Publish");
                         }
                         else {
-                            if (currentExperiment.canEnd()) {
-                                currentExperiment.setStillRunning(false);
-                                endButton.setText("Unpublish");
-                            }
-                            else{
-                                Toaster.makeCrispyToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
-                            }
+                            currentExperiment.setStillRunning(false);
+                            endButton.setText("Unpublish");
                         }
+
                         ExperimentController.setExperimentData(currentExperiment);
                     }
                     else {
@@ -511,7 +509,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     public void onDoneGetExperimenterIds(ArrayList<String> ids){
         ids.add(0,"Filter Experimenter...");
-        dropAdapter = new DropdownAdapter(this, R.layout.general_content, ids);
+        dropAdapter = new DropdownAdapter(this, R.layout.filter_content, ids,true);
         dropdown.setAdapter(dropAdapter);
         setupDropdown();
     }

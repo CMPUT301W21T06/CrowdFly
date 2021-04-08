@@ -1,6 +1,8 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +14,12 @@ import android.widget.TextView;
 import com.cmput301w21t06.crowdfly.Controllers.CommentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Comment;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.Question;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -37,6 +41,9 @@ public class QuestionThreadActivity extends AppCompatActivity
     private TextView questionDesc;
     private TextView qDate;
     private Button btnComment;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,21 @@ public class QuestionThreadActivity extends AppCompatActivity
         expID = getIntent().getStringExtra("expID");
         qID = getIntent().getStringExtra("qID");
         expLog = ExperimentLog.getExperimentLog();
+
+        drawerLayout = findViewById(R.id.drawer_question_thread);
+        navigationView = findViewById(R.id.nav_view_question_thread);
+        toolbar = findViewById(R.id.toolbar_question_thread);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, null);
+                finish();
+            }
+        });
 
         // get the question related to this comment
         int expPos = expLog.getExperimentPositionByID(expID);
@@ -59,7 +81,7 @@ public class QuestionThreadActivity extends AppCompatActivity
         btnComment = findViewById(R.id.commentButton);
 
         // set texts
-        askerID.setText(q.getUsername());
+        askerID.setText(UserController.reverseConvert(q.getUsername()));
         questionDesc.setText(q.getQuestion());
         qDate.setText(q.getDate());
 

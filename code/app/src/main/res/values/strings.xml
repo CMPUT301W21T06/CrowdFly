@@ -5,7 +5,13 @@
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
+    <string name="publish"><b>Published</b></string>
     <string name="username"><b>User ID: </b></string>
+    <string name="date"><b>Date: </b></string>
+    <string name="asker"><b>Asker: </b></string>
+    <string name="question"><b>Q: </b></string>
+    <string name="comment"><b>C: </b></string>
+    <string name="replies"><b>Replies: </b></string>
     <string name="description"><b>Description: </b></string>
     <string name="numTrials"><b>Min Trials: </b></string>
     <string name="region"><b>Region: </b></string>
