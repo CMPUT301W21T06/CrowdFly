@@ -38,6 +38,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/toolbar_experiment" />
 
+
         <ListView
             android:id="@+id/experiment_list"
             android:layout_width="372dp"
@@ -54,6 +55,7 @@
             android:layout_width="300sp"
             android:layout_height="wrap_content"
             android:layout_marginTop="108dp"
+
             android:backgroundTint="@color/bluejay"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
