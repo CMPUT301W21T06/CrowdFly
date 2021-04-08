@@ -174,7 +174,6 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             }
         });
 
-
         btnAddExperiment.setOnClickListener(new View.OnClickListener() {
 
             // should lead to a new activity, but just manually adding experiments for now
