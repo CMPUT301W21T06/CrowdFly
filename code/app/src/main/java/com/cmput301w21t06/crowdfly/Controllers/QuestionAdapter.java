@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Question;
 import com.cmput301w21t06.crowdfly.R;
 
@@ -51,7 +52,7 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
         TextView qSnippet = view.findViewById(R.id.qSnippet);
 
         date.setText(question.getDate());
-        uid.setText(question.getUsername());
+        uid.setText(UserController.reverseConvert(question.getUsername()));
         replies.setText(String.valueOf(question.getNumReplies()));
         qSnippet.setText(question.getQuestion());
 

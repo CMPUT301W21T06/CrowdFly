@@ -47,14 +47,25 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/qAskerID"
+            android:id="@+id/qAskerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
             android:layout_marginTop="24dp"
-            android:text="userID"
+            android:text="AskerID:"
             android:textSize="15dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/question_title" />
+
+        <TextView
+            android:id="@+id/qAskerID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="24dp"
+            android:text="userID"
+            android:textSize="15dp"
+            app:layout_constraintLeft_toLeftOf="@+id/qAskerTitle"
             app:layout_constraintTop_toBottomOf="@+id/question_title" />
 
         <TextView

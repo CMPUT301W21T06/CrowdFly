@@ -75,9 +75,6 @@ public class AskQuestionActivity extends AppCompatActivity {
                 Question q = new Question(question, userID, date);
 
                 Experiment exp = expLog.getExperiment(expPos);
-//                exp.addQuestion(q);
-//                expLog.set(expPos, exp);
-
                 exp.getQuestionController().addQuestionData(q, expID);
 
                 Intent intent = new Intent(AskQuestionActivity.this, ViewQuestionLogActivity.class);

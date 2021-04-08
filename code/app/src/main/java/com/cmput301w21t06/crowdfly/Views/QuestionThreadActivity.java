@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.cmput301w21t06.crowdfly.Controllers.CommentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
+import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Comment;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.Question;
@@ -80,7 +81,7 @@ public class QuestionThreadActivity extends AppCompatActivity
         btnComment = findViewById(R.id.commentButton);
 
         // set texts
-        askerID.setText(q.getUsername());
+        askerID.setText(UserController.reverseConvert(q.getUsername()));
         questionDesc.setText(q.getQuestion());
         qDate.setText(q.getDate());
 
