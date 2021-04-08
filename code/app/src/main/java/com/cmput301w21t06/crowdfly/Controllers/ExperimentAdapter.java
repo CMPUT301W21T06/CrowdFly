@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
 
     private ArrayList<Experiment> experiments;
     private Context context;
+    private boolean constantStillRunning;
 
     /**
      * this is the constructor of the experiment adapter
@@ -66,10 +68,9 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         // set content description
         description.setText(experiment.getDescription());
         ownerName.setText(UserController.reverseConvert(experiment.getOwnerID()));
-        status.setText(experiment.getStillRunning() ? "Active" : "Not Active" );
-        if (!experiment.getStillRunning()){
-            view.setBackgroundColor(R.color.purple_200);
-        }
+        status.setText(experiment.getStillRunning() ? "Unpublished" : Html.fromHtml("<b><font color='blue'>" +"Published"+"</b></font>" ));
+        constantStillRunning = experiment.getStillRunning();
+        Log.e("still running", String.valueOf(constantStillRunning));
 
         numTrials.setText(String.valueOf(experiment.getMinTrials()));
         RegionViewSetter.setRegion(region,experiment.getRegion());

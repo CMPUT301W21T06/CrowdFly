@@ -22,6 +22,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.cmput301w21t06.crowdfly.Controllers.DropdownAdapter;
+import com.cmput301w21t06.crowdfly.Controllers.ExperimentAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialAdapter;
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
@@ -88,6 +89,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private NavigationView navigationView;
     private Toolbar toolbar;
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
+    private ExperimentAdapter eadapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
