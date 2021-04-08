@@ -306,18 +306,25 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             Log.e("Algolia","Operation completed " + String.valueOf(jsonObject));
             try {
                 JSONArray hits = jsonObject.getJSONArray("hits");
-                for (int i = 0; i < hits.length(); i++){
-                    JSONObject hit = hits.getJSONObject(i);
-                    SearchController.addMask((String) hit.get("experimentID"));
+                if (hits.length() != 0) {
+                    for (int i = 0; i < hits.length(); i++) {
+                        JSONObject hit = hits.getJSONObject(i);
+                        SearchController.addMask((String) hit.get("experimentID"));
+                    }
+                    ExperimentController.getExperimentLogData(this);
                 }
-                ExperimentController.getExperimentLogData(this);
+                else{
+                    SearchController.addMask("N/A");
+                }
             } catch (JSONException jsonException) {
                 jsonException.printStackTrace();
+                SearchController.addMask("N/A");
             }
 
         }
         else{
             Log.e("Algolia",String.valueOf(e));
+            SearchController.addMask("N/A");
         }
     }
 }
