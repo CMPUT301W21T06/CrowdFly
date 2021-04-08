@@ -49,16 +49,10 @@ public class PostCommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String comment = commentDesc.getText().toString();
-//                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-//                Date d = new Date();
-//                String date = dateFormat.format(d);
                 Comment c = new Comment(comment, userID);
 
                 Experiment exp = expLog.getExperiment(expPos);
                 Question q = exp.getQuestionByID(qID);
-                q.addComment(c);
-                exp.setQuestion(q, exp.getQuestionPosByID(qID));
-                expLog.set(expPos, exp);
 
                 q.getCommentController().addCommentData(c, qID, expID);
 
@@ -66,7 +60,6 @@ public class PostCommentActivity extends AppCompatActivity {
                 intent.putExtra("expID", String.valueOf(expID));
                 intent.putExtra("qID", String.valueOf(qID));
                 startActivity(intent);
-//                finish();
             }
         });
 
