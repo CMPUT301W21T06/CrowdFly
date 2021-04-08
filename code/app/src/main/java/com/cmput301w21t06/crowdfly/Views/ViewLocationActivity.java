@@ -2,8 +2,10 @@ package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.Manifest;
 import android.content.Intent;
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -52,6 +55,10 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
     private HashMap<String, String[]> locations;
     private Marker marker = null;
     private GoogleMap map;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
+
 
     GoogleMap.OnMapClickListener mapListener = new GoogleMap.OnMapClickListener() {
         @Override
@@ -109,6 +116,21 @@ public class ViewLocationActivity extends AppCompatActivity implements OnMapRead
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_location);
         setUp(savedInstanceState);
+
+        drawerLayout = findViewById(R.id.drawer_location);
+        navigationView = findViewById(R.id.nav_view_location);
+        toolbar = findViewById(R.id.toolbar_location);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, null);
+                finish();
+            }
+        });
     }
 
 

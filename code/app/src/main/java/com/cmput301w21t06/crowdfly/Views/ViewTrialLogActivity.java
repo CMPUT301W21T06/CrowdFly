@@ -40,7 +40,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This shows all the trials related to the particular experiment
@@ -84,18 +83,16 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private User currentUser;
     private Boolean isOwner = false;
     private String trialIDAtAddPos = null;
-    Trial reviewedTrial;
-    ArrayList<String> filters;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
-    Toolbar toolbar;
+    private Trial reviewedTrial;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
     private final String TAG = "COM.CMPUT301W21T06.CROWDFLY.EDITABLE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trial_log);
-        filters = new ArrayList<String>();
         mapButton = findViewById(R.id.mapButton);
         endButton = findViewById(R.id.endButton);
         dropdown = findViewById(R.id.dropDown);
@@ -135,16 +132,17 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView textView = (TextView) view;
-                String text = String.valueOf(textView.getText());
+                String displayID = String.valueOf(textView.getText());
+                String UID = UserController.displayIdToUID(displayID);
 
                 if (dropAdapter.addSelectedPosition(i)) {
-                    filters.add(text);
+                    currentExperiment.getTrialController().addToFilters(UID);
                 }
                 else{
-                    filters.remove(text);
+                    currentExperiment.getTrialController().removeFromFilters(UID);
                 }
                 dropdown.setSelection(0);
-                currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this, filters);
+                currentExperiment.getTrialController().getTrialLogData(ViewTrialLogActivity.this);
             }
 
             @Override
@@ -215,14 +213,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                             endButton.setText("Publish");
                         }
                         else {
-                            if (currentExperiment.canEnd()) {
-                                currentExperiment.setStillRunning(false);
-                                endButton.setText("Unpublish");
-                            }
-                            else{
-                                Toaster.makeCrispyToast(ViewTrialLogActivity.this,"The minimum number of trials have not yet been achieved!");
-                            }
+                            currentExperiment.setStillRunning(false);
+                            endButton.setText("Unpublish");
                         }
+
                         ExperimentController.setExperimentData(currentExperiment);
                     }
                     else {
@@ -388,18 +382,23 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     }
 
     private void reset(){
-        currentExperiment.getTrialController().getTrialLogData(this, filters);
+        currentExperiment.getTrialController().getTrialLogData(this);
         currentExperiment.getTrialController().getExperimenterIds(this);
     }
 
-//    private void setupData(){
-//
-//
-//        // get all experiment data from firestore
-//        currentExperiment.getTrialController().getTrialLogData(this, filters);
-//
-//
-//    }
+    private void setupDropdown(){
+
+        currentExperiment.getTrialController().getTrialLogData(this);
+        ArrayList<String> filters = currentExperiment.getTrialController().getFilters();
+        for(String UID: filters){
+            String displayID = UserController.reverseConvert(UID);
+            int filteredUserIndex = dropAdapter.getPosition(displayID);
+            if(filteredUserIndex != -1){
+                dropAdapter.addSelectedPosition(filteredUserIndex);
+            }
+        }
+
+    }
     private void setUpList(){
         listView = findViewById(R.id.trialListView);
         adapter = new TrialAdapter(getApplicationContext(), 0, trialLog.getTrials(),trialType,expID);
@@ -508,8 +507,9 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     public void onDoneGetExperimenterIds(ArrayList<String> ids){
         ids.add(0,"Filter Experimenter...");
-        dropAdapter = new DropdownAdapter(this, R.layout.general_content,ids);
+        dropAdapter = new DropdownAdapter(this, R.layout.general_content, ids);
         dropdown.setAdapter(dropAdapter);
+        setupDropdown();
     }
 
     @Override

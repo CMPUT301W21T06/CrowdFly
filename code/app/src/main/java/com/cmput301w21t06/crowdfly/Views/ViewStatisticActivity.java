@@ -1,9 +1,12 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.cmput301w21t06.crowdfly.Controllers.TrialLog;
@@ -19,6 +22,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.Timestamp;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -60,11 +64,30 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     private final String notApplicableMsg = "NA";
     private GraphView graphView;
     private final SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_statistic);
+
+
+        drawerLayout = findViewById(R.id.drawer_stats);
+        navigationView = findViewById(R.id.nav_view_stat);
+        toolbar = findViewById(R.id.toolbar_stat);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, null);
+                finish();
+            }
+        });
 
 
         barChart = findViewById(R.id.barchart);
@@ -94,12 +117,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
     /**
      * This method adds data points to the graph where the horizontal axis is the date the entry was added and the vertical axis is the current trial's value
+     *
      * @return dataPoints
      * this returns the data points
      */
 
     private ArrayList<DataPoint> getDataPoints() {
-        System.out.println(new Date().getTime());
         long time;
         ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
         for (Trial trial : trialArrayList) {
@@ -113,12 +136,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
             } else if ("binomial".equals(trialType)) {
                 dataPoints.add(new DataPoint(time, ((BinomialTrial) trial).getSuccesses()));
-                dataPoints.add(new DataPoint(time, ((BinomialTrial) trial).getFailures()));
             }
         }
 
         return dataPoints;
     }
+
     /**
      * This method sets and displays the graph in respect to its current trials
      */
@@ -126,8 +149,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     private void displayGraph() {
         ArrayList<DataPoint> arr = getDataPoints();
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr.toArray(new DataPoint[arr.size()]));
+        String title = trialType.toUpperCase() +"TRIALS OVER TIME";
+        if (trialType.equals("binomial")){
+            title = trialType.toUpperCase() +" SUCCESS TRIALS OVER TIME";
+        }
         graphView.addSeries(series);
-        graphView.setTitle(trialType.toUpperCase() + " TRIALS");
+        graphView.setTitle(title);
         graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
     }
 
@@ -175,15 +202,12 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         ArrayList<String> labels = new ArrayList<String>();
         ArrayList<Double> barChartTrials = getTrialList(this.trialType, trialArrayList);
 
-        System.out.println(barChartTrials);
-
         if (barChartTrials.isEmpty()) {
             barChart.removeAllViews();
         } else {
 
-            for (int i = 0; i < barChartTrials.size(); i++) {
+            for (int i = 1; i < barChartTrials.size(); i++) {
                 float x = barChartTrials.get(i).floatValue();
-                System.out.println(x);
                 entries.add(new BarEntry(x, i));
                 labels.add("Trial " + i);
             }
@@ -219,7 +243,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     public void onDoneGetExperiment(Experiment experiment) {
         exp = experiment;
         trialType = getIntent().getStringExtra("trialType");
-        exp.getTrialController().getTrialLogData(this, new ArrayList<>());
+        exp.getTrialController().getTrialLogData(this);
     }
 
     /**
@@ -249,7 +273,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         int length = trials.size();
         for (double n : trials)
             sum += n;
-        return sum / length;
+        return  Math.round((sum / length)*100.0) / 100.0;
     }
 
     /**
@@ -272,7 +296,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         for (double n : trials) {
             sd += Math.pow(n - mean, 2);
         }
-        return Math.round((Math.sqrt(sd / length))*100)/100;
+        return Math.round((Math.sqrt(sd / length)) * 100.0) / 100.0;
     }
 
     /**
@@ -285,7 +309,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         int length = trialArrayList.size();
 
         ArrayList<Double> trials = getTrialList(this.trialType, trialArrayList);
-        System.out.println("THIS ONE" + trials);
         Collections.sort(trials);
 
         if (trials.isEmpty())
@@ -342,20 +365,15 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
             return -1;
 
         else if (length % 2 != 0) {
-            subTrials = new ArrayList<Double>(trials.subList(0, (length / 2)));
+            subTrials = new ArrayList<>(trials.subList(0, (length / 2)+1));
             subTrialLength = subTrials.size();
-            System.out.println("Odd"+subTrials);
             double n1 = subTrials.get((subTrialLength / 2) - 1);
             double n2 = subTrials.get(subTrialLength / 2);
             return (n1 + n2) / 2;
         } else {
-            subTrials = new ArrayList<Double>(trials.subList(0, (length / 2)));
+            subTrials = new ArrayList<>(trials.subList(0, (length / 2)));
             subTrialLength = subTrials.size();
-            System.out.println("Even"+subTrials);
-            System.out.println(subTrials.get(subTrialLength / 2));
-            double n1 = subTrials.get((subTrialLength / 2) - 1);
-            double n2 = subTrials.get(subTrialLength / 2);
-            return (n1 + n2) / 2;
+            return subTrials.get(subTrialLength / 2);
         }
     }
 
@@ -378,14 +396,15 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
             return -1;
 
         else if (length % 2 != 0) {
-            subTrials = new ArrayList<Double>(trials.subList((length / 2) + 1, length));
+            subTrials = new ArrayList<>(trials.subList((length / 2) + 1, length));
             subTrialLength = subTrials.size();
-            return subTrials.get(subTrialLength / 2);
+            double n1 = subTrials.get((subTrialLength / 2) - 1);
+            double n2 = subTrials.get(subTrialLength / 2);
+            return (n1 + n2) / 2;
         } else {
-            subTrials = new ArrayList<Double>(trials.subList((length / 2), length));
+            subTrials = new ArrayList<>(trials.subList((length / 2), length));
             subTrialLength = subTrials.size();
             return subTrials.get(subTrialLength / 2);
-
         }
 
     }

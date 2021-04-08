@@ -1,6 +1,8 @@
 package com.cmput301w21t06.crowdfly.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import com.cmput301w21t06.crowdfly.Database.QuestionController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.Models.Question;
 import com.cmput301w21t06.crowdfly.R;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DateFormat;
@@ -31,6 +34,9 @@ public class AskQuestionActivity extends AppCompatActivity {
 
     EditText questionDesc;
     Button btnPostQuestion;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,21 @@ public class AskQuestionActivity extends AppCompatActivity {
         expID = getIntent().getStringExtra("expID");
         expLog = ExperimentLog.getExperimentLog();
         int expPos = expLog.getExperimentPositionByID(expID);
+
+        drawerLayout = findViewById(R.id.drawer_ask_question);
+        navigationView = findViewById(R.id.nav_view_ask_question);
+        toolbar = findViewById(R.id.toolbar_ask_question);
+        toolbar.setTitle("CrowdFly");
+
+        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED, null);
+                finish();
+            }
+        });
 
         btnPostQuestion = findViewById(R.id.postQuestionButton);
         questionDesc = findViewById(R.id.ask_question_desc);
