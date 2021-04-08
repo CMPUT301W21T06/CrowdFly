@@ -27,17 +27,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
  * This class controls all operations related to Trials
  */
 public class TrialController {
+    private boolean running;
+    private boolean region;
+    private int mTrials;
+    private String eid;
     private CollectionReference trialsCollection;
     private ArrayList<Trial> trials = new ArrayList<Trial>();
     private ArrayList<String> filters = new ArrayList<String>();
-    public TrialController(String eid) {
-        trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(eid));
+
+    /**
+     * This is the constructor for the trial controller
+     * @param eid
+     * This is the experiment it refers to
+     * @param running
+     * This indicates whether or not the experiment is active - needed for Algolia
+     * @param region
+     * This indicates whether or not the experiment is region enforced or not - needed for Algolia
+     * @param mTrials
+     * This indicates the minimum number of trials of the experiment - needed for Algolia
+     */
+    public TrialController(String eid,boolean running, boolean region, int mTrials) {
+        this.eid = eid;
+        this.running = running;
+        this.region = region;
+        this.mTrials = mTrials;
+        trialsCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.trials(this.eid));
         setUp();
     }
     /**
@@ -154,6 +175,7 @@ public class TrialController {
                         if(task.isSuccessful()){
                             String newId = task.getResult().getId();
                             trial.setTrialID(newId);
+                            SearchController.addObject(getAlgoMap(trial),trial.getTrialID());
                             setTrialData(trial, experimentID);
                         }
                     }
@@ -170,6 +192,7 @@ public class TrialController {
      * Experiment ID used to grab the trial path
      */
     public void setTrialData(Trial trial, String experimentID) {
+        SearchController.updateObject(getAlgoMap(trial),trial.getTrialID());
         GodController.setDocumentData(CrowdFlyFirestorePaths.trial(trial.getTrialID(), experimentID), trial.toHashMap());
     }
     /**
@@ -178,6 +201,7 @@ public class TrialController {
      * This is the trial to be removed
      */
     public void removeTrialData(String trialID){
+        SearchController.deleteObject(trialID);
         Trial loopTrial = null;
         boolean loop = true;
         int i = 0;
@@ -232,5 +256,14 @@ public class TrialController {
 
     public ArrayList<String> getFilters() {
         return filters;
+    }
+
+    private Map<String,Object> getAlgoMap(Trial trial){
+        Map<String,Object> map = trial.toHashMap();
+        map.put("experimentID",eid);
+        map.put("enabled",region);
+        map.put("stillRunning",running);
+        map.put("minTrials",mTrials);
+        return map;
     }
 }
