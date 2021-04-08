@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.UserController;
+import com.cmput301w21t06.crowdfly.Models.LiveTextUpdater;
 import com.cmput301w21t06.crowdfly.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -93,7 +94,7 @@ public class searchUserActivity extends AppCompatActivity implements CrowdFlyLis
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String text = String.valueOf(charSequence);
-            handleChange(changedArray,defaultArray,text);
+            LiveTextUpdater.handleChange(changedArray,defaultArray,text);
             idAdapter.notifyDataSetChanged();
 
 

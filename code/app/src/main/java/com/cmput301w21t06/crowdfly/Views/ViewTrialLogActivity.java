@@ -509,7 +509,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     @Override
     public void onDoneGetExperimenterIds(ArrayList<String> ids){
         ids.add(0,"Filter Experimenter...");
-        dropAdapter = new DropdownAdapter(this, R.layout.filter_content, ids);
+        dropAdapter = new DropdownAdapter(this, R.layout.filter_content, ids,true);
         dropdown.setAdapter(dropAdapter);
         setupDropdown();
     }
