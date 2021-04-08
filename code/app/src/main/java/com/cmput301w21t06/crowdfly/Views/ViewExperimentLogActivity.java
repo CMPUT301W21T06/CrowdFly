@@ -79,6 +79,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_experiment_log);
+        SearchController.clearMasks();
         experimentLog = ExperimentLog.getExperimentLog();
         experimentsList = experimentLog.getExperiments();
         viewSwitcher = findViewById(R.id.viewSwitcher);
@@ -306,6 +307,7 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
             Log.e("Algolia","Operation completed " + String.valueOf(jsonObject));
             try {
                 JSONArray hits = jsonObject.getJSONArray("hits");
+                Log.e("ddd",String.valueOf(hits.length()));
                 if (hits.length() != 0) {
                     for (int i = 0; i < hits.length(); i++) {
                         JSONObject hit = hits.getJSONObject(i);
@@ -315,16 +317,20 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
                 }
                 else{
                     SearchController.addMask("N/A");
+                    ExperimentController.getExperimentLogData(this);
+
                 }
             } catch (JSONException jsonException) {
                 jsonException.printStackTrace();
                 SearchController.addMask("N/A");
+                ExperimentController.getExperimentLogData(this);
             }
 
         }
         else{
             Log.e("Algolia",String.valueOf(e));
             SearchController.addMask("N/A");
+            ExperimentController.getExperimentLogData(this);
         }
     }
 }
