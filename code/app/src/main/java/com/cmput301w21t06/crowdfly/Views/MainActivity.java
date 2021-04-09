@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         View headerView = navigationView.getHeaderView(0);
         TextView navUserId = (TextView) headerView.findViewById(R.id.userFBID);
+        //UserController.getUserProfile(UserController.reverseConvert(FirebaseAuth.getInstance().getUid()), this);
         navUserId.setText(userID);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,R.string.navigation_drawer_open, R.string.navigation_drawer_close);

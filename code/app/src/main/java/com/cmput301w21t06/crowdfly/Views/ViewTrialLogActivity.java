@@ -123,7 +123,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
         TextView navUserId = (TextView) headerView.findViewById(R.id.userFBID);
-        navUserId.setText(currentUser.getUserID());
+        navUserId.setText(UserController.reverseConvert(currentUser.getUserID()));
 
         trialArrayList = trialLog.getTrials();
 
