@@ -71,6 +71,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
     private Button qrButton;
     private Button subButton;
     private Button endButton;
+    private Button pubButton;
     private Button statButton;
     private Spinner dropdown;
     private DropdownAdapter dropAdapter;
@@ -97,6 +98,7 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_view_trial_log);
         mapButton = findViewById(R.id.mapButton);
         endButton = findViewById(R.id.endButton);
+        pubButton = findViewById(R.id.pubButton);
         dropdown = findViewById(R.id.dropDown);
         statButton = findViewById(R.id.statisticButton);
         //only update the trialtype once per experiment
@@ -212,11 +214,11 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     if(isOwner){
                         if(!currentExperiment.getStillRunning()){
                             currentExperiment.setStillRunning(true);
-                            endButton.setText("Publish");
+                            endButton.setText("End");
                         }
                         else {
                             currentExperiment.setStillRunning(false);
-                            endButton.setText("Unpublish");
+                            endButton.setText("Reopen");
                         }
 
                         ExperimentController.setExperimentData(currentExperiment);
@@ -224,6 +226,29 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     else {
                         Log.e("rr","run");
                         Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Only the owner can end an experiment!");
+                    }
+                }
+            }
+        });
+        pubButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(currentExperiment!=null && currentUser != null){
+                    if(isOwner){
+                        if(!currentExperiment.getIsPublished()){
+                            currentExperiment.setIsPublished(true);
+                            pubButton.setText("Published");
+                        }
+                        else {
+                            currentExperiment.setIsPublished(false);
+                            pubButton.setText("Unpublished");
+                        }
+
+                        ExperimentController.setExperimentData(currentExperiment);
+                    }
+                    else {
+                        Log.e("rr","run");
+                        Toaster.makeCrispyToast(ViewTrialLogActivity.this, "Only the owner can publish an experiment!");
                     }
                 }
             }
@@ -472,10 +497,17 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         this.isOwner = this.currentExperiment.getOwnerID().equals(FirebaseAuth.getInstance().getUid());
         if(currentExperiment.getStillRunning()){
 
-            endButton.setText("Publish");
+            endButton.setText("End");
         }
         else{
-            endButton.setText("Unpublish");
+            endButton.setText("Reopen");
+        }
+        if (currentExperiment.getIsPublished()) {
+
+            pubButton.setText("Publish");
+        }
+        else{
+            pubButton.setText("Unpublish");
         }
     }
 

@@ -1,27 +1,19 @@
 package com.cmput301w21t06.crowdfly.Controllers;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.cmput301w21t06.crowdfly.Models.Barcode;
-import com.cmput301w21t06.crowdfly.Models.QRCode;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firestore.v1.GetDocumentRequest;
 
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.RunnableFuture;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * This abstract controller contains the framework for operations related to Barcode and QRCodes
