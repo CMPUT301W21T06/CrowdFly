@@ -1,16 +1,11 @@
 package com.cmput301w21t06.crowdfly.Models;
 
-import android.util.Log;
-
-import com.cmput301w21t06.crowdfly.Controllers.ExperimentLog;
 import com.cmput301w21t06.crowdfly.Database.CrowdFlyListeners;
 import com.cmput301w21t06.crowdfly.Database.QuestionController;
 import com.cmput301w21t06.crowdfly.Database.SubscriptionController;
 import com.cmput301w21t06.crowdfly.Database.TrialController;
 import com.cmput301w21t06.crowdfly.Database.UserController;
-import com.google.firebase.firestore.local.QueryEngine;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +16,13 @@ import java.util.Map;
  */
 
 public class Experiment {
+
     // Eventually this class will import and export JSON objects to firebase, so these attributes
     //methods are subject to change
     private String description;
     private String region;
     private int minTrials;
+    private Boolean isPublished;
     private Boolean stillRunning;
     private ArrayList<User> subscribedUsers;
     private ArrayList<Question> questions;
@@ -53,6 +50,7 @@ public class Experiment {
         this.region = reg;
         this.minTrials = minT;
         this.stillRunning = true;
+        this.isPublished = false;
         this.ownerID = userID;
         this.type = type;
         this.regionEnabled = regionEnabled;
@@ -70,6 +68,7 @@ public class Experiment {
         this.region = (String) data.get("region");
         this.minTrials = ((Long) data.get("minTrials")).intValue();
         this.stillRunning = (boolean) data.get("stillRunning");
+        this.isPublished = (boolean) data.get("isPublished");
         this.ownerID = (String) data.get("ownerID");
         this.experimentId = (String) data.get("experimentID");
         this.type = (String) data.get("type");
@@ -239,6 +238,14 @@ public class Experiment {
     public Boolean getStillRunning() { return stillRunning;}
 
     /**
+     * This check if the experiment is published
+     * @return
+     * THis is a boolean indicating whether or not the experiment is still active
+     */
+
+    public Boolean getIsPublished() { return isPublished;}
+
+    /**
      * This returns the experiment ID
      * @return
      * This is the experiment ID
@@ -262,6 +269,15 @@ public class Experiment {
      */
 
     public void setStillRunning(Boolean stillRunning) { this.stillRunning = stillRunning; }
+
+    /**
+     * This can be used to change the experiment between the active and inactive state
+     * @param isPublished
+     * This is a boolean indicating if it is still active
+     */
+
+    public void setIsPublished(Boolean isPublished) { this.isPublished = isPublished; }
+
 
     /**
      * This is used to set the owner ID of a new experiment
@@ -336,6 +352,7 @@ public class Experiment {
         exp.put("region", this.region);
         exp.put("minTrials", (long) this.minTrials);
         exp.put("stillRunning", this.stillRunning);
+        exp.put("isPublished", this.isPublished);
         exp.put("ownerID", this.ownerID);
         exp.put("experimentID", this.experimentId);
         exp.put("displayID", UserController.reverseConvert(ownerID));

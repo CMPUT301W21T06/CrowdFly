@@ -8,8 +8,6 @@
 
 package com.cmput301w21t06.crowdfly.Models;
 
-import androidx.annotation.NonNull;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -10,6 +10,7 @@
     <string name="date"><b>Date: </b></string>
     <string name="asker"><b>Asker: </b></string>
     <string name="question"><b>Q: </b></string>
+    <string name="published"><b>Published: </b></string>
     <string name="comment"><b>C: </b></string>
     <string name="replies"><b>Replies: </b></string>
     <string name="description"><b>Description: </b></string>

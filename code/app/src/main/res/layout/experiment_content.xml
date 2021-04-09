@@ -49,6 +49,16 @@
             app:layout_constraintTop_toBottomOf="@+id/exp_numTrials_title" />
 
         <TextView
+            android:id="@+id/exp_status_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="@string/status"
+            android:textColor="#131313"
+            app:layout_constraintEnd_toStartOf="@+id/exp_status"
+            app:layout_constraintTop_toBottomOf="@+id/exp_numTrials_title" />
+
+        <TextView
             android:id="@+id/exp_ownerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,24 +69,34 @@
             app:layout_constraintTop_toBottomOf="@+id/exp_numTrials" />
 
         <TextView
-            android:id="@+id/exp_status_title"
+            android:id="@+id/exp_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="active"
+            android:textColor="#131313"
+            app:layout_constraintStart_toEndOf="@+id/exp_ownerName_title"
+            app:layout_constraintTop_toBottomOf="@+id/exp_numTrials" />
+
+        <TextView
+            android:id="@+id/exp_published_title"
             android:layout_width="0dp"
             android:layout_height="19dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="@string/status"
+            android:text="@string/published"
             android:textColor="#0E0E0E"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/exp_title" />
 
         <TextView
-            android:id="@+id/exp_status"
+            android:id="@+id/exp_published"
             android:layout_width="0dp"
             android:layout_height="19dp"
             android:layout_marginTop="8dp"
-            android:text="Status"
+            android:text="unpublished"
             android:textColor="#0E0E0E"
-            app:layout_constraintStart_toEndOf="@+id/exp_status_title"
+            app:layout_constraintStart_toEndOf="@+id/exp_published_title"
             app:layout_constraintTop_toBottomOf="@+id/exp_description" />
 
         <TextView
@@ -113,7 +133,7 @@
             android:text="@string/region"
             android:textColor="#090909"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/exp_status_title" />
+            app:layout_constraintTop_toBottomOf="@+id/exp_published_title" />
 
         <TextView
             android:id="@+id/exp_region"
@@ -123,7 +143,7 @@
             android:text="Region"
             android:textColor="#090909"
             app:layout_constraintStart_toEndOf="@+id/exp_region_Title"
-            app:layout_constraintTop_toBottomOf="@+id/exp_status" />
+            app:layout_constraintTop_toBottomOf="@+id/exp_published" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

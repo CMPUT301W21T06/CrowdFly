@@ -2,21 +2,17 @@ package com.cmput301w21t06.crowdfly.Controllers;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
-import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.cmput301w21t06.crowdfly.Database.UserController;
 import com.cmput301w21t06.crowdfly.Models.Experiment;
 import com.cmput301w21t06.crowdfly.R;
-import com.cmput301w21t06.crowdfly.Views.ViewLocationActivity;
 
 import java.util.ArrayList;
 
@@ -27,8 +23,8 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
 
     private ArrayList<Experiment> experiments;
     private Context context;
+    private boolean constantIsPublished;
     private boolean constantStillRunning;
-
     /**
      * this is the constructor of the experiment adapter
      * @param context
@@ -61,16 +57,20 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         // get all content from the page
         TextView description = view.findViewById(R.id.exp_description);
         TextView ownerName = view.findViewById(R.id.exp_ownerName);
-        TextView status = view.findViewById(R.id.exp_status);
+        TextView published = view.findViewById(R.id.exp_published);
         TextView numTrials = view.findViewById(R.id.exp_numTrials);
         TextView region = view.findViewById(R.id.exp_region);
+        TextView status = view.findViewById(R.id.exp_status);
 
         // set content description
         description.setText(experiment.getDescription());
         ownerName.setText(UserController.reverseConvert(experiment.getOwnerID()));
-        status.setText(experiment.getStillRunning() ? "Unpublished" : Html.fromHtml("<b><font color='blue'>" +"Published"+"</b></font>" ));
+        published.setText(experiment.getIsPublished() ? Html.fromHtml("<b><font color='blue'>" +"Published"+"</b></font>" ) : "Unpublished");
+        constantIsPublished = experiment.getIsPublished();
+        Log.e("is published", String.valueOf(constantIsPublished));
+        status.setText(experiment.getStillRunning() ? "Active" : Html.fromHtml("<b><font color='red'>" +"Inactive"+"</b></font>" ));
         constantStillRunning = experiment.getStillRunning();
-        Log.e("still running", String.valueOf(constantStillRunning));
+        Log.e("still Running", String.valueOf(constantStillRunning));
 
         numTrials.setText(String.valueOf(experiment.getMinTrials()));
         RegionViewSetter.setRegion(region,experiment.getRegion());
