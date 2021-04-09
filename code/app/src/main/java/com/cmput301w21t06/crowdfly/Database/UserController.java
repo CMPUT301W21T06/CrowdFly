@@ -10,9 +10,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -20,12 +18,11 @@ import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * This handles almost all operations for users - does not include the subscription aspect of users
  */
-//db setters should process shit in the class too
+//db setters should process elements in the class too
 public class UserController {
     private static CollectionReference userCollection = GodController.getDb().collection(CrowdFlyFirestorePaths.users());
     private static HashMap<String, User> users = new HashMap<String, User>();

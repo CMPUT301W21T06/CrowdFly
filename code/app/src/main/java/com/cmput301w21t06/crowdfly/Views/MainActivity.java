@@ -72,9 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-    //allows the API to do useless shit like authentication while the user thinks shit hasnt fucking started
-    //increases start up time so it doesnt fuck with my time later
-    //if you dont like my comment, edit it or... fight me
+
     private void dummySetup(){
         SupportMapFragment mapFragment = new SupportMapFragment();
         mapFragment.getMapAsync(new OnMapReadyCallback(){
