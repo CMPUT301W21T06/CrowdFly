@@ -68,7 +68,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         published.setText(experiment.getIsPublished() ? "Unpublished" : Html.fromHtml("<b><font color='blue'>" +"Published"+"</b></font>" ));
         constantIsPublished = experiment.getIsPublished();
         Log.e("is published", String.valueOf(constantIsPublished));
-        status.setText(experiment.getStillRunning() ? "Active" : Html.fromHtml("<b><font color='blue'>" +"Inactive"+"</b></font>" ));
+        status.setText(experiment.getStillRunning() ? "Active" : Html.fromHtml("<b><font color='red'>" +"Inactive"+"</b></font>" ));
         constantStillRunning = experiment.getStillRunning();
         Log.e("still Running", String.valueOf(constantStillRunning));
 
