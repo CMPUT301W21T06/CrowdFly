@@ -237,11 +237,11 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
                     if(isOwner){
                         if(!currentExperiment.getIsPublished()){
                             currentExperiment.setIsPublished(true);
-                            pubButton.setText("Published");
+                            pubButton.setText("Unpublish");
                         }
                         else {
                             currentExperiment.setIsPublished(false);
-                            pubButton.setText("Unpublished");
+                            pubButton.setText("Publish");
                         }
 
                         ExperimentController.setExperimentData(currentExperiment);
@@ -504,10 +504,10 @@ public class ViewTrialLogActivity extends AppCompatActivity implements
         }
         if (currentExperiment.getIsPublished()) {
 
-            pubButton.setText("Publish");
+            pubButton.setText("Unpublish");
         }
         else{
-            pubButton.setText("Unpublish");
+            pubButton.setText("Publish");
         }
     }
 

@@ -65,7 +65,7 @@ public class ExperimentAdapter extends ArrayAdapter<Experiment> {
         // set content description
         description.setText(experiment.getDescription());
         ownerName.setText(UserController.reverseConvert(experiment.getOwnerID()));
-        published.setText(experiment.getIsPublished() ? "Unpublished" : Html.fromHtml("<b><font color='blue'>" +"Published"+"</b></font>" ));
+        published.setText(experiment.getIsPublished() ? Html.fromHtml("<b><font color='blue'>" +"Published"+"</b></font>" ) : "Unpublished");
         constantIsPublished = experiment.getIsPublished();
         Log.e("is published", String.valueOf(constantIsPublished));
         status.setText(experiment.getStillRunning() ? "Active" : Html.fromHtml("<b><font color='red'>" +"Inactive"+"</b></font>" ));
