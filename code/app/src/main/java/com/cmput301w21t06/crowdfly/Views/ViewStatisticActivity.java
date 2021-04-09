@@ -167,7 +167,7 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         graphView.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.HORIZONTAL );
         graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this,new SimpleDateFormat("dd/MM"+"\n\n"+"HH:mm:ss")));
         graphView.getGridLabelRenderer().setHorizontalLabelsAngle(115);
-        graphView.getGridLabelRenderer().setPadding(32);
+        graphView.getGridLabelRenderer().setPadding(50);
         graphView.getGridLabelRenderer().setHumanRounding(false);
         graphView.getGridLabelRenderer().setNumHorizontalLabels(trialArrayList.size());
     }
