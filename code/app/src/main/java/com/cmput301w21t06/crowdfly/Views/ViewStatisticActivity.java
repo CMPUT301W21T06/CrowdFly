@@ -19,13 +19,20 @@ import com.cmput301w21t06.crowdfly.Models.MeasurementTrial;
 import com.cmput301w21t06.crowdfly.Models.Trial;
 import com.cmput301w21t06.crowdfly.R;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.Timestamp;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LabelFormatter;
+import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
@@ -35,20 +42,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 //https://github.com/PhilJay/MPAndroidChart
 
 /**
  * This will be used to show the statistics screen
- * Required statistics implemented
- * Results of trials/over time yet to be implemented
- * Histogram of trials has now been implemented
  */
 public class ViewStatisticActivity extends AppCompatActivity implements CrowdFlyListeners.OnDoneGetExpListener, CrowdFlyListeners.OnDoneGetTrialsListener {
     private String trialType;
-    private String measurement;
     private Experiment exp;
-    private Trial trial;
     private TrialLog trialLog;
     private static ArrayList<Trial> trialArrayList = new ArrayList<Trial>();
     private String expID;
@@ -63,7 +68,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
     private BarChart barChart;
     private final String notApplicableMsg = "NA";
     private GraphView graphView;
-    private final SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -100,7 +104,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         maxTextView = findViewById(R.id.sMaximum);
         graphView = findViewById(R.id.graph);
 
-
         expID = getIntent().getStringExtra("expID");
         ExperimentController.getExperimentData(expID, this);
         trialLog.getTrials();
@@ -127,7 +130,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
         ArrayList<DataPoint> dataPoints = new ArrayList<DataPoint>();
         for (Trial trial : trialArrayList) {
             time = trial.getTimestamp().getSeconds() * 1000L;
-
             if ("measurement".equals(trialType)) {
                 dataPoints.add(new DataPoint(time, ((MeasurementTrial) trial).getMeasurement()));
 
@@ -138,7 +140,6 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
                 dataPoints.add(new DataPoint(time, ((BinomialTrial) trial).getSuccesses()));
             }
         }
-
         return dataPoints;
     }
 
@@ -148,16 +149,28 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
 
     private void displayGraph() {
         ArrayList<DataPoint> arr = getDataPoints();
+        ArrayList<Double> values = new ArrayList<>();
+
+        for (DataPoint d:arr){
+            values.add(d.getX());
+        }
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arr.toArray(new DataPoint[arr.size()]));
-        String title = trialType.toUpperCase() +"TRIALS OVER TIME";
+        series.setDrawDataPoints(true);
+        String title = trialType.toUpperCase() +" TRIALS OVER TIME";
         if (trialType.equals("binomial")){
             title = trialType.toUpperCase() +" SUCCESS TRIALS OVER TIME";
         }
         graphView.addSeries(series);
         graphView.setTitle(title);
-        graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this));
+        graphView.getViewport().setXAxisBoundsManual(true);
+        graphView.getViewport().setMaxX(Collections.max(values)+1);
+        graphView.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.HORIZONTAL );
+        graphView.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this,new SimpleDateFormat("dd/MM"+"\n\n"+"HH:mm:ss")));
+        graphView.getGridLabelRenderer().setHorizontalLabelsAngle(115);
+        graphView.getGridLabelRenderer().setPadding(32);
+        graphView.getGridLabelRenderer().setHumanRounding(false);
+        graphView.getGridLabelRenderer().setNumHorizontalLabels(trialArrayList.size());
     }
-
     /**
      * This method displays the statistical information in respect to its current trials
      */
@@ -197,26 +210,58 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
      */
     private void displayHistogram() {
 
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        BarDataSet bardataset = new BarDataSet(entries, "Cells");
-        ArrayList<String> labels = new ArrayList<String>();
+        List<BarEntry> barEntries = new ArrayList<BarEntry>();
         ArrayList<Double> barChartTrials = getTrialList(this.trialType, trialArrayList);
+        ArrayList<String> labels = new ArrayList<String>();
+        ArrayList<String> sortedStringLabels = new ArrayList<String>();
+        ArrayList<Double> freq = new ArrayList<>();
+        Set<Double> distinct = new HashSet<>(barChartTrials);
+        ArrayList<Double> distinctArr = new ArrayList<>(distinct);
+        Collections.sort(distinctArr);
+        int i;
+
+        for (Double n: distinctArr){
+            freq.add((double)Collections.frequency(barChartTrials,n));
+        }
 
         if (barChartTrials.isEmpty()) {
             barChart.removeAllViews();
         } else {
 
-            for (int i = 1; i < barChartTrials.size(); i++) {
-                float x = barChartTrials.get(i).floatValue();
-                entries.add(new BarEntry(x, i));
-                labels.add("Trial " + i);
+            for (i = 0; i < freq.size(); i++) {
+                float x = freq.get(i).floatValue();
+                barEntries.add(new BarEntry(i,x));
+                labels.add(distinctArr.get(i).toString());
             }
-            BarData data = new BarData(labels, bardataset);
+            for (int j = 0; j < distinctArr.size(); j++){
+                sortedStringLabels.add(String.valueOf(distinctArr.get(j)));
+            }
+
+            BarDataSet dataSet = new BarDataSet(barEntries,"Frequency");
+            dataSet.setValueTextSize(12f);
+            dataSet.setBarBorderWidth(2.0f);
+            XAxis barChartXAxis = barChart.getXAxis();
+            barChartXAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+            //barChartXAxis.setLabelCount(i);  // Set the number of labels on the x-axis
+            barChartXAxis.setGranularity(1f);
+            barChartXAxis.setGranularityEnabled(true);
+            barChartXAxis.setTextSize(12f); // The size of the label on the x axis
+            barChartXAxis.setDrawGridLines(false); // Set this to true to draw grid lines for this axis.
+            barChart.setDrawGridBackground(false);
+            BarData data = new BarData(dataSet);
+            data.setBarWidth(0.5f);
+            barChartXAxis.setValueFormatter(new IndexAxisValueFormatter(sortedStringLabels));
+            barChart.setData(data);
+            barChart.setFitBars(true); // make the x-axis fit exactly all bars
+            barChart.getAxisRight().setEnabled(false);
+
             barChart.setData(data); // set the data and list of labels into chart
-            barChart.setDescription(trialType.toUpperCase() + " TRIALS");  // set the description
             barChart.animateY(2000);
+            barChart.setDescription(null);
+
         }
     }
+
 
     /**
      * This method handles when the trial array list is empty
@@ -429,15 +474,18 @@ public class ViewStatisticActivity extends AppCompatActivity implements CrowdFly
             } else if ("binomial".equals(typeOfTrial)) {
                 s += ((BinomialTrial) trial).getSuccesses();
                 f += ((BinomialTrial) trial).getFailures();
-                for (int i = 0; i < s; i++) {
-                    trials.add((double) 1);
-                }
-                for (int i = 0; i < f; i++) {
-                    trials.add((double) 0);
-                }
+            }
+        }
+        if ("binomial".equals(typeOfTrial)) {
+            for (int i = 0; i < s; i++) {
+                trials.add((double) 1);
+            }
+            for (int i = 0; i < f; i++) {
+                trials.add((double) 0);
             }
         }
         return trials;
     }
+
 }
 
