@@ -5,6 +5,9 @@
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
+    <string name="trialfilter"><b>Minimum Number of Trials Filter</b></string>
+    <string name="activefilter"><b>Active Filter</b></string>
+    <string name="regionfilter"><b>Region Filter</b></string>
     <string name="publish"><b>Published</b></string>
     <string name="username"><b>User ID: </b></string>
     <string name="date"><b>Date: </b></string>

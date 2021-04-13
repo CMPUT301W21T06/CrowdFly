@@ -62,7 +62,9 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
     Button btnAddExperiment;
     Button btnSearch;
     EditText searchExp;
-    TextView filterText;
+    TextView mfilterText;
+    TextView afilterText;
+    TextView rfilterText;
     ViewSwitcher viewSwitcher;
     Spinner symbols;
     EditText numTrials;
@@ -92,7 +94,10 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
         activeSpinner = findViewById(R.id.activeSpinner);
         numTrials = findViewById(R.id.numTrialsRight);
         numTrialsLeft = findViewById(R.id.numTrialsLeft);
-        filterText = findViewById(R.id.trialsFilter);
+        mfilterText = findViewById(R.id.trialsFilter);
+        afilterText = findViewById(R.id.activeFilter);
+        rfilterText = findViewById(R.id.regionFilter);
+
         symbols = findViewById(R.id.signSpinner);
         setVisibility();
         expAdapter = new ExperimentAdapter(this, experimentsList);
@@ -258,7 +263,9 @@ public class ViewExperimentLogActivity extends AppCompatActivity implements Crow
 
         }
         numTrialsLeft.setVisibility(View.INVISIBLE);
-        filterText.setVisibility(target);
+        mfilterText.setVisibility(target);
+        afilterText.setVisibility(target);
+        rfilterText.setVisibility(target);
         symbols.setVisibility(target);
         numTrials.setVisibility(target);
         activeSpinner.setVisibility(target);
